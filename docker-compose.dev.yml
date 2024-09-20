@@ -2,7 +2,7 @@ name: WyvernManagement
 
 services:
   frontend:
-    container_name: wyvern-frontend
+    container_name: frontend
     image: wyvern-frontend-image
     build: 
       context: ./Frontend
@@ -11,6 +11,19 @@ services:
       - "./Frontend:/app"
     ports:
       - "5173:5173"
+    command: >
+      bash -c "cp -rfu /cache/node_modules/. /app/node_modules/  
+      && npm run dev"
+  backend:
+    container_name: backend
+    image: wyvern-backend-image
+    build: 
+      context: ./Backend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - "./Backend:/app"
+    ports:
+      - "3000:3000"
     command: >
       bash -c "cp -rfu /cache/node_modules/. /app/node_modules/  
       && npm run dev"
