@@ -1,0 +1,43 @@
+{
+  "name": "wyvern-management-backend",
+  "version": "1.0.0",
+  "description": "The backend for WyvernManagement web app",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PulidoLuciano/WyvernSRL.git"
+  },
+  "keywords": [
+    "Sales",
+    "Videogames",
+    "enterprise",
+    "management",
+    "backend",
+    "crud"
+  ],
+  "author": "Wyvern SLR",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PulidoLuciano/WyvernSRL/issues"
+  },
+  "homepage": "https://github.com/PulidoLuciano/WyvernSRL#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.5.5",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.6.2"
+  }
+}
