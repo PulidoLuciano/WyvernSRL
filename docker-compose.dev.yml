@@ -14,6 +14,7 @@ services:
     command: >
       bash -c "cp -rfu /cache/node_modules/. /app/node_modules/  
       && npm run dev"
+  
   backend:
     container_name: backend
     image: wyvern-backend-image
@@ -27,3 +28,16 @@ services:
     command: >
       bash -c "cp -rfu /cache/node_modules/. /app/node_modules/  
       && npm run dev"
+  
+  database:
+    container_name: database
+    image: mysql:8.0.34
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: '1234'
+    volumes:
+      - wyvern-database-volume:/var/lib/mysql
+
+volumes:
+  wyvern-database-volume:
