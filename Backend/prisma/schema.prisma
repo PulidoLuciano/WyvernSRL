@@ -1,0 +1,456 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Areas {
+  id      Int       @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre  String    @unique(map: "nombre_UNIQUE") @db.VarChar(45)
+  Puestos Puestos[]
+}
+
+model Auditoria_Clientes {
+  id                    Int                @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  fecha                 DateTime           @db.DateTime(0)
+  tipo                  String             @db.VarChar(45)
+  Usuarios_id           Int
+  Clientes_historial_id Int
+  Clientes_id           Int
+  Clientes              Clientes           @relation(fields: [Clientes_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Clientes_Clientes1")
+  Clientes_historial    Clientes_historial @relation(fields: [Clientes_historial_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Clientes_Clientes_historial1")
+  Usuarios              Usuarios           @relation(fields: [Usuarios_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Empleados_Usuarios100")
+
+  @@index([Clientes_id], map: "fk_Auditoria_Clientes_Clientes1_idx")
+  @@index([Clientes_historial_id], map: "fk_Auditoria_Clientes_Clientes_historial1_idx")
+  @@index([Usuarios_id], map: "fk_Auditoria_Empleados_Usuarios1_idx")
+}
+
+model Auditoria_Compras {
+  id                   Int               @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  fecha                DateTime          @db.DateTime(0)
+  tipo                 String            @db.VarChar(45)
+  Usuarios_id          Int
+  Compras_id           Int
+  Compras_historial_id Int
+  Compras              Compras           @relation(fields: [Compras_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Compras_Compras1")
+  Compras_historial    Compras_historial @relation(fields: [Compras_historial_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Compras_Compras_historial1")
+  Usuarios             Usuarios          @relation(fields: [Usuarios_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Empleados_Usuarios10000")
+
+  @@index([Compras_id], map: "fk_Auditoria_Compras_Compras1_idx")
+  @@index([Compras_historial_id], map: "fk_Auditoria_Compras_Compras_historial1_idx")
+  @@index([Usuarios_id], map: "fk_Auditoria_Empleados_Usuarios1_idx")
+}
+
+model Auditoria_Empleados {
+  id                     Int                 @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  fecha                  DateTime            @db.DateTime(0)
+  tipo                   String              @db.VarChar(45)
+  Empleados_id           Int
+  Usuarios_id            Int
+  Empleados_Historial_id Int
+  Empleados              Empleados           @relation(fields: [Empleados_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Empleados_Empleados1")
+  Empleados_Historial    Empleados_Historial @relation(fields: [Empleados_Historial_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Empleados_Empleados_Historial1")
+  Usuarios               Usuarios            @relation(fields: [Usuarios_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Empleados_Usuarios1")
+
+  @@index([Empleados_id], map: "fk_Auditoria_Empleados_Empleados1_idx")
+  @@index([Empleados_Historial_id], map: "fk_Auditoria_Empleados_Empleados_Historial1_idx")
+  @@index([Usuarios_id], map: "fk_Auditoria_Empleados_Usuarios1_idx")
+}
+
+model Auditoria_Proveedores {
+  id                       Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  fecha                    DateTime              @db.DateTime(0)
+  tipo                     String                @db.VarChar(45)
+  Usuarios_id              Int
+  Proveedores_id           Int
+  Proveedores_historial_id Int
+  Usuarios                 Usuarios              @relation(fields: [Usuarios_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Empleados_Usuarios1000")
+  Proveedores              Proveedores           @relation(fields: [Proveedores_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Proveedores_Proveedores1")
+  Proveedores_historial    Proveedores_historial @relation(fields: [Proveedores_historial_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Proveedores_Proveedores_historial1")
+
+  @@index([Usuarios_id], map: "fk_Auditoria_Empleados_Usuarios1_idx")
+  @@index([Proveedores_id], map: "fk_Auditoria_Proveedores_Proveedores1_idx")
+  @@index([Proveedores_historial_id], map: "fk_Auditoria_Proveedores_Proveedores_historial1_idx")
+}
+
+model Auditoria_Ventas {
+  id                  Int              @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  fecha               DateTime         @db.DateTime(0)
+  tipo                String           @db.VarChar(45)
+  Usuarios_id         Int
+  Ventas_id           Int
+  Ventas_historial_id Int
+  Usuarios            Usuarios         @relation(fields: [Usuarios_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Empleados_Usuarios10")
+  Ventas              Ventas           @relation(fields: [Ventas_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Ventas_Ventas1")
+  Ventas_historial    Ventas_historial @relation(fields: [Ventas_historial_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Ventas_Ventas_historial1")
+
+  @@index([Usuarios_id], map: "fk_Auditoria_Empleados_Usuarios1_idx")
+  @@index([Ventas_id], map: "fk_Auditoria_Ventas_Ventas1_idx")
+  @@index([Ventas_historial_id], map: "fk_Auditoria_Ventas_Ventas_historial1_idx")
+}
+
+model Categorias {
+  id        Int         @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre    String      @unique(map: "nombre_UNIQUE") @db.VarChar(45)
+  Productos Productos[]
+}
+
+model Clientes {
+  id                 Int                  @id @unique(map: "idClientes_UNIQUE") @default(autoincrement())
+  nombre             String               @db.VarChar(32)
+  correo             String               @db.VarChar(45)
+  telefono           Int?
+  suscripto          Int                  @db.TinyInt
+  Paises_id          Int
+  Plataformas_id     Int
+  Auditoria_Clientes Auditoria_Clientes[]
+  Paises             Paises               @relation(fields: [Paises_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Clientes_Paises1")
+  Plataformas        Plataformas          @relation(fields: [Plataformas_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Clientes_Plataformas1")
+  Contactos          Contactos[]
+  Ventas             Ventas[]
+  Ventas_historial   Ventas_historial[]
+
+  @@index([Paises_id], map: "fk_Clientes_Paises1_idx")
+  @@index([Plataformas_id], map: "fk_Clientes_Plataformas1_idx")
+}
+
+model Clientes_historial {
+  id                 Int                  @id @unique(map: "idClientes_UNIQUE") @default(autoincrement())
+  nombre             String               @db.VarChar(32)
+  correo             String               @db.VarChar(45)
+  telefono           Int?
+  suscripto          Int                  @db.TinyInt
+  Paises_id          Int
+  Plataformas_id     Int
+  Auditoria_Clientes Auditoria_Clientes[]
+  Paises             Paises               @relation(fields: [Paises_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Clientes_Paises10")
+  Plataformas        Plataformas          @relation(fields: [Plataformas_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Clientes_Plataformas10")
+
+  @@index([Paises_id], map: "fk_Clientes_Paises1_idx")
+  @@index([Plataformas_id], map: "fk_Clientes_Plataformas1_idx")
+}
+
+model Compras {
+  id                Int                 @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  descripcion       String              @db.VarChar(300)
+  precioUnitario    Float
+  cantidad          Int
+  fechaCompra       DateTime            @db.Date
+  entregado         Int                 @db.TinyInt
+  pagado            Int                 @db.TinyInt
+  Monedas_id        Int
+  Proveedores_id    Int
+  Auditoria_Compras Auditoria_Compras[]
+  Monedas           Monedas             @relation(fields: [Monedas_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Compras_Monedas1")
+  Proveedores       Proveedores         @relation(fields: [Proveedores_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Compras_Proveedores1")
+  Incumplimientos   Incumplimientos[]
+
+  @@index([Monedas_id], map: "fk_Compras_Monedas1_idx")
+  @@index([Proveedores_id], map: "fk_Compras_Proveedores1_idx")
+}
+
+model Compras_historial {
+  id                Int                 @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  descripcion       String              @db.VarChar(300)
+  precioUnitario    Float
+  cantidad          Int
+  fechaCompra       DateTime            @db.Date
+  entregado         Int                 @db.TinyInt
+  pagado            Int                 @db.TinyInt
+  Monedas_id        Int
+  Proveedores_id    Int
+  Auditoria_Compras Auditoria_Compras[]
+  Monedas           Monedas             @relation(fields: [Monedas_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Compras_Monedas10")
+  Proveedores       Proveedores         @relation(fields: [Proveedores_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Compras_Proveedores10")
+
+  @@index([Monedas_id], map: "fk_Compras_Monedas1_idx")
+  @@index([Proveedores_id], map: "fk_Compras_Proveedores1_idx")
+}
+
+model Contactos {
+  id          Int      @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  duracion    Float?
+  motivo      String   @db.VarChar(250)
+  fecha       DateTime @db.DateTime(0)
+  Clientes_id Int
+  Medios_id   Int
+  Clientes    Clientes @relation(fields: [Clientes_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Contactos_Clientes1")
+  Medios      Medios   @relation(fields: [Medios_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Contactos_Medios1")
+
+  @@index([Clientes_id], map: "fk_Contactos_Clientes1_idx")
+  @@index([Medios_id], map: "fk_Contactos_Medios1_idx")
+}
+
+model Contratos {
+  id               Int               @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  fechaVencimiento DateTime          @db.Date
+  fechaPago        DateTime          @db.Date
+  monto            Float
+  Proveedores_id   Int
+  Monedas_id       Int
+  Monedas          Monedas           @relation(fields: [Monedas_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Contratos_Monedas1")
+  Proveedores      Proveedores       @relation(fields: [Proveedores_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Contratos_Proveedores1")
+  Incumplimientos  Incumplimientos[]
+
+  @@index([Monedas_id], map: "fk_Contratos_Monedas1_idx")
+  @@index([Proveedores_id], map: "fk_Contratos_Proveedores1_idx")
+}
+
+model Empleados {
+  id                  Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre              String                @db.VarChar(50)
+  correo              String?               @db.VarChar(50)
+  telefono            Int?
+  dni                 Int
+  fechaContratacion   DateTime              @db.Date
+  sueldo              Float
+  Provincias_id       Int
+  Auditoria_Empleados Auditoria_Empleados[]
+  Provincias          Provincias            @relation(fields: [Provincias_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Empleados_Provincias1")
+  Empleados_Puestos   Empleados_Puestos[]
+  Usuarios            Usuarios[]
+
+  @@index([Provincias_id], map: "fk_Empleados_Provincias1_idx")
+}
+
+model Empleados_Historial {
+  id                  Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre              String                @db.VarChar(50)
+  correo              String?               @db.VarChar(50)
+  telefono            Int?
+  dni                 Int
+  fechaContratacion   DateTime              @db.Date
+  sueldo              Float
+  Provincias_id       Int
+  Auditoria_Empleados Auditoria_Empleados[]
+  Provincias          Provincias            @relation(fields: [Provincias_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Empleados_Provincias10")
+
+  @@index([Provincias_id], map: "fk_Empleados_Provincias1_idx")
+}
+
+model Empleados_Puestos {
+  Empleados_id Int
+  Puestos_id   Int
+  fechaInicio  DateTime  @db.Date
+  fechaFinal   DateTime? @db.Date
+  Empleados    Empleados @relation(fields: [Empleados_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Empleados_has_Puestos_Empleados1")
+  Puestos      Puestos   @relation(fields: [Puestos_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Empleados_has_Puestos_Puestos1")
+
+  @@id([Empleados_id, Puestos_id])
+  @@index([Empleados_id], map: "fk_Empleados_has_Puestos_Empleados1_idx")
+  @@index([Puestos_id], map: "fk_Empleados_has_Puestos_Puestos1_idx")
+}
+
+model Incumplimientos {
+  id                       Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  descripcion              String                @db.VarChar(300)
+  fecha                    DateTime              @db.Date
+  Contratos_id             Int?
+  Compras_id               Int?
+  NivelDeIncumplimiento_id Int
+  Compras                  Compras?              @relation(fields: [Compras_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Incumplimientos_Compras1")
+  Contratos                Contratos?            @relation(fields: [Contratos_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Incumplimientos_Contratos1")
+  NivelDeIncumplimiento    NivelDeIncumplimiento @relation(fields: [NivelDeIncumplimiento_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Incumplimientos_NivelDeIncumplimiento1")
+
+  @@index([Compras_id], map: "fk_Incumplimientos_Compras1_idx")
+  @@index([Contratos_id], map: "fk_Incumplimientos_Contratos1_idx")
+  @@index([NivelDeIncumplimiento_id], map: "fk_Incumplimientos_NivelDeIncumplimiento1_idx")
+}
+
+model Medios {
+  id        Int         @id @unique(map: "idMedios_UNIQUE") @default(autoincrement())
+  nombre    String      @db.VarChar(45)
+  Contactos Contactos[]
+}
+
+model MetodosDePago {
+  id                        Int                         @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre                    String                      @db.VarChar(45)
+  Proveedores_MetodosDePago Proveedores_MetodosDePago[]
+}
+
+model Monedas {
+  id                  Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre              String                @db.VarChar(45)
+  Compras             Compras[]
+  Compras_historial   Compras_historial[]
+  Contratos           Contratos[]
+  Proveedores_Monedas Proveedores_Monedas[]
+}
+
+model NivelDeIncumplimiento {
+  id              Int               @id @default(autoincrement())
+  nombre          String            @db.VarChar(45)
+  ponderacion     Float
+  Incumplimientos Incumplimientos[]
+}
+
+model Paises {
+  id                 Int                  @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre             String               @db.VarChar(50)
+  Clientes           Clientes[]
+  Clientes_historial Clientes_historial[]
+  Provincias         Provincias[]
+}
+
+model Plataformas {
+  id                 Int                  @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre             String               @db.VarChar(45)
+  Clientes           Clientes[]
+  Clientes_historial Clientes_historial[]
+}
+
+model Productos {
+  id               Int                @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre           String             @unique(map: "nombre_UNIQUE") @db.VarChar(45)
+  precio           Float
+  lanzamiento      DateTime           @db.Date
+  Categorias_id    Int
+  Categorias       Categorias         @relation(fields: [Categorias_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Productos_Categorias1")
+  Ventas           Ventas[]
+  Ventas_historial Ventas_historial[]
+
+  @@index([Categorias_id], map: "fk_Productos_Categorias1_idx")
+}
+
+model Proveedores {
+  id                        Int                         @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre                    String                      @db.VarChar(45)
+  correo                    String?                     @db.VarChar(45)
+  telefono                  String?                     @db.VarChar(45)
+  Provincias_id             Int
+  Rubros_id                 Int
+  Auditoria_Proveedores     Auditoria_Proveedores[]
+  Compras                   Compras[]
+  Compras_historial         Compras_historial[]
+  Contratos                 Contratos[]
+  Provincias                Provincias                  @relation(fields: [Provincias_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Proveedores_Provincias1")
+  Rubros                    Rubros                      @relation(fields: [Rubros_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Proveedores_Rubros1")
+  Proveedores_MetodosDePago Proveedores_MetodosDePago[]
+  Proveedores_Monedas       Proveedores_Monedas[]
+
+  @@index([Provincias_id], map: "fk_Proveedores_Provincias1_idx")
+  @@index([Rubros_id], map: "fk_Proveedores_Rubros1_idx")
+}
+
+model Proveedores_MetodosDePago {
+  Proveedores_id   Int
+  MetodosDePago_id Int
+  descripcion      String        @db.VarChar(45)
+  MetodosDePago    MetodosDePago @relation(fields: [MetodosDePago_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Proveedores_has_MetodosDePago_MetodosDePago1")
+  Proveedores      Proveedores   @relation(fields: [Proveedores_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Proveedores_has_MetodosDePago_Proveedores1")
+
+  @@id([Proveedores_id, MetodosDePago_id])
+  @@index([MetodosDePago_id], map: "fk_Proveedores_has_MetodosDePago_MetodosDePago1_idx")
+  @@index([Proveedores_id], map: "fk_Proveedores_has_MetodosDePago_Proveedores1_idx")
+}
+
+model Proveedores_Monedas {
+  Proveedores_id Int
+  Monedas_id     Int
+  Monedas        Monedas     @relation(fields: [Monedas_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Proveedores_has_Monedas_Monedas1")
+  Proveedores    Proveedores @relation(fields: [Proveedores_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Proveedores_has_Monedas_Proveedores1")
+
+  @@id([Proveedores_id, Monedas_id])
+  @@index([Monedas_id], map: "fk_Proveedores_has_Monedas_Monedas1_idx")
+  @@index([Proveedores_id], map: "fk_Proveedores_has_Monedas_Proveedores1_idx")
+}
+
+model Proveedores_historial {
+  id                    Int                     @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre                String                  @db.VarChar(45)
+  correo                String?                 @db.VarChar(45)
+  telefono              String?                 @db.VarChar(45)
+  Provincias_id         Int
+  Rubros_id             Int
+  Auditoria_Proveedores Auditoria_Proveedores[]
+  Provincias            Provincias              @relation(fields: [Provincias_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Proveedores_Provincias10")
+  Rubros                Rubros                  @relation(fields: [Rubros_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Proveedores_Rubros10")
+
+  @@index([Provincias_id], map: "fk_Proveedores_Provincias1_idx")
+  @@index([Rubros_id], map: "fk_Proveedores_Rubros1_idx")
+}
+
+model Provincias {
+  id                    Int                     @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre                String                  @db.VarChar(45)
+  Paises_id             Int
+  Empleados             Empleados[]
+  Empleados_Historial   Empleados_Historial[]
+  Proveedores           Proveedores[]
+  Proveedores_historial Proveedores_historial[]
+  Paises                Paises                  @relation(fields: [Paises_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Provincia_Paises1")
+
+  @@index([Paises_id], map: "fk_Provincia_Paises1_idx")
+}
+
+model Puestos {
+  id                Int                 @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre            String              @unique(map: "nombre_UNIQUE") @db.VarChar(45)
+  Areas_id          Int
+  Empleados_Puestos Empleados_Puestos[]
+  Areas             Areas               @relation(fields: [Areas_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Puestos_Areas1")
+
+  @@index([Areas_id], map: "fk_Puestos_Areas1_idx")
+}
+
+model Roles {
+  id       Int        @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre   String     @unique(map: "nombre_UNIQUE") @db.VarChar(45)
+  Usuarios Usuarios[]
+}
+
+model Rubros {
+  id                    Int                     @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre                String                  @db.VarChar(45)
+  Proveedores           Proveedores[]
+  Proveedores_historial Proveedores_historial[]
+}
+
+model Usuarios {
+  id                    Int                     @id @unique(map: "usuario_UNIQUE") @default(autoincrement())
+  nombre                String                  @db.VarChar(45)
+  contrasenia           String                  @db.VarChar(45)
+  Empleados_id          Int
+  Roles_id              Int
+  Auditoria_Clientes    Auditoria_Clientes[]
+  Auditoria_Compras     Auditoria_Compras[]
+  Auditoria_Empleados   Auditoria_Empleados[]
+  Auditoria_Proveedores Auditoria_Proveedores[]
+  Auditoria_Ventas      Auditoria_Ventas[]
+  Empleados             Empleados               @relation(fields: [Empleados_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Usuarios_Empleados1")
+  Roles                 Roles                   @relation(fields: [Roles_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Usuarios_Roles1")
+
+  @@index([Empleados_id], map: "fk_Usuarios_Empleados1_idx")
+  @@index([Roles_id], map: "fk_Usuarios_Roles1_idx")
+}
+
+model Ventas {
+  id               Int                @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  fecha            DateTime           @db.DateTime(0)
+  Productos_id     Int
+  Clientes_id      Int
+  Auditoria_Ventas Auditoria_Ventas[]
+  Clientes         Clientes           @relation(fields: [Clientes_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Ventas_Clientes1")
+  Productos        Productos          @relation(fields: [Productos_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Ventas_Productos1")
+
+  @@index([Clientes_id], map: "fk_Ventas_Clientes1_idx")
+  @@index([Productos_id], map: "fk_Ventas_Productos1_idx")
+}
+
+model Ventas_historial {
+  id               Int                @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  fecha            DateTime           @db.DateTime(0)
+  Productos_id     Int
+  Clientes_id      Int
+  Auditoria_Ventas Auditoria_Ventas[]
+  Clientes         Clientes           @relation(fields: [Clientes_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Ventas_Clientes10")
+  Productos        Productos          @relation(fields: [Productos_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Ventas_Productos10")
+
+  @@index([Clientes_id], map: "fk_Ventas_Clientes1_idx")
+  @@index([Productos_id], map: "fk_Ventas_Productos1_idx")
+}
