@@ -25,6 +25,10 @@ export default {
       "black": "#010101",
     },
     extend: {
+      backgroundImage:{
+        'dragon':"url('./src/images/wyvern_pescando.jpg')",
+        'logo':"url('./src/images/WyvernLogo.jpg')"
+      }
     },
   },
   plugins: [],
