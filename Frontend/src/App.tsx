@@ -1,6 +1,8 @@
+import ClientsModule from "./pages/ClientsModule"
+
 function App() {
   return (
-    <h1 className="text-red-600">WyvernManagement</h1>
+    <ClientsModule/>
   )
 }
 
