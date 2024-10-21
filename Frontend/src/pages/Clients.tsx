@@ -1,8 +1,10 @@
-
+import Nav from '../components/Nav'
 
 const Clients = () => {
   return (
-    <div>Clients</div>
+    <div className='grid grid-cols-2'>
+      <Nav/>
+    </div>
   )
 }
 
