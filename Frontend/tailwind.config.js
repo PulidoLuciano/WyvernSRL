@@ -13,8 +13,7 @@ export default {
       laptop: "1024px",
       laptopL: "1440px",
       monitor: "1920px"
-    },
-    colors:{
+    },colors:{
       "primary": "#463772",
       "secondary": "#806FB6",
       "green": "#50FF50",
@@ -23,8 +22,15 @@ export default {
       "yellow": "#FFFF50",
       "white": "#FEFEFE",
       "black": "#010101",
+      "gray" : "#F9FAFB",
+      "gray2": "#e5e7eb",
     },
+    
     extend: {
+      backgroundImage:{
+        'dragon':"url('./src/images/wyvern_pescando.jpg')",
+        'logo':"url('./src/images/WyvernLogo.jpg')"
+      }
     },
   },
   plugins: [],
