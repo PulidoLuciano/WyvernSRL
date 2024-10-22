@@ -415,7 +415,7 @@ model Rubros {
 model Usuarios {
   id                    Int                     @id @unique(map: "usuario_UNIQUE") @default(autoincrement())
   nombre                String                  @db.VarChar(45)
-  contrasenia           String                  @db.VarChar(45)
+  contrasenia           String                  @db.VarChar(100)
   Empleados_id          Int
   Roles_id              Int
   Auditoria_Clientes    Auditoria_Clientes[]
