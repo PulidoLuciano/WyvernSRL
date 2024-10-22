@@ -4,7 +4,7 @@ import App from './App.tsx'
 import './index.css'
 import {RouteType} from './types';
 const Login = lazy(() => import("./pages/Login.tsx"));
-const Clients = lazy(() => import('./pages/Clients.tsx'));
+const Clients = lazy(() => import('./pages/ClientsModule.tsx'));
 
 const routes: Array<RouteType> = [
   {

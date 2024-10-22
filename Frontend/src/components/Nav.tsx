@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 
 const Nav = () => {
   return (
-    <div className='bg-primary max-w-96 items-center min-h-screen'>
-        <img src={logo} alt="" className='w-72 my-8 m-auto'/>
+    <div className='bg-primary items-center h-full p-8'>
+        <img src={logo} alt="" className='w-72 mb-8 m-auto'/>
         <p className='text-white text-center my-9'>Usando como <strong>Usuario</strong></p>
-        <Link to="/clients"><p className='text-white text-center p-1 '>Clientes</p></Link>
+        <Link to="/clients"><p className='text-white text-center p-1'>Clientes</p></Link>
         <Link to="/"><p className='text-white text-center p-1'>Proveedores</p></Link>
         <Link to="/"><p className='text-white text-center p-1'>Ventas</p></Link>
         <Link to="/"><p className='text-white text-center p-1'>Empleados</p></Link>
