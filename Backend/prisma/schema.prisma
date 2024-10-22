@@ -103,8 +103,8 @@ model Clientes {
   id                 Int                  @id @unique(map: "idClientes_UNIQUE") @default(autoincrement())
   nombre             String               @db.VarChar(32)
   correo             String               @db.VarChar(45)
-  telefono           Int?
-  suscripto          Int                  @db.TinyInt
+  telefono           String?
+  suscripto          Boolean                  @db.TinyInt
   Paises_id          Int
   Plataformas_id     Int
   Auditoria_Clientes Auditoria_Clientes[]
@@ -122,8 +122,8 @@ model Clientes_historial {
   id                 Int                  @id @unique(map: "idClientes_UNIQUE") @default(autoincrement())
   nombre             String               @db.VarChar(32)
   correo             String               @db.VarChar(45)
-  telefono           Int?
-  suscripto          Int                  @db.TinyInt
+  telefono           String?
+  suscripto          Boolean                  @db.TinyInt
   Paises_id          Int
   Plataformas_id     Int
   Auditoria_Clientes Auditoria_Clientes[]
@@ -140,8 +140,8 @@ model Compras {
   precioUnitario    Float
   cantidad          Int
   fechaCompra       DateTime            @db.Date
-  entregado         Int                 @db.TinyInt
-  pagado            Int                 @db.TinyInt
+  entregado         Boolean                 @db.TinyInt
+  pagado            Boolean                 @db.TinyInt
   Monedas_id        Int
   Proveedores_id    Int
   Auditoria_Compras Auditoria_Compras[]
@@ -159,8 +159,8 @@ model Compras_historial {
   precioUnitario    Float
   cantidad          Int
   fechaCompra       DateTime            @db.Date
-  entregado         Int                 @db.TinyInt
-  pagado            Int                 @db.TinyInt
+  entregado         Boolean                 @db.TinyInt
+  pagado            Boolean                 @db.TinyInt
   Monedas_id        Int
   Proveedores_id    Int
   Auditoria_Compras Auditoria_Compras[]
@@ -187,6 +187,7 @@ model Contactos {
 
 model Contratos {
   id               Int               @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  descripcion      String            @db.VarChar(300)
   fechaVencimiento DateTime          @db.Date
   fechaPago        DateTime          @db.Date
   monto            Float
@@ -204,7 +205,7 @@ model Empleados {
   id                  Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
   nombre              String                @db.VarChar(50)
   correo              String?               @db.VarChar(50)
-  telefono            Int?
+  telefono            String?
   dni                 Int
   fechaContratacion   DateTime              @db.Date
   sueldo              Float
@@ -221,7 +222,7 @@ model Empleados_Historial {
   id                  Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
   nombre              String                @db.VarChar(50)
   correo              String?               @db.VarChar(50)
-  telefono            Int?
+  telefono            String?
   dni                 Int
   fechaContratacion   DateTime              @db.Date
   sueldo              Float
@@ -340,7 +341,7 @@ model Proveedores {
 model Proveedores_MetodosDePago {
   Proveedores_id   Int
   MetodosDePago_id Int
-  descripcion      String        @db.VarChar(45)
+  descripcion      String        @db.VarChar(150)
   MetodosDePago    MetodosDePago @relation(fields: [MetodosDePago_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Proveedores_has_MetodosDePago_MetodosDePago1")
   Proveedores      Proveedores   @relation(fields: [Proveedores_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Proveedores_has_MetodosDePago_Proveedores1")
 
