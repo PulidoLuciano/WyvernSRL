@@ -1,6 +1,18 @@
-function App() {
+import { Suspense } from "react"
+import { RouteType } from "./types"
+import {BrowserRouter,Routes,Route} from 'react-router-dom'
+
+function App({routes} : {routes : Array<RouteType>}) {
   return (
-    <h1 className="text-red-600">WyvernManagement</h1>
+    <Suspense fallback={<h1>Cargando...</h1>}>
+        <BrowserRouter>
+          <Routes>
+            {routes.map((route, index) => (
+              <Route key={index} path={route.path} element={route.element} />
+            ))}
+          </Routes>
+      </BrowserRouter>
+    </Suspense>
   )
 }
 
