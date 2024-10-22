@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import filterIcon from "../images/filterIcon.svg"
+
 import Accordion from '../components/Accordion'
 import Pagination from '../components/Pagination';
 
@@ -112,53 +112,9 @@ const ClientsModule = () => {
         <p>Ver, crear, editar y eliminar clientes</p>
       </div>
 
+      <Accordion title="Crear Nuevo" createForm={true}/>
+      <Accordion title="Filtrar por" createForm={false}/>
 
-      <Accordion title="Filtrar por">
-        <form action="" className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-64' >
-          <div className='flex flex-col'>
-            <label htmlFor="nombreCliente">Nombre</label>
-            <input className='bg-gray border border-gray2 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5' type="text" id='nombreCliente' placeholder='Username' />
-          </div>
-          <div className='flex flex-col'>
-            <label htmlFor="correo">Correo</label>
-            <input className='bg-gray border border-gray2 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5' type="text" id='correo' placeholder='Username@user.com' />
-          </div>
-          <div className='flex flex-col'>
-            <label htmlFor="telefono">Teléfono</label>
-            <input className='bg-gray border border-gray2 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5' type="number" name="telefono" id="telefono" placeholder='5493816341612' />
-          </div>
-          <div className='flex flex-col'>
-            <label htmlFor="plataformas">Plataforma</label>
-            <select id='plataformas' className='bg-gray border border-gray2 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5'>
-              <option value="Steam">Steam</option>
-              <option value="Epic Games">Epic Games</option>
-            </select>
-          </div>
-
-          <label className="inline-flex items-center justify-between cursor-pointer">
-            <span className="ms-3 me-3 text-gray-900">Suscripto</span>
-            <input type="checkbox" value="" className="sr-only peer" />
-            <div className="relative w-11 h-6 bg-gray2 peer-focus:outline-none rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
-
-          </label>
-
-          <div className='flex flex-col'>
-            <label htmlFor="paises">País</label>
-            <select id='paises' className='bg-gray border border-gray2 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5'>
-              <option value="Argentina">Argentina</option>
-              <option value="Venezuela">Venezuela</option>
-              <option value="España">España</option>
-              <option value="Rusia">Rusia</option>
-            </select>
-          </div>
-
-          <button type='submit' className='text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'>
-            <img src={filterIcon} alt="filterIcon" />
-            Filtrar
-          </button>
-
-        </form>
-      </Accordion>
 
       <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
         <div className='flex gap-2 items-end tablet:col-span-2'>

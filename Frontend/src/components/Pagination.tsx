@@ -32,7 +32,7 @@ const Pagination = ({changePage,currentPage,indexEnd,indexStart,nPages} : pagina
           Array.from({ length: nPages }, (_, i) => i).map((page) => (
             <button
               key={page}
-              className={`transition-all duration-300 ease-in-out ${currentPage==page+1 ? "bg-primary rounded-md p-2 text-white": ""}`}
+              className={`w-8 h-8 rounded-md transition-all duration-300 ease-in-out ${currentPage==page+1 ? "bg-primary text-white": ""}`}
               onClick={() => selectedPage(page + 1)}
             >
               {page + 1}
