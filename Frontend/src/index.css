@@ -22,3 +22,7 @@ input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
     }
+
+.nav-link:hover{
+    background-color: #806FB6;
+}

@@ -1,17 +1,11 @@
 import { Suspense } from "react"
-import { RouteType } from "./types"
-import {BrowserRouter,Routes,Route} from 'react-router-dom'
+import {RouterProvider} from 'react-router-dom'
+import router from "./utils/router"
 
-function App({routes} : {routes : Array<RouteType>}) {
+function App() {
   return (
     <Suspense fallback={<h1>Cargando...</h1>}>
-        <BrowserRouter>
-          <Routes>
-            {routes.map((route, index) => (
-              <Route key={index} path={route.path} element={route.element} />
-            ))}
-          </Routes>
-      </BrowserRouter>
+      <RouterProvider router={router}/>     
     </Suspense>
   )
 }
