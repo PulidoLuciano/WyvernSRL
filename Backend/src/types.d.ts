@@ -1,16 +1,8 @@
-import { Request } from "express"
-import { JwtPayload } from "jsonwebtoken"
-
-export enum ROLE {
-    Admin = "Admin",
-    Ventas = "Ventas",
-    RRHH = "RRHH",
-    Compras = "Compras",
-    Auditor = "Auditor"
-}
+import { Request, RequestHandler, Router } from "express"
+import { ROLE } from "./utils/Role"
 
 export type AuthenticationToken = { 
-    role : Role
+    role : ROLE
     id : number
 }
 
@@ -21,4 +13,17 @@ export type HttpStatus = {
 
 export interface UserRequest extends Request{
     user : AuthenticationToken
+}
+
+export type WyvernRouter = {
+    path : string
+    router : Router
+}
+
+export type WyvernRoute = {
+    path : string
+    authentication: boolean
+    authorization : Array<ROLE>
+    middlewares? : Array<RequestHandler>
+    execute : RequestHandler
 }
