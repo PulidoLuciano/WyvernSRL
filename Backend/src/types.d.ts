@@ -24,6 +24,7 @@ export type WyvernRoute = {
     path : string
     authentication: boolean
     authorization : Array<ROLE>
-    middlewares? : Array<RequestHandler>
-    execute : RequestHandler
+    middlewares : Array<RequestHandler>
+    handler : RequestHandler
+    method : "GET" | "POST" | "PUT" | "DELETE"
 }

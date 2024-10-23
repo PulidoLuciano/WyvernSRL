@@ -13,11 +13,6 @@ app.use(express.json())
 app.use(cookieParser())
 const port = process.env.PORT;
 
-app.get("/", (req, res) => {
-  console.log(req.cookies)
-  res.send("Test")
-})
-
 for (let index = 0; index < ROUTERS.length; index++) {
   const router = ROUTERS[index];
   app.use(router.path, router.router)

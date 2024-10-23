@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import { AuthenticationToken, ROLE, UserRequest} from "../types";
+import { AuthenticationToken, UserRequest} from "../types";
 import ApiError from "../utils/ApiError";
 import HttpStatuses from "../utils/HttpStatus";
 import jwt, { JsonWebTokenError } from "jsonwebtoken";
+import { ROLE } from "../utils/Role";
 
-export default function authorization(neededRol : ROLE){
+export default function authorization(neededRol? : Array<ROLE>){
     return (req : Request, res : Response, next : NextFunction) => {
         try {
             if(!req.cookies?.authenticationToken) 
@@ -18,8 +19,9 @@ export default function authorization(neededRol : ROLE){
             
             const tokenData = jwt.verify(authenticationToken, jwtPassword);
             
-            if((tokenData as AuthenticationToken).role != neededRol)
-                throw new ApiError(HttpStatuses.UNAUTHORIZED, `No puede realizar esta acción con el rol de ${(tokenData as AuthenticationToken).role}`);
+            if(neededRol)
+                if(!neededRol.includes((tokenData as AuthenticationToken).role))
+                    throw new ApiError(HttpStatuses.UNAUTHORIZED, `No puede realizar esta acción con el rol de ${(tokenData as AuthenticationToken).role}`);
 
             (req as UserRequest).user = (tokenData as AuthenticationToken);
             return next();

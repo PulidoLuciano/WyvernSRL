@@ -1,6 +1,7 @@
-import { UsersRouter } from "./users/users"
+import { WyvernRouter } from "../types";
+import UsersRouter from "./users/users"
 
-const ROUTERS = [
+const ROUTERS : Array<WyvernRouter> = [
     {
         path: "/users",
         router: UsersRouter
