@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import AccordionProps from '../interfaces/AccordionInterfaces';
 
-
-const Accordion = ({ title, children }: AccordionProps) => {
+const Accordion = ({ title , children } : AccordionProps  ) => {
 
     const [accordionOpen, setAccordionOpen] = useState(false);
     const handleClick = () => {
