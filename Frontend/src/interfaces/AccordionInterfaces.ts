@@ -1,5 +1,5 @@
 
 export default interface AccordionProps {
     title : string;
-    createForm: boolean;
+    children: React.ReactElement
 }
