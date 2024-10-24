@@ -3,7 +3,7 @@ import HttpStatuses from "../utils/HttpStatus";
 import ApiError from "../utils/ApiError";
 
 export const errorHandler : ErrorRequestHandler = (err : ApiError, req : Request, res : Response, next : NextFunction) => {
-    return res.status(err.httpStatus.code).json({reason: err.httpStatus.reason, message: err.message, stack: err.stack})
+    return res.status(err.httpStatus.code).json({reason: err.httpStatus.reason, message: err.message, stack: err.stack, details: err.details})
 }
 
 export const notFoundHandler = (req : Request, res : Response, next : NextFunction) => {

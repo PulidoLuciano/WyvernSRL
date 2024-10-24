@@ -3,13 +3,15 @@ import type { WyvernRoute } from "../../types.d.ts"
 import { getAllUsers, login } from "./usersController"
 import ApiError from "../../utils/ApiError.ts"
 import HttpStatuses from "../../utils/HttpStatus.ts"
+import { validateData } from "../../middlewares/validateData.ts"
+import { LoginSchema } from "../../schemas/usersSchemas.ts"
 
 const USERS_ROUTES : Array<WyvernRoute> = [
     {
         //Traer todos los usuarios
         path: "/",
         method: "GET",
-        authentication: false,
+        authentication: true,
         authorization: [ROLE.Admin, ROLE.Auditor],
         middlewares: [],
         handler: getAllUsers
@@ -20,7 +22,9 @@ const USERS_ROUTES : Array<WyvernRoute> = [
         method: "GET",
         authentication: false,
         authorization: [],
-        middlewares: [],
+        middlewares: [
+            validateData(LoginSchema)
+        ],
         handler: login
     },
     {

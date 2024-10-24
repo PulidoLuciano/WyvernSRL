@@ -14,9 +14,6 @@ export async function getAllUsers(_ : Request, res : Response){
 export async function login(req : Request, res : Response) {
     const { nombre, password } = req.body;
 
-    if(!(nombre && password))
-        throw new ApiError(HttpStatuses.BAD_REQUEST, "Se necesita un nombre y una contraseña");
-
     const usuario = await prisma.usuarios.findFirst({where: {nombre}});
 
     if(!usuario)
@@ -37,4 +34,11 @@ export async function login(req : Request, res : Response) {
         priority:"high",
     });
     res.status(HttpStatuses.OK.code).json(usuario);
+}
+
+export async function createUser(req : Request, res : Response) {
+    const newUser = req.body;
+    if(!newUser)
+        throw new ApiError(HttpStatuses.BAD_REQUEST, "Se necesita los datos del usuario a modificar");
+
 }
