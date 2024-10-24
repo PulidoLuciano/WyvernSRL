@@ -29,7 +29,7 @@ export async function login(req : Request, res : Response) {
     const role = await prisma.roles.findUnique({where: {id: usuario.Roles_id}})
 
     const token = json.sign({id: usuario.id, role}, env.JWT_PASSWORD);
-    res.cookie(env.AUTHENTICATION_COOKIE_NAME, token, {
+    res.cookie("authenticationToken", token, {
         expires: new Date(Date.now() + 8640000),
         sameSite:'none',
         secure:true,
