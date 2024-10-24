@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { array, string, z } from "zod";
 
 export const LoginSchema = z.object({
     nombre: z.string({
@@ -9,4 +9,22 @@ export const LoginSchema = z.object({
         required_error: "Es necesaria una contraseña",
         invalid_type_error: "La contraseña debe ser una cadena"
     })
+})
+
+export const UserSchema = z.object({
+    nombre: z.string().trim(),
+    contrasenia: z.string(),
+    Empleados_id: z.coerce.number(),
+    Roles_id: z.coerce.number()
+})
+
+export const UserSchemaOptional = z.object({
+    nombre: z.string().trim().nullish(),
+    contrasenia: z.string().nullish(),
+    Empleados_id: z.coerce.number().nullish(),
+    Roles_id: z.coerce.number().nullish()
+})
+
+export const IdsSchema = z.object({
+    ids: array(z.coerce.number())
 })

@@ -3,7 +3,7 @@ import HttpStatuses from '../utils/HttpStatus';
 import { z, ZodError } from 'zod';
 import ApiError from '../utils/ApiError';
 
-export function validateData(schema: z.ZodObject<any, any>) {
+export function validateData(schema: z.ZodObject<any, any> | z.ZodArray<any, any>) {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       schema.parse(req.body);

@@ -1,10 +1,10 @@
 import { ROLE } from "../../utils/Role.ts"
 import type { WyvernRoute } from "../../types.d.ts"
-import { getAllUsers, login } from "./usersController"
+import { createUser, deleteUser, getAllUsers, getUserById, login, updateUserById } from "./usersController"
 import ApiError from "../../utils/ApiError.ts"
 import HttpStatuses from "../../utils/HttpStatus.ts"
 import { validateData } from "../../middlewares/validateData.ts"
-import { LoginSchema } from "../../schemas/usersSchemas.ts"
+import { IdsSchema, LoginSchema, UserSchema, UserSchemaOptional } from "../../schemas/usersSchemas.ts"
 
 const USERS_ROUTES : Array<WyvernRoute> = [
     {
@@ -33,8 +33,10 @@ const USERS_ROUTES : Array<WyvernRoute> = [
         method: "POST",
         authentication: true,
         authorization: [ROLE.Admin],
-        middlewares: [],
-        handler: (_, _1) => {throw new ApiError(HttpStatuses.NOT_IMPLEMENTED, "To do")}
+        middlewares: [
+            validateData(UserSchema)
+        ],
+        handler: createUser
     },
     {
         //Traer usuario
@@ -43,16 +45,18 @@ const USERS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Auditor],
         middlewares: [],
-        handler: (_, _1) => {throw new ApiError(HttpStatuses.NOT_IMPLEMENTED, "To do")}
+        handler: getUserById
     },
     {
-        //Eliminar usuario
+        //Eliminar usuarios
         path: "/",
         method: "DELETE",
         authentication: true,
         authorization: [ROLE.Admin],
-        middlewares: [],
-        handler: (_, _1) => {throw new ApiError(HttpStatuses.NOT_IMPLEMENTED, "To do")}
+        middlewares: [
+            validateData(IdsSchema)
+        ],
+        handler: deleteUser
     },
     {
         //Modificar usuario
@@ -60,8 +64,10 @@ const USERS_ROUTES : Array<WyvernRoute> = [
         method: "PUT",
         authentication: true,
         authorization: [ROLE.Admin],
-        middlewares: [],
-        handler: (_, _1) => {throw new ApiError(HttpStatuses.NOT_IMPLEMENTED, "To do")}
+        middlewares: [
+            validateData(UserSchemaOptional)
+        ],
+        handler: updateUserById
     },
 ]
 
