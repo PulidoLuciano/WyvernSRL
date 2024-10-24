@@ -1,4 +1,4 @@
-import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
+import { ErrorRequestHandler, NextFunction, Request, RequestHandler, Response } from "express";
 import HttpStatuses from "../utils/HttpStatus";
 import ApiError from "../utils/ApiError";
 
@@ -9,4 +9,16 @@ export const errorHandler : ErrorRequestHandler = (err : ApiError, req : Request
 export const notFoundHandler = (req : Request, res : Response, next : NextFunction) => {
     const err = new ApiError(HttpStatuses.NOT_FOUND, "La ruta no fue encontrada.")
     return next(err)
+}
+
+export function tryCatch(fn : RequestHandler){
+    return async (req : Request, res : Response, next : NextFunction) => {
+        try {
+            await fn(req, res, next);
+        } catch (error) {
+            if(!(error instanceof ApiError))
+                error = new ApiError(HttpStatuses.INTERNAL_SERVER_ERROR, "Ha sucedido algo inesperado.");
+            return next(error);
+        }
+    }
 }
