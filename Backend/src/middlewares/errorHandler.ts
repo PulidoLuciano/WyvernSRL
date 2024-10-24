@@ -16,7 +16,8 @@ export function tryCatch(fn : RequestHandler){
         try {
             await fn(req, res, next);
         } catch (error) {
-            if(!(error instanceof ApiError))
+            console.log(error)
+            if(!error.httpStatus)
                 error = new ApiError(HttpStatuses.INTERNAL_SERVER_ERROR, "Ha sucedido algo inesperado.");
             return next(error);
         }
