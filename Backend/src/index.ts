@@ -16,7 +16,7 @@ const port = process.env.PORT;
 
 for (let index = 0; index < ROUTERS.length; index++) {
   const router = ROUTERS[index];
-  app.use(createRouter(router.path, router.routes));
+  app.use(router.path, createRouter(router.routes));
 }
 
 app.use(notFoundHandler);

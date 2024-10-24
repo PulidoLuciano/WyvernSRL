@@ -9,7 +9,7 @@ const routerMethods = (router) => ({
     DELETE: (path, middlewares, handler) => {router.delete(path, middlewares, handler)},
 })
 
-function createRouter(path : string, routes : Array<WyvernRoute>){
+function createRouter(routes : Array<WyvernRoute>){
     const router = express.Router();
     for (let i = 0; i < routes.length; i++) {
         const route = routes[i];
