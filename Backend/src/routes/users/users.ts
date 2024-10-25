@@ -1,10 +1,10 @@
 import { ROLE } from "../../utils/Role.ts"
 import type { WyvernRoute } from "../../types.d.ts"
-import { createUser, deleteUser, getAllUsers, getUserById, login, updateUserById } from "./usersController"
-import ApiError from "../../utils/ApiError.ts"
-import HttpStatuses from "../../utils/HttpStatus.ts"
+import { createUser, deleteUser, getAllUsers, getUserById, login, updateUserById, UsersController } from "./usersController"
 import { validateData } from "../../middlewares/validateData.ts"
 import { IdsSchema, LoginSchema, UserSchema, UserSchemaOptional } from "../../schemas/usersSchemas.ts"
+
+const controlador = new UsersController();
 
 const USERS_ROUTES : Array<WyvernRoute> = [
     {
@@ -14,7 +14,7 @@ const USERS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Auditor],
         middlewares: [],
-        handler: getAllUsers
+        handler: controlador.getAll
     },
     {
         //Login de usuario con cookie
@@ -25,7 +25,7 @@ const USERS_ROUTES : Array<WyvernRoute> = [
         middlewares: [
             validateData(LoginSchema)
         ],
-        handler: login
+        handler: controlador.login
     },
     {
         //Registrarse (crear usuario)
@@ -36,7 +36,7 @@ const USERS_ROUTES : Array<WyvernRoute> = [
         middlewares: [
             validateData(UserSchema)
         ],
-        handler: createUser
+        handler: controlador.create
     },
     {
         //Traer usuario
@@ -45,7 +45,7 @@ const USERS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Auditor],
         middlewares: [],
-        handler: getUserById
+        handler: controlador.getById
     },
     {
         //Eliminar usuarios
@@ -56,7 +56,7 @@ const USERS_ROUTES : Array<WyvernRoute> = [
         middlewares: [
             validateData(IdsSchema)
         ],
-        handler: deleteUser
+        handler: controlador.deleteMany
     },
     {
         //Modificar usuario
@@ -67,7 +67,7 @@ const USERS_ROUTES : Array<WyvernRoute> = [
         middlewares: [
             validateData(UserSchemaOptional)
         ],
-        handler: updateUserById
+        handler: controlador.updateById
     },
 ]
 
