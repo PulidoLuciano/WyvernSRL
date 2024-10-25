@@ -10,6 +10,7 @@ datasource db {
 model Areas {
   id      Int       @id @unique(map: "id_UNIQUE") @default(autoincrement())
   nombre  String    @unique(map: "nombre_UNIQUE") @db.VarChar(45)
+  borrado Boolean   @default(false)
   Puestos Puestos[]
 }
 
@@ -96,6 +97,7 @@ model Auditoria_Ventas {
 model Categorias {
   id        Int         @id @unique(map: "id_UNIQUE") @default(autoincrement())
   nombre    String      @unique(map: "nombre_UNIQUE") @db.VarChar(45)
+  borrado Boolean       @default(false)
   Productos Productos[]
 }
 
@@ -107,6 +109,7 @@ model Clientes {
   suscripto          Boolean                  @db.TinyInt
   Paises_id          Int
   Plataformas_id     Int
+  borrado Boolean    @default(false)
   Auditoria_Clientes Auditoria_Clientes[]
   Paises             Paises               @relation(fields: [Paises_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Clientes_Paises1")
   Plataformas        Plataformas          @relation(fields: [Plataformas_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Clientes_Plataformas1")
@@ -126,6 +129,7 @@ model Clientes_historial {
   suscripto          Boolean                  @db.TinyInt
   Paises_id          Int
   Plataformas_id     Int
+  borrado Boolean    @default(false)
   Auditoria_Clientes Auditoria_Clientes[]
   Paises             Paises               @relation(fields: [Paises_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Clientes_Paises10")
   Plataformas        Plataformas          @relation(fields: [Plataformas_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Clientes_Plataformas10")
@@ -144,6 +148,7 @@ model Compras {
   pagado            Boolean                 @db.TinyInt
   Monedas_id        Int
   Proveedores_id    Int
+  borrado Boolean    @default(false)
   Auditoria_Compras Auditoria_Compras[]
   Monedas           Monedas             @relation(fields: [Monedas_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Compras_Monedas1")
   Proveedores       Proveedores         @relation(fields: [Proveedores_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Compras_Proveedores1")
@@ -163,6 +168,7 @@ model Compras_historial {
   pagado            Boolean                 @db.TinyInt
   Monedas_id        Int
   Proveedores_id    Int
+  borrado Boolean    @default(false)
   Auditoria_Compras Auditoria_Compras[]
   Monedas           Monedas             @relation(fields: [Monedas_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Compras_Monedas10")
   Proveedores       Proveedores         @relation(fields: [Proveedores_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Compras_Proveedores10")
@@ -178,6 +184,7 @@ model Contactos {
   fecha       DateTime @db.DateTime(0)
   Clientes_id Int
   Medios_id   Int
+  borrado Boolean    @default(false)
   Clientes    Clientes @relation(fields: [Clientes_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Contactos_Clientes1")
   Medios      Medios   @relation(fields: [Medios_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Contactos_Medios1")
 
@@ -193,6 +200,7 @@ model Contratos {
   monto            Float
   Proveedores_id   Int
   Monedas_id       Int
+  borrado Boolean    @default(false)
   Monedas          Monedas           @relation(fields: [Monedas_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Contratos_Monedas1")
   Proveedores      Proveedores       @relation(fields: [Proveedores_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Contratos_Proveedores1")
   Incumplimientos  Incumplimientos[]
@@ -210,6 +218,7 @@ model Empleados {
   fechaContratacion   DateTime              @db.Date
   sueldo              Float
   Provincias_id       Int
+  borrado Boolean    @default(false)
   Auditoria_Empleados Auditoria_Empleados[]
   Provincias          Provincias            @relation(fields: [Provincias_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Empleados_Provincias1")
   Empleados_Puestos   Empleados_Puestos[]
@@ -227,6 +236,7 @@ model Empleados_Historial {
   fechaContratacion   DateTime              @db.Date
   sueldo              Float
   Provincias_id       Int
+  borrado Boolean    @default(false)
   Auditoria_Empleados Auditoria_Empleados[]
   Provincias          Provincias            @relation(fields: [Provincias_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Empleados_Provincias10")
 
@@ -253,6 +263,7 @@ model Incumplimientos {
   Contratos_id             Int?
   Compras_id               Int?
   NivelDeIncumplimiento_id Int
+  borrado Boolean    @default(false)
   Compras                  Compras?              @relation(fields: [Compras_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Incumplimientos_Compras1")
   Contratos                Contratos?            @relation(fields: [Contratos_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Incumplimientos_Contratos1")
   NivelDeIncumplimiento    NivelDeIncumplimiento @relation(fields: [NivelDeIncumplimiento_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Incumplimientos_NivelDeIncumplimiento1")
@@ -265,18 +276,21 @@ model Incumplimientos {
 model Medios {
   id        Int         @id @unique(map: "idMedios_UNIQUE") @default(autoincrement())
   nombre    String      @db.VarChar(45)
+  borrado Boolean    @default(false)
   Contactos Contactos[]
 }
 
 model MetodosDePago {
   id                        Int                         @id @unique(map: "id_UNIQUE") @default(autoincrement())
   nombre                    String                      @db.VarChar(45)
+  borrado Boolean    @default(false)
   Proveedores_MetodosDePago Proveedores_MetodosDePago[]
 }
 
 model Monedas {
   id                  Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
   nombre              String                @db.VarChar(45)
+  borrado Boolean    @default(false)
   Compras             Compras[]
   Compras_historial   Compras_historial[]
   Contratos           Contratos[]
@@ -287,12 +301,14 @@ model NivelDeIncumplimiento {
   id              Int               @id @default(autoincrement())
   nombre          String            @db.VarChar(45)
   ponderacion     Float
+  borrado Boolean    @default(false)
   Incumplimientos Incumplimientos[]
 }
 
 model Paises {
   id                 Int                  @id @unique(map: "id_UNIQUE") @default(autoincrement())
   nombre             String               @db.VarChar(50)
+  borrado Boolean    @default(false)
   Clientes           Clientes[]
   Clientes_historial Clientes_historial[]
   Provincias         Provincias[]
@@ -301,6 +317,7 @@ model Paises {
 model Plataformas {
   id                 Int                  @id @unique(map: "id_UNIQUE") @default(autoincrement())
   nombre             String               @db.VarChar(45)
+  borrado Boolean    @default(false)
   Clientes           Clientes[]
   Clientes_historial Clientes_historial[]
 }
@@ -311,6 +328,7 @@ model Productos {
   precio           Float
   lanzamiento      DateTime           @db.Date
   Categorias_id    Int
+  borrado Boolean    @default(false)
   Categorias       Categorias         @relation(fields: [Categorias_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Productos_Categorias1")
   Ventas           Ventas[]
   Ventas_historial Ventas_historial[]
@@ -325,6 +343,7 @@ model Proveedores {
   telefono                  String?                     @db.VarChar(45)
   Provincias_id             Int
   Rubros_id                 Int
+  borrado Boolean    @default(false)
   Auditoria_Proveedores     Auditoria_Proveedores[]
   Compras                   Compras[]
   Compras_historial         Compras_historial[]
@@ -380,6 +399,7 @@ model Provincias {
   id                    Int                     @id @unique(map: "id_UNIQUE") @default(autoincrement())
   nombre                String                  @db.VarChar(45)
   Paises_id             Int
+  borrado Boolean    @default(false)
   Empleados             Empleados[]
   Empleados_Historial   Empleados_Historial[]
   Proveedores           Proveedores[]
@@ -393,6 +413,7 @@ model Puestos {
   id                Int                 @id @unique(map: "id_UNIQUE") @default(autoincrement())
   nombre            String              @unique(map: "nombre_UNIQUE") @db.VarChar(45)
   Areas_id          Int
+  borrado Boolean    @default(false)
   Empleados_Puestos Empleados_Puestos[]
   Areas             Areas               @relation(fields: [Areas_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Puestos_Areas1")
 
@@ -402,12 +423,14 @@ model Puestos {
 model Roles {
   id       Int        @id @unique(map: "id_UNIQUE") @default(autoincrement())
   nombre   String     @unique(map: "nombre_UNIQUE") @db.VarChar(45)
+  borrado Boolean    @default(false)
   Usuarios Usuarios[]
 }
 
 model Rubros {
   id                    Int                     @id @unique(map: "id_UNIQUE") @default(autoincrement())
   nombre                String                  @db.VarChar(45)
+  borrado Boolean    @default(false)
   Proveedores           Proveedores[]
   Proveedores_historial Proveedores_historial[]
 }
@@ -418,6 +441,7 @@ model Usuarios {
   contrasenia           String                  @db.VarChar(100)
   Empleados_id          Int
   Roles_id              Int
+  borrado Boolean    @default(false)
   Auditoria_Clientes    Auditoria_Clientes[]
   Auditoria_Compras     Auditoria_Compras[]
   Auditoria_Empleados   Auditoria_Empleados[]
@@ -435,6 +459,7 @@ model Ventas {
   fecha            DateTime           @db.DateTime(0)
   Productos_id     Int
   Clientes_id      Int
+  borrado Boolean    @default(false)
   Auditoria_Ventas Auditoria_Ventas[]
   Clientes         Clientes           @relation(fields: [Clientes_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Ventas_Clientes1")
   Productos        Productos          @relation(fields: [Productos_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Ventas_Productos1")
@@ -448,6 +473,7 @@ model Ventas_historial {
   fecha            DateTime           @db.DateTime(0)
   Productos_id     Int
   Clientes_id      Int
+  borrado Boolean    @default(false)
   Auditoria_Ventas Auditoria_Ventas[]
   Clientes         Clientes           @relation(fields: [Clientes_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Ventas_Clientes10")
   Productos        Productos          @relation(fields: [Productos_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Ventas_Productos10")

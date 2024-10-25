@@ -24,8 +24,7 @@ export default abstract class RouterController{
     }
 
     public async getAll (_ : Request, res : Response) {
-        console.log(this)
-        const entities = await this.prismaModel.findMany();
+        const entities = await this.prismaModel.findMany( {where: {borrado: false}} );
         return res.json(entities);
     }
     
@@ -42,7 +41,7 @@ export default abstract class RouterController{
             const id = Number(ids[index]);
             const exist = await this.existeId(id);
             if(exist)
-                deletedUsers.push(await this.prismaModel.delete({ where: { id } }));
+                deletedUsers.push(await this.prismaModel.update({ where: { id }, data: { borrado: true } }));
         }
         return res.json(deletedUsers);
     }
@@ -63,8 +62,6 @@ export default abstract class RouterController{
         const exist = await this.existeId(numberId);
         if(!exist)
             throw new ApiError(HttpStatuses.NOT_FOUND, `No existe ${this.entityName} con ese id`);
-        /*if(data.contrasenia)
-            data.contrasenia = await hashPassword(userData.contrasenia);*/
         const userUpdated = await prisma.usuarios.update({ where: { id: numberId }, data });
         return res.json(userUpdated);
     }
