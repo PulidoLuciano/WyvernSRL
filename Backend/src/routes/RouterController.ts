@@ -2,13 +2,16 @@ import prisma from "../prisma";
 import { Request, Response } from "express";
 import HttpStatuses from "../utils/HttpStatus";
 import ApiError from "../utils/ApiError";
+import { PrismaClient } from "@prisma/client";
+
+type PrismaModel = PrismaClient[keyof PrismaClient]
 
 export default abstract class RouterController{
     
     prismaModel; 
     entityName;
     
-    constructor(prismaModel : any, entityName : string){
+    constructor(prismaModel : PrismaModel, entityName : string){
         this.prismaModel = prismaModel;
         this.entityName = entityName;
 
