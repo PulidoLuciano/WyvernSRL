@@ -40,7 +40,7 @@ const USERS_ROUTES : Array<WyvernRoute> = [
     },
     {
         //Traer usuario
-        path: "/:userId",
+        path: "/:id",
         method: "GET",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Auditor],
@@ -60,7 +60,7 @@ const USERS_ROUTES : Array<WyvernRoute> = [
     },
     {
         //Modificar usuario
-        path: "/:userId",
+        path: "/:id",
         method: "PUT",
         authentication: true,
         authorization: [ROLE.Admin],
