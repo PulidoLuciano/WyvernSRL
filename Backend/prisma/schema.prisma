@@ -387,6 +387,7 @@ model Proveedores_historial {
   telefono              String?                 @db.VarChar(45)
   Provincias_id         Int
   Rubros_id             Int
+  borrado Boolean    @default(false)
   Auditoria_Proveedores Auditoria_Proveedores[]
   Provincias            Provincias              @relation(fields: [Provincias_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Proveedores_Provincias10")
   Rubros                Rubros                  @relation(fields: [Rubros_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Proveedores_Rubros10")
