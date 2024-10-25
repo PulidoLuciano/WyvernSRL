@@ -1,6 +1,6 @@
 import { ROLE } from "../../utils/Role.ts"
 import type { WyvernRoute } from "../../types.d.ts"
-import { createUser, deleteUser, getAllUsers, getUserById, login, updateUserById, UsersController } from "./usersController"
+import { UsersController } from "./usersController"
 import { validateData } from "../../middlewares/validateData.ts"
 import { IdsSchema, LoginSchema, UserSchema, UserSchemaOptional } from "../../schemas/usersSchemas.ts"
 
