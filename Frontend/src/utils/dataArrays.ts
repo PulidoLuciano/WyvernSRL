@@ -4,6 +4,7 @@ export const data = [
       phone: "123123",
       email: "jesus@gmail.com",
       suscription: true,
+      platform: "Steam",
       pais: "argentina"
     },
     {
@@ -11,60 +12,70 @@ export const data = [
       phone: "123123",
       email: "jesus@gmail.com",
       suscription: true,
+      platform: "Steam",
       pais: "argentina"
     }, {
       name: "jesus",
       phone: "123123",
       email: "jesus@gmail.com",
       suscription: true,
+      platform: "Steam",
       pais: "argentina"
     }, {
       name: "jesus",
       phone: "123123",
       email: "jesus@gmail.com",
       suscription: true,
+      platform: "Steam",
       pais: "argentina"
     }, {
       name: "jesus",
       phone: "123123",
       email: "jesus@gmail.com",
       suscription: true,
+      platform: "Steam",
       pais: "argentina"
     }, {
       name: "jesus",
       phone: "123123",
       email: "jesus@gmail.com",
       suscription: true,
+      platform: "Steam",
       pais: "argentina"
     }, {
       name: "jesus",
       phone: "123123",
       email: "jesus@gmail.com",
       suscription: true,
+      platform: "Steam",
       pais: "argentina"
     }, {
       name: "jesus",
       phone: "123123",
       email: "jesus@gmail.com",
       suscription: true,
+      platform: "Steam",
       pais: "argentina"
     }, {
       name: "jesus",
       phone: "123123",
       email: "jesus@gmail.com",
       suscription: true,
+      platform: "Steam",
       pais: "argentina"
     }, {
       name: "jesus",
       phone: "123123",
       email: "jesus@gmail.com",
       suscription: true,
+      platform: "Steam",
       pais: "argentina"
     }, {
       name: "jesus",
       phone: "123123",
       email: "jesus@gmail.com",
       suscription: true,
+      platform: "Steam",
       pais: "argentina"
     }
 ]

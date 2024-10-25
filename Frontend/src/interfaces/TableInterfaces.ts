@@ -1,22 +1,24 @@
 import { ChangeEventHandler } from "react";
 
-interface thead {
+export interface thead {
     title: string;
-    checkbox: boolean;
-    onChange: ChangeEventHandler
+    checkbox?: boolean;
+    onChange?: ChangeEventHandler 
 }
 
 export interface TableProps {
-    children : React.ReactElement;
+    children : React.ReactNode;
     headers: Array<thead>;
+    selectedAll?: boolean
 }
 
 export interface TRowProps {
-    children: React.ReactElement;
+    children: React.ReactNode;
 }
 
 export interface TDataProps {
-    children : React.ReactElement;
-    checkbox: boolean;
-    onChange: ChangeEventHandler
+    children : React.ReactNode;
+    checkbox?: boolean;
+    onChange?: ChangeEventHandler;
+    selectedAll?: boolean;
 }
