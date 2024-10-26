@@ -1,4 +1,4 @@
-export const data = [
+export const clientes = [
     {
       name: "jesus",
       phone: "123123",
@@ -80,7 +80,7 @@ export const data = [
     }
 ]
 
-export const juegos = [
+export const compras = [
     {
         product: "juego1",
         idSale: 1,

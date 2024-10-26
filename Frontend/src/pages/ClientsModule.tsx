@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { data, optionsCountries, optionsPlatforms } from '../utils/dataArrays'
+import { clientes, optionsCountries, optionsPlatforms } from '../utils/dataArrays'
 import Accordion from '../components/Accordion';
 import Pagination from '../components/Pagination';
 import Nav from '../components/Nav'
@@ -42,8 +42,8 @@ const ClientsModule = () => {
 
   const indexEnd = currentPage * dataLength;
   const indexStart = indexEnd - dataLength;
-  const nPages = Math.ceil(data.length / dataLength);
-  const dataShown = data.slice(indexStart, indexEnd);
+  const nPages = Math.ceil(clientes.length / dataLength);
+  const dataShown = clientes.slice(indexStart, indexEnd);
   const changePage = (nextPage: number) => {
     setCurrentPage(nextPage);
   }
