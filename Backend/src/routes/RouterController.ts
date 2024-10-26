@@ -22,8 +22,11 @@ export default abstract class RouterController{
         this.updateById = this.updateById.bind(this);
     }
 
-    public async getAll (_ : Request, res : Response) {
-        const entities = await this.prismaModel.findMany( {where: {borrado: false}} );
+    public async getAll (req : Request, res : Response) {
+        let entities;
+        if(!req.query)
+            entities = await this.prismaModel.findMany();
+        entities = await this.prismaModel.findMany(req.query);
         return res.json(entities);
     }
     

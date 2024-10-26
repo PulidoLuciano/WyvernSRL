@@ -1,10 +1,10 @@
 CLIENTES
     General: 
-        - Form crear clientes: Nombre, Correo, Telefono, Plataforma, Suscripto, País 
-        - Form filtrar clientes: Nombre, Correo, Telefono, Plataforma, Suscripto, País 
-        - Tabla clientes: Nombre, Plataforma, País, Suscripto, Correo
+        - Form crear clientes: Nombre, Correo, Telefono, Plataforma, Suscripto, País (Back)
+        - Form filtrar clientes: Nombre, Correo, Plataforma, Suscripto, País
+        - Tabla clientes: Nombre, Plataforma, País, Suscripto, Correo (Back)
     Individual: 
-        - Data labels: Nombre, Correo, Telefono, Plataforma, Suscripto, País 
+        - Data labels: Nombre, Correo, Telefono, Plataforma, Suscripto, País (Back)
         - Tabla compras del cliente: Producto, ID Venta, Fecha venta 
         - Form crear contacto: Medio, duracion (activo solo si medio es telefono), fecha, motivo
         - Tabla de contactos del cliente: Id contacto, motivo, fecha, medio
@@ -98,5 +98,6 @@ COMPRAS/CONTRATOS:
         - Tabla incumplimiento: Id incumplimiento, descripcion, fecha, Nivel de incumplimiento
     
 
+TERMINADOS
 
 

@@ -4,8 +4,15 @@ import ApiError from "../../utils/ApiError.ts"
 import HttpStatuses from "../../utils/HttpStatus.ts"
 import ClientsController from "./clientsController.ts"
 import audit from "../../middlewares/audit.ts"
+import { validateData } from "../../middlewares/validateData.ts"
+import { ClientSchema } from "../../schemas/clientsSchemas.ts"
+import { IdsSchema } from "../../schemas/usersSchemas.ts"
+import ContactsController from "./contactsController.ts"
+import { ContactsSchema } from "../../schemas/contactsSchemas.ts"
+import parseQueries from "../../middlewares/parseQueries.ts"
 
 const controlador = new ClientsController();
+const controladorContactos = new ContactsController();
 
 const CLIENTS_ROUTES : Array<WyvernRoute> = [
     {
@@ -14,7 +21,9 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         method: "GET",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
-        middlewares: [],
+        middlewares: [
+            parseQueries
+        ],
         handler: controlador.getAll
     },
     {
@@ -24,6 +33,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas],
         middlewares: [
+            validateData(ClientSchema),
             audit
         ],
         handler: controlador.create
@@ -44,6 +54,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas],
         middlewares: [
+            validateData(ClientSchema),
             audit
         ],
         handler: controlador.updateById
@@ -53,8 +64,11 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         path: "/",
         method: "DELETE",
         authentication: true,
-        authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
-        middlewares: [],
+        authorization: [ROLE.Admin, ROLE.Ventas],
+        middlewares: [
+            validateData(IdsSchema),
+            audit
+        ],
         handler: controlador.deleteMany
     },
     {
@@ -77,12 +91,14 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
     },
     {
         //Eliminar contacto
-        path: "/contacts/:contactId",
+        path: "/contacts",
         method: "DELETE",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
-        middlewares: [],
-        handler: (_, _1) => {throw new ApiError(HttpStatuses.NOT_IMPLEMENTED, "To do")}
+        middlewares: [
+            validateData(IdsSchema)
+        ],
+        handler: controladorContactos.deleteMany
     },
     {
         //Traer contacto
@@ -91,7 +107,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
         middlewares: [],
-        handler: (_, _1) => {throw new ApiError(HttpStatuses.NOT_IMPLEMENTED, "To do")}
+        handler: controladorContactos.getById
     },
     {
         //Modificar contacto
@@ -100,7 +116,18 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas],
         middlewares: [],
-        handler: (_, _1) => {throw new ApiError(HttpStatuses.NOT_IMPLEMENTED, "To do")}
+        handler: controladorContactos.updateById
+    },
+    {
+        //Crear contacto
+        path: "/contacts",
+        method: "POST",
+        authentication: true,
+        authorization: [ROLE.Admin, ROLE.Ventas],
+        middlewares: [
+            validateData(ContactsSchema)
+        ],
+        handler: controladorContactos.create
     },
 ]
 
