@@ -17,7 +17,7 @@ import { thead } from '../interfaces/TableInterfaces';
 
 const ClientsModule = () => {
 
-  const [selectedAll, setSelectedAll] = useState<boolean>(true);
+  const [selectedAll, setSelectedAll] = useState<boolean>(false);
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [createData, setCreateData] = useState({
@@ -48,16 +48,15 @@ const ClientsModule = () => {
     setCurrentPage(nextPage);
   }
 
-  const handleSelectAll = (e : React.ChangeEvent) =>{
-      
-  }
+  const handleSelectAll = () => {
+    setSelectedAll(!selectedAll)
+}
 
   //********
   const clientTableHeaders: Array<thead> = [
     {
       title: "Nombre",
       checkbox: true,
-      onChange: handleSelectAll
     },
     {
       title: "Plataforma"
@@ -72,9 +71,6 @@ const ClientsModule = () => {
       title: "Correo"
     }
   ]
-
-
- 
 
   const handleCreateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -161,12 +157,12 @@ const ClientsModule = () => {
         </div>
 
         <div className='overflow-x-auto mt-6'>
-         <Table selectedAll={selectedAll} headers={clientTableHeaders}>
+         <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
             {
               dataShown.map(cliente => {
                 return (
                   <TRow>
-                    <TData checkbox={true}>{cliente.name}</TData>
+                    <TData selectedAll={selectedAll} checkbox={true}>{cliente.name}</TData>
                     <TData>{cliente.platform}</TData>
                     <TData>{cliente.pais}</TData>
                     <TData>{cliente.suscription ? "Si" : "No"}</TData>

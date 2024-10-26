@@ -9,7 +9,8 @@ export interface thead {
 export interface TableProps {
     children : React.ReactNode;
     headers: Array<thead>;
-    selectedAll?: boolean
+    selectedAll?: boolean;
+    onChange?: ChangeEventHandler 
 }
 
 export interface TRowProps {
