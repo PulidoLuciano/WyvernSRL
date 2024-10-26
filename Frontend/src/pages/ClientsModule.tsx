@@ -108,30 +108,30 @@ const ClientsModule = () => {
         </div>
 
         <Accordion title="Crear Nuevo">
-          <Form createForm={true} handleSubmit={handleCreateSubmit}>
-            <>
-              <Input id={"nombreCliente"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange}></Input>
-              <Input id={"correo"} name={"email"} value={createData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleCreateChange}></Input>
-              <Input id={"telefono"} name={"phone"} value={createData.phone} title={"Teléfono"} type={"number"} placeholder={"5493816341612"} onChange={handleCreateChange}></Input>
-              <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={optionsPlatforms} onChange={handleCreateChange}></Select>
-              <Checkbox title={"Suscripto"} name={"suscription"} onChange={handleCreateChange}></Checkbox>
-              <Select id={"paises"} title={"País"} name={"country"} options={optionsCountries} onChange={handleCreateChange}></Select>
-              <SaveButton />
-            </>
-          </Form>
+            <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
+              <>
+                <Input id={"nombreCliente"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange}></Input>
+                <Input id={"correo"} name={"email"} value={createData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleCreateChange}></Input>
+                <Input id={"telefono"} name={"phone"} value={createData.phone} title={"Teléfono"} type={"number"} placeholder={"5493816341612"} onChange={handleCreateChange}></Input>
+                <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={optionsPlatforms} onChange={handleCreateChange}></Select>
+                <Checkbox title={"Suscripto"} name={"suscription"}  onChange={handleCreateChange}></Checkbox>
+                <Select id={"paises"} title={"País"} name={"country"} options={optionsCountries} onChange={handleCreateChange}></Select>
+                <SaveButton/>
+              </>  
+            </Form>
         </Accordion>
         <Accordion title="Filtrar por">
-          <Form createForm={false} handleSubmit={handleFilterSubmit}>
-            <>
-              <Input id={"nombreCliente"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange}></Input>
-              <Input id={"correo"} name={"email"} value={filterData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleFilterChange}></Input>
-              <Input id={"telefono"} name={"phone"} value={filterData.phone} title={"Teléfono"} type={"number"} placeholder={"5493816341612"} onChange={handleFilterChange}></Input>
-              <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={optionsPlatforms} onChange={handleFilterChange}></Select>
-              <Checkbox title={"Suscripto"} name={"suscription"} onChange={handleFilterChange}></Checkbox>
-              <Select id={"paises"} title={"País"} name={"country"} options={optionsCountries} onChange={handleFilterChange}></Select>
-              <FilterButton />
-            </>
-          </Form>
+            <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
+              <>
+                <Input id={"nombreCliente"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange}></Input>
+                <Input id={"correo"} name={"email"} value={filterData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleFilterChange}></Input>
+                <Input id={"telefono"} name={"phone"} value={filterData.phone} title={"Teléfono"} type={"number"} placeholder={"5493816341612"} onChange={handleFilterChange}></Input>
+                <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={optionsPlatforms} onChange={handleFilterChange}></Select>
+                <Checkbox title={"Suscripto"} name={"suscription"}  onChange={handleFilterChange}></Checkbox>
+                <Select id={"paises"} title={"País"} name={"country"} options={optionsCountries} onChange={handleFilterChange}></Select>
+                <FilterButton/>
+              </>  
+            </Form>
         </Accordion>
 
 

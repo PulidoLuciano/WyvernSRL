@@ -1,33 +1,74 @@
-import express from "express";
 import { ROLE } from "../../utils/Role.ts"
 import type { WyvernRoute } from "../../types.d.ts"
-import { getAllUsers } from "./usersController"
-import authorization from "../../middlewares/authorization.ts";
+import { UsersController } from "./usersController"
+import { validateData } from "../../middlewares/validateData.ts"
+import { IdsSchema, LoginSchema, UserSchema, UserSchemaOptional } from "../../schemas/usersSchemas.ts"
 
-const UsersRouter = express.Router();
-
-const routerMethods = {
-    GET: (path, middlewares, handler) => {UsersRouter.get(path, middlewares, handler)},
-    POST: (path, middlewares, handler) => {UsersRouter.post(path, middlewares, handler)},
-    PUT: (path, middlewares, handler) => {UsersRouter.put(path, middlewares, handler)},
-    DELETE: (path, middlewares, handler) => {UsersRouter.delete(path, middlewares, handler)},
-}
+const controlador = new UsersController();
 
 const USERS_ROUTES : Array<WyvernRoute> = [
     {
+        //Traer todos los usuarios
         path: "/",
         method: "GET",
         authentication: true,
-        authorization: [ROLE.Admin],
+        authorization: [ROLE.Admin, ROLE.Auditor],
         middlewares: [],
-        handler: getAllUsers
-    }
+        handler: controlador.getAll
+    },
+    {
+        //Login de usuario con cookie
+        path: "/login",
+        method: "GET",
+        authentication: false,
+        authorization: [],
+        middlewares: [
+            validateData(LoginSchema)
+        ],
+        handler: controlador.login
+    },
+    {
+        //Registrarse (crear usuario)
+        path: "/",
+        method: "POST",
+        authentication: true,
+        authorization: [ROLE.Admin],
+        middlewares: [
+            validateData(UserSchema)
+        ],
+        handler: controlador.create
+    },
+    {
+        //Traer usuario
+        path: "/:id",
+        method: "GET",
+        authentication: true,
+        authorization: [ROLE.Admin, ROLE.Auditor],
+        middlewares: [],
+        handler: controlador.getById
+    },
+    {
+        //Eliminar usuarios
+        path: "/",
+        method: "DELETE",
+        authentication: true,
+        authorization: [ROLE.Admin],
+        middlewares: [
+            validateData(IdsSchema)
+        ],
+        handler: controlador.deleteMany
+    },
+    {
+        //Modificar usuario
+        path: "/:id",
+        method: "PUT",
+        authentication: true,
+        authorization: [ROLE.Admin],
+        middlewares: [
+            validateData(UserSchemaOptional)
+        ],
+        handler: controlador.updateById
+    },
 ]
 
-for (let i = 0; i < USERS_ROUTES.length; i++) {
-    const route = USERS_ROUTES[i];
-    const middlewares = (route.authentication) ? [authorization(route.authorization), ...route.middlewares] : route.middlewares
-    routerMethods[route.method].call(this, route.path, middlewares, route.handler);
-}
-
-export default UsersRouter
+export default USERS_ROUTES

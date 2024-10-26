@@ -17,7 +17,7 @@ export interface UserRequest extends Request{
 
 export type WyvernRouter = {
     path : string
-    router : Router
+    routes : Array<WyvernRoute>
 }
 
 export type WyvernRoute = {

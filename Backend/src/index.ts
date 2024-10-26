@@ -4,6 +4,7 @@ import cors from "cors";
 import ROUTERS from "./routes/ROUTERS";
 import {errorHandler, notFoundHandler} from "./middlewares/errorHandler";
 import cookieParser from 'cookie-parser'
+import createRouter from "./routes/createRouter";
 
 require("dotenv").config()
 
@@ -15,7 +16,7 @@ const port = process.env.PORT;
 
 for (let index = 0; index < ROUTERS.length; index++) {
   const router = ROUTERS[index];
-  app.use(router.path, router.router)
+  app.use(router.path, createRouter(router.routes));
 }
 
 app.use(notFoundHandler);
