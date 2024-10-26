@@ -1,0 +1,102 @@
+CLIENTES
+    General: 
+        - Form crear clientes: Nombre, Correo, Telefono, Plataforma, Suscripto, País 
+        - Form filtrar clientes: Nombre, Correo, Telefono, Plataforma, Suscripto, País 
+        - Tabla clientes: Nombre, Plataforma, País, Suscripto, Correo
+    Individual: 
+        - Data labels: Nombre, Correo, Telefono, Plataforma, Suscripto, País 
+        - Tabla compras del cliente: Producto, ID Venta, Fecha venta 
+        - Form crear contacto: Medio, duracion (activo solo si medio es telefono), fecha, motivo
+        - Tabla de contactos del cliente: Id contacto, motivo, fecha, medio
+
+
+CONTACTOS
+    Individual: 
+        - Data labels: Id, Cliente, motivo, fecha, Medio, duracion
+
+
+VENTAS
+    General: 
+        - Form crear ventas: Producto, Cliente, fecha
+        - Form filtrar ventas: Producto, Fecha 
+        - Tabla ventas: ID venta, Producto, Cliente, Fecha
+        - Form crear Productos: Nombre, precio, fecha de lanzamiento, Categoria 
+        - Tabla Productos: Nombre, precio, Fecha de lanzamiento, Categoria
+    Individual:
+        - Data labels: ID venta, Producto, Cliente, Fecha
+
+PRODUCTO
+    Individual: 
+        - Data labels: Nombre, precio, Fecha de lanzamiento, Categoria
+        - Tabla Ventas del Producto: ID venta, Producto, Cliente, Fecha
+
+EMPLEADOS
+    General:
+        - Form crear empleado: Nombre, Correo, Telefono, DNI, fechaContratacion, sueldo, Provincia, Puesto
+        - Form filtrar empleados: Nombre, DNI, Provincia, Puesto
+        - Tabla empleados: Nombre, DNI, Correo, Puesto, Provincia
+    Individual: 
+        - Data labels: Nombre, Correo, Telefono, DNI, fechaContratacion, sueldo, Provincia, Puesto, Area
+        - Tabla puestos: Puesto, Area, fecha inicio, fecha fin
+
+AREA
+    Individual:
+        -Data labels: Nombre
+        - Tabla empleados: Nombre, DNI, Correo, Puesto, Provincia
+
+PUESTOS
+    Individual:
+        - Data labels: Nombre
+        - Tabla empleados: Nombre, DNI, Correo, Puesto, Provincia
+
+USUARIOS
+    General:
+        - Form crear usuario: Nombre de usuario, contrasenia, Empleado, Rol
+        - Form filtrar usuarios: Nombre de usuario, DNI empleado, Rol
+        - Tabla usuarios: Nombre de usuario, DNI empleado, Rol
+    Individual:
+        - Data labels: Nombre de usuario, contrasenia, DNI empleado, Rol 
+
+ROLES
+    Individual:
+        - Data labels: Nombre
+        - Tabla usuarios: Nombre de usuario, contrasenia, DNI empleado
+
+
+PROVEEDORES
+    General:
+        - Form crear proveedor: Nombre, correo, Telefono, Provincia, Rubro
+        - Form filtrar proveedores: Nombre, Provincia, Rubro
+        - Tabla proveedores: Nombre, correo, provincia, rubro, Calidad (Sale de los incumplimientos)
+    Individual:
+        - Data labels: Nombre, correo, Telefono, Provincia, Rubro
+        - Tabla Contratos: descripcion, fechaVencimiento, fechaPago, monto, moneda
+        - Tabla Compras: descripcion, precio unitario, Moneda, cantidad, fecha, entregado, pagado
+        - Tabla incumplimientos: Descripcion, fecha, Id_Compra/Contrato, Nivel de incumplimiento
+
+
+RUBRO
+    Individual:
+        - Data labels: Nombre
+        - Tabla proveedores: Nombre, correo, telefono, provincia
+
+COMPRAS/CONTRATOS:
+    General: 
+        - Form crear compra: descripcion, precio unitario, cantidad, fecha, entregado, pagado, Moneda, proveedor
+        - Form filtrar compras: Id compra, Entregado, Pagado, proveedor
+        - Tabla compras: Id compra, proveedor, descripcion, entregado, pagado, precioTotal, moneda
+        - Form crear contrato: descripcion, fechaVencimiento, fechaPago, monto, Moneda, proveedor
+        - Form filtrar contratos: Id contrato, proveedor
+        - Tabla contratos: Id contrato, proveedor, descripcion, fechaVencimiento, fechaPago, monto, Moneda, proveedor
+    Individual compras:
+        - Data labels: Id compra, proveedor, descripcion, fecha, entregado, pagado, precio unitario, moneda, cantidad, precio total.
+        - Form crear incumplimiento: descripcion, fecha, Nivel de incumplimiento
+        - Tabla incumplimiento: Id incumplimiento, descripcion, fecha, Nivel de incumplimiento
+    Individual contratos:
+        - Data labels: Id contrato, proveedor, descripcion, fechaVencimiento, fechaPago, monto, Moneda
+        - Form crear incumplimiento: descripcion, fecha, Nivel de incumplimiento
+        - Tabla incumplimiento: Id incumplimiento, descripcion, fecha, Nivel de incumplimiento
+    
+
+
+
