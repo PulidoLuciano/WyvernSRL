@@ -1,9 +1,9 @@
 import { FormEventHandler } from "react";
 
 export interface FormProps {
-    createForm: boolean;
     children: React.ReactElement;
-    handleSubmit: FormEventHandler
+    handleSubmit: FormEventHandler;
+    className: string
 }
 
 export interface InputProps {
