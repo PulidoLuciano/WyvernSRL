@@ -1,12 +1,16 @@
 import Pagination from "../components/Pagination"
 import { useState } from "react";
-import { juegos, optionsCountries, optionsPlatforms } from '../utils/dataArrays'
+import { compras, optionsCountries, optionsPlatforms } from '../utils/dataArrays'
 import Form from '../components/form/Form';
 import Input from '../components/form/Input';
 import Checkbox from '../components/form/Checkbox';
 import Select from '../components/form/Select';
 import Nav from "../components/Nav";
 import SaveButton from "../components/form/SaveButton";
+import Table from "../components/table/Table";
+import { thead } from '../interfaces/TableInterfaces';
+import TRow from "../components/table/TRow";
+import TData from "../components/table/TData";
 
 const ClientData = () => {
 
@@ -35,8 +39,8 @@ const ClientData = () => {
 
     const indexEnd = currentPageJuegos * juegosQt;
     const indexStart = indexEnd - juegosQt;
-    const nPages = Math.ceil(juegos.length / juegosQt);
-    const dataShown = juegos.slice(indexStart, indexEnd);
+    const nPages = Math.ceil(compras.length / juegosQt);
+    const dataShown = compras.slice(indexStart, indexEnd);
 
     const changePage = (nextPage: number) => {
         setCurrentPageJuegos(nextPage);
@@ -46,7 +50,7 @@ const ClientData = () => {
         setEditable(!editable);
     }
 
-    const handleCheckAll = () => {
+    const handleSelectAll = () => {
         setSelectedAll(!selectedAll)
     }
 
@@ -64,6 +68,19 @@ const ClientData = () => {
         });
 
     }
+
+    const clientTableHeaders: Array<thead> = [
+        {
+          title: "Producto",
+          checkbox: true,
+        },
+        {
+          title: "ID Venta"
+        },
+        {
+          title: "Fecha"
+        },
+      ]
 
     return (
         <div className='w-full flex '>
@@ -119,7 +136,7 @@ const ClientData = () => {
                 <div className='grid grid-rows-2 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
                     <div className='flex flex-col gap-2 items-start tablet:col-span-2'>
                         <h2 className="text-3xl">Compras del cliente</h2>
-                        <p>Total de compras:{juegos.length}</p>
+                        <p>Total de compras:{compras.length}</p>
                     </div>
 
                     <button className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
@@ -131,38 +148,20 @@ const ClientData = () => {
                 </div>
 
                 <div className='overflow-x-auto mt-6'>
-                    <table className='w-full'>
-                        <thead className=''>
-                            <th className='p-2 flex text-start '><input type="checkbox" onChange={handleCheckAll} className='me-2' />Producto</th>
-                            <th className='p-2 text-start '>ID Venta</th>
-                            <th className='p-2 text-start '>Fecha</th>
-                            <th className='p-2 text-start '></th>
-                        </thead>
-                        <tbody className=''>
-                            {dataShown.map(juego => {
-                                return (<>
-                                    <tr>
-                                        <td className=' p-2 '><input type="checkbox" checked={selectedAll} className='me-2' />{juego.product}</td>
-                                        <td className=' p-2 '>{juego.idSale}</td>
-                                        <td className=' p-2'>{juego.date}</td>
-                                        <td className='flex justify-center items-center gap-2 p-2 '>
-                                            <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" strokeWidth="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
-                                                <path stroke="currentColor" strokeWidth="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                            </svg>
-
-                                            <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                                            </svg>
-
-                                        </td>
-                                    </tr>
-                                </>)
-                            })}
-                        </tbody>
-                    </table>
+                    <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
+                    {
+                        dataShown.map(compras => {
+                            return (
+                            <TRow>
+                                <TData selectedAll={selectedAll} checkbox={true}>{compras.product}</TData>
+                                <TData>{compras.idSale}</TData>
+                                <TData>{compras.date}</TData>  
+                            </TRow>)
+                        })
+                    }
+                    </Table>
+                   
                 </div>
-
 
                 <div className='flex items-center justify-center laptop:justify-end gap-6 my-6' id='paginacionTabla'>
 
