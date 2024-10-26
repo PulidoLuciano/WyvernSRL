@@ -80,7 +80,6 @@ export const clients = [
     }
 ]
 
-
 export const suppliers = [
   {
     name: "amazon",
@@ -174,8 +173,54 @@ export const suppliers = [
   },
 ]
 
-
-
+export const sales = [
+  {
+    username: "juan1427",
+    product: "Dragon's Legacy",
+    date: "2023-07-17"
+  },
+  {
+    username: "juan1427",
+    product: "Dragon's Legacy",
+    date: "2023-07-17"
+  }, {
+    username: "juan1427",
+    product: "Dragon's Legacy",
+    date: "2023-07-17"
+  }, {
+    username: "juan1427",
+    product: "Dragon's Legacy",
+    date: "2023-07-17"
+  }, {
+    username: "juan1427",
+    product: "Dragon's Legacy",
+    date: "2023-07-17"
+  }, {
+    username: "juan1427",
+    product: "Dragon's Legacy",
+    date: "2023-07-17"
+  }, {
+    username: "juan1427",
+    product: "Dragon's Legacy",
+    date: "2023-07-17"
+  }, {
+    username: "juan1427",
+    product: "Dragon's Legacy",
+    date: "2023-07-17"
+  }, {
+    username: "juan1427",
+    product: "Dragon's Legacy",
+    date: "2023-07-17"
+  }, {
+    username: "juan1427",
+    product: "Dragon's Legacy",
+    date: "2023-07-17"
+  }, {
+    username: "juan1427",
+    product: "Dragon's Legacy",
+    date: "2023-07-17"
+  }
+]
 
 export const compras = [
     {
@@ -241,6 +286,102 @@ export const compras = [
     },
 ]
 
+export const employees = [
+  {
+    name: "jesus",
+    phone: "123123",
+    email: "jesus@gmail.com",
+    dni: 454654664,
+    hiringDate: "2024-09-30 14:30:14",
+    salary: 800000,
+    state: "Buenos Aires"
+  },
+  {
+    name: "jesus",
+    phone: "123123",
+    email: "jesus@gmail.com",
+    dni: 454654664,
+    hiringDate: "2024-09-30 14:30:14",
+    salary: 800000,
+    state: "Buenos Aires"
+  }, {
+    name: "jesus",
+    phone: "123123",
+    email: "jesus@gmail.com",
+    dni: 454654664,
+    hiringDate: "2024-09-30 14:30:14",
+    salary: 800000,
+    state: "Buenos Aires"
+  },  {
+    name: "jesus",
+    phone: "123123",
+    email: "jesus@gmail.com",
+    dni: 454654664,
+    hiringDate: "2024-09-30 14:30:14",
+    salary: 800000,
+    state: "Buenos Aires"
+  },  {
+    name: "jesus",
+    phone: "123123",
+    email: "jesus@gmail.com",
+    dni: 454654664,
+    hiringDate: "2024-09-30 14:30:14",
+    salary: 800000,
+    state: "Buenos Aires"
+  },  {
+    name: "jesus",
+    phone: "123123",
+    email: "jesus@gmail.com",
+    dni: 454654664,
+    hiringDate: "2024-09-30 14:30:14",
+    salary: 800000,
+    state: "Buenos Aires"
+  },  {
+    name: "jesus",
+    phone: "123123",
+    email: "jesus@gmail.com",
+    dni: 454654664,
+    hiringDate: "2024-09-30 14:30:14",
+    salary: 800000,
+    state: "Buenos Aires"
+  },  {
+    name: "jesus",
+    phone: "123123",
+    email: "jesus@gmail.com",
+    dni: 454654664,
+    hiringDate: "2024-09-30 14:30:14",
+    salary: 800000,
+    state: "Buenos Aires"
+  },  {
+    name: "jesus",
+    phone: "123123",
+    email: "jesus@gmail.com",
+    dni: 454654664,
+    hiringDate: "2024-09-30 14:30:14",
+    salary: 800000,
+    state: "Buenos Aires"
+  },  {
+    name: "jesus",
+    phone: "123123",
+    email: "jesus@gmail.com",
+    dni: 454654664,
+    hiringDate: "2024-09-30 14:30:14",
+    salary: 800000,
+    state: "Buenos Aires"
+  },  {
+    name: "jesus",
+    phone: "123123",
+    email: "jesus@gmail.com",
+    dni: 454654664,
+    hiringDate: "2024-09-30 14:30:14",
+    salary: 800000,
+    state: "Buenos Aires"
+  }
+]
+
+
 export const optionsPlatforms = ["Steam","Epic Games"];
 export const optionsCountries = ["Argentina","Venezuela","España","Rusia"];
 export const optionsStates = ["Buenos Aires","Cordoba","Tucuman","San Juan"];
+export const optionsProducts = ["Dragon's Legacy","Mystic Chronicles","Eternal Quest","Shadow of Valor"];
+
