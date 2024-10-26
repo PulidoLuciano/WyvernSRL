@@ -90,7 +90,7 @@ const ClientsModule = () => {
         </div>
 
         <Accordion title="Crear Nuevo">
-            <Form createForm={true} handleSubmit={handleCreateSubmit}>
+            <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
               <>
                 <Input id={"nombreCliente"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange}></Input>
                 <Input id={"correo"} name={"email"} value={createData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleCreateChange}></Input>
@@ -103,7 +103,7 @@ const ClientsModule = () => {
             </Form>
         </Accordion>
         <Accordion title="Filtrar por">
-            <Form createForm={false} handleSubmit={handleFilterSubmit}>
+            <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
               <>
                 <Input id={"nombreCliente"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange}></Input>
                 <Input id={"correo"} name={"email"} value={filterData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleFilterChange}></Input>
