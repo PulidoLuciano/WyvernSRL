@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { clients, optionsCountries, optionsPlatforms } from '../utils/dataArrays'
+import { suppliers, optionsCountries, optionsPlatforms, optionsStates } from '../utils/dataArrays'
 import Accordion from '../components/Accordion';
 import Pagination from '../components/Pagination';
 import Nav from '../components/Nav'
@@ -15,35 +15,37 @@ import TRow from '../components/table/TRow';
 import { thead } from '../interfaces/TableInterfaces';
 
 
-const ClientsModule = () => {
+const SuppliersModule = () => {
 
   const [selectedAll, setSelectedAll] = useState<boolean>(false);
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [createData, setCreateData] = useState({
     name: '',
-    phone: '',
-    email: '',
-    platform: '',
-    suscription: '',
-    country: ''
+    state: '',
+    country: '',
+    category: '',
+    cbu: 0,
+    paymentMethod: '',
+    qualification: 0,
   });
 
   const [filterData, setFilterData] = useState({
     name: '',
-    phone: '',
-    email: '',
-    platform: '',
-    suscription: '',
-    country: ''
+    state: '',
+    country: '',
+    category: '',
+    cbu: 0,
+    paymentMethod: '',
+    qualification: 0,
   });
 
   //PAGINATION
 
   const indexEnd = currentPage * dataLength;
   const indexStart = indexEnd - dataLength;
-  const nPages = Math.ceil(clients.length / dataLength);
-  const dataShown = clients.slice(indexStart, indexEnd);
+  const nPages = Math.ceil(suppliers.length / dataLength);
+  const dataShown = suppliers.slice(indexStart, indexEnd);
   const changePage = (nextPage: number) => {
     setCurrentPage(nextPage);
   }
@@ -59,16 +61,22 @@ const ClientsModule = () => {
       checkbox: true,
     },
     {
-      title: "Plataforma"
+      title: "Pais"
     },
     {
-      title: "País"
+      title: "Provincia"
     },
     {
-      title: "Suscripto"
+      title: "Categoria"
     },
     {
-      title: "Correo"
+      title: "CBU"
+    },
+    {
+      title: "Metodo de Pago"
+    },
+    {
+      title:"Calificacion"
     }
   ]
 
@@ -103,19 +111,19 @@ const ClientsModule = () => {
       <Nav />
       <div className='ms-72 p-8'>
         <div className='flex flex-col items-start gap-y-3 tablet:gap-6'>
-          <h1 className='text-4xl'>Modulo Clientes</h1>
-          <p>Ver, crear, editar y eliminar clientes</p>
+          <h1 className='text-4xl'>Modulo Proveedores</h1>
+          <p>Ver, crear, editar y eliminar Proveedores</p>
         </div>
 
         <Accordion title="Crear Nuevo">
             <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
               <>
-                <Input id={"nombreCliente"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange}></Input>
-                <Input id={"correo"} name={"email"} value={createData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleCreateChange}></Input>
-                <Input id={"telefono"} name={"phone"} value={createData.phone} title={"Teléfono"} type={"number"} placeholder={"5493816341612"} onChange={handleCreateChange}></Input>
-                <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={optionsPlatforms} onChange={handleCreateChange}></Select>
-                <Checkbox title={"Suscripto"} name={"suscription"}  onChange={handleCreateChange}></Checkbox>
+                <Input id={"nombreProveedor"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange}></Input>                
                 <Select id={"paises"} title={"País"} name={"country"} options={optionsCountries} onChange={handleCreateChange}></Select>
+                <Select id={"provincias"} name={"state"} title={"Provincia"} options={optionsStates} onChange={handleCreateChange}></Select>                
+                <Input id={"cbu"} name={"cbu"} value={createData.cbu} title={"CBU"} type={"number"} placeholder={"4516161561651651"} onChange={handleCreateChange}></Input>
+                <Input id={"metodoPago"} name={"paymentMethod"} value={createData.paymentMethod} title={"Metodo de Pago"} type={"text"} placeholder={"Efectivo"} onChange={handleCreateChange}></Input>
+                <Input id={"calificacion"} name={"qualification"} value={createData.qualification} title={"Calificacion"} type={"number"} placeholder={"0-5"} onChange={handleCreateChange}></Input>
                 <SaveButton/>
               </>  
             </Form>
@@ -123,12 +131,12 @@ const ClientsModule = () => {
         <Accordion title="Filtrar por">
             <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
               <>
-                <Input id={"nombreCliente"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange}></Input>
-                <Input id={"correo"} name={"email"} value={filterData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleFilterChange}></Input>
-                <Input id={"telefono"} name={"phone"} value={filterData.phone} title={"Teléfono"} type={"number"} placeholder={"5493816341612"} onChange={handleFilterChange}></Input>
-                <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={optionsPlatforms} onChange={handleFilterChange}></Select>
-                <Checkbox title={"Suscripto"} name={"suscription"}  onChange={handleFilterChange}></Checkbox>
+                <Input id={"nombreProveedor"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange}></Input>                
                 <Select id={"paises"} title={"País"} name={"country"} options={optionsCountries} onChange={handleFilterChange}></Select>
+                <Select id={"provincias"} name={"state"} title={"Provincia"} options={optionsStates} onChange={handleFilterChange}></Select>                
+                <Input id={"cbu"} name={"cbu"} value={filterData.cbu} title={"Pais"} type={"number"} placeholder={"4516161561651651"} onChange={handleFilterChange}></Input>
+                <Input id={"metodoPago"} name={"paymentMethod"} value={filterData.paymentMethod} title={"Metodo de Pago"} type={"text"} placeholder={"Efectivo"} onChange={handleFilterChange}></Input>
+                <Input id={"calificacion"} name={"qualification"} value={filterData.qualification} title={"Calificacion"} type={"number"} placeholder={"0-5"} onChange={handleFilterChange}></Input>
                 <FilterButton/>
               </>  
             </Form>
@@ -137,7 +145,7 @@ const ClientsModule = () => {
 
         <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
           <div className='flex gap-2 items-end tablet:col-span-2'>
-            <h2>Clientes</h2>
+            <h2>Proveedores</h2>
             <p>Página 1 de 20</p>
           </div>
 
@@ -148,12 +156,6 @@ const ClientsModule = () => {
             Eliminar Seleccionados (0)
           </button>
 
-          <button className='bg-primary font-semibold laptopL:col-start-6 laptopL:col-end-7 rounded flex gap-2 items-center justify-center text-white'>
-            <svg className="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
-            </svg>
-            Enviar Noticia
-          </button>
         </div>
 
         <div className='overflow-x-auto mt-6'>
@@ -163,10 +165,13 @@ const ClientsModule = () => {
                 return (
                   <TRow>
                     <TData selectedAll={selectedAll} checkbox={true}>{cliente.name}</TData>
-                    <TData>{cliente.platform}</TData>
-                    <TData>{cliente.pais}</TData>
-                    <TData>{cliente.suscription ? "Si" : "No"}</TData>
-                    <TData>{cliente.email}</TData>
+                    <TData>{cliente.name}</TData>
+                    <TData>{cliente.country}</TData>
+                    <TData>{cliente.state}</TData>
+                    <TData>{cliente.category}</TData>
+                    <TData>{cliente.cbu}</TData>
+                    <TData>{cliente.paymentMethod}</TData>
+                    <TData>{cliente.cualification}</TData>
                   </TRow>)
               })
             }
@@ -188,4 +193,4 @@ const ClientsModule = () => {
   )
 }
 
-export default ClientsModule
+export default SuppliersModule

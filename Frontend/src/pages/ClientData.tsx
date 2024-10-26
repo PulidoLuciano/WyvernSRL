@@ -91,7 +91,7 @@ const ClientData = () => {
                 {editable ?
                     <>
                         <div className="my-6">
-                            <Form createForm={true} handleSubmit={handleSubmit}>
+                            <Form handleSubmit={handleSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
                                 <>
                                     <Input id={"nombreCliente"} name={"name"} value={editedData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleChange}></Input>
                                     <Input id={"correo"} name={"email"} value={editedData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleChange}></Input>

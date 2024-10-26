@@ -1,4 +1,4 @@
-export const clientes = [
+export const clients = [
     {
       name: "jesus",
       phone: "123123",
@@ -80,6 +80,103 @@ export const clientes = [
     }
 ]
 
+
+export const suppliers = [
+  {
+    name: "amazon",
+    state: "Cordoba",
+    country: "Argentina",
+    category: "Hardware",
+    cbu: 456165165165,
+    paymentMethod: "Credito",
+    cualification: 4
+  },
+  {
+    name: "amazon",
+    state: "Cordoba",
+    country: "Argentina",
+    category: "Hardware",
+    cbu: 456165165165,
+    paymentMethod: "Credito",
+    cualification: 4
+  }, {
+    name: "amazon",
+    state: "Cordoba",
+    country: "Argentina",
+    category: "Hardware",
+    cbu: 456165165165,
+    paymentMethod: "Credito",
+    cualification: 4
+  }, {
+    name: "amazon",
+    state: "Cordoba",
+    country: "Argentina",
+    category: "Hardware",
+    cbu: 456165165165,
+    paymentMethod: "Credito",
+    cualification: 4
+  }, {
+    name: "amazon",
+    state: "Cordoba",
+    country: "Argentina",
+    category: "Hardware",
+    cbu: 456165165165,
+    paymentMethod: "Credito",
+    cualification: 4
+  }, {
+    name: "amazon",
+    state: "Cordoba",
+    country: "Argentina",
+    category: "Hardware",
+    cbu: 456165165165,
+    paymentMethod: "Credito",
+    cualification: 4
+  }, {
+    name: "amazon",
+    state: "Cordoba",
+    country: "Argentina",
+    category: "Hardware",
+    cbu: 456165165165,
+    paymentMethod: "Credito",
+    cualification: 4
+  }, {
+    name: "amazon",
+    state: "Cordoba",
+    country: "Argentina",
+    category: "Hardware",
+    cbu: 456165165165,
+    paymentMethod: "Credito",
+    cualification: 4
+  }, {
+    name: "amazon",
+    state: "Cordoba",
+    country: "Argentina",
+    category: "Hardware",
+    cbu: 456165165165,
+    paymentMethod: "Credito",
+    cualification: 4
+  }, {
+    name: "amazon",
+    state: "Cordoba",
+    country: "Argentina",
+    category: "Hardware",
+    cbu: 456165165165,
+    paymentMethod: "Credito",
+    cualification: 4
+  }, {
+    name: "amazon",
+    state: "Cordoba",
+    country: "Argentina",
+    category: "Hardware",
+    cbu: 456165165165,
+    paymentMethod: "Credito",
+    cualification: 4
+  },
+]
+
+
+
+
 export const compras = [
     {
         product: "juego1",
@@ -146,3 +243,4 @@ export const compras = [
 
 export const optionsPlatforms = ["Steam","Epic Games"];
 export const optionsCountries = ["Argentina","Venezuela","España","Rusia"];
+export const optionsStates = ["Buenos Aires","Cordoba","Tucuman","San Juan"];
