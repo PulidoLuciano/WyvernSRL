@@ -17,8 +17,9 @@ export function tryCatch(fn : RequestHandler){
             await fn(req, res, next);
         } catch (error) {
             console.log(error)
-            if(!error.httpStatus)
-                error = new ApiError(HttpStatuses.INTERNAL_SERVER_ERROR, error.message);
+            const isApiError = error instanceof ApiError
+            if(!isApiError)
+                error = new ApiError(HttpStatuses.INTERNAL_SERVER_ERROR, (error as Error).message);
             return next(error);
         }
     }

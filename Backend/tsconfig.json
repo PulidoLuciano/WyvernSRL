@@ -7,7 +7,8 @@
     "noEmit": true,
     "emitDeclarationOnly": true,
     "declaration": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "strict": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

@@ -1,13 +1,13 @@
-import express from 'express'
+import express, { RequestHandler, Router } from 'express'
 import authorization from '../middlewares/authorization'
 import { WyvernRoute } from '../types'
 import { tryCatch } from '../middlewares/errorHandler'
 
-const routerMethods = (router) => ({
-    GET: (path, middlewares, handler) => {router.get(path, middlewares, handler)},
-    POST: (path, middlewares, handler) => {router.post(path, middlewares, handler)},
-    PUT: (path, middlewares, handler) => {router.put(path, middlewares, handler)},
-    DELETE: (path, middlewares, handler) => {router.delete(path, middlewares, handler)},
+const routerMethods = (router : Router) => ({
+    GET: (path : string, middlewares : Array<RequestHandler>, handler : RequestHandler) => {router.get(path, middlewares, handler)},
+    POST: (path : string, middlewares : Array<RequestHandler>, handler : RequestHandler) => {router.post(path, middlewares, handler)},
+    PUT: (path : string, middlewares : Array<RequestHandler>, handler : RequestHandler) => {router.put(path, middlewares, handler)},
+    DELETE: (path : string, middlewares : Array<RequestHandler>, handler : RequestHandler) => {router.delete(path, middlewares, handler)},
 })
 
 function createRouter(routes : Array<WyvernRoute>){
@@ -15,7 +15,7 @@ function createRouter(routes : Array<WyvernRoute>){
     for (let i = 0; i < routes.length; i++) {
         const route = routes[i];
         const middlewares = (route.authentication) ? [authorization(route.authorization), ...route.middlewares] : route.middlewares
-        routerMethods(router)[route.method].call(this, route.path, middlewares, tryCatch(route.handler));
+        routerMethods(router)[route.method].call(router, route.path, middlewares, tryCatch(route.handler));
     }
     return router
 }

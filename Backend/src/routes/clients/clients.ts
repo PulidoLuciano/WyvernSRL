@@ -2,6 +2,10 @@ import { ROLE } from "../../utils/Role.ts"
 import type { WyvernRoute } from "../../types.d.ts"
 import ApiError from "../../utils/ApiError.ts"
 import HttpStatuses from "../../utils/HttpStatus.ts"
+import ClientsController from "./clientsController.ts"
+import audit from "../../middlewares/audit.ts"
+
+const controlador = new ClientsController();
 
 const CLIENTS_ROUTES : Array<WyvernRoute> = [
     {
@@ -11,7 +15,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
         middlewares: [],
-        handler: (_, _1) => {throw new ApiError(HttpStatuses.NOT_IMPLEMENTED, "To do")}
+        handler: controlador.getAll
     },
     {
         //Crear nuevo cliente
@@ -19,26 +23,30 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         method: "POST",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas],
-        middlewares: [],
-        handler: (_, _1) => {throw new ApiError(HttpStatuses.NOT_IMPLEMENTED, "To do")}
+        middlewares: [
+            audit
+        ],
+        handler: controlador.create
     },
     {
         //Traer cliente
-        path: "/:clientId",
+        path: "/:id",
         method: "GET",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
         middlewares: [],
-        handler: (_, _1) => {throw new ApiError(HttpStatuses.NOT_IMPLEMENTED, "To do")}
+        handler: controlador.getById
     },
     {
         //Modificar cliente
-        path: "/:clientId",
+        path: "/:id",
         method: "PUT",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas],
-        middlewares: [],
-        handler: (_, _1) => {throw new ApiError(HttpStatuses.NOT_IMPLEMENTED, "To do")}
+        middlewares: [
+            audit
+        ],
+        handler: controlador.updateById
     },
     {
         //Eliminar cliente
@@ -47,7 +55,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
         middlewares: [],
-        handler: (_, _1) => {throw new ApiError(HttpStatuses.NOT_IMPLEMENTED, "To do")}
+        handler: controlador.deleteMany
     },
     {
         //Enviar comunicados
@@ -68,7 +76,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         handler: (_, _1) => {throw new ApiError(HttpStatuses.NOT_IMPLEMENTED, "To do")}
     },
     {
-        //Eliminar cliente
+        //Eliminar contacto
         path: "/contacts/:contactId",
         method: "DELETE",
         authentication: true,
@@ -78,7 +86,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
     },
     {
         //Traer contacto
-        path: "/contacts/:contactId",
+        path: "/contacts/:id",
         method: "GET",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
@@ -87,7 +95,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
     },
     {
         //Modificar contacto
-        path: "/:contactId",
+        path: "/contacts/:id",
         method: "PUT",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas],

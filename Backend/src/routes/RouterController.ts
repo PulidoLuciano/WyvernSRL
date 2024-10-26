@@ -1,4 +1,3 @@
-import prisma from "../prisma";
 import { Request, Response } from "express";
 import HttpStatuses from "../utils/HttpStatus";
 import ApiError from "../utils/ApiError";
@@ -11,7 +10,7 @@ export default abstract class RouterController{
     prismaModel; 
     entityName;
     
-    constructor(prismaModel : PrismaModel, entityName : string){
+    constructor(prismaModel : any, entityName : string){
         this.prismaModel = prismaModel;
         this.entityName = entityName;
 
@@ -30,7 +29,7 @@ export default abstract class RouterController{
     
     public async create (req : Request, res : Response) {
         let data = req.body;
-        const created = await prisma.usuarios.create({data});
+        const created = await this.prismaModel.create({data});
         return res.json(created);
     }
     
@@ -51,7 +50,7 @@ export default abstract class RouterController{
         const idNumber = Number(id);
         const user = await this.prismaModel.findUnique({ where: {id: idNumber}});
         if(!user)
-            throw new ApiError(HttpStatuses.NOT_FOUND, `No existe ${this.entityName} con ese id");`);
+            throw new ApiError(HttpStatuses.NOT_FOUND, `No existe ${this.entityName} con ese id`);
         return res.json(user);
     }
     
@@ -62,8 +61,8 @@ export default abstract class RouterController{
         const exist = await this.existeId(numberId);
         if(!exist)
             throw new ApiError(HttpStatuses.NOT_FOUND, `No existe ${this.entityName} con ese id`);
-        const userUpdated = await prisma.usuarios.update({ where: { id: numberId }, data });
-        return res.json(userUpdated);
+        const entityUpdated = await this.prismaModel.update({ where: { id: numberId }, data });
+        return res.json(entityUpdated);
     }
     
     public async existeId (id : number) : Promise<Boolean> {

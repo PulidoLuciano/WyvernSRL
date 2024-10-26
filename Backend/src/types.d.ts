@@ -1,4 +1,4 @@
-import { Request, RequestHandler, Router } from "express"
+import { NextFunction, Request, RequestHandler, Response, Router } from "express"
 import { ROLE } from "./utils/Role"
 
 export type AuthenticationToken = { 
@@ -12,7 +12,7 @@ export type HttpStatus = {
 }
 
 export interface UserRequest extends Request{
-    user : AuthenticationToken
+    user? : AuthenticationToken
 }
 
 export type WyvernRouter = {

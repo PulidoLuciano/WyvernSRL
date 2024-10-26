@@ -4,7 +4,7 @@ import { z, ZodError } from 'zod';
 import ApiError from '../utils/ApiError';
 
 export function validateData(schema: z.ZodObject<any, any> | z.ZodArray<any, any>) {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (req: Request, _: Response, next: NextFunction) => {
     try {
       schema.parse(req.body);
       next();
@@ -15,8 +15,7 @@ export function validateData(schema: z.ZodObject<any, any> | z.ZodArray<any, any
       }
       if(error instanceof ApiError)
         next(error)
-      else
-        next(new ApiError(HttpStatuses.INTERNAL_SERVER_ERROR, error.message))
+      next(new ApiError(HttpStatuses.INTERNAL_SERVER_ERROR, (error as Error).message))
     }
   };
 }
