@@ -164,7 +164,6 @@ const SuppliersModule = () => {
                 return (
                   <TRow>
                     <TData selectedAll={selectedAll} checkbox={true}>{cliente.name}</TData>
-                    <TData>{cliente.name}</TData>
                     <TData>{cliente.country}</TData>
                     <TData>{cliente.state}</TData>
                     <TData>{cliente.category}</TData>
