@@ -19,7 +19,7 @@ const USERS_ROUTES : Array<WyvernRoute> = [
     {
         //Login de usuario con cookie
         path: "/login",
-        method: "GET",
+        method: "POST",
         authentication: false,
         authorization: [],
         middlewares: [

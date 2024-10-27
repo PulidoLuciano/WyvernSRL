@@ -1,4 +1,4 @@
-import { TRowProps } from '../../interfaces/TableInterfaces'
+import { TRowProps } from '../../utils/types/TableInterfaces'
 
 const TRow = ({ children }: TRowProps) => {
   return (

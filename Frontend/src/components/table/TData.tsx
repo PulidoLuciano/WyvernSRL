@@ -1,5 +1,5 @@
 
-import { TDataProps } from '../../interfaces/TableInterfaces'
+import { TDataProps } from '../../utils/types/TableInterfaces'
 
 const TData = ({children,checkbox,selectedAll,onChange}: TDataProps) => {
 

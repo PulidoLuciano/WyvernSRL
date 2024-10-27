@@ -1,4 +1,4 @@
-import { SelectProps }  from '../../interfaces/FormInterfaces'
+import { SelectProps }  from '../../utils/types/FormInterfaces'
 
 
 const Select = ({ id, name, title, options, onChange } : SelectProps) => {

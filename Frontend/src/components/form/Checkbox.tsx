@@ -1,5 +1,5 @@
 
-import { CheckboxProps }  from '../../interfaces/FormInterfaces'
+import { CheckboxProps }  from '../../utils/types/FormInterfaces'
 
 const Checkbox = ({title, name, onChange} : CheckboxProps) => {
   return (
