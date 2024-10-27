@@ -133,7 +133,7 @@ const SuppliersModule = () => {
                 <Input id={"nombreProveedor"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange}></Input>                
                 <Select id={"paises"} title={"País"} name={"country"} options={optionsCountries} onChange={handleFilterChange}></Select>
                 <Select id={"provincias"} name={"state"} title={"Provincia"} options={optionsStates} onChange={handleFilterChange}></Select>                
-                <Input id={"cbu"} name={"cbu"} value={filterData.cbu} title={"Pais"} type={"number"} placeholder={"4516161561651651"} onChange={handleFilterChange}></Input>
+                <Input id={"cbu"} name={"cbu"} value={filterData.cbu} title={"CBU"} type={"number"} placeholder={"4516161561651651"} onChange={handleFilterChange}></Input>
                 <Input id={"metodoPago"} name={"paymentMethod"} value={filterData.paymentMethod} title={"Metodo de Pago"} type={"text"} placeholder={"Efectivo"} onChange={handleFilterChange}></Input>
                 <Input id={"calificacion"} name={"qualification"} value={filterData.qualification} title={"Calificacion"} type={"number"} placeholder={"0-5"} onChange={handleFilterChange}></Input>
                 <FilterButton/>
