@@ -1,5 +1,6 @@
 import { FormEventHandler } from "react";
 
+
 export interface FormProps {
     children: React.ReactElement;
     handleSubmit: FormEventHandler;
@@ -20,7 +21,7 @@ export interface SelectProps {
     id: string;
     name: string;
     title: string;
-    options: Array<string>
+    options: Array<any>
     onChange: FormEventHandler
 }
 

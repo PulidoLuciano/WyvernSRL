@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { sales, optionsCountries, optionsProducts } from '../utils/dataArrays'
+import React, { useEffect, useState } from 'react'
+import { optionsCountries, optionsProducts } from '../utils/dataArrays'
 import Accordion from '../components/Accordion';
 import Pagination from '../components/Pagination';
 import Nav from '../components/Nav'
@@ -12,10 +12,18 @@ import Table from '../components/table/Table';
 import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
 import { thead } from '../utils/types/TableInterfaces';
+import { useAuth } from '../context/authContext';
 
 
 const SalesModule = () => {
 
+  const {getAllSales,sales} = useAuth()
+  useEffect(()=>{
+    getAllSales()
+  },[])
+
+  console.log(sales);
+  
   const [selectedAll, setSelectedAll] = useState<boolean>(false);
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)

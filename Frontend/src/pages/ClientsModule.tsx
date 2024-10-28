@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { clients, optionsCountries, optionsPlatforms } from '../utils/dataArrays'
+import React, { useEffect, useState } from 'react'
 import Accordion from '../components/Accordion';
 import Pagination from '../components/Pagination';
 import Nav from '../components/Nav'
@@ -13,10 +12,21 @@ import Table from '../components/table/Table';
 import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
 import { thead } from '../utils/types/TableInterfaces';
+import { useAuth } from '../context/authContext';
+import { useForm } from 'react-hook-form';
 
 
 const ClientsModule = () => {
-
+  
+  const {countries,platforms,clients,getAllClients,createClient} = useAuth();
+ 
+  useEffect(()=>{
+    getAllClients()
+    
+    
+  },[])
+  
+  const {register,formState:{errors},reset} = useForm();
   const [selectedAll, setSelectedAll] = useState<boolean>(false);
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -75,6 +85,8 @@ const ClientsModule = () => {
   const handleCreateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(createData);
+    
+    createClient(createData);
   }
 
   const handleFilterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -84,10 +96,18 @@ const ClientsModule = () => {
 
   const handleCreateChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setCreateData({
-      ...createData,
-      [name]: value
-    });
+    if(name=="suscription"){
+      setCreateData({
+        ...createData,
+        [name]: value=="on"? "true" : "false"
+      })
+    } else{
+      setCreateData({
+        ...createData,
+        [name]: value
+      });
+    }
+    
   }
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -98,6 +118,7 @@ const ClientsModule = () => {
     });
   }
 
+    
   return (
     <main className='w-full flex '>
       <Nav />
@@ -113,9 +134,9 @@ const ClientsModule = () => {
                 <Input id={"nombreCliente"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange}></Input>
                 <Input id={"correo"} name={"email"} value={createData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleCreateChange}></Input>
                 <Input id={"telefono"} name={"phone"} value={createData.phone} title={"Teléfono"} type={"number"} placeholder={"5493816341612"} onChange={handleCreateChange}></Input>
-                <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={optionsPlatforms} onChange={handleCreateChange}></Select>
+                <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleCreateChange}></Select>
                 <Checkbox title={"Suscripto"} name={"suscription"}  onChange={handleCreateChange}></Checkbox>
-                <Select id={"paises"} title={"País"} name={"country"} options={optionsCountries} onChange={handleCreateChange}></Select>
+                <Select  id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange}></Select>
                 <SaveButton/>
               </>  
             </Form>
@@ -126,9 +147,9 @@ const ClientsModule = () => {
                 <Input id={"nombreCliente"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange}></Input>
                 <Input id={"correo"} name={"email"} value={filterData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleFilterChange}></Input>
                 <Input id={"telefono"} name={"phone"} value={filterData.phone} title={"Teléfono"} type={"number"} placeholder={"5493816341612"} onChange={handleFilterChange}></Input>
-                <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={optionsPlatforms} onChange={handleFilterChange}></Select>
+                <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleFilterChange}></Select>
                 <Checkbox title={"Suscripto"} name={"suscription"}  onChange={handleFilterChange}></Checkbox>
-                <Select id={"paises"} title={"País"} name={"country"} options={optionsCountries} onChange={handleFilterChange}></Select>
+                <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleFilterChange}></Select>
                 <FilterButton/>
               </>  
             </Form>
@@ -162,11 +183,11 @@ const ClientsModule = () => {
               dataShown.map((cliente,index) => {
                 return (
                   <TRow key={index}>
-                    <TData selectedAll={selectedAll} checkbox={true}>{cliente.name}</TData>
-                    <TData>{cliente.platform}</TData>
-                    <TData>{cliente.pais}</TData>
+                    <TData selectedAll={selectedAll} checkbox={true}>{cliente.nombre}</TData>
+                    <TData>{platforms.map(p=>p.id==cliente.Plataformas_id? p.nombre : "")}</TData>
+                    <TData>{countries.map(c => c.id == cliente.Paises_id? c.nombre : "")}</TData>
                     <TData>{cliente.suscription ? "Si" : "No"}</TData>
-                    <TData>{cliente.email}</TData>
+                    <TData>{cliente.correo}</TData>
                   </TRow>)
               })
             }

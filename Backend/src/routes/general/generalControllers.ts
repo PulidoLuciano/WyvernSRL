@@ -5,6 +5,7 @@ export class PaisesController extends RouterController{
     constructor(){
         super(prisma.paises, "país")
     }
+
 }
 
 export class PlataformasController extends RouterController{
