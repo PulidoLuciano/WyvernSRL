@@ -6,7 +6,7 @@ export const correoSchema = z.string().trim().email().max(45, "Un correo no pued
 
 export const telefonoSchema = z.string().trim().regex(/"^\+?\d{1,3}?[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$"/, "El número de teléfono no parece serlo");
 
-export const idSchema = z.coerce.bigint();
+export const idSchema = z.coerce.number();
 
 export const dateTimeSchema = z.string().datetime({ message: "La fecha introducida no cumple el formato ISO"});
 

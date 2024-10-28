@@ -26,9 +26,7 @@ const getAllClients = async () => {
 
 const createClient = async (obj: clientType) => {
     try {
-        console.log(obj);
-        
-        const response = await fetch("http://localhost:3000/clients", {
+        const response = await fetch("http://localhost:3000/clients/", {
             mode: 'cors',
             method: 'POST',
             credentials: 'include',
@@ -38,8 +36,8 @@ const createClient = async (obj: clientType) => {
             body: JSON.stringify({
                 "nombre": obj.name,
                 "correo": obj.email,
-                "telefono": obj.phone,
-                "Platforma_id": obj.platform,
+                "telefono": obj.phone? obj.phone : null,
+                "Plataformas_id": obj.platform,
                 "Paises_id": obj.country,
                 "suscripto": obj.suscription
             })

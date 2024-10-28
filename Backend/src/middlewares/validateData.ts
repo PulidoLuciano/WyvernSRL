@@ -6,7 +6,7 @@ import ApiError from '../utils/ApiError';
 export function validateData(schema: z.ZodObject<any, any> | z.ZodArray<any, any>) {
   return (req: Request, _: Response, next: NextFunction) => {
     try {
-      schema.parse(req.body);
+      req.body = schema.parse(req.body);
       next();
     } catch (error) {
       if (error instanceof ZodError) {
