@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import AccordionProps from '../interfaces/AccordionInterfaces';
+import AccordionProps from '../utils/types/AccordionInterfaces';
 
 const Accordion = ({ title , children } : AccordionProps  ) => {
 

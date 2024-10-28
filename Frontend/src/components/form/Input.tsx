@@ -1,5 +1,5 @@
 
-import { InputProps }  from '../../interfaces/FormInterfaces.ts'
+import { InputProps }  from '../../utils/types/FormInterfaces.ts'
 
 const Input = ( { id,name,value,title,type,placeholder, onChange } : InputProps) => {
   return (

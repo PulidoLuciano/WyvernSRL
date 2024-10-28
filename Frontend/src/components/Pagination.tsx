@@ -1,4 +1,4 @@
-import paginationProps from '../interfaces/PaginationInterface'
+import paginationProps from '../utils/types/PaginationInterface'
 
 const Pagination = ({changePage,currentPage,indexEnd,indexStart,nPages} : paginationProps) => {
   

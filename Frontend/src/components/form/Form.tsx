@@ -1,4 +1,4 @@
-import { FormProps } from '../../interfaces/FormInterfaces'
+import { FormProps } from '../../utils/types/FormInterfaces'
 
 const Form = ({ children, handleSubmit, className} : FormProps) => {
 

@@ -11,7 +11,7 @@ import FilterButton from '../components/form/FilterButton';
 import Table from '../components/table/Table';
 import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
-import { thead } from '../interfaces/TableInterfaces';
+import { thead } from '../utils/types/TableInterfaces';
 
 
 const SalesModule = () => {

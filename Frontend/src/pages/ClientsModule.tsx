@@ -12,7 +12,7 @@ import FilterButton from '../components/form/FilterButton';
 import Table from '../components/table/Table';
 import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
-import { thead } from '../interfaces/TableInterfaces';
+import { thead } from '../utils/types/TableInterfaces';
 
 
 const ClientsModule = () => {
@@ -159,9 +159,9 @@ const ClientsModule = () => {
         <div className='overflow-x-auto mt-6'>
          <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
             {
-              dataShown.map(cliente => {
+              dataShown.map((cliente,index) => {
                 return (
-                  <TRow>
+                  <TRow key={index}>
                     <TData selectedAll={selectedAll} checkbox={true}>{cliente.name}</TData>
                     <TData>{cliente.platform}</TData>
                     <TData>{cliente.pais}</TData>

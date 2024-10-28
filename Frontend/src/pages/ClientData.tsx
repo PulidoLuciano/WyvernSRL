@@ -8,7 +8,7 @@ import Select from '../components/form/Select';
 import Nav from "../components/Nav";
 import SaveButton from "../components/form/SaveButton";
 import Table from "../components/table/Table";
-import { thead } from '../interfaces/TableInterfaces';
+import { thead } from '../utils/types/TableInterfaces';
 import TRow from "../components/table/TRow";
 import TData from "../components/table/TData";
 
