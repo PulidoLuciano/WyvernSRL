@@ -1,4 +1,5 @@
 import { array, string, z } from "zod";
+import { borradoSchema } from "./generalSchemas";
 
 export const LoginSchema = z.object({
     nombre: z.string({
@@ -15,7 +16,8 @@ export const UserSchema = z.object({
     nombre: z.string().trim(),
     contrasenia: z.string(),
     Empleados_id: z.coerce.number(),
-    Roles_id: z.coerce.number()
+    Roles_id: z.coerce.number(),
+    borrado: borradoSchema
 })
 
 export const UserSchemaOptional = z.object({

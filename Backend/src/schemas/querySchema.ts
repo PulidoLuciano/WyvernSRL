@@ -1,4 +1,4 @@
-import { z, ZodBigInt, ZodBoolean, ZodError, ZodNumber, ZodObject, ZodSchema, ZodString } from "zod"
+import { z, ZodBigInt, ZodBoolean, ZodEnum, ZodError, ZodNumber, ZodObject, ZodSchema, ZodString } from "zod"
 
 const FilterSchema = z.object({
     skip: z.coerce.number(),
@@ -37,13 +37,17 @@ export function createPrismaFilterSchema(query : PrismaSearch, originalSchema : 
         whereKeys.forEach((key : string) => {
             const schemaProperty = (originalSchema.shape[key] instanceof ZodString) ? z.string() : (originalSchema.shape[key] instanceof ZodBigInt) ? z.coerce.number() : (originalSchema.shape[key] instanceof ZodBoolean) ? z.coerce.boolean() : z.coerce.number();
             if(typeof query.where[key] == "object"){
-                
+                const whereKeys = Object.keys(query.where[key]);
+                const schemaKey : z.ZodRawShape = {} 
+                whereKeys.forEach((keyKey : string) => {
+                    schemaKey[keyKey] = schemaProperty;
+                })
+                whereShape[key] = z.object(schemaKey);
             }else{
                 whereShape[key] = schemaProperty;
             }
         })
     }
-    console.log(whereShape)
     return z.object({
         skip: z.coerce.number().optional(),
         take: z.coerce.number().optional(),

@@ -10,9 +10,13 @@ import { IdsSchema } from "../../schemas/usersSchemas.ts"
 import ContactsController from "./contactsController.ts"
 import { ContactsSchema } from "../../schemas/contactsSchemas.ts"
 import parseQueries from "../../middlewares/parseQueries.ts"
+import { NextFunction, Request, Response } from "express"
+import { SalesSchema } from "../../schemas/salesSchema.ts"
+import { SalesController } from "../sales/salesControllers.ts"
 
 const controlador = new ClientsController();
 const controladorContactos = new ContactsController();
+const controladorVentas = new SalesController()
 
 const CLIENTS_ROUTES : Array<WyvernRoute> = [
     {
@@ -22,7 +26,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
         middlewares: [
-            parseQueries
+            parseQueries(ClientSchema)
         ],
         handler: controlador.getAll
     },
@@ -82,12 +86,48 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
     },
     {
         //Traer contactos del cliente
-        path: "/:clientId/contacts",
+        path: "/:id/contacts",
         method: "GET",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
-        middlewares: [],
-        handler: (_, _1) => {throw new ApiError(HttpStatuses.NOT_IMPLEMENTED, "To do")}
+        middlewares: [
+            (req : Request, _ : Response, next : NextFunction) => {
+                req.query = { 
+                    Clientes_id: req.params.id,
+                    include: [
+                        "id",
+                        "motivo",
+                        "fecha",
+                        "Medios"
+                    ]
+                };
+                next();
+            },
+            parseQueries(ContactsSchema)
+        ],
+        handler: controladorContactos.getAll
+    },
+    {
+        //Traer contactos del cliente
+        path: "/:id/sales",
+        method: "GET",
+        authentication: true,
+        authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
+        middlewares: [
+            (req : Request, _ : Response, next : NextFunction) => {
+                req.query = { 
+                    Clientes_id: req.params.id,
+                    include: [
+                        "Productos",
+                        "id",
+                        "fecha"
+                    ]
+                };
+                next();
+            },
+            parseQueries(SalesSchema)
+        ],
+        handler: controladorVentas.getAll
     },
     {
         //Eliminar contacto
@@ -115,7 +155,9 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         method: "PUT",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas],
-        middlewares: [],
+        middlewares: [
+            validateData(ContactsSchema)
+        ],
         handler: controladorContactos.updateById
     },
     {

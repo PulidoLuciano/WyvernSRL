@@ -2,18 +2,19 @@ import { NextFunction, Request, Response } from "express";
 import ApiError from "../utils/ApiError";
 import HttpStatuses from "../utils/HttpStatus";
 import { createPrismaFilterSchema } from "../schemas/querySchema";
-import { ClientSchema } from "../schemas/clientsSchemas";
+import { ZodObject } from "zod";
 
-export default function parseQueries(req : Request, res : Response, next : NextFunction){
+export default function parseQueries(validationSchema : ZodObject<any>){
+    return (req : Request, res : Response, next : NextFunction) => {
     try {
-        req.query = parseToPrisma(req.query);
-        console.log(req.query)
+        req.query = parseToPrisma(req.query, validationSchema);
         next()
     } catch (error) {
         if(error instanceof ApiError)
             next(error);
         next(new ApiError(HttpStatuses.INTERNAL_SERVER_ERROR, (error as Error).message));
     }
+}
 }
 
 type PrismaSearch = {
@@ -23,7 +24,7 @@ type PrismaSearch = {
     take?: any
 }
 
-function parseToPrisma(query : any){
+function parseToPrisma(query : any, validationSchema : ZodObject<any>){
     let prismaSearch : PrismaSearch = {};
     if(query.include){
         if(!query.include.forEach)
@@ -42,7 +43,7 @@ function parseToPrisma(query : any){
     const keys = Object.keys(query).filter(key => !(key == "include" || key == "limit" || key == "offset"));
     keys.forEach(key => prismaSearch.where[key] = query[key])
 
-    const schema = createPrismaFilterSchema(prismaSearch, ClientSchema);
+    const schema = createPrismaFilterSchema(prismaSearch, validationSchema);
     prismaSearch = schema.parse(prismaSearch);
     return prismaSearch;
 }
