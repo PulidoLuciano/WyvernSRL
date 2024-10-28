@@ -17,7 +17,7 @@ import { useAuth } from '../context/authContext';
 
 const SalesModule = () => {
 
-  const {getAllSales,sales} = useAuth()
+  const {getAllSales,sales,clients,products} = useAuth()
   useEffect(()=>{
     getAllSales()
   },[])
@@ -142,12 +142,12 @@ const SalesModule = () => {
         <div className='overflow-x-auto mt-6'>
          <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
             {
-              dataShown.map(venta => {
+              dataShown.map(sale => {
                 return (
                   <TRow>
-                    <TData selectedAll={selectedAll} checkbox={true}>{venta.username}</TData>
-                    <TData>{venta.product}</TData>
-                    <TData>{venta.date}</TData>
+                    <TData selectedAll={selectedAll} checkbox={true}>{clients.map((c) => c.id == sale.Clientes_id? c.nombre : "")}</TData>
+                    <TData>{sale.product}</TData>
+                    <TData>{sale.fecha}</TData>
                   </TRow>)
               })
             }

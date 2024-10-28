@@ -11,10 +11,12 @@ interface AuthContextProps {
     countries: Array<any>;
     platforms: Array<any>;
     sales: Array<any>;
+    products: Array<any>
     login: (credentials: Credential) => Promise<any>;
     getAllClients: () => Promise<any>;
     createClient: (client : clientType) => Promise<any>;
     getAllSales: () => Promise<any>;
+    getAllProducts: () => Promise<any>;
   }
   
   const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -22,6 +24,7 @@ interface AuthContextProps {
   export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<any | null>(null);
     const [clients,setClients] = useState<Array<any>>([])
+    const [products,setProducts] = useState<Array<any>>([])
     const [sales,setSales] = useState<Array<any>>([])
     const [countries,setCountries] = useState<Array<any>>([])
     const [platforms,setPlatforms] = useState<Array<any>>([])
@@ -58,15 +61,20 @@ interface AuthContextProps {
       setSales(sales)
     }
 
+    const getAllProducts = async()=>{
+      const products = await salesService.getAllProducts();
+      setProducts(products);
+    }
 
     useEffect(()=>{
       getAllCountries();
       getAllPlatforms();
+      getAllProducts();
         
     },[])
 
     return (
-      <AuthContext.Provider value={{sales,platforms,countries,clients,user, login,getAllClients,createClient,getAllSales }}>
+      <AuthContext.Provider value={{products,sales,platforms,countries,clients,user, login,getAllClients,createClient,getAllSales,getAllProducts }}>
         {children}
       </AuthContext.Provider>
     );
