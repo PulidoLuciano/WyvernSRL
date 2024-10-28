@@ -23,5 +23,8 @@ const GENERAL_ROUTES : Array<WyvernRoute> = [
         authorization: [],
         middlewares: [],
         handler: controladorPlataformas.getAll
-    },
+    }
 ]
+
+
+export default GENERAL_ROUTES;
