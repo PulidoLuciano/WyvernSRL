@@ -6,6 +6,7 @@ import { ClientSchema } from "../schemas/clientsSchemas";
 
 export default function parseQueries(req : Request, res : Response, next : NextFunction){
     try {
+        console.log(req.query)
         req.query = parseToPrisma(req.query);
         console.log(req.query)
         next()
