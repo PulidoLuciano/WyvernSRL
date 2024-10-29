@@ -117,12 +117,12 @@ const EmployeesModule = () => {
         <Accordion title="Crear Nuevo">
             <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-4 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
               <>
-                <Input id={"nombre"} name={"name"} value={createData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleCreateChange}></Input>                
-                <Input id={"correo"} name={"email"} value={createData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleCreateChange}></Input>
-                <Input id={"dni"} name={"dni"} value={createData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleCreateChange}></Input>
-                <Input id={"telefono"} name={"phone"} value={createData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleCreateChange}></Input>
-                <Input id={"fechaContratacion"} name={"hiringDate"} value={createData.hiringDate} title={"Fecha de contratacion"} type={"text"} placeholder={"2024-09-30 14:30:14"} onChange={handleCreateChange}></Input>            
-                <Input id={"salario"} name={"salary"} value={createData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleCreateChange}></Input>            
+                <Input id={"nombre"} name={"name"} value={createData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleCreateChange} error=''></Input>                
+                <Input id={"correo"} name={"email"} value={createData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleCreateChange} error=''></Input>
+                <Input id={"dni"} name={"dni"} value={createData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleCreateChange} error=''></Input>
+                <Input id={"telefono"} name={"phone"} value={createData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleCreateChange} error=''></Input>
+                <Input id={"fechaContratacion"} name={"hiringDate"} value={createData.hiringDate} title={"Fecha de contratacion"} type={"text"} placeholder={"2024-09-30 14:30:14"} onChange={handleCreateChange} error=''></Input>            
+                <Input id={"salario"} name={"salary"} value={createData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleCreateChange} error=''></Input>            
                 <Select id={"provincia"} title={"Provincia"} name={"state"} options={optionsStates} onChange={handleCreateChange}></Select>               
                 <SaveButton/>
               </>  
@@ -131,12 +131,12 @@ const EmployeesModule = () => {
         <Accordion title="Filtrar por">
             <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
               <>
-                <Input id={"nombre"} name={"name"} value={filterData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleFilterChange}></Input>                
-                <Input id={"correo"} name={"email"} value={filterData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleFilterChange}></Input>
-                <Input id={"dni"} name={"dni"} value={filterData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleFilterChange}></Input>
-                <Input id={"telefono"} name={"phone"} value={filterData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleFilterChange}></Input>
-                <Input id={"fechaContratacion"} name={"hiringDate"} value={filterData.hiringDate} title={"Fecha de contratacion"} type={"text"} placeholder={"2024-09-30 14:30:14"} onChange={handleFilterChange}></Input>            
-                <Input id={"salario"} name={"salary"} value={filterData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleFilterChange}></Input>            
+                <Input id={"nombre"} name={"name"} value={filterData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleFilterChange} error=''></Input>                
+                <Input id={"correo"} name={"email"} value={filterData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleFilterChange} error=''></Input>
+                <Input id={"dni"} name={"dni"} value={filterData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleFilterChange} error=''></Input>
+                <Input id={"telefono"} name={"phone"} value={filterData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleFilterChange} error=''></Input>
+                <Input id={"fechaContratacion"} name={"hiringDate"} value={filterData.hiringDate} title={"Fecha de contratacion"} type={"text"} placeholder={"2024-09-30 14:30:14"} onChange={handleFilterChange} error=''></Input>            
+                <Input id={"salario"} name={"salary"} value={filterData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleFilterChange} error=''></Input>            
                 <Select id={"provincia"} title={"Provincia"} name={"state"} options={optionsStates} onChange={handleCreateChange}></Select>               
                 <FilterButton/>
               </>  
@@ -168,9 +168,9 @@ const EmployeesModule = () => {
         <div className='overflow-x-auto mt-6'>
          <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
             {
-              dataShown.map(empleado => {
+              dataShown.map((empleado, index) => {
                 return (
-                  <TRow>
+                  <TRow key={index}> 
                     <TData selectedAll={selectedAll} checkbox={true}>{empleado.name}</TData>
                     <TData>{empleado.email}</TData>
                     <TData>{empleado.dni}</TData>

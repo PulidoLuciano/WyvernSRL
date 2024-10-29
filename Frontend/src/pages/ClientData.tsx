@@ -93,9 +93,9 @@ const ClientData = () => {
                         <div className="my-6">
                             <Form handleSubmit={handleSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
                                 <>
-                                    <Input id={"nombreCliente"} name={"name"} value={editedData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleChange}></Input>
-                                    <Input id={"correo"} name={"email"} value={editedData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleChange}></Input>
-                                    <Input id={"telefono"} name={"phone"} value={editedData.phone} title={"Teléfono"} type={"number"} placeholder={"5493816341612"} onChange={handleChange}></Input>
+                                    <Input id={"nombreCliente"} name={"name"} value={editedData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleChange} error=''></Input>
+                                    <Input id={"correo"} name={"email"} value={editedData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleChange} error=''></Input>
+                                    <Input id={"telefono"} name={"phone"} value={editedData.phone} title={"Teléfono"} type={"number"} placeholder={"5493816341612"} onChange={handleChange} error=''></Input>
                                     <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={optionsPlatforms} onChange={handleChange}></Select>
                                     <Checkbox title={"Suscripto"} name={"suscription"} onChange={handleChange}></Checkbox>
                                     <Select id={"paises"} title={"País"} name={"country"} options={optionsCountries} onChange={handleChange}></Select>
@@ -150,9 +150,9 @@ const ClientData = () => {
                 <div className='overflow-x-auto mt-6'>
                     <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
                     {
-                        dataShown.map(compras => {
+                        dataShown.map((compras, index) => {
                             return (
-                            <TRow>
+                            <TRow key={index}>
                                 <TData selectedAll={selectedAll} checkbox={true}>{compras.product}</TData>
                                 <TData>{compras.idSale}</TData>
                                 <TData>{compras.date}</TData>  

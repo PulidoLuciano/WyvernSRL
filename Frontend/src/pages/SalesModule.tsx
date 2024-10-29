@@ -105,9 +105,9 @@ const SalesModule = () => {
         <Accordion title="Crear Nuevo">
             <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
               <>
-                <Input id={"nombreUsuario"} name={"username"} value={createData.username} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleCreateChange}></Input>                
+                <Input id={"nombreUsuario"} name={"username"} value={createData.username} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleCreateChange} error=''></Input>                
                 <Select id={"productos"} title={"Productos"} name={"products"} options={optionsProducts} onChange={handleCreateChange}></Select>               
-                <Input id={"fecha"} name={"date"} value={createData.date} title={"Fecha"} type={"text"} placeholder={"2023-07-17"} onChange={handleCreateChange}></Input>
+                <Input id={"fecha"} name={"date"} value={createData.date} title={"Fecha"} type={"text"} placeholder={"2023-07-17"} onChange={handleCreateChange} error=''></Input>
                 <SaveButton/>
               </>  
             </Form>
@@ -115,9 +115,9 @@ const SalesModule = () => {
         <Accordion title="Filtrar por">
             <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
               <>
-              <Input id={"nombreUsuario"} name={"username"} value={filterData.username} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleFilterChange}></Input>                
+                <Input id={"nombreUsuario"} name={"username"} value={filterData.username} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleFilterChange} error=''></Input>                
                 <Select id={"productos"} title={"Productos"} name={"products"} options={optionsProducts} onChange={handleFilterChange}></Select>               
-                <Input id={"fecha"} name={"date"} value={filterData.date} title={"Fecha"} type={"text"} placeholder={"2023-07-17"} onChange={handleFilterChange}></Input>
+                <Input id={"fecha"} name={"date"} value={filterData.date} title={"Fecha"} type={"text"} placeholder={"2023-07-17"} onChange={handleFilterChange} error=''></Input>
                 <FilterButton/>
               </>  
             </Form>
@@ -142,9 +142,9 @@ const SalesModule = () => {
         <div className='overflow-x-auto mt-6'>
          <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
             {
-              dataShown.map(sale => {
+              dataShown.map((sale, index) => {
                 return (
-                  <TRow>
+                  <TRow key={index}>
                     <TData selectedAll={selectedAll} checkbox={true}>{clients.map((c) => c.id == sale.Clientes_id? c.nombre : "")}</TData>
                     <TData>{sale.product}</TData>
                     <TData>{sale.fecha}</TData>

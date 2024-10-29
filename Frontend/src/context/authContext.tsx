@@ -13,7 +13,7 @@ interface AuthContextProps {
     sales: Array<any>;
     products: Array<any>
     login: (credentials: Credential) => Promise<any>;
-    getAllClients: () => Promise<any>;
+    getAllClients: (platforms?:boolean,countries?:boolean) => Promise<any>;
     createClient: (client : clientType) => Promise<any>;
     getAllSales: () => Promise<any>;
     getAllProducts: () => Promise<any>;
@@ -36,19 +36,31 @@ interface AuthContextProps {
      
     };
   
-    const getAllClients = async() =>{
-      const clients = await clientsService.getAllClients();
-      setClients(clients)
+    const getAllClients = async(platforms?:boolean,countries?:boolean) =>{
+      let url = "http://localhost:3000/clients/";
+
+        if (countries && platforms) {
+            url = url.concat("?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&include=Paises");
+        }
+        else if (platforms) {
+            url = url.concat("?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas");
+        } else if (countries){
+            url = url.concat("?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Paises");
+        }
+     
+        const clients = await clientsService.getAllClients(url);
+        setClients(clients);
+        
     }
 
     const getAllCountries = async() =>{
       const countries = await authService.getAllCountries();
-      setCountries(countries)
+      setCountries(countries);
     }
 
     const getAllPlatforms = async() =>{
       const platforms = await authService.getAllPlatforms();
-      setPlatforms(platforms)
+      setPlatforms(platforms);
     }
     
     const createClient = async(client : clientType) =>{
@@ -58,7 +70,7 @@ interface AuthContextProps {
 
     const getAllSales = async() =>{
       const sales = await salesService.getAllSales();
-      setSales(sales)
+      setSales(sales);
     }
 
     const getAllProducts = async()=>{
@@ -67,9 +79,8 @@ interface AuthContextProps {
     }
 
     useEffect(()=>{
-      getAllCountries();
-      getAllPlatforms();
-      getAllProducts();
+     getAllCountries();
+     getAllPlatforms();
         
     },[])
 

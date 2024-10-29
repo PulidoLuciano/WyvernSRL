@@ -117,12 +117,12 @@ const SuppliersModule = () => {
         <Accordion title="Crear Nuevo">
             <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
               <>
-                <Input id={"nombreProveedor"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange}></Input>                
+                <Input id={"nombreProveedor"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange} error=''></Input>                
                 <Select id={"paises"} title={"País"} name={"country"} options={optionsCountries} onChange={handleCreateChange}></Select>
                 <Select id={"provincias"} name={"state"} title={"Provincia"} options={optionsStates} onChange={handleCreateChange}></Select>                
-                <Input id={"cbu"} name={"cbu"} value={createData.cbu} title={"CBU"} type={"number"} placeholder={"4516161561651651"} onChange={handleCreateChange}></Input>
-                <Input id={"metodoPago"} name={"paymentMethod"} value={createData.paymentMethod} title={"Metodo de Pago"} type={"text"} placeholder={"Efectivo"} onChange={handleCreateChange}></Input>
-                <Input id={"calificacion"} name={"qualification"} value={createData.qualification} title={"Calificacion"} type={"number"} placeholder={"0-5"} onChange={handleCreateChange}></Input>
+                <Input id={"cbu"} name={"cbu"} value={createData.cbu} title={"CBU"} type={"number"} placeholder={"4516161561651651"} onChange={handleCreateChange} error=''></Input>
+                <Input id={"metodoPago"} name={"paymentMethod"} value={createData.paymentMethod} title={"Metodo de Pago"} type={"text"} placeholder={"Efectivo"} onChange={handleCreateChange} error=''></Input>
+                <Input id={"calificacion"} name={"qualification"} value={createData.qualification} title={"Calificacion"} type={"number"} placeholder={"0-5"} onChange={handleCreateChange} error=''></Input>
                 <SaveButton/>
               </>  
             </Form>
@@ -130,12 +130,12 @@ const SuppliersModule = () => {
         <Accordion title="Filtrar por">
             <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
               <>
-                <Input id={"nombreProveedor"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange}></Input>                
+                <Input id={"nombreProveedor"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange} error=''></Input>                
                 <Select id={"paises"} title={"País"} name={"country"} options={optionsCountries} onChange={handleFilterChange}></Select>
                 <Select id={"provincias"} name={"state"} title={"Provincia"} options={optionsStates} onChange={handleFilterChange}></Select>                
-                <Input id={"cbu"} name={"cbu"} value={filterData.cbu} title={"CBU"} type={"number"} placeholder={"4516161561651651"} onChange={handleFilterChange}></Input>
-                <Input id={"metodoPago"} name={"paymentMethod"} value={filterData.paymentMethod} title={"Metodo de Pago"} type={"text"} placeholder={"Efectivo"} onChange={handleFilterChange}></Input>
-                <Input id={"calificacion"} name={"qualification"} value={filterData.qualification} title={"Calificacion"} type={"number"} placeholder={"0-5"} onChange={handleFilterChange}></Input>
+                <Input id={"cbu"} name={"cbu"} value={filterData.cbu} title={"CBU"} type={"number"} placeholder={"4516161561651651"} onChange={handleFilterChange} error=''></Input>
+                <Input id={"metodoPago"} name={"paymentMethod"} value={filterData.paymentMethod} title={"Metodo de Pago"} type={"text"} placeholder={"Efectivo"} onChange={handleFilterChange} error=''></Input>
+                <Input id={"calificacion"} name={"qualification"} value={filterData.qualification} title={"Calificacion"} type={"number"} placeholder={"0-5"} onChange={handleFilterChange} error=''></Input>
                 <FilterButton/>
               </>  
             </Form>
@@ -160,9 +160,9 @@ const SuppliersModule = () => {
         <div className='overflow-x-auto mt-6'>
          <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
             {
-              dataShown.map(cliente => {
+              dataShown.map((cliente, index) => {
                 return (
-                  <TRow>
+                  <TRow key={index}>
                     <TData selectedAll={selectedAll} checkbox={true}>{cliente.name}</TData>
                     <TData>{cliente.country}</TData>
                     <TData>{cliente.state}</TData>

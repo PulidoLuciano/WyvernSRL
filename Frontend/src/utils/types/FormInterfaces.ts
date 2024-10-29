@@ -22,7 +22,7 @@ export interface SelectProps {
     id: string;
     name: string;
     title: string;
-    options: Array<any>
+    options: Array<any>;
     onChange: FormEventHandler
 }
 
@@ -31,4 +31,3 @@ export interface CheckboxProps {
     name: string;
     onChange: FormEventHandler
 }
-
