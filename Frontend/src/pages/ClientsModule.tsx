@@ -13,20 +13,19 @@ import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
 import { thead } from '../utils/types/TableInterfaces';
 import { useAuth } from '../context/authContext';
-import { useForm } from 'react-hook-form';
-
+import {z} from "zod"
 
 const ClientsModule = () => {
   
   const {countries,platforms,clients,getAllClients,createClient} = useAuth();
  
   useEffect(()=>{
-    getAllClients()
+    getAllClients(true,true);
     
     
   },[])
   
-  const {register,formState:{errors},reset} = useForm();
+ 
   const [selectedAll, setSelectedAll] = useState<boolean>(false);
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -84,15 +83,19 @@ const ClientsModule = () => {
 
   const handleCreateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(createData);
-    
     createClient(createData);
+      
+      
   }
+
+  
 
   const handleFilterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(filterData);
   }
+
+  
 
   const handleCreateChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -118,7 +121,7 @@ const ClientsModule = () => {
     });
   }
 
-    
+  
   return (
     <main className='w-full flex '>
       <Nav />
@@ -131,11 +134,11 @@ const ClientsModule = () => {
         <Accordion title="Crear Nuevo">
             <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
               <>
-                <Input id={"nombreCliente"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange}></Input>
-                <Input id={"correo"} name={"email"} value={createData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleCreateChange}></Input>
-                <Input id={"telefono"} name={"phone"} value={createData.phone} title={"Teléfono"} type={"text"} placeholder={"5493816341612"} onChange={handleCreateChange}></Input>
-                <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleCreateChange}></Select>
-                <Checkbox title={"Suscripto"} name={"suscription"}  onChange={handleCreateChange}></Checkbox>
+                <Input  errorMessage="ingrese un nombre valido" required={true} id={"nombreCliente"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange}></Input>
+                <Input errorMessage='Ingrese un correo valido' required={true} id={"correo"} name={"email"} value={createData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleCreateChange}></Input>
+                <Input  errorMessage='Ingrese un telefono valido' id={"telefono"} name={"phone"} value={createData.phone} title={"Teléfono"} type={"text"} placeholder={"5493816341612"} onChange={handleCreateChange}></Input>
+                <Select  id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleCreateChange}></Select>
+                <Checkbox  title={"Suscripto"} name={"suscription"}  onChange={handleCreateChange}></Checkbox>
                 <Select  id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange}></Select>
                 <SaveButton/>
               </>  
@@ -144,9 +147,9 @@ const ClientsModule = () => {
         <Accordion title="Filtrar por">
             <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
               <>
-                <Input id={"nombreCliente"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange}></Input>
-                <Input id={"correo"} name={"email"} value={filterData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleFilterChange}></Input>
-                <Input id={"telefono"} name={"phone"} value={filterData.phone} title={"Teléfono"} type={"number"} placeholder={"5493816341612"} onChange={handleFilterChange}></Input>
+                <Input errorMessage='' id={"nombreCliente"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange}></Input>
+                <Input errorMessage='' id={"correo"} name={"email"} value={filterData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleFilterChange}></Input>
+                <Input errorMessage='' id={"telefono"} name={"phone"} value={filterData.phone} title={"Teléfono"} type={"number"} placeholder={"5493816341612"} onChange={handleFilterChange}></Input>
                 <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleFilterChange}></Select>
                 <Checkbox title={"Suscripto"} name={"suscription"}  onChange={handleFilterChange}></Checkbox>
                 <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleFilterChange}></Select>
@@ -184,14 +187,13 @@ const ClientsModule = () => {
                 return (
                   <TRow key={index}>
                     <TData selectedAll={selectedAll} checkbox={true}>{cliente.nombre}</TData>
-                    <TData>{platforms.map(p=>p.id==cliente.Plataformas_id? p.nombre : "")}</TData>
-                    <TData>{countries.map(c => c.id == cliente.Paises_id? c.nombre : "")}</TData>
-                    <TData>{cliente.suscription ? "Si" : "No"}</TData>
+                    <TData>{cliente.Plataformas?.nombre}</TData>
+                    <TData>{cliente.Paises?.nombre}</TData>
+                    <TData>{cliente.suscripto? "Si" : "No"}</TData>
                     <TData>{cliente.correo}</TData>
                   </TRow>)
               })
             }
-
           </Table>
 
         </div>
