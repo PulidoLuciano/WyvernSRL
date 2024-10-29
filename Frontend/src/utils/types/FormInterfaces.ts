@@ -14,7 +14,8 @@ export interface InputProps {
     title: string;
     type: string;
     placeholder: string;
-    onChange: FormEventHandler
+    onChange: FormEventHandler;
+    error : string | undefined
 }
 
 export interface SelectProps {

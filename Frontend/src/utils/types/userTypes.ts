@@ -11,3 +11,8 @@ export interface Credential{
     nombre: string;
     password: string; 
 }
+
+export interface credentialErrors {
+    nombre?: string;
+    password?: string;
+}
