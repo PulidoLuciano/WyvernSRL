@@ -1,6 +1,6 @@
 import Pagination from "../components/Pagination"
-import { useState } from "react";
-import { compras, optionsCountries, optionsPlatforms } from '../utils/dataArrays'
+import { useState,useEffect } from "react";
+import { compras } from '../utils/dataArrays'
 import Form from '../components/form/Form';
 import Input from '../components/form/Input';
 import Checkbox from '../components/form/Checkbox';
@@ -11,9 +11,11 @@ import Table from "../components/table/Table";
 import { thead } from '../utils/types/TableInterfaces';
 import TRow from "../components/table/TRow";
 import TData from "../components/table/TData";
+import { useGeneral } from "../hooks/useGeneral";
 
 const ClientData = () => {
 
+    const {countries,platforms,getAllCountries,getAllPlatforms} = useGeneral()
     const [selectedAll, setSelectedAll] = useState<boolean>(false);
     const [juegosQt, setJuegosQt] = useState<number>(10);
     const [currentPageJuegos, setCurrentPageJuegos] = useState<number>(1)
@@ -26,6 +28,11 @@ const ClientData = () => {
         suscription: '',
         country: ''
     });
+
+    useEffect(() =>{
+        getAllCountries();
+        getAllPlatforms();
+      },[getAllCountries,getAllPlatforms])
 
     const client = {
         id: 1,
@@ -96,10 +103,10 @@ const ClientData = () => {
                                     <Input id={"nombreCliente"} name={"name"} value={editedData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleChange} error=''></Input>
                                     <Input id={"correo"} name={"email"} value={editedData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleChange} error=''></Input>
                                     <Input id={"telefono"} name={"phone"} value={editedData.phone} title={"Teléfono"} type={"number"} placeholder={"5493816341612"} onChange={handleChange} error=''></Input>
-                                    <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={optionsPlatforms} onChange={handleChange}></Select>
+                                    <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleChange}></Select>
                                     <Checkbox title={"Suscripto"} name={"suscription"} onChange={handleChange}></Checkbox>
-                                    <Select id={"paises"} title={"País"} name={"country"} options={optionsCountries} onChange={handleChange}></Select>
-                                    <SaveButton/>
+                                    <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleChange}></Select>
+                                    <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'}/>
                                 </>
                             </Form>
                         </div>
@@ -152,7 +159,7 @@ const ClientData = () => {
                     {
                         dataShown.map((compras, index) => {
                             return (
-                            <TRow key={index}>
+                            <TRow key={index} id={compras.idSale}>
                                 <TData selectedAll={selectedAll} checkbox={true}>{compras.product}</TData>
                                 <TData>{compras.idSale}</TData>
                                 <TData>{compras.date}</TData>  
