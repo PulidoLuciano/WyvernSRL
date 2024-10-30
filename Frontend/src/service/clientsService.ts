@@ -1,6 +1,5 @@
 import clientType from "../utils/types/clientType";
 
-
 const getAll = async (url : string) => {
     
         const response = await fetch(`${url}`, {
@@ -37,9 +36,6 @@ const create = async (url: string,obj: clientType) => {
         })
 
         const data = await response.json();
-        console.log(response);
-        
-        console.log(data);
         
         if (!response.ok) throw new Error(`${data.message}`);
 
@@ -47,6 +43,21 @@ const create = async (url: string,obj: clientType) => {
 
 }
 
+const deleteClient = async (url: string, ids: Array<any | null>) => {
+    const response = await fetch(`${url}`,{
+                mode: 'cors',
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                },
+                body: JSON.stringify({ids})
+            })
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(`${data.message}`);
+    return data
+}
 
 
-export const clientsService = { getAll, create}
+export const clientsService = { getAll, create, deleteClient    }

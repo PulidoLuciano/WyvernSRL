@@ -31,3 +31,7 @@ export interface CheckboxProps {
     name: string;
     onChange: FormEventHandler
 }
+
+export interface ButtonProps {
+    className: string;
+}

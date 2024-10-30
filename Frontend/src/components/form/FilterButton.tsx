@@ -1,8 +1,9 @@
 import filterIcon from '../../images/filterIcon.svg'
+import { ButtonProps } from '../../utils/types/FormInterfaces'
 
-const FilterButton = () => {
+const FilterButton = ({className}: ButtonProps) => {
   return (
-    <button type='submit' className='text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'>
+    <button type='submit' className={className}>
         <img src={filterIcon} alt="filterIcon" />
         Filtrar
     </button>

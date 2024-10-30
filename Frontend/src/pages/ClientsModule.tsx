@@ -30,10 +30,6 @@ const ClientsModule = () => {
     getAllPlatforms();
   },[getAllCountries,getAllPlatforms])
   
-  console.log(countries);
-  console.log(platforms);
-  
-  
   const [selectedAll, setSelectedAll] = useState<boolean>(false);
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -62,6 +58,7 @@ const ClientsModule = () => {
   const nPages = Math.ceil(clients.length / dataLength);
   const dataShown = clients.slice(indexStart, indexEnd);
 
+  
   const changePage = (nextPage: number) => {
     setCurrentPage(nextPage);
   }
@@ -137,30 +134,28 @@ const ClientsModule = () => {
         <Accordion title="Crear Nuevo">
             <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
               <>
-                <Input  error=''  id={"nombreCliente"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange}></Input>
+                <Input error=''  id={"nombreCliente"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange}></Input>
                 <Input error=''  id={"correo"} name={"email"} value={createData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleCreateChange}></Input>
-                <Input  error='' id={"telefono"} name={"phone"} value={createData.phone} title={"Teléfono"} type={"text"} placeholder={"5493816341612"} onChange={handleCreateChange}></Input>
-                <Select  id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleCreateChange}></Select> 
-                <Checkbox  title={"Suscripto"} name={"suscription"}  onChange={handleCreateChange}></Checkbox>
-                <Select  id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange}></Select>
-                <SaveButton/>
+                <Input error='' id={"telefono"} name={"phone"} value={createData.phone} title={"Teléfono"} type={"text"} placeholder={"5493816341612"} onChange={handleCreateChange}></Input>
+                <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleCreateChange}></Select> 
+                <Checkbox title={"Suscripto"} name={"suscription"}  onChange={handleCreateChange}></Checkbox>
+                <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange}></Select>
+                <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'}/>
               </>  
             </Form>
         </Accordion>
         <Accordion title="Filtrar por">
-            <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
+            <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-4 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
               <>
                 <Input id={"nombreCliente"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange} error=''></Input>
                 <Input id={"correo"} name={"email"} value={filterData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleFilterChange} error=''></Input>
-                <Input id={"telefono"} name={"phone"} value={filterData.phone} title={"Teléfono"} type={"number"} placeholder={"5493816341612"} onChange={handleFilterChange} error=''></Input>
                 <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleFilterChange}></Select>
                 <Checkbox title={"Suscripto"} name={"suscription"}  onChange={handleFilterChange}></Checkbox>
                 <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleFilterChange}></Select>
-                <FilterButton/>
+                <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"}/>
               </>  
             </Form>
         </Accordion>
-
 
         <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
           <div className='flex gap-2 items-end tablet:col-span-2'>
@@ -188,16 +183,17 @@ const ClientsModule = () => {
         {error ? <p>Error: {error}</p> :
          <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
             {
-              dataShown.map((cliente,index) => {
-                return (
-                  <TRow key={index}>
-                    <TData selectedAll={selectedAll} checkbox={true}>{cliente.nombre}</TData>
-                    <TData>{cliente.Plataformas?.nombre}</TData>
-                    <TData>{cliente.Paises?.nombre}</TData>
-                    <TData>{cliente.suscripto? "Si" : "No"}</TData>
-                    <TData>{cliente.correo}</TData>
-                  </TRow>)
-              })
+              dataShown.filter(cliente => cliente.borrado==false).map((cliente,index) => (
+                    <TRow key={index} id={cliente.id}>
+                      <TData selectedAll={selectedAll} checkbox={true}>{cliente.nombre}</TData>
+                      <TData>{cliente.Plataformas?.nombre}</TData>
+                      <TData>{cliente.Paises?.nombre}</TData>
+                      <TData>{cliente.suscripto? "Si" : "No"}</TData>
+                      <TData>{cliente.correo}</TData>
+                    </TRow>
+                )
+              )
+              
             }
           </Table>
         }

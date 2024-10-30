@@ -15,6 +15,7 @@ export interface TableProps {
 
 export interface TRowProps {
     children: React.ReactNode;
+    id: number
 }
 
 export interface TDataProps {
