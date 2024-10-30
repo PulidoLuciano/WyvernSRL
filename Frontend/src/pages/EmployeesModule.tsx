@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { employees, optionsCountries, optionsProducts, optionsStates } from '../utils/dataArrays'
+import { employees, optionsStates } from '../utils/dataArrays'
 import Accordion from '../components/Accordion';
 import Pagination from '../components/Pagination';
 import Nav from '../components/Nav'

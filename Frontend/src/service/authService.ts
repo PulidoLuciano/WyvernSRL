@@ -1,4 +1,4 @@
-import clientType from "../utils/types/clientType";
+
 import { Credential } from "../utils/types/userTypes";
 
 const login = async (credentials : Credential) => {
@@ -29,51 +29,5 @@ const login = async (credentials : Credential) => {
     
 }
 
-const getAllCountries = async() =>{
-  try {
-    const response = await fetch("http://localhost:3000/countries",{
-      mode:'cors',
-      method:'GET',
-      credentials:'include',
-    })
 
-    if(!response.ok){
-      console.log(response);
-      console.log(response.json());
-      throw new Error;
-    }
-
-    const countries = response.json();
-    return countries;
-
-  } catch (error) {
-    console.log(error);
-    
-  }
-}
-
-const getAllPlatforms = async() =>{
-  try {
-    const response = await fetch("http://localhost:3000/platforms",{
-      mode:'cors',
-      method:'GET',
-      credentials:'include',
-    })
-
-    if(!response.ok){
-      console.log(response);
-      console.log(response.json());
-      throw new Error;
-    }
-
-    const platforms = response.json();
-    return platforms;
-
-  } catch (error) {
-    console.log(error);
-    
-  }
-}
-
-
-export const authService = { login,getAllCountries,getAllPlatforms}
+export const authService = { login }

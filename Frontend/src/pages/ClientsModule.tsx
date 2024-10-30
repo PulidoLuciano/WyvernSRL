@@ -12,23 +12,28 @@ import Table from '../components/table/Table';
 import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
 import { thead } from '../utils/types/TableInterfaces';
-import { useAuth } from '../context/authContext';
+import { useClients } from '../hooks/useClients';
+import { useGeneral } from '../hooks/useGeneral';
+import clientType from '../utils/types/clientType';
 
 const ClientsModule = () => {
   
-  const {countries,platforms,clients,getAllClients,createClient} = useAuth();
+  const { clients, getAllClients, createClient } = useClients();
+  const { countries, platforms, getAllCountries, getAllPlatforms} = useGeneral();
  
   useEffect(()=>{
-    getAllClients(true,true);
-    
-    
-  },[])
+    getAllClients(true,true); 
+  },[getAllClients])
+
+  useEffect(() =>{
+    getAllCountries();
+    getAllPlatforms();
+  },[getAllCountries,getAllPlatforms])
   
- 
   const [selectedAll, setSelectedAll] = useState<boolean>(false);
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [createData, setCreateData] = useState({
+  const [createData, setCreateData] = useState<clientType>({
     name: '',
     phone: '',
     email: '',
@@ -37,7 +42,7 @@ const ClientsModule = () => {
     country: ''
   });
 
-  const [filterData, setFilterData] = useState({
+  const [filterData, setFilterData] = useState<clientType>({
     name: '',
     phone: '',
     email: '',
@@ -58,7 +63,7 @@ const ClientsModule = () => {
 
   const handleSelectAll = () => {
     setSelectedAll(!selectedAll)
-}
+  }
 
   //********
   const clientTableHeaders: Array<thead> = [
@@ -82,9 +87,9 @@ const ClientsModule = () => {
 
   const handleCreateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(createData);
+    
     createClient(createData);
-      
-      
   }
 
   const handleFilterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -105,7 +110,6 @@ const ClientsModule = () => {
         [name]: value
       });
     }
-    
   }
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -131,7 +135,7 @@ const ClientsModule = () => {
                 <Input  error=''  id={"nombreCliente"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange}></Input>
                 <Input error=''  id={"correo"} name={"email"} value={createData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleCreateChange}></Input>
                 <Input  error='' id={"telefono"} name={"phone"} value={createData.phone} title={"Teléfono"} type={"text"} placeholder={"5493816341612"} onChange={handleCreateChange}></Input>
-                <Select  id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleCreateChange}></Select>
+                <Select  id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleCreateChange}></Select> 
                 <Checkbox  title={"Suscripto"} name={"suscription"}  onChange={handleCreateChange}></Checkbox>
                 <Select  id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange}></Select>
                 <SaveButton/>

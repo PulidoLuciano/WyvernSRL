@@ -1,85 +1,3 @@
-export const clients = [
-    {
-      name: "jesus",
-      phone: "123123",
-      email: "jesus@gmail.com",
-      suscription: true,
-      platform: "Steam",
-      pais: "argentina"
-    },
-    {
-      name: "jesus",
-      phone: "123123",
-      email: "jesus@gmail.com",
-      suscription: true,
-      platform: "Steam",
-      pais: "argentina"
-    }, {
-      name: "jesus",
-      phone: "123123",
-      email: "jesus@gmail.com",
-      suscription: true,
-      platform: "Steam",
-      pais: "argentina"
-    }, {
-      name: "jesus",
-      phone: "123123",
-      email: "jesus@gmail.com",
-      suscription: true,
-      platform: "Steam",
-      pais: "argentina"
-    }, {
-      name: "jesus",
-      phone: "123123",
-      email: "jesus@gmail.com",
-      suscription: true,
-      platform: "Steam",
-      pais: "argentina"
-    }, {
-      name: "jesus",
-      phone: "123123",
-      email: "jesus@gmail.com",
-      suscription: true,
-      platform: "Steam",
-      pais: "argentina"
-    }, {
-      name: "jesus",
-      phone: "123123",
-      email: "jesus@gmail.com",
-      suscription: true,
-      platform: "Steam",
-      pais: "argentina"
-    }, {
-      name: "jesus",
-      phone: "123123",
-      email: "jesus@gmail.com",
-      suscription: true,
-      platform: "Steam",
-      pais: "argentina"
-    }, {
-      name: "jesus",
-      phone: "123123",
-      email: "jesus@gmail.com",
-      suscription: true,
-      platform: "Steam",
-      pais: "argentina"
-    }, {
-      name: "jesus",
-      phone: "123123",
-      email: "jesus@gmail.com",
-      suscription: true,
-      platform: "Steam",
-      pais: "argentina"
-    }, {
-      name: "jesus",
-      phone: "123123",
-      email: "jesus@gmail.com",
-      suscription: true,
-      platform: "Steam",
-      pais: "argentina"
-    }
-]
-
 export const suppliers = [
   {
     name: "amazon",
@@ -379,9 +297,6 @@ export const employees = [
   }
 ]
 
-
-export const optionsPlatforms = ["Steam","Epic Games"];
-export const optionsCountries = ["Argentina","Venezuela","España","Rusia"];
 export const optionsStates = ["Buenos Aires","Cordoba","Tucuman","San Juan"];
 export const optionsProducts = ["Dragon's Legacy","Mystic Chronicles","Eternal Quest","Shadow of Valor"];
 

@@ -1,9 +1,9 @@
 import clientType from "../utils/types/clientType";
 
 
-const getAllClients = async (url : string) => {
+const getAll = async (url : string) => {
+    
     try {
-
         const response = await fetch(`${url}`, {
             mode: 'cors',
             method: 'GET',
@@ -11,23 +11,23 @@ const getAllClients = async (url : string) => {
         })
 
         if (!response.ok) {
-            console.log(response);
-            console.log(response.json());
             throw new Error;
         }
 
         const clients = response.json();
-        return clients;
 
+        return clients;
+        
     } catch (error) {
         console.log(error);
 
     }
 }
 
-const createClient = async (obj: clientType) => {
+const create = async (url: string,obj: clientType) => {
+
     try {
-        const response = await fetch("http://localhost:3000/clients/", {
+        const response = await fetch(`${url}/`, {
             mode: 'cors',
             method: 'POST',
             credentials: 'include',
@@ -38,8 +38,8 @@ const createClient = async (obj: clientType) => {
                 "nombre": obj.name,
                 "correo": obj.email,
                 "telefono": obj.phone ? obj.phone : null,
-                "Plataformas_id": obj.platform,
-                "Paises_id": obj.country,
+                "Plataformas_id": Number(obj.platform),
+                "Paises_id": Number(obj.country) ,
                 "suscripto": obj.suscription
             })
         })
@@ -63,4 +63,4 @@ const createClient = async (obj: clientType) => {
 
 
 
-export const clientsService = { getAllClients, createClient }
+export const clientsService = { getAll, create}

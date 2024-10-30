@@ -1,5 +1,5 @@
 export default interface clientType {
-    name:string;
+    name: string;
     email: string;
     platform: string;
     country: string;
