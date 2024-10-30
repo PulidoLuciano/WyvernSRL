@@ -30,6 +30,10 @@ const ClientsModule = () => {
     getAllPlatforms();
   },[getAllCountries,getAllPlatforms])
   
+  console.log(countries);
+  console.log(platforms);
+  
+  
   const [selectedAll, setSelectedAll] = useState<boolean>(false);
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { optionsCountries, optionsProducts } from '../utils/dataArrays'
+import { optionsProducts } from '../utils/dataArrays'
 import Accordion from '../components/Accordion';
 import Pagination from '../components/Pagination';
 import Nav from '../components/Nav'
@@ -13,11 +13,13 @@ import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
 import { thead } from '../utils/types/TableInterfaces';
 import { useAuth } from '../context/authContext';
+import { useClients } from '../hooks/useClients';
 
 
 const SalesModule = () => {
 
-  const {getAllSales,sales,clients,products} = useAuth()
+  const {getAllSales,sales} = useAuth()
+  const {clients} = useClients()
   useEffect(()=>{
     getAllSales()
   },[])

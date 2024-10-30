@@ -38,8 +38,10 @@ export const useClients = () =>{
     let url = "http://localhost:3000/clients";
     try {
       await clientsService.create(url, clientData);
-      await getAllClients(); 
+      await getAllClients(true,true); 
     } catch (err: any) {
+      console.log(err);
+      
       setError(err.message);
     } finally {
       setLoading(false);

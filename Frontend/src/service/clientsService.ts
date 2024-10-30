@@ -37,10 +37,13 @@ const create = async (url: string,obj: clientType) => {
         })
 
         const data = await response.json();
-
+        console.log(response);
+        
+        console.log(data);
+        
         if (!response.ok) throw new Error(`${data.message}`);
 
-        return response.json();
+        return data;
 
 }
 
