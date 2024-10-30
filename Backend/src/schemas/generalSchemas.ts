@@ -8,6 +8,6 @@ export const telefonoSchema = z.string().trim().regex(/"^\+?\d{1,3}?[-.\s]?\(?\d
 
 export const idSchema = z.coerce.number({message:"Se espera numero"});
 
-export const dateTimeSchema = z.string().datetime({ message: "La fecha introducida no cumple el formato ISO"});
+export const dateTimeSchema = z.string().datetime({ message: "La fecha y hora introducida no cumple el formato ISO"});
 
-export const borradoSchema = z.coerce.boolean().optional();
+export const borradoSchema = z.coerce.boolean();

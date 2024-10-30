@@ -5,7 +5,7 @@ import HttpStatuses from "../../utils/HttpStatus.ts"
 import ClientsController from "./clientsController.ts"
 import audit from "../../middlewares/audit.ts"
 import { validateData } from "../../middlewares/validateData.ts"
-import { ClientSchema } from "../../schemas/clientsSchemas.ts"
+import { ClientSchemaFilter, ClientSchemaCreate } from "../../schemas/clientsSchemas.ts"
 import { IdsSchema } from "../../schemas/usersSchemas.ts"
 import ContactsController from "./contactsController.ts"
 import { ContactsSchema } from "../../schemas/contactsSchemas.ts"
@@ -26,7 +26,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
         middlewares: [
-            parseQueries(ClientSchema)
+            parseQueries(ClientSchemaFilter)
         ],
         handler: controlador.getAll
     },
@@ -37,7 +37,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas],
         middlewares: [
-            validateData(ClientSchema),
+            validateData(ClientSchemaCreate),
             audit
         ],
         handler: controlador.create
@@ -58,7 +58,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas],
         middlewares: [
-            validateData(ClientSchema),
+            validateData(ClientSchemaCreate),
             audit
         ],
         handler: controlador.updateById
