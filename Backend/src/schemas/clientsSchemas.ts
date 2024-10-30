@@ -2,7 +2,7 @@ import { z } from "zod";
 import { borradoSchema, correoSchema, idSchema, nombreSchema, telefonoSchema } from "./generalSchemas";
 
 export const ClientSchema = z.object({
-    id:idSchema,
+    id:idSchema.optional(),
     nombre: nombreSchema,
     correo: correoSchema,
     telefono: telefonoSchema.optional().nullable(),

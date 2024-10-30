@@ -3,30 +3,22 @@ import clientType from "../utils/types/clientType";
 
 const getAll = async (url : string) => {
     
-    try {
         const response = await fetch(`${url}`, {
             mode: 'cors',
             method: 'GET',
             credentials: 'include',
         })
-
-        if (!response.ok) {
-            throw new Error;
-        }
-
-        const clients = response.json();
-
-        return clients;
         
-    } catch (error) {
-        console.log(error);
+        const data = await response.json();
+        
+        if (!response.ok) throw new Error(`${data.message}`);
+       
+        return data;
 
-    }
 }
 
 const create = async (url: string,obj: clientType) => {
 
-    try {
         const response = await fetch(`${url}/`, {
             mode: 'cors',
             method: 'POST',
@@ -44,21 +36,12 @@ const create = async (url: string,obj: clientType) => {
             })
         })
 
-        if (!response.ok) {
-            console.log(response);
-            console.log(await response.json());
+        const data = await response.json();
 
-
-            throw new Error;
-        }
+        if (!response.ok) throw new Error(`${data.message}`);
 
         return response.json();
 
-
-    } catch (error) {
-        console.log(error);
-
-    }
 }
 
 

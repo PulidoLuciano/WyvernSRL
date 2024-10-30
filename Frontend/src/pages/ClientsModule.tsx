@@ -18,7 +18,7 @@ import clientType from '../utils/types/clientType';
 
 const ClientsModule = () => {
   
-  const { clients, getAllClients, createClient } = useClients();
+  const { loading, error, clients, getAllClients, createClient } = useClients();
   const { countries, platforms, getAllCountries, getAllPlatforms} = useGeneral();
  
   useEffect(()=>{
@@ -57,6 +57,7 @@ const ClientsModule = () => {
   const indexStart = indexEnd - dataLength;
   const nPages = Math.ceil(clients.length / dataLength);
   const dataShown = clients.slice(indexStart, indexEnd);
+
   const changePage = (nextPage: number) => {
     setCurrentPage(nextPage);
   }
@@ -179,6 +180,8 @@ const ClientsModule = () => {
         </div>
 
         <div className='overflow-x-auto mt-6'>
+        {loading && <p>Cargando clientes...</p>}
+        {error ? <p>Error: {error}</p> :
          <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
             {
               dataShown.map((cliente,index) => {
@@ -193,7 +196,7 @@ const ClientsModule = () => {
               })
             }
           </Table>
-
+        }
         </div>
 
 

@@ -22,10 +22,10 @@ export const useClients = () =>{
         } else if (countries){
             url = url.concat("?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Paises");
         }
-        const data = await clientsService.getAll(url);
+        const data = await clientsService.getAll(url); 
         
         setClients(data);
-        } catch (err: any) {
+        } catch (err: any) {    
         setError(err.message);
         } finally {
         setLoading(false);
