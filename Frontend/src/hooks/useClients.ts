@@ -16,15 +16,15 @@ export const useClients = () =>{
     try {
   
         if (countries && platforms) {
-            url = url.concat("?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&include=Paises&include=borrado");
+            url = url.concat("?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&include=Paises&borrado=false");
         }
         else if (platforms) {
-            url = url.concat("?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&include=borrado");
+            url = url.concat("?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&borrado=false");
         } else if (countries){
-            url = url.concat("?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Paises&include=borradoe");
+            url = url.concat("?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Paises&borrado=false");
         }
         const data = await clientsService.getAll(url); 
-        console.log(data);
+
         
         setClients(data);
         } catch (err: any) {    
@@ -53,8 +53,10 @@ export const useClients = () =>{
     setError(null);
     let url = "http://localhost:3000/clients/";
     try {
-      await clientsService.deleteClient(url,ids);
+      const response = await clientsService.deleteClient(url,ids);
       await getAllClients(true, true); 
+      console.log(await response);
+      
     } catch (err: any) {
       setError(err.message);
     } finally {

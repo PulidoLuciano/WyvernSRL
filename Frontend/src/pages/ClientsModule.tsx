@@ -183,7 +183,7 @@ const ClientsModule = () => {
         {error ? <p>Error: {error}</p> :
          <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
             {
-              dataShown.filter(cliente => cliente.borrado==false).map((cliente,index) => (
+              dataShown.map((cliente,index) => (
                     <TRow key={index} id={cliente.id}>
                       <TData selectedAll={selectedAll} checkbox={true}>{cliente.nombre}</TData>
                       <TData>{cliente.Plataformas?.nombre}</TData>

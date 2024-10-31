@@ -60,4 +60,4 @@ const deleteClient = async (url: string, ids: Array<any | null>) => {
 }
 
 
-export const clientsService = { getAll, create, deleteClient    }
+export const clientsService = { getAll, create, deleteClient  }
