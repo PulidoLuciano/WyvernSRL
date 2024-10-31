@@ -5,7 +5,7 @@ export interface clientType {
     country: string;
     suscription: string;
     phone: string;
-
+    deleted?:string
 }
 
 
