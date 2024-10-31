@@ -2,7 +2,7 @@ import { WyvernRoute } from "src/types";
 import { SalesController } from "./salesControllers";
 import { ROLE } from "../../utils/Role";
 import parseQueries from "../../middlewares/parseQueries";
-import { SalesSchema } from "../../schemas/salesSchema";
+import { SalesSchemaCreate, SalesSchemaFilter } from "../../schemas/salesSchema";
 import audit from "../../middlewares/audit";
 import { validateData } from "../../middlewares/validateData";
 import { IdsSchema } from "../../schemas/usersSchemas";
@@ -17,7 +17,7 @@ const SALES_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
         middlewares: [
-            parseQueries(SalesSchema)
+            parseQueries(SalesSchemaFilter)
         ],
         handler: controladorVentas.getAll
     },
@@ -28,7 +28,7 @@ const SALES_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas],
         middlewares: [
-            validateData(SalesSchema),
+            validateData(SalesSchemaCreate),
             audit
         ],
         handler: controladorVentas.create
@@ -49,7 +49,7 @@ const SALES_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas],
         middlewares: [
-            validateData(SalesSchema),
+            validateData(SalesSchemaCreate),
             audit
         ],
         handler: controladorVentas.updateById

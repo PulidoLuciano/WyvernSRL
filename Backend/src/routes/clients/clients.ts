@@ -8,10 +8,10 @@ import { validateData } from "../../middlewares/validateData.ts"
 import { ClientSchemaFilter, ClientSchemaCreate } from "../../schemas/clientsSchemas.ts"
 import { IdsSchema } from "../../schemas/usersSchemas.ts"
 import ContactsController from "./contactsController.ts"
-import { ContactsSchema } from "../../schemas/contactsSchemas.ts"
+import { ContactsSchemaCreate, ContactsSchemaFilter } from "../../schemas/contactsSchemas.ts"
 import parseQueries from "../../middlewares/parseQueries.ts"
 import { NextFunction, Request, Response } from "express"
-import { SalesSchema } from "../../schemas/salesSchema.ts"
+import { SalesSchemaFilter } from "../../schemas/salesSchema.ts"
 import { SalesController } from "../sales/salesControllers.ts"
 
 const controlador = new ClientsController();
@@ -103,7 +103,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
                 };
                 next();
             },
-            parseQueries(ContactsSchema)
+            parseQueries(ContactsSchemaFilter)
         ],
         handler: controladorContactos.getAll
     },
@@ -125,7 +125,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
                 };
                 next();
             },
-            parseQueries(SalesSchema)
+            parseQueries(SalesSchemaFilter)
         ],
         handler: controladorVentas.getAll
     },
@@ -156,7 +156,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas],
         middlewares: [
-            validateData(ContactsSchema)
+            validateData(ContactsSchemaCreate)
         ],
         handler: controladorContactos.updateById
     },
@@ -167,7 +167,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas],
         middlewares: [
-            validateData(ContactsSchema)
+            validateData(ContactsSchemaCreate)
         ],
         handler: controladorContactos.create
     },

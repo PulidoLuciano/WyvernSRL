@@ -1,48 +1,83 @@
 CLIENTES
     General: 
-        - Form crear clientes: Nombre, Correo, Telefono, Plataforma, Suscripto, País (Back)
+        - Form crear clientes: Nombre, Correo, Telefono, Plataforma, Suscripto, País 
+                    POST /clients
         - Form filtrar clientes: Nombre, Correo, Plataforma, Suscripto, País (Back)
+                    GET /clients?queries
         - Tabla clientes: Nombre, Plataforma, País, Suscripto, Correo (Back)
+                    GET /clients?queries
+                    DELETE /clients
     Individual: 
         - Data labels: Nombre, Correo, Telefono, Plataforma, Suscripto, País (Back)
+                    GET /clients/:id
+                    PUT /clients/:id
         - Tabla compras del cliente: Producto, ID Venta, Fecha venta (Back)
+                    GET /clients/:id/sales
+                    DELETE /sales
         - Form crear contacto: Medio, duracion (activo solo si medio es telefono), fecha, motivo (Back)
+                    POST /contacts
         - Tabla de contactos del cliente: Id contacto, motivo, fecha, medio (Back)
+                    GET /clients/:id/contacts
+                    DELETE /contacts
 
 
 CONTACTOS
     Individual: 
         - Data labels: Id, Cliente, motivo, fecha, Medio, duracion (Back)
+                    GET /contacts/:id
+                    PUT /contacts/:id
 
 
 VENTAS
     General: 
         - Form crear ventas: Producto, Cliente, fecha (Back)
+                    POST /sales
         - Form filtrar ventas: Producto, Fecha (Back)
+                    GET /sales?queries
         - Tabla ventas: ID venta, Producto, Cliente, Fecha (Back)
-        - Form crear Productos: Nombre, precio, fecha de lanzamiento, Categoria
-        - Tabla Productos: Nombre, precio, Fecha de lanzamiento, Categoria
+                    GET /sales?queries
+                    DELETE /sales
+        - Form crear Productos: Nombre, precio, fecha de lanzamiento, Categoria (Back)
+                    POST /products
+        - Tabla Productos: Nombre, precio, Fecha de lanzamiento, Categoria (Back)
+                    GET /products?queries
+                    DELETE /products
     Individual:
         - Data labels: ID venta, Producto, Cliente, Fecha (Back)
+                    GET /sales/:id
+                    PUT /sales/:id
 
 PRODUCTO
     Individual: 
-        - Data labels: Nombre, precio, Fecha de lanzamiento, Categoria
-        - Tabla Ventas del Producto: ID venta, Producto, Cliente, Fecha
+        - Data labels: Nombre, precio, Fecha de lanzamiento, Categoria (Back)
+                    GET /products/:id
+                    PUT /products/:id
+        - Tabla Ventas del Producto: ID venta, Producto, Cliente, Fecha (Back)
+                    GET /sales?Productos_id={id}...
+                    DELETE /sales
 
 EMPLEADOS
     General:
         - Form crear empleado: Nombre, Correo, Telefono, DNI, fechaContratacion, sueldo, Provincia, Puesto
         - Form filtrar empleados: Nombre, DNI, Provincia, Puesto
         - Tabla empleados: Nombre, DNI, Correo, Puesto, Provincia
+        - Form crear area: Nombre (Back)
+                    POST /areas
+        - Tabla Areas: Id, Nombre (Back)
+                    GET /areas?queries
+                    DELETE /areas
     Individual: 
         - Data labels: Nombre, Correo, Telefono, DNI, fechaContratacion, sueldo, Provincia, Puesto, Area
         - Tabla puestos: Puesto, Area, fecha inicio, fecha fin
 
 AREA
     Individual:
-        -Data labels: Nombre
+        -Data labels: Nombre (Back)
+                    GET /areas/:id
         - Tabla empleados: Nombre, DNI, Correo, Puesto, Provincia
+        - Form crear puesto: Nombre 
+        - Tabla Puestos: Id, Nombre
+
 
 PUESTOS
     Individual:
