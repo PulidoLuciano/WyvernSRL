@@ -1,5 +1,5 @@
 import Pagination from "../components/Pagination"
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { compras } from '../utils/dataArrays'
 import Form from '../components/form/Form';
 import Input from '../components/form/Input';
@@ -8,14 +8,13 @@ import Select from '../components/form/Select';
 import Nav from "../components/Nav";
 import SaveButton from "../components/form/SaveButton";
 import Table from "../components/table/Table";
-import { thead } from '../utils/types/TableInterfaces';
 import TRow from "../components/table/TRow";
 import TData from "../components/table/TData";
 import { useGeneral } from "../hooks/useGeneral";
 
 const ClientData = () => {
 
-    const {countries,platforms,getAllCountries,getAllPlatforms} = useGeneral()
+    const { countries, platforms, getAllCountries, getAllPlatforms } = useGeneral()
     const [selectedAll, setSelectedAll] = useState<boolean>(false);
     const [juegosQt, setJuegosQt] = useState<number>(10);
     const [currentPageJuegos, setCurrentPageJuegos] = useState<number>(1)
@@ -29,10 +28,10 @@ const ClientData = () => {
         country: ''
     });
 
-    useEffect(() =>{
+    useEffect(() => {
         getAllCountries();
         getAllPlatforms();
-      },[getAllCountries,getAllPlatforms])
+    }, [getAllCountries, getAllPlatforms])
 
     const client = {
         id: 1,
@@ -76,22 +75,15 @@ const ClientData = () => {
 
     }
 
-    const clientTableHeaders: Array<thead> = [
-        {
-          title: "Producto",
-          checkbox: true,
-        },
-        {
-          title: "ID Venta"
-        },
-        {
-          title: "Fecha"
-        },
-      ]
+    const clientTableHeaders: Array<string> = [
+        "Producto",
+        "ID Venta",
+        "Fecha"
+    ]
 
     return (
         <div className='w-full flex '>
-            <Nav/>
+            <Nav />
             <main className='ms-72 p-8'>
                 <h1 className='text-2xl'>Visualización cliente: {client.id}</h1>
 
@@ -106,7 +98,7 @@ const ClientData = () => {
                                     <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleChange}></Select>
                                     <Checkbox title={"Suscripto"} name={"suscription"} onChange={handleChange}></Checkbox>
                                     <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleChange}></Select>
-                                    <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'}/>
+                                    <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
                                 </>
                             </Form>
                         </div>
@@ -155,19 +147,19 @@ const ClientData = () => {
                 </div>
 
                 <div className='overflow-x-auto mt-6'>
-                    <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
-                    {
-                        dataShown.map((compras, index) => {
-                            return (
-                            <TRow key={index} id={compras.idSale}>
-                                <TData selectedAll={selectedAll} checkbox={true}>{compras.product}</TData>
-                                <TData>{compras.idSale}</TData>
-                                <TData>{compras.date}</TData>  
-                            </TRow>)
-                        })
-                    }
+                    <Table headers={clientTableHeaders}>
+                        {
+                            dataShown.map((compras, index) => {
+                                return (
+                                    <TRow key={index} id={compras.idSale}>
+                                        <TData selectedAll={selectedAll} checkbox={true}>{compras.product}</TData>
+                                        <TData>{compras.idSale}</TData>
+                                        <TData>{compras.date}</TData>
+                                    </TRow>)
+                            })
+                        }
                     </Table>
-                   
+
                 </div>
 
                 <div className='flex items-center justify-center laptop:justify-end gap-6 my-6' id='paginacionTabla'>

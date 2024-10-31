@@ -1,16 +1,11 @@
 import { ChangeEventHandler } from "react";
 
-export interface thead {
-    title: string;
-    checkbox?: boolean;
-    onChange?: ChangeEventHandler 
-}
+
 
 export interface TableProps {
     children : React.ReactNode;
-    headers: Array<thead>;
-    selectedAll?: boolean;
-    onChange?: ChangeEventHandler 
+    id?:string;
+    headers: Array<string>;
 }
 
 export interface TRowProps {
@@ -23,5 +18,6 @@ export interface TDataProps {
     checkbox?: boolean;
     onChange?: ChangeEventHandler;
     selectedAll?: boolean;
-    id?: string
+    id?: string,
+    isSelectAll?:boolean
 }
