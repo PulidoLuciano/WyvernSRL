@@ -15,7 +15,7 @@ export interface TableProps {
 
 export interface TRowProps {
     children: React.ReactNode;
-    id: number
+    id?: number
 }
 
 export interface TDataProps {
@@ -23,4 +23,5 @@ export interface TDataProps {
     checkbox?: boolean;
     onChange?: ChangeEventHandler;
     selectedAll?: boolean;
+    id?: string
 }

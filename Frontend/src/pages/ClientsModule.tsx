@@ -45,6 +45,8 @@ const ClientsModule = () => {
     country: ''
   });
 
+  const [selectedData,setSelectedData] = useState<Array<string>>([])
+
   const [filterData, setFilterData] = useState<clientType>({
     name: '',
     phone: '',
@@ -65,6 +67,30 @@ const ClientsModule = () => {
   const changePage = (nextPage: number) => {
     setCurrentPage(nextPage);
   }
+
+  const handleSelectedItem = (e : React.ChangeEvent<HTMLInputElement>) =>{ 
+    const dataExist = selectedData.find(d => d == e.target.id);
+    let newSelectedData
+    if(dataExist){
+      newSelectedData = selectedData.filter(d => d != dataExist); 
+      setSelectedData(newSelectedData)
+    }
+    else
+    {
+      newSelectedData = selectedData;
+      newSelectedData.push(e.target.id)
+      console.log(newSelectedData);
+      
+      setSelectedData(newSelectedData);
+    }
+    
+  }
+  
+  useEffect(()=>{
+    console.log(selectedData);
+    
+  },[selectedData])
+  
 
   const handleSelectAll = () => {
     setSelectedAll(!selectedAll)
@@ -219,8 +245,8 @@ const ClientsModule = () => {
          <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
             {
               dataShown.map((cliente,index) => (
-                    <TRow key={index} id={cliente.id}>
-                      <TData selectedAll={selectedAll} checkbox={true}>{cliente.nombre}</TData>
+                    <TRow key={index}>
+                      <TData selectedAll={selectedAll} id={cliente.id} checkbox={true} onChange={handleSelectedItem} >{cliente.nombre}</TData>
                       <TData>{cliente.Plataformas?.nombre}</TData>
                       <TData>{cliente.Paises?.nombre}</TData>
                       <TData>{cliente.suscripto? "Si" : "No"}</TData>
