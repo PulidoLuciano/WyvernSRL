@@ -56,7 +56,7 @@ export const useClients = () =>{
       const response = await clientsService.deleteClient(url,ids);
       await getAllClients(true, true); 
       console.log(await response);
-      
+      return response;
     } catch (err: any) {
       setError(err.message);
     } finally {

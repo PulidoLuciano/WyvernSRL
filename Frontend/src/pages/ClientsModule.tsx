@@ -11,7 +11,6 @@ import FilterButton from '../components/form/FilterButton';
 import Table from '../components/table/Table';
 import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
-import { thead } from '../utils/types/TableInterfaces';
 import { useClients } from '../hooks/useClients';
 import { useGeneral } from '../hooks/useGeneral';
 import { clientType, CreateClientErrors } from '../utils/types/clientType';
@@ -20,7 +19,7 @@ import * as Yup from 'yup'
 
 const ClientsModule = () => {
 
-  const { loading, error, clients, getAllClients, createClient } = useClients();
+  const { loading, error, clients, getAllClients, createClient,deleteClient } = useClients();
   const { countries, platforms, getAllCountries, getAllPlatforms } = useGeneral();
 
   useEffect(() => {
@@ -69,23 +68,30 @@ const ClientsModule = () => {
   }
 
   const handleSelectedItem = (e : React.ChangeEvent<HTMLInputElement>) =>{ 
-    const dataExist = selectedData.find(d => d == e.target.id);
     let newSelectedData
+    const dataExist = selectedData.find(d => d == e.target.id);
+    
     if(dataExist){
       newSelectedData = selectedData.filter(d => d != dataExist); 
       setSelectedData(newSelectedData)
     }
     else
     {
-      newSelectedData = selectedData;
-      newSelectedData.push(e.target.id)
-      console.log(newSelectedData);
-      
-      setSelectedData(newSelectedData);
+      setSelectedData([...selectedData,e.target.id]);
     }
     
   }
   
+  const handleDeleteSelectedData = async (selectedData : Array<string>) =>{
+      if(!selectedData || selectedData.length == 0){
+        return
+      }else{
+       const dataDelete = await deleteClient(selectedData);
+       if(dataDelete) console.log("clientes eliminados exitosamente");
+       setSelectedData([])
+      }
+      
+  }
   useEffect(()=>{
     console.log(selectedData);
     
@@ -97,23 +103,17 @@ const ClientsModule = () => {
   }
 
   //********
-  const clientTableHeaders: Array<thead> = [
-    {
-      title: "Nombre",
-      checkbox: true,
-    },
-    {
-      title: "Plataforma"
-    },
-    {
-      title: "País"
-    },
-    {
-      title: "Suscripto"
-    },
-    {
-      title: "Correo"
-    }
+  const clientTableHeaders: Array<string> = [
+    "Nombre"
+    ,
+    "Plataforma"
+    ,
+    "País"
+    ,
+    "Suscripto"
+    ,
+    "Correo"
+    
   ]
 
   const handleCreateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -224,11 +224,11 @@ const ClientsModule = () => {
             <p>Página 1 de 20</p>
           </div>
 
-          <button className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
+          <button onClick={()=>handleDeleteSelectedData(selectedData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
             <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
             </svg>
-            Eliminar Seleccionados (0)
+            Eliminar Seleccionados ({selectedData.length}) 
           </button>
 
           <button className='bg-primary font-semibold laptopL:col-start-6 laptopL:col-end-7 rounded flex gap-2 items-center justify-center text-white'>
@@ -242,7 +242,7 @@ const ClientsModule = () => {
         <div className='overflow-x-auto mt-6'>
         {loading && <p>Cargando clientes...</p>}
         {error ? <p>Error: {error}</p> :
-         <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
+         <Table id='ClientsTable' headers={clientTableHeaders}>
             {
               dataShown.map((cliente,index) => (
                     <TRow key={index}>

@@ -1,4 +1,4 @@
-import clientType from "../utils/types/clientType";
+import {clientType} from "../utils/types/clientType";
 
 const getAll = async (url : string) => {
     

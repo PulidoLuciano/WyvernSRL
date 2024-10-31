@@ -1,25 +1,17 @@
 import {TableProps} from '../../utils/types/TableInterfaces'
 
-const Table = ({onChange,children,headers} : TableProps) => {
+const Table = ({children,headers,id} : TableProps) => {
  
    
  
   return (
-    <table className='w-full' id='clientsTable'>
+    <table className='w-full' id={id}>
         <thead>
             <tr>
 
             
             {headers.map((head,index) => {
-                if(head.checkbox){
-                    return <th key={index} className='p-2 text-start '><input type="checkbox" onChange={onChange} className="me-2 tableCheckbox"  />
-                    {head.title}
-                    </th>
-                }
-                else
-                {
-                    return <th key={index} className='p-2 text-start '>{head.title}</th>
-                }
+                    return <th key={index} className='p-2 text-start '>{head}</th>
             })}
             <th className='p-2 text-start '></th>
             </tr>

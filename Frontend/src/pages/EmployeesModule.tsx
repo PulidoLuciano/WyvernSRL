@@ -11,7 +11,6 @@ import FilterButton from '../components/form/FilterButton';
 import Table from '../components/table/Table';
 import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
-import { thead } from '../utils/types/TableInterfaces';
 import { useGeneral } from '../hooks/useGeneral';
 
 const EmployeesModule = () => {
@@ -51,32 +50,18 @@ const EmployeesModule = () => {
 
   const handleSelectAll = () => {
     setSelectedAll(!selectedAll)
-}
+  }
 
   //********
-  const clientTableHeaders: Array<thead> = [
-    {
-      title: "Nombre",
-      checkbox: true,
-    },
-    {
-      title: "Email"
-    },
-    {
-      title: "DNI"
-    },
-    {
-      title: "Telefono"
-    },
-    {
-      title: "Fecha de contratacion"
-    },
-    {
-      title: "salario"
-    },
-    {
-      title: "Provincia"
-    }
+  const clientTableHeaders: Array<string> = [
+    "Nombre",
+    "Email",
+    "DNI",
+    "Telefono",
+    "Fecha de contratacion",
+    "salario",
+    "Provincia"
+
   ]
 
   const handleCreateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -115,32 +100,32 @@ const EmployeesModule = () => {
         </div>
 
         <Accordion title="Crear Nuevo">
-            <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-4 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
-              <>
-                <Input id={"nombre"} name={"name"} value={createData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleCreateChange} error=''></Input>                
-                <Input id={"correo"} name={"email"} value={createData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleCreateChange} error=''></Input>
-                <Input id={"dni"} name={"dni"} value={createData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleCreateChange} error=''></Input>
-                <Input id={"telefono"} name={"phone"} value={createData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleCreateChange} error=''></Input>
-                <Input id={"fechaContratacion"} name={"hiringDate"} value={createData.hiringDate} title={"Fecha de contratacion"} type={"text"} placeholder={"2024-09-30 14:30:14"} onChange={handleCreateChange} error=''></Input>            
-                <Input id={"salario"} name={"salary"} value={createData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleCreateChange} error=''></Input>            
-                <Select id={"provincia"} title={"Provincia"} name={"state"} options={optionsStates} onChange={handleCreateChange}></Select>               
-                <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end'}/>
-              </>  
-            </Form>
+          <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-4 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
+            <>
+              <Input id={"nombre"} name={"name"} value={createData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleCreateChange} error=''></Input>
+              <Input id={"correo"} name={"email"} value={createData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleCreateChange} error=''></Input>
+              <Input id={"dni"} name={"dni"} value={createData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleCreateChange} error=''></Input>
+              <Input id={"telefono"} name={"phone"} value={createData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleCreateChange} error=''></Input>
+              <Input id={"fechaContratacion"} name={"hiringDate"} value={createData.hiringDate} title={"Fecha de contratacion"} type={"text"} placeholder={"2024-09-30 14:30:14"} onChange={handleCreateChange} error=''></Input>
+              <Input id={"salario"} name={"salary"} value={createData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleCreateChange} error=''></Input>
+              <Select id={"provincia"} title={"Provincia"} name={"state"} options={optionsStates} onChange={handleCreateChange}></Select>
+              <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end'} />
+            </>
+          </Form>
         </Accordion>
         <Accordion title="Filtrar por">
-            <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
-              <>
-                <Input id={"nombre"} name={"name"} value={filterData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleFilterChange} error=''></Input>                
-                <Input id={"correo"} name={"email"} value={filterData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleFilterChange} error=''></Input>
-                <Input id={"dni"} name={"dni"} value={filterData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleFilterChange} error=''></Input>
-                <Input id={"telefono"} name={"phone"} value={filterData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleFilterChange} error=''></Input>
-                <Input id={"fechaContratacion"} name={"hiringDate"} value={filterData.hiringDate} title={"Fecha de contratacion"} type={"text"} placeholder={"2024-09-30 14:30:14"} onChange={handleFilterChange} error=''></Input>            
-                <Input id={"salario"} name={"salary"} value={filterData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleFilterChange} error=''></Input>            
-                <Select id={"provincia"} title={"Provincia"} name={"state"} options={optionsStates} onChange={handleCreateChange}></Select>               
-                <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"}/>
-              </>  
-            </Form>
+          <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
+            <>
+              <Input id={"nombre"} name={"name"} value={filterData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleFilterChange} error=''></Input>
+              <Input id={"correo"} name={"email"} value={filterData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleFilterChange} error=''></Input>
+              <Input id={"dni"} name={"dni"} value={filterData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleFilterChange} error=''></Input>
+              <Input id={"telefono"} name={"phone"} value={filterData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleFilterChange} error=''></Input>
+              <Input id={"fechaContratacion"} name={"hiringDate"} value={filterData.hiringDate} title={"Fecha de contratacion"} type={"text"} placeholder={"2024-09-30 14:30:14"} onChange={handleFilterChange} error=''></Input>
+              <Input id={"salario"} name={"salary"} value={filterData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleFilterChange} error=''></Input>
+              <Select id={"provincia"} title={"Provincia"} name={"state"} options={optionsStates} onChange={handleCreateChange}></Select>
+              <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"} />
+            </>
+          </Form>
         </Accordion>
 
 
@@ -166,11 +151,11 @@ const EmployeesModule = () => {
         </div>
 
         <div className='overflow-x-auto mt-6'>
-         <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
+          <Table headers={clientTableHeaders}>
             {
               dataShown.map((empleado, index) => {
                 return (
-                  <TRow key={index} id={empleado.dni}> 
+                  <TRow key={index} id={empleado.dni}>
                     <TData selectedAll={selectedAll} checkbox={true}>{empleado.name}</TData>
                     <TData>{empleado.email}</TData>
                     <TData>{empleado.dni}</TData>
