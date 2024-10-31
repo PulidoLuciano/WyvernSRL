@@ -1,12 +1,12 @@
 import { z } from "zod";
-import { borradoSchema, correoSchema, idSchema, nombreSchema, telefonoSchema } from "./generalSchemas";
+import { borradoSchema, correoSchema, idSchema, nombreSchema, telefonoSchema, trueBooleanSchema } from "./generalSchemas";
 
 export const ClientSchemaFilter = z.object({
     id:idSchema,
     nombre: nombreSchema,
     correo: correoSchema,
     telefono: telefonoSchema,
-    suscripto: z.coerce.boolean(),
+    suscripto: trueBooleanSchema,
     borrado: borradoSchema,
     Paises_id: idSchema,
     Plataformas_id: idSchema,

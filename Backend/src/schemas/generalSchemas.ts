@@ -10,4 +10,6 @@ export const idSchema = z.coerce.number({message:"Se espera numero"});
 
 export const dateTimeSchema = z.string().datetime({ message: "La fecha y hora introducida no cumple el formato ISO"});
 
-export const borradoSchema = z.coerce.boolean();
+export const trueBooleanSchema = z.preprocess((value) => !(value === "false" || value == "0"), z.coerce.boolean());
+
+export const borradoSchema = trueBooleanSchema
