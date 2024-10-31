@@ -15,7 +15,7 @@ export interface InputProps {
     type: string;
     placeholder: string;
     onChange: FormEventHandler;
-    error : string | undefined
+    error?: string | undefined
 }
 
 export interface SelectProps {
@@ -23,7 +23,9 @@ export interface SelectProps {
     name: string;
     title: string;
     options: Array<any>;
-    onChange: FormEventHandler
+    onChange: FormEventHandler;
+    error?: string | undefined;
+
 }
 
 export interface CheckboxProps {

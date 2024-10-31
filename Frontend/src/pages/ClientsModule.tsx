@@ -14,31 +14,34 @@ import TRow from '../components/table/TRow';
 import { thead } from '../utils/types/TableInterfaces';
 import { useClients } from '../hooks/useClients';
 import { useGeneral } from '../hooks/useGeneral';
-import clientType from '../utils/types/clientType';
+import { clientType, CreateClientErrors } from '../utils/types/clientType';
+import { clientSchema } from '../schemas/clientsSchema';
+import * as Yup from 'yup'
 
 const ClientsModule = () => {
-  
-  const { loading, error, clients, getAllClients, createClient } = useClients();
-  const { countries, platforms, getAllCountries, getAllPlatforms} = useGeneral();
- 
-  useEffect(()=>{
-    getAllClients(true,true); 
-  },[getAllClients])
 
-  useEffect(() =>{
+  const { loading, error, clients, getAllClients, createClient } = useClients();
+  const { countries, platforms, getAllCountries, getAllPlatforms } = useGeneral();
+
+  useEffect(() => {
+    getAllClients(true, true);
+  }, [getAllClients])
+
+  useEffect(() => {
     getAllCountries();
     getAllPlatforms();
-  },[getAllCountries,getAllPlatforms])
-  
+  }, [getAllCountries, getAllPlatforms])
+
   const [selectedAll, setSelectedAll] = useState<boolean>(false);
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)
+  const [createErrors, setCreateErrors] = useState<CreateClientErrors>({})
   const [createData, setCreateData] = useState<clientType>({
     name: '',
     phone: '',
     email: '',
     platform: '',
-    suscription: '',
+    suscription: 'false',
     country: ''
   });
 
@@ -47,7 +50,7 @@ const ClientsModule = () => {
     phone: '',
     email: '',
     platform: '',
-    suscription: '',
+    suscription: 'false',
     country: ''
   });
 
@@ -58,7 +61,7 @@ const ClientsModule = () => {
   const nPages = Math.ceil(clients.length / dataLength);
   const dataShown = clients.slice(indexStart, indexEnd);
 
-  
+
   const changePage = (nextPage: number) => {
     setCurrentPage(nextPage);
   }
@@ -87,11 +90,32 @@ const ClientsModule = () => {
     }
   ]
 
-  const handleCreateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCreateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    e.currentTarget.children
+    if (createData.suscription == "" && createData.country == "" && createData.platform == "") {
+      
+    }
+
     console.log(createData);
-    
-    createClient(createData);
+    try {
+
+      await clientSchema.validate(createData, { abortEarly: false });
+      createClient(createData)
+      setCreateErrors({});
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+
+        const createErrors: CreateClientErrors = {};
+        err.inner.forEach((error) => {
+          if (error.path) createErrors[error.path as keyof CreateClientErrors] = error.message;
+        });
+
+        setCreateErrors(createErrors);
+        console.log(createErrors);
+
+      }
+    }
   }
 
   const handleFilterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -101,17 +125,28 @@ const ClientsModule = () => {
 
   const handleCreateChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    if(name=="suscription"){
+    console.log(e.target.ariaPressed);
+
+    if(createData.suscription == "false" && e.target.type == "checkbox"){
       setCreateData({
         ...createData,
-        [name]: value=="on"? "true" : "false"
+        suscription: "true"
       })
-    } else{
+    }
+    else if( createData.suscription == "true" && e.target.type == "checkbox" )
+    {
+      setCreateData({
+        ...createData,
+        suscription: "false"
+      })
+    
+    }else{
       setCreateData({
         ...createData,
         [name]: value
       });
     }
+
   }
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -121,7 +156,7 @@ const ClientsModule = () => {
       [name]: value
     });
   }
-  
+
   return (
     <main className='w-full flex '>
       <Nav />
@@ -132,29 +167,29 @@ const ClientsModule = () => {
         </div>
 
         <Accordion title="Crear Nuevo">
-            <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
-              <>
-                <Input error=''  id={"nombreCliente"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange}></Input>
-                <Input error=''  id={"correo"} name={"email"} value={createData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleCreateChange}></Input>
-                <Input error='' id={"telefono"} name={"phone"} value={createData.phone} title={"Teléfono"} type={"text"} placeholder={"5493816341612"} onChange={handleCreateChange}></Input>
-                <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleCreateChange}></Select> 
-                <Checkbox title={"Suscripto"} name={"suscription"}  onChange={handleCreateChange}></Checkbox>
-                <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange}></Select>
-                <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'}/>
-              </>  
-            </Form>
+          <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
+            <>
+              <Input error={createErrors.name} id={"nombreCliente"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange}></Input>
+              <Input error={createErrors.email} id={"correo"} name={"email"} value={createData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleCreateChange}></Input>
+              <Input error={createErrors.phone} id={"telefono"} name={"phone"} value={createData.phone} title={"Teléfono"} type={"text"} placeholder={"5493816341612"} onChange={handleCreateChange}></Input>
+              <Select error={createErrors.platform} id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleCreateChange}></Select>
+              <Checkbox title={"Suscripto"} name={"suscription"} onChange={handleCreateChange}></Checkbox>
+              <Select error={createErrors.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange}></Select>
+              <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
+            </>
+          </Form>
         </Accordion>
         <Accordion title="Filtrar por">
-            <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-4 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
-              <>
-                <Input id={"nombreCliente"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange} error=''></Input>
-                <Input id={"correo"} name={"email"} value={filterData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleFilterChange} error=''></Input>
-                <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleFilterChange}></Select>
-                <Checkbox title={"Suscripto"} name={"suscription"}  onChange={handleFilterChange}></Checkbox>
-                <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleFilterChange}></Select>
-                <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"}/>
-              </>  
-            </Form>
+          <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-4 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
+            <>
+              <Input id={"nombreCliente"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange} ></Input>
+              <Input id={"correo"} name={"email"} value={filterData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleFilterChange} ></Input>
+              <Select  id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleFilterChange}></Select>
+              <Checkbox title={"Suscripto"} name={"suscription"} onChange={handleFilterChange}></Checkbox>
+              <Select  id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleFilterChange}></Select>
+              <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"} />
+            </>
+          </Form>
         </Accordion>
 
         <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
@@ -179,24 +214,24 @@ const ClientsModule = () => {
         </div>
 
         <div className='overflow-x-auto mt-6'>
-        {loading && <p>Cargando clientes...</p>}
-        {error ? <p>Error: {error}</p> :
-         <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
-            {
-              dataShown.filter(cliente => cliente.borrado==false).map((cliente,index) => (
-                    <TRow key={index} id={cliente.id}>
-                      <TData selectedAll={selectedAll} checkbox={true}>{cliente.nombre}</TData>
-                      <TData>{cliente.Plataformas?.nombre}</TData>
-                      <TData>{cliente.Paises?.nombre}</TData>
-                      <TData>{cliente.suscripto? "Si" : "No"}</TData>
-                      <TData>{cliente.correo}</TData>
-                    </TRow>
+          {loading && <p>Cargando clientes...</p>}
+          {error ? <p>Error: {error}</p> :
+            <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
+              {
+                dataShown.filter(cliente => cliente.borrado == false).map((cliente, index) => (
+                  <TRow key={index} id={cliente.id}>
+                    <TData selectedAll={selectedAll} checkbox={true}>{cliente.nombre}</TData>
+                    <TData>{cliente.Plataformas?.nombre}</TData>
+                    <TData>{cliente.Paises?.nombre}</TData>
+                    <TData>{cliente.suscripto ? "Si" : "No"}</TData>
+                    <TData>{cliente.correo}</TData>
+                  </TRow>
                 )
-              )
-              
-            }
-          </Table>
-        }
+                )
+
+              }
+            </Table>
+          }
         </div>
 
 

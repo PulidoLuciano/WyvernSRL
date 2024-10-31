@@ -1,4 +1,4 @@
-export default interface clientType {
+export interface clientType {
     name: string;
     email: string;
     platform: string;
@@ -6,4 +6,14 @@ export default interface clientType {
     suscription: string;
     phone: string;
 
+}
+
+
+export interface CreateClientErrors{
+    name?: string;
+    email?: string;
+    phone?: string;
+    suscription?: string;
+    country?: string;
+    platform?: string;
 }
