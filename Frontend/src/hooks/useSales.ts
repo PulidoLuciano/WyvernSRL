@@ -17,9 +17,9 @@ const useSales = () => {
         filterUrl? filterUrlLast = filterUrl.replace("?","&") : filterUrlLast = "";
     
         let url = "http://localhost:3000/sales/";  
-        let includeClientsProducts = "?include=id&include=fecha&include=Clientes&include=Productos&include=borrado";
-        let includeClients = "?include=id&include=fecha&include=Clientesinclude=borrado";
-        let includeProducts = "?include=id&include=fecha&include=Productos&include=borrado";
+        let includeClientsProducts = "?include=id&include=fecha&include=Clientes&include=Productos&borrado=false";
+        let includeClients = "?include=id&include=fecha&include=Clientes&borrado=false";
+        let includeProducts = "?include=id&include=fecha&include=Productos&borrado=false";
         try {
       
             if (products && clients) {
