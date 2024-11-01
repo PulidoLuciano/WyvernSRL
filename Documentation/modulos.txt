@@ -116,6 +116,11 @@ PROVEEDORES
                     GET /providers?queries
         - Tabla proveedores: Nombre, correo, provincia, rubro, Calidad (Sale de los incumplimientos) (Back, falta incumplimientos)
                     GET /providers?queries
+        - Form crear rubro: Nombre (Back)
+                    POST /markets
+        - Tabla rubros: Nombre (Back)
+                    GET /markets?queries 
+                    DELETE /markets
     Individual:
         - Data labels: Nombre, correo, Telefono, Provincia, Rubro (Back)
                     GET /providers/:id?queries
@@ -124,13 +129,15 @@ PROVEEDORES
         - Tabla Compras: descripcion, precio unitario, Moneda, cantidad, fecha, entregado, pagado
 
         - Tabla incumplimientos: Descripcion, fecha, Id_Compra/Contrato, Nivel de incumplimiento
-                    
+
 
 
 RUBRO
     Individual:
-        - Data labels: Nombre
-        - Tabla proveedores: Nombre, correo, telefono, provincia
+        - Data labels: Nombre (Back)
+                    GET /markets/:id?queries
+        - Tabla proveedores: Nombre, correo, telefono, provincia (Back)
+                    GET /markets/:id?queries
 
 COMPRAS/CONTRATOS:
     General: 
