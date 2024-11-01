@@ -98,7 +98,7 @@ const SalesModule = () => {
 
 
       const clientExist = clients.find(c => c.nombre == createData.client);
-      console.log(clientExist);
+      
 
       if (clientExist == undefined) {
         setCreateErrors({ ...createErrors, client: "Este cliente no existe" })
@@ -135,31 +135,27 @@ const SalesModule = () => {
 
   const handleFilterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(filterData ? true : false);
 
     const client = clients.find(c => c.nombre == filterData.client);
+    const fechaISO = filterData.date? new Date(filterData.date).toISOString() : "";
     const data = {
-      fecha: new Date(filterData.date).toISOString(),
+      fecha: fechaISO,
       Clientes_id: client ? client.id : "",
       Productos_id: filterData.product
     }
-
+   
+  
     const datos = Object.entries(data);
 
     const filter: Array<string> = []
     datos.forEach((d, index) => {
       if (d[1] != "" && index == 0) {
-        (d[0] == "fecha") ? filter.push(`?${d[0]}=${d[1]}`) :
-          filter.push(`?${d[0]}[contains]=${d[1]}`);
+        filter.push(`?${d[0]}=${d[1]}`) 
       }
       else if (d[1] != "") {
-        (d[0] == "fecha") ? filter.push(`?${d[0]}=${new Date(d[1]).toString()}`) :
-          filter.push(`?${d[0]}[contains]=${d[1]}`);
+        filter.push(`&${d[0]}=${d[1]}`)
       }
     })
-
-    console.log(filter.join(""));
-
 
     getAllSales(true, true, filter.join(""));
 

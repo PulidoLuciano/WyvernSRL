@@ -21,6 +21,7 @@ export const useClients = () => {
         : (filterUrlLast = "");
 
     let url = "http://localhost:3000/clients/";  
+    let includesStatements = "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&borrado=false"
     let includePlatformsCountries = "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&include=Paises&borrado=false";
     let includePlatforms = "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&borrado=false";
     let includeCountries = "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Paises&borrado=false";
@@ -28,15 +29,15 @@ export const useClients = () => {
   
         if (countries && platforms) {
           filterUrl
-            ? (url = url.concat(includePlatformsCountries, filterUrlLast))
+            ? (url = url.concat(includesStatements, filterUrlLast,"&include=Plataformas&include=Paises"))
             : (url = url.concat(includePlatformsCountries));
         } else if (platforms) {
           filterUrl
-            ? (url = url.concat(includePlatforms, filterUrlLast))
+            ? (url = url.concat(includesStatements, filterUrlLast,"&include=Plataformas"))
             : (url = url.concat(includePlatforms));
         } else if (countries) {
           filterUrl
-            ? (url = url.concat(includeCountries, filterUrlLast))
+            ? (url = url.concat(includesStatements, filterUrlLast,"&include=Paises"))
             : (url = url.concat(includeCountries));
         } else {
           if (filterUrl) url = url.concat(filterUrl);
