@@ -59,9 +59,9 @@ const deleteClient = async (url: string, ids: Array<any | null>) => {
     return data
 }
 
-const getOne = async (url : string, id : number) => {
+const getOne = async (url : string) => {
     
-    const response = await fetch(`${url}/${id}`, {
+    const response = await fetch(`${url}`, {
         mode: 'cors',
         method: 'GET',
         credentials: 'include',
@@ -91,5 +91,25 @@ const getAllContacts = async (url : string) => {
 
 }
 
+const deleteContact = async (url: string, ids: Array<any | null>) => {
+    console.log(ids);
+    
+    const response = await fetch(`${url}`,{
+                mode: 'cors',
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                },
+                body: JSON.stringify({ids})
+            })
 
-export const clientsService = { getAllClients, create, deleteClient, getOne, getAllContacts }
+    const data = await response.json();
+    console.log(data);
+    
+    if (!response.ok) throw new Error(`${data.message}`);
+    return data
+}
+
+
+export const clientsService = { getAllClients, create, deleteClient, getOne, getAllContacts, deleteContact }

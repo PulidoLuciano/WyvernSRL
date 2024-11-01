@@ -89,9 +89,9 @@ export const useClients = () => {
   const getClient = useCallback(async (id: number) => {
     setLoading(true);
     setError(null);
-    let url = `http://localhost:3000/clients`;
+    let url = `http://localhost:3000/clients/${id}/?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&include=Paises&borrado=false`;
     try {
-      const data = await clientsService.getOne(url, id);
+      const data = await clientsService.getOne(url);
       setClientDetail(data);
     } catch (err: any) {
       setError(err.message);
@@ -104,30 +104,9 @@ export const useClients = () => {
     setLoading(true);
     setError(null);
 
-    // let filterUrlLast;
-    // filterUrl? filterUrlLast = filterUrl.replace("?","&") : filterUrlLast = "";
-
     let url = `http://localhost:3000/clients/${id}/contacts`;
-    // let includePlatformsCountries = "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&include=Paises&include=borrado";
-    // let includePlatforms = "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&include=borrado";
-    // let includeCountries = "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Paises&include=borrado";
+  
     try {
-      // if (countries && platforms) {
-      //   filterUrl? url = url.concat(includePlatformsCountries,filterUrlLast)  :
-      //     url = url.concat(includePlatformsCountries);
-      // }
-      // else if (platforms) {
-      //   filterUrl? url = url.concat(includePlatforms,filterUrlLast)  :
-      //     url = url.concat(includePlatforms);
-      // } else if (countries){
-      //   filterUrl? url = url.concat(includeCountries,filterUrlLast)  :
-      //     url = url.concat(includeCountries);
-      // }
-      // else
-      // {
-      //   if(filterUrl) url = url.concat(filterUrl);
-      // }
-
       const data = await clientsService.getAllContacts(url);
 
       setContacts(data);
@@ -137,6 +116,23 @@ export const useClients = () => {
       setLoading(false);
     }
   }, []);
+
+  const deleteContact= async (clientId : number, ids: Array<any>) => {
+    setLoading(true);
+    setError(null);
+    let url = "http://localhost:3000/clients/contacts";
+    try {
+      const response = await clientsService.deleteContact(url, ids);
+      console.log(response);
+      
+      await getAllContacts(clientId);
+      return response;
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return {
     clients,
@@ -151,5 +147,6 @@ export const useClients = () => {
     clientDetail,
     getAllContacts,
     contacts,
+    deleteContact
   };
 };

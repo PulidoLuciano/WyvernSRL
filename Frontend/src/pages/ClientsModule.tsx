@@ -35,6 +35,7 @@ const ClientsModule = () => {
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [createErrors, setCreateErrors] = useState<CreateClientErrors>({})
+  const [selectedData, setSelectedData] = useState<Array<string>>([])
   const [createData, setCreateData] = useState<clientType>({
     name: '',
     phone: '',
@@ -43,8 +44,6 @@ const ClientsModule = () => {
     suscription: 'false',
     country: ''
   });
-
-  const [selectedData, setSelectedData] = useState<Array<string>>([])
 
   const [filterData, setFilterData] = useState<clientType>({
     name: '',
@@ -91,10 +90,6 @@ const ClientsModule = () => {
       setSelectedData([])
     }
 
-  }
-
-  const handleSelectAll = () => {
-    setSelectedAll(!selectedAll)
   }
 
   //********
