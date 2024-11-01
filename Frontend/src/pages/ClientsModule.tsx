@@ -135,7 +135,6 @@ const ClientsModule = () => {
 
   const handleFilterSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(filterData? true : false);
     const data = {
       nombre: filterData.name,
       correo: filterData.email,

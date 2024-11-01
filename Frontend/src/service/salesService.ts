@@ -1,9 +1,7 @@
-const baseUrlSales = "http://localhost:3000/sales"
-const baseUrlProducts = "http://localhost:3000/products"
-
-const getAllSales = async() =>{
+import { saleType } from "../utils/types/saleType";
+const getAll = async(url : string) =>{
     try {
-        const response = await fetch(`${baseUrlSales}`,{
+        const response = await fetch(`${url}`,{
             mode: 'cors',
             method: 'GET',
             credentials: 'include'
@@ -11,7 +9,7 @@ const getAllSales = async() =>{
     
         if(!response.ok){
             console.log(response);
-            console.log(response.json());
+            console.log(await response.json());
         }
     
         const sales = response.json()
@@ -24,30 +22,49 @@ const getAllSales = async() =>{
 
 }
 
-const getAllProducts = async() =>{
-    try {
-        const response = await fetch(`${baseUrlProducts}`,{
-            mode:"cors",
-            method: "GET",
-            credentials: "include"
-        })
 
-        if(!response.ok){
-            console.log(response);
-            console.log(response.json());
-        }
+const create = async(url:string,obj : saleType) =>{
     
-        const products = response.json()
-        return products;
+    const response = await fetch(`${url}/`, {
+        mode: 'cors',
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: JSON.stringify({
+            "fecha": new Date(obj.date),
+            "Clientes_id": obj.client,
+            "Productos_id": obj.product,
+        })
+    })
 
-    } catch (error) {
-        console.log(error);
-        
-    }
+    const data = await response.json();
+    console.log(data);
+    
+    if (!response.ok) throw new Error(`${data.message}`);
+    
+    
+    return data;
+
+}
+
+const deleteSale = async (url: string, ids: Array<any | null>) => {
+    const response = await fetch(`${url}`,{
+                mode: 'cors',
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                },
+                body: JSON.stringify({ids})
+            })
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(`${data.message}`);
+    return data
 }
 
 
 
-
-
-export const salesService = {getAllSales,getAllProducts}
+export const salesService = {getAll,create,deleteSale}
