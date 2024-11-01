@@ -25,3 +25,9 @@ export class ProvinciasController extends RouterController{
         super(prisma.provincias, "provincia")
     }
 }
+
+export class MonedasController extends RouterController{
+    constructor(){
+        super(prisma.monedas, "moneda")
+    }
+}
