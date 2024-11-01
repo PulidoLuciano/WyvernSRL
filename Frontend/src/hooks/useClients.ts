@@ -6,7 +6,7 @@ export const useClients = () => {
   const [clients, setClients] = useState<Array<any>>([]);
   const [clientDetail, setClientDetail] = useState<any>(null);
   const [contacts, setContacts] = useState<Array<any>>([]);
-  const [medias, setMedias] = useState<Array<any>>([]);
+  const [clientPurchases, setClientsPurchases] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [deletes, setDeletes] = useState<Array<any> | null>(null);
@@ -100,11 +100,28 @@ export const useClients = () => {
     }
   }, []);
 
+  const getClientsPurchases = useCallback(async (id: number) => {
+    setLoading(true);
+    setError(null);
+
+    let url = `http://localhost:3000/clients/${id}/sales`;
+  
+    try {
+      const data = await clientsService.getClientsPurchases(url);
+      
+      setClientsPurchases(data);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const getAllContacts = useCallback(async (id: number) => {
     setLoading(true);
     setError(null);
 
-    let url = `http://localhost:3000/clients/${id}/contacts`;
+    let url = `http://localhost:3000/clients/${id}/contacts/?include=motivo`;
   
     try {
       const data = await clientsService.getAllContacts(url);
@@ -116,6 +133,23 @@ export const useClients = () => {
       setLoading(false);
     }
   }, []);
+
+  const deletePurchase= async (id : number, ids: Array<any>) => {
+    setLoading(true);
+    setError(null);
+    let url = `http://localhost:3000/clients/sales`;
+    try {
+      const response = await clientsService.deletePurchase(url, ids);
+      console.log(response);
+      
+      await getClientsPurchases(id);
+      return response;
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const createContact = async (clientId : number, clientData: contactType) => {
     setLoading(true);
@@ -163,6 +197,9 @@ export const useClients = () => {
     getAllContacts,
     contacts,
     createContact,
-    deleteContact
+    deleteContact,
+    getClientsPurchases,
+    clientPurchases,
+    deletePurchase
   };
 };

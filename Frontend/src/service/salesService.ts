@@ -65,6 +65,30 @@ const deleteSale = async (url: string, ids: Array<any | null>) => {
     return data
 }
 
+const getClientsPurchases = async(url : string) =>{
+    try {
+        const response = await fetch(`${url}`,{
+            mode: 'cors',
+            method: 'GET',
+            credentials: 'include'
+        })
+    
+        if(!response.ok){
+            console.log(response);
+            console.log(await response.json());
+        }
+    
+        const sales = response.json()
+        return sales;
+
+    } catch (error) {
+        console.log(error);
+            
+    }
+
+}
+
+
 
 
 export const salesService = {getAll,create,deleteSale}

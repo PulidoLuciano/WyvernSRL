@@ -139,7 +139,38 @@ const createContact = async (url: string,obj: contactType) => {
 }
 
 
+const getClientsPurchases = async (url : string) => {
+    
+    const response = await fetch(`${url}`, {
+        mode: 'cors',
+        method: 'GET',
+        credentials: 'include',
+    })
+    
+    const data = await response.json();
+    
+    if (!response.ok) throw new Error(`${data.message}`);
+   
+    return data;
 
+}
 
+const deletePurchase= async (url: string, ids: Array<any | null>) => {
+    const response = await fetch(`${url}`,{
+                mode: 'cors',
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                },
+                body: JSON.stringify({ids})
+            })
 
-export const clientsService = { getAllClients, create, deleteClient, getOne, getAllContacts, deleteContact, createContact, }
+    const data = await response.json();
+    console.log(data);
+    
+    if (!response.ok) throw new Error(`${data.message}`);
+    return data
+}
+
+export const clientsService = { getAllClients, create, deleteClient, getOne, getAllContacts, deleteContact, createContact, getClientsPurchases, deletePurchase }

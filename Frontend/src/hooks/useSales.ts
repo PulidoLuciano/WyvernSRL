@@ -82,7 +82,7 @@ const useSales = () => {
         }
       };
 
-
+      
     return {sales,loading,error,getAllSales,createSale,deleteSale}
 
 }

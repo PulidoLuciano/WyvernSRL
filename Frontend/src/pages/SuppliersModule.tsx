@@ -151,7 +151,7 @@ const SuppliersModule = () => {
             {
               dataShown.map((cliente, index) => {
                 return (
-                  <TRow key={index} id={index}>
+                  <TRow key={index} id={index} detail={true}>
                     <TData selectedAll={selectedAll} checkbox={true}>{cliente.name}</TData>
                     <TData>{cliente.country}</TData>
                     <TData>{cliente.state}</TData>

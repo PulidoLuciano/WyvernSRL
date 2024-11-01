@@ -91,118 +91,6 @@ export const suppliers = [
   },
 ]
 
-export const sales = [
-  {
-    username: "juan1427",
-    product: "Dragon's Legacy",
-    date: "2023-07-17"
-  },
-  {
-    username: "juan1427",
-    product: "Dragon's Legacy",
-    date: "2023-07-17"
-  }, {
-    username: "juan1427",
-    product: "Dragon's Legacy",
-    date: "2023-07-17"
-  }, {
-    username: "juan1427",
-    product: "Dragon's Legacy",
-    date: "2023-07-17"
-  }, {
-    username: "juan1427",
-    product: "Dragon's Legacy",
-    date: "2023-07-17"
-  }, {
-    username: "juan1427",
-    product: "Dragon's Legacy",
-    date: "2023-07-17"
-  }, {
-    username: "juan1427",
-    product: "Dragon's Legacy",
-    date: "2023-07-17"
-  }, {
-    username: "juan1427",
-    product: "Dragon's Legacy",
-    date: "2023-07-17"
-  }, {
-    username: "juan1427",
-    product: "Dragon's Legacy",
-    date: "2023-07-17"
-  }, {
-    username: "juan1427",
-    product: "Dragon's Legacy",
-    date: "2023-07-17"
-  }, {
-    username: "juan1427",
-    product: "Dragon's Legacy",
-    date: "2023-07-17"
-  }
-]
-
-export const compras = [
-    {
-        product: "juego1",
-        idSale: 1,
-        date: "2024-09-30 14:30:14",
-
-    }, {
-        product: "juego1",
-        idSale: 1,
-        date: "2024-09-30 14:30:14",
-
-    }, {
-        product: "juego1",
-        idSale: 1,
-        date: "2024-09-30 14:30:14",
-
-    }, {
-        product: "juego1",
-        idSale: 1,
-        date: "2024-09-30 14:30:14",
-
-    }, {
-        product: "juego1",
-        idSale: 1,
-        date: "2024-09-30 14:30:14",
-
-    }, {
-        product: "juego1",
-        idSale: 1,
-        date: "2024-09-30 14:30:14",
-
-    }, {
-        product: "juego1",
-        idSale: 1,
-        date: "2024-09-30 14:30:14",
-
-    }, {
-        product: "juego1",
-        idSale: 1,
-        date: "2024-09-30 14:30:14",
-
-    }, {
-        product: "juego1",
-        idSale: 1,
-        date: "2024-09-30 14:30:14",
-
-    }, {
-        product: "juego1",
-        idSale: 1,
-        date: "2024-09-30 14:30:14",
-
-    }, {
-        product: "juego1",
-        idSale: 1,
-        date: "2024-09-30 14:30:14",
-
-    }, {
-        product: "juego1",
-        idSale: 1,
-        date: "2024-09-30 14:30:14",
-
-    },
-]
 
 export const employees = [
   {
@@ -300,3 +188,26 @@ export const employees = [
 export const optionsStates = ["Buenos Aires","Cordoba","Tucuman","San Juan"];
 export const optionsProducts = ["Dragon's Legacy","Mystic Chronicles","Eternal Quest","Shadow of Valor"];
 
+export const contactTableHeaders: Array<string> = ["ID", "Motivo", "Fecha", "Medio"];
+export const purchasesTableHeaders: Array<string> = ["ID", "Producto", "Fecha"];
+
+export const employeeTableHeaders: Array<string> = [
+  "Nombre",
+  "Correo",
+  "DNI",
+  "Puesto",
+  "Provincia",
+]
+
+export const clientTableHeaders: Array<string> = [
+  "Nombre"
+  ,
+  "Plataforma"
+  ,
+  "País"
+  ,
+  "Suscripto"
+  ,
+  "Correo"
+
+]

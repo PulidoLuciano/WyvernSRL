@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { optionsProducts } from '../utils/dataArrays'
 import Accordion from '../components/Accordion';
 import Pagination from '../components/Pagination';
 import Nav from '../components/Nav'
@@ -230,7 +229,7 @@ const SalesModule = () => {
             {
               dataShown.map((sale, index) => {
                 return (
-                  <TRow key={index} id={sale.id}>
+                  <TRow key={index} id={sale.id} detail={true}>
                     <TData onChange={handleSelectedItem} id={sale.id} checkbox={true}>{sale.Clientes?.nombre}</TData>
                     <TData>{sale.Productos?.nombre}</TData>
                     <TData>{sale.fecha}</TData>

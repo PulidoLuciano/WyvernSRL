@@ -11,7 +11,7 @@ import FilterButton from '../components/form/FilterButton';
 import Table from '../components/table/Table';
 import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
-import { useGeneral } from '../hooks/useGeneral';
+import { employeeTableHeaders } from "../utils/dataArrays"
 
 const EmployeesModule = () => {
 
@@ -51,19 +51,7 @@ const EmployeesModule = () => {
   const handleSelectAll = () => {
     setSelectedAll(!selectedAll)
   }
-
-  //********
-  const clientTableHeaders: Array<string> = [
-    "Nombre",
-    "Email",
-    "DNI",
-    "Telefono",
-    "Fecha de contratacion",
-    "salario",
-    "Provincia"
-
-  ]
-
+ 
   const handleCreateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(createData);
@@ -151,11 +139,11 @@ const EmployeesModule = () => {
         </div>
 
         <div className='overflow-x-auto mt-6'>
-          <Table headers={clientTableHeaders}>
+          <Table headers={employeeTableHeaders}>
             {
               dataShown.map((empleado, index) => {
                 return (
-                  <TRow key={index} id={empleado.dni}>
+                  <TRow key={index} id={empleado.dni} detail={true}>
                     <TData selectedAll={selectedAll} checkbox={true}>{empleado.name}</TData>
                     <TData>{empleado.email}</TData>
                     <TData>{empleado.dni}</TData>

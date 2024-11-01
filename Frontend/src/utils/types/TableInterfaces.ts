@@ -10,7 +10,9 @@ export interface TableProps {
 
 export interface TRowProps {
     children: React.ReactNode;
-    id?: number
+    id?: number;
+    detail: boolean;
+    path?: string
 }
 
 export interface TDataProps {

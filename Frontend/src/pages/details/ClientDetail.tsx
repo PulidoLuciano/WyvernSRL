@@ -1,21 +1,22 @@
-import Pagination from "../components/Pagination";
+import Pagination from "../../components/Pagination";
 import { useState, useEffect } from "react";
-import Accordion from "../components/Accordion";
-import Form from "../components/form/Form";
-import Input from "../components/form/Input";
-import Checkbox from "../components/form/Checkbox";
-import Select from "../components/form/Select";
-import Nav from "../components/Nav";
-import SaveButton from "../components/form/SaveButton";
-import Table from "../components/table/Table";
-import TRow from "../components/table/TRow";
-import TData from "../components/table/TData";
-import { useGeneral } from "../hooks/useGeneral";
+import Accordion from "../../components/Accordion";
+import Form from "../../components/form/Form";
+import Input from "../../components/form/Input";
+import Checkbox from "../../components/form/Checkbox";
+import Select from "../../components/form/Select";
+import Nav from "../../components/Nav";
+import SaveButton from "../../components/form/SaveButton";
+import Table from "../../components/table/Table";
+import TRow from "../../components/table/TRow";
+import TData from "../../components/table/TData";
+import { useGeneral } from "../../hooks/useGeneral";
 import { useParams } from "react-router-dom";
-import { useClients } from "../hooks/useClients";
-import { contactType, createContactErrors } from "../utils/types/clientType";
+import { useClients } from "../../hooks/useClients";
+import { contactType, createContactErrors } from "../../utils/types/clientType";
 import * as Yup from "yup";
-import { contactSchema } from "../schemas/contactSchema";
+import { contactSchema } from "../../schemas/contactSchema";
+import { contactTableHeaders, purchasesTableHeaders} from "../../utils/dataArrays"
 
 const ClientData = () => {
   const params = useParams();
@@ -29,6 +30,9 @@ const ClientData = () => {
     contacts,
     deleteContact,
     createContact,
+    getClientsPurchases,
+    clientPurchases,
+    deletePurchase
   } = useClients();
   const {
     getAllCountries,
@@ -42,7 +46,8 @@ const ClientData = () => {
   useEffect(() => {
     getClient(clientId);
     getAllContacts(clientId);
-  }, [getClient, getAllContacts]);
+    getClientsPurchases(clientId)
+  }, [getClient, getAllContacts, getClientsPurchases]);
 
   useEffect(() => {
     getAllCountries();
@@ -50,12 +55,14 @@ const ClientData = () => {
     getAllMedias();
   }, [getAllCountries, getAllPlatforms, getAllMedias]);
 
-  const [selectedAll, setSelectedAll] = useState<boolean>(false);
-  const [juegosQt, setJuegosQt] = useState<number>(10);
+  const [dataLength, setDataLength] = useState<number>(10);
   const [createErrors, setCreateErrors] = useState<createContactErrors>({});
-  const [currentPageJuegos, setCurrentPageJuegos] = useState<number>(1);
+  const [currentPageContacts, setCurrentPageContacts] = useState<number>(1);
+  const [currentPagePurchases, setCurrentPagePurchases] = useState<number>(1);
   const [editable, setEditable] = useState(false);
-  const [selectedData, setSelectedData] = useState<Array<string>>([]);
+  const [selectedDataPurchase, setSelectedDataPurchase] = useState<Array<string>>([]);
+  const [selectedDataContact, setSelectedDataContact] = useState<Array<string>>([]);
+
   const [editedData, setEditedData] = useState({
     name: '',
     phone: '',
@@ -72,15 +79,24 @@ const ClientData = () => {
     motivo: '',
   });
 
-  const indexEnd = currentPageJuegos * juegosQt;
-  const indexStart = indexEnd - juegosQt;
-  const nPages = Math.ceil(contacts.length / juegosQt);
-  const dataShown = contacts.slice(indexStart, indexEnd);
+  const indexEndPurchases= currentPagePurchases * dataLength;
+  const indexStartPurchases = indexEndPurchases - dataLength;
+  const nPagesPurchases = Math.ceil(clientPurchases.length / dataLength);
+  const dataShownPurchases = clientPurchases.slice(indexStartPurchases, indexEndPurchases);
 
-  const changePage = (nextPage: number) => {
-    setCurrentPageJuegos(nextPage);
+  const indexEndContacts = currentPageContacts * dataLength;
+  const indexStartContacts = indexEndContacts - dataLength;
+  const nPagesContacts = Math.ceil(contacts.length / dataLength);
+  const dataShownContacts = contacts.slice(indexStartContacts, indexEndContacts);
+
+
+  const changePagePurchases = (nextPage: number) => {
+    setCurrentPagePurchases(nextPage);
   };
 
+  const changePageContacts = (nextPage: number) => {
+    setCurrentPageContacts(nextPage);
+  };
   const handleClickEditable = () => {
     setEditable(!editable);
   };
@@ -125,30 +141,51 @@ const ClientData = () => {
       [name]: value,
     });
   };
-
-  const handleSelectedItem = (e: React.ChangeEvent<HTMLInputElement>) => {
+  
+  const handleSelectedItemPurchase = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newSelectedData;
-    const dataExist = selectedData.find((d) => d == e.target.id);
+    const dataExist = selectedDataPurchase.find((d) => d == e.target.id);
 
     if (dataExist) {
-      newSelectedData = selectedData.filter((d) => d != dataExist);
-      setSelectedData(newSelectedData);
+      newSelectedData = selectedDataPurchase.filter((d) => d != dataExist);
+      setSelectedDataPurchase(newSelectedData);
     } else {
-      setSelectedData([...selectedData, e.target.id]);
+      setSelectedDataPurchase([...selectedDataPurchase, e.target.id]);
     }
   };
 
-  const handleDeleteSelectedData = async (selectedData: Array<string>) => {
+  const handleDeleteSelectedDataPurchase = async (selectedData: Array<string>) => {
+    if (!selectedData || selectedData.length == 0) {
+      return;
+    } else {
+      const dataDelete = await deletePurchase(clientId, selectedData);
+      if (dataDelete) console.log("compras eliminados exitosamente");
+      setSelectedDataPurchase([]);
+    }
+  };
+
+  const handleSelectedItemContact = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let newSelectedData;
+    const dataExist = selectedDataContact.find((d) => d == e.target.id);
+
+    if (dataExist) {
+      newSelectedData = selectedDataContact.filter((d) => d != dataExist);
+      setSelectedDataContact(newSelectedData);
+    } else {
+      setSelectedDataContact([...selectedDataContact, e.target.id]);
+    }
+  };
+
+  const handleDeleteSelectedDataContact = async (selectedData: Array<string>) => {
     if (!selectedData || selectedData.length == 0) {
       return;
     } else {
       const dataDelete = await deleteContact(clientId, selectedData);
       if (dataDelete) console.log("contactos eliminados exitosamente");
-      setSelectedData([]);
+      setSelectedDataContact([]);
     }
   };
 
-  const clientTableHeaders: Array<string> = ["ID", "Motivo", "Fecha", "Medio"];
 
   if (loading) return <p>Cargando detalles del cliente...</p>;
 
@@ -282,11 +319,8 @@ const ClientData = () => {
           </>
         )}
 
-        <Accordion title="Crear Nuevo">
-          <Form
-            handleSubmit={handleCreateSubmit}
-            className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32"
-          >
+        <Accordion title="Crear Nuevo Contacto">
+          <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
             <>
               <Select
                 id={"medios"}
@@ -338,22 +372,55 @@ const ClientData = () => {
         <div className="grid grid-rows-2 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6">
           <div className="flex flex-col gap-2 items-start tablet:col-span-2">
             <h2 className="text-3xl">Compras del cliente</h2>
-            <p>Total de contactos:{contacts.length}</p>
+            <p>Total de compras:{clientPurchases.length}</p>
           </div>
 
-          <button onClick={() => handleDeleteSelectedData(selectedData)} className="bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6">
+          <button onClick={() => handleDeleteSelectedDataPurchase(selectedDataPurchase)} className="bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6">
             <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor"strokeLinecap="round"strokeLinejoin="round"strokeWidth="2"d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
             </svg>
-            Eliminar Seleccionados ({selectedData.length})
+            Eliminar Seleccionados ({selectedDataPurchase.length})
           </button>
         </div>
 
         <div className="overflow-x-auto mt-6">
-          <Table headers={clientTableHeaders}>
-            {dataShown.map((contactos, index) => (
-              <TRow key={index} id={contactos.id}>
-                <TData selectedAll={selectedAll} checkbox={true} id={contactos.id} onChange={handleSelectedItem}>
+          <Table headers={purchasesTableHeaders}>
+            {dataShownPurchases.map((compras, index) => (
+              <TRow key={index} id={compras.id} detail={false}>
+                <TData checkbox={true} id={compras.id} onChange={handleSelectedItemPurchase}>
+                  {compras.id}
+                </TData>
+                <TData>{compras.Productos.nombre}</TData>
+                <TData>{compras.fecha}</TData>
+              </TRow>
+            ))}
+          </Table>
+        </div>
+
+        <div className="flex items-center justify-center laptop:justify-end gap-6 my-6"id="paginacionTabla">
+          <Pagination changePage={changePagePurchases} nPages={nPagesPurchases}currentPage={currentPagePurchases} indexStart={indexStartPurchases}indexEnd={indexEndPurchases}/>
+        </div>
+
+
+        <div className="grid grid-rows-2 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6">
+          <div className="flex flex-col gap-2 items-start tablet:col-span-2">
+            <h2 className="text-3xl">Contactos del cliente</h2>
+            <p>Total de contactos:{contacts.length}</p>
+          </div>
+
+          <button onClick={() => handleDeleteSelectedDataContact(selectedDataContact)} className="bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6">
+            <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor"strokeLinecap="round"strokeLinejoin="round"strokeWidth="2"d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
+            </svg>
+            Eliminar Seleccionados ({selectedDataContact.length})
+          </button>
+        </div>
+
+        <div className="overflow-x-auto mt-6">
+          <Table headers={contactTableHeaders}>
+            {dataShownContacts.map((contactos, index) => (
+              <TRow key={index} id={contactos.id} detail={true}>
+                <TData checkbox={true} id={contactos.id} onChange={handleSelectedItemContact}>
                   {contactos.id}
                 </TData>
                 <TData>{contactos.motivo}</TData>
@@ -365,7 +432,7 @@ const ClientData = () => {
         </div>
 
         <div className="flex items-center justify-center laptop:justify-end gap-6 my-6"id="paginacionTabla">
-          <Pagination changePage={changePage}nPages={nPages}currentPage={currentPageJuegos} indexStart={indexStart}indexEnd={indexEnd}/>
+          <Pagination changePage={changePageContacts} nPages={nPagesContacts} currentPage={currentPageContacts} indexStart={indexStartContacts}indexEnd={indexEndContacts}/>
         </div>
       </main>
     </div>
