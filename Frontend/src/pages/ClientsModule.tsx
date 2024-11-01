@@ -52,8 +52,7 @@ const ClientsModule = () => {
     email: '',
     platform: '',
     suscription: 'false',
-    country: '',
-    deleted: 'false',
+    country: ''
   });
 
   //PAGINATION
@@ -150,10 +149,8 @@ const ClientsModule = () => {
     const data = {
       nombre: filterData.name,
       correo: filterData.email,
-      telefono:filterData.phone,
       Plataforma_id: filterData.platform,
       Paises_id: filterData.country,
-      borrado: filterData.deleted,
       suscripto: filterData.suscription
     }
     const datos = Object.entries(data);
@@ -162,15 +159,17 @@ const ClientsModule = () => {
     const filter : Array<string> = []
     datos.forEach((d,index) => {
       if(d[1] != "" && index==0){
-        (d[0] == "borrado" || d[0] == "suscripto") ? filter.push(`?${d[0]}=${d[1]}`) : 
+        (d[0] == "suscripto") ? filter.push(`?${d[0]}=${d[1]}`) : 
         filter.push( `?${d[0]}[contains]=${d[1]}`);
       }
       else if(d[1] != ""){
-        (d[0] == "borrado" || d[0] == "suscripto") ? filter.push(`&${d[0]}=${d[1]}`) : 
+        (d[0] == "suscripto") ? filter.push(`&${d[0]}=${d[1]}`) : 
         filter.push( `&${d[0]}[contains]=${d[1]}`);
       }
     })
       
+    console.log(filter.join(""));
+    
    getAllClients(true,true,filter.join(""));
    
   }
@@ -249,11 +248,9 @@ const ClientsModule = () => {
               <>
                 <Input id={"nombreCliente"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange} ></Input>
                 <Input id={"correo"} name={"email"} value={filterData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleFilterChange} ></Input>
-                <Input id={"telefono"} name={"phone"} value={filterData.phone} title={"Teléfono"} type={"text"} placeholder={"5493816341612"} onChange={handleFilterChange}></Input>
                 <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleFilterChange}></Select>
                 <Checkbox title={"Suscripto"} name={"suscription"} onChange={handleFilterChange}></Checkbox>
                 <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleFilterChange}></Select>
-                <Select id={"borrado"} title={"Borrado"} name={"deleted"} options={[{ id: "true", nombre: "Si" }, { id: "false", nombre: "No" }]} onChange={handleFilterChange}></Select>
                 <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"} />
               </>
             </Form>
