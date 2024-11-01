@@ -51,7 +51,17 @@ export default abstract class RouterController{
     public async getById (req : Request, res : Response) {
         const { id } = req.params;
         const idNumber = Number(id);
-        const user = await this.prismaModel.findUnique({ where: {id: idNumber}});
+        let user;
+        if(req.query){
+            if(req.query.select){
+                user = await this.prismaModel.findUnique({ where: {id: idNumber}, select: req.query.select});
+            }
+            else{
+                user = await this.prismaModel.findUnique({ where: {id: idNumber}});    
+            }
+        }else{
+            user = await this.prismaModel.findUnique({ where: {id: idNumber}});
+        }
         if(!user)
             throw new ApiError(HttpStatuses.NOT_FOUND, `No existe ${this.entityName} con ese id`);
         return res.json(user);

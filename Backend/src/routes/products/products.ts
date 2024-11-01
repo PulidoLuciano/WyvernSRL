@@ -27,6 +27,7 @@ const PRODUCTS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin,ROLE.Ventas, ROLE.Auditor],
         middlewares: [
+            parseQueries(ProductsSchemaFilter)
         ],
         handler: controladorProductos.getById
     },
