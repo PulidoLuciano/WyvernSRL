@@ -92,11 +92,6 @@ const ClientsModule = () => {
     }
 
   }
-  useEffect(() => {
-    console.log(selectedData);
-
-  }, [selectedData])
-
 
   const handleSelectAll = () => {
     setSelectedAll(!selectedAll)
