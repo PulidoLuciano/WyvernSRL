@@ -102,8 +102,10 @@ USUARIOS
 
 ROLES
     Individual:
-        - Data labels: Nombre
-        - Tabla usuarios: Nombre de usuario, contrasenia, DNI empleado
+        - Data labels: Nombre (Back)
+                    GET /roles?queries
+        - Tabla usuarios: Nombre de usuario, contrasenia, DNI empleado (Back)
+                    GET /roles?queries
 
 
 PROVEEDORES
@@ -139,8 +141,5 @@ COMPRAS/CONTRATOS:
         - Data labels: Id contrato, proveedor, descripcion, fechaVencimiento, fechaPago, monto, Moneda
         - Form crear incumplimiento: descripcion, fecha, Nivel de incumplimiento
         - Tabla incumplimiento: Id incumplimiento, descripcion, fecha, Nivel de incumplimiento
-    
-
-TERMINADOS
 
 
