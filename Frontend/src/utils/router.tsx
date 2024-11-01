@@ -2,10 +2,11 @@ import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 const Login = lazy(() => import("../pages/Login.tsx"));
 const Clients = lazy(() => import('../pages/ClientsModule.tsx'));
-const ClientDetail = lazy(() => import("../pages/details/ClientDetail.tsx"))
-const Suppliers = lazy(() => import("../pages/SuppliersModule.tsx"))
-const Sales = lazy(() => import("../pages/SalesModule.tsx"))
-const Employees = lazy(() => import("../pages/EmployeesModule.tsx"))
+const ClientDetail = lazy(() => import("../pages/details/ClientDetail.tsx"));
+const Suppliers = lazy(() => import("../pages/SuppliersModule.tsx"));
+const SupplierDetail = lazy(() => import("../pages/details/SupplierDetail.tsx"));
+const Sales = lazy(() => import("../pages/SalesModule.tsx"));
+const Employees = lazy(() => import("../pages/EmployeesModule.tsx"));
 
 const router = createBrowserRouter([
     {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
     {
       path: '/suppliers',
       element: <Suppliers/>
+    },
+    {
+      path: '/suppliers/:supplierId',
+      element: <SupplierDetail/>
     },
     {
       path: '/sales',

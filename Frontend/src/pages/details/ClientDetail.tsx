@@ -311,7 +311,7 @@ const ClientData = () => {
                 </>
               ) : (
                 <>
-                  <p>Proveedor no encontrado</p>
+                  <p>Cliente no encontrado</p>
                   <p>{error}</p>;
                 </>
               )}
