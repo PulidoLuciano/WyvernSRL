@@ -11,16 +11,15 @@ import FilterButton from '../components/form/FilterButton';
 import Table from '../components/table/Table';
 import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
-import { thead } from '../utils/types/TableInterfaces';
 import { useGeneral } from '../hooks/useGeneral';
 
 const SuppliersModule = () => {
-  const { countries, getAllCountries} = useGeneral();
+  const { countries, getAllCountries } = useGeneral();
 
-  useEffect(() =>{
+  useEffect(() => {
     getAllCountries();
-  },[getAllCountries])
-  
+  }, [getAllCountries])
+
   const [selectedAll, setSelectedAll] = useState<boolean>(false);
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -56,32 +55,17 @@ const SuppliersModule = () => {
 
   const handleSelectAll = () => {
     setSelectedAll(!selectedAll)
-}
+  }
 
   //********
-  const clientTableHeaders: Array<thead> = [
-    {
-      title: "Nombre",
-      checkbox: true,
-    },
-    {
-      title: "Pais"
-    },
-    {
-      title: "Provincia"
-    },
-    {
-      title: "Categoria"
-    },
-    {
-      title: "CBU"
-    },
-    {
-      title: "Metodo de Pago"
-    },
-    {
-      title:"Calificacion"
-    }
+  const clientTableHeaders: Array<string> = [
+    "Nombre",
+    "Pais",
+    "Provincia",
+    "Categoria",
+    "CBU",
+    "Metodo de Pago",
+    "Calificacion"
   ]
 
   const handleCreateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -120,30 +104,30 @@ const SuppliersModule = () => {
         </div>
 
         <Accordion title="Crear Nuevo">
-            <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
-              <>
-                <Input id={"nombreProveedor"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange} error=''></Input>                
-                <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange}></Select>
-                <Select id={"provincias"} name={"state"} title={"Provincia"} options={optionsStates} onChange={handleCreateChange}></Select>                
-                <Input id={"cbu"} name={"cbu"} value={createData.cbu} title={"CBU"} type={"number"} placeholder={"4516161561651651"} onChange={handleCreateChange} error=''></Input>
-                <Input id={"metodoPago"} name={"paymentMethod"} value={createData.paymentMethod} title={"Metodo de Pago"} type={"text"} placeholder={"Efectivo"} onChange={handleCreateChange} error=''></Input>
-                <Input id={"calificacion"} name={"qualification"} value={createData.qualification} title={"Calificacion"} type={"number"} placeholder={"0-5"} onChange={handleCreateChange} error=''></Input>
-                <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'}/>
-              </>  
-            </Form>
+          <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
+            <>
+              <Input id={"nombreProveedor"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange} error=''></Input>
+              <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange}></Select>
+              <Select id={"provincias"} name={"state"} title={"Provincia"} options={optionsStates} onChange={handleCreateChange}></Select>
+              <Input id={"cbu"} name={"cbu"} value={createData.cbu} title={"CBU"} type={"number"} placeholder={"4516161561651651"} onChange={handleCreateChange} error=''></Input>
+              <Input id={"metodoPago"} name={"paymentMethod"} value={createData.paymentMethod} title={"Metodo de Pago"} type={"text"} placeholder={"Efectivo"} onChange={handleCreateChange} error=''></Input>
+              <Input id={"calificacion"} name={"qualification"} value={createData.qualification} title={"Calificacion"} type={"number"} placeholder={"0-5"} onChange={handleCreateChange} error=''></Input>
+              <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
+            </>
+          </Form>
         </Accordion>
         <Accordion title="Filtrar por">
-            <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
-              <>
-                <Input id={"nombreProveedor"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange} error=''></Input>                
-                <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleFilterChange}></Select>
-                <Select id={"provincias"} name={"state"} title={"Provincia"} options={optionsStates} onChange={handleFilterChange}></Select>                
-                <Input id={"cbu"} name={"cbu"} value={filterData.cbu} title={"CBU"} type={"number"} placeholder={"4516161561651651"} onChange={handleFilterChange} error=''></Input>
-                <Input id={"metodoPago"} name={"paymentMethod"} value={filterData.paymentMethod} title={"Metodo de Pago"} type={"text"} placeholder={"Efectivo"} onChange={handleFilterChange} error=''></Input>
-                <Input id={"calificacion"} name={"qualification"} value={filterData.qualification} title={"Calificacion"} type={"number"} placeholder={"0-5"} onChange={handleFilterChange} error=''></Input>
-                <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"}/>
-              </>  
-            </Form>
+          <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
+            <>
+              <Input id={"nombreProveedor"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange} error=''></Input>
+              <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleFilterChange}></Select>
+              <Select id={"provincias"} name={"state"} title={"Provincia"} options={optionsStates} onChange={handleFilterChange}></Select>
+              <Input id={"cbu"} name={"cbu"} value={filterData.cbu} title={"CBU"} type={"number"} placeholder={"4516161561651651"} onChange={handleFilterChange} error=''></Input>
+              <Input id={"metodoPago"} name={"paymentMethod"} value={filterData.paymentMethod} title={"Metodo de Pago"} type={"text"} placeholder={"Efectivo"} onChange={handleFilterChange} error=''></Input>
+              <Input id={"calificacion"} name={"qualification"} value={filterData.qualification} title={"Calificacion"} type={"number"} placeholder={"0-5"} onChange={handleFilterChange} error=''></Input>
+              <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"} />
+            </>
+          </Form>
         </Accordion>
 
 
@@ -163,7 +147,7 @@ const SuppliersModule = () => {
         </div>
 
         <div className='overflow-x-auto mt-6'>
-         <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
+          <Table headers={clientTableHeaders}>
             {
               dataShown.map((cliente, index) => {
                 return (

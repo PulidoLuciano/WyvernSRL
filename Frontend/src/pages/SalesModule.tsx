@@ -11,21 +11,20 @@ import FilterButton from '../components/form/FilterButton';
 import Table from '../components/table/Table';
 import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
-import { thead } from '../utils/types/TableInterfaces';
 import { useAuth } from '../context/authContext';
 import { useClients } from '../hooks/useClients';
 
 
 const SalesModule = () => {
 
-  const {getAllSales,sales} = useAuth()
-  const {clients} = useClients()
-  useEffect(()=>{
+  const { getAllSales, sales } = useAuth()
+  const { clients } = useClients()
+  useEffect(() => {
     getAllSales()
-  },[])
+  }, [])
 
   console.log(sales);
-  
+
   const [selectedAll, setSelectedAll] = useState<boolean>(false);
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -53,20 +52,13 @@ const SalesModule = () => {
 
   const handleSelectAll = () => {
     setSelectedAll(!selectedAll)
-}
+  }
 
   //********
-  const clientTableHeaders: Array<thead> = [
-    {
-      title: "Nombre de Usuario",
-      checkbox: true,
-    },
-    {
-      title: "Producto"
-    },
-    {
-      title: "Fecha"
-    }
+  const clientTableHeaders: Array<string> = [
+    "Nombre de Usuario",
+    "Producto",
+    "Fecha"
   ]
 
   const handleCreateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -105,24 +97,24 @@ const SalesModule = () => {
         </div>
 
         <Accordion title="Crear Nuevo">
-            <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
-              <>
-                <Input id={"nombreUsuario"} name={"username"} value={createData.username} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleCreateChange} error=''></Input>                
-                <Select id={"productos"} title={"Productos"} name={"products"} options={optionsProducts} onChange={handleCreateChange}></Select>               
-                <Input id={"fecha"} name={"date"} value={createData.date} title={"Fecha"} type={"text"} placeholder={"2023-07-17"} onChange={handleCreateChange} error=''></Input>
-                <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'}/>
-              </>  
-            </Form>
+          <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
+            <>
+              <Input id={"nombreUsuario"} name={"username"} value={createData.username} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleCreateChange} error=''></Input>
+              <Select id={"productos"} title={"Productos"} name={"products"} options={optionsProducts} onChange={handleCreateChange}></Select>
+              <Input id={"fecha"} name={"date"} value={createData.date} title={"Fecha"} type={"text"} placeholder={"2023-07-17"} onChange={handleCreateChange} error=''></Input>
+              <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
+            </>
+          </Form>
         </Accordion>
         <Accordion title="Filtrar por">
-            <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
-              <>
-                <Input id={"nombreUsuario"} name={"username"} value={filterData.username} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleFilterChange} error=''></Input>                
-                <Select id={"productos"} title={"Productos"} name={"products"} options={optionsProducts} onChange={handleFilterChange}></Select>               
-                <Input id={"fecha"} name={"date"} value={filterData.date} title={"Fecha"} type={"text"} placeholder={"2023-07-17"} onChange={handleFilterChange} error=''></Input>
-                <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"}/>
-              </>  
-            </Form>
+          <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
+            <>
+              <Input id={"nombreUsuario"} name={"username"} value={filterData.username} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleFilterChange} error=''></Input>
+              <Select id={"productos"} title={"Productos"} name={"products"} options={optionsProducts} onChange={handleFilterChange}></Select>
+              <Input id={"fecha"} name={"date"} value={filterData.date} title={"Fecha"} type={"text"} placeholder={"2023-07-17"} onChange={handleFilterChange} error=''></Input>
+              <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"} />
+            </>
+          </Form>
         </Accordion>
 
 
@@ -142,12 +134,12 @@ const SalesModule = () => {
         </div>
 
         <div className='overflow-x-auto mt-6'>
-         <Table onChange={handleSelectAll} selectedAll={selectedAll} headers={clientTableHeaders}>
+          <Table id="SalesTable" headers={clientTableHeaders}>
             {
               dataShown.map((sale, index) => {
                 return (
                   <TRow key={index} id={sale.id}>
-                    <TData selectedAll={selectedAll} checkbox={true}>{clients.map((c) => c.id == sale.Clientes_id? c.nombre : "")}</TData>
+                    <TData selectedAll={selectedAll} checkbox={true}>{clients.map((c) => c.id == sale.Clientes_id ? c.nombre : "")}</TData>
                     <TData>{sale.product}</TData>
                     <TData>{sale.fecha}</TData>
                   </TRow>)

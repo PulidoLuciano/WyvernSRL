@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import { authService } from "../service/authService";
 import { Credential } from "../utils/types/userTypes";
-import clientType from "../utils/types/clientType";
+import {clientType} from "../utils/types/clientType";
 import { clientsService } from "../service/clientsService";
 import { salesService } from "../service/salesService";
 
