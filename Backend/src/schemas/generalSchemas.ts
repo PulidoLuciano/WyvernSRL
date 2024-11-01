@@ -13,3 +13,5 @@ export const dateTimeSchema = z.string().datetime({ message: "La fecha y hora in
 export const trueBooleanSchema = z.preprocess((value) => !(value === "false" || value == "0"), z.coerce.boolean());
 
 export const borradoSchema = trueBooleanSchema
+
+export const descripcionSchema = z.string({ message: "Descripción requiere de un string"}).min(2, "Una descripción requiere al menos dos caracteres").max(250, "Una descripción no puede tener más de 250 caracteres")

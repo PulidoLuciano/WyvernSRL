@@ -123,20 +123,24 @@ PROVEEDORES
                     POST /providers
         - Form filtrar proveedores: Nombre, Provincia, Rubro (Back)
                     GET /providers?queries
-        - Tabla proveedores: Nombre, correo, provincia, rubro, Calidad (Sale de los incumplimientos) (Back, falta incumplimientos)
+        - Tabla proveedores: Nombre, correo, telefono, provincia, rubro (Back)
                     GET /providers?queries
         - Form crear rubro: Nombre (Back)
                     POST /markets
         - Tabla rubros: Nombre (Back)
                     GET /markets?queries 
                     DELETE /markets
+        - Form filtrar compras: Id compra, Entregado, Pagado, proveedor
+        - Tabla compras: Id compra, proveedor, descripcion, entregado, pagado, precioTotal, moneda
+        - Form filtrar contratos: Id contrato, proveedor (Back)
+        - Tabla contratos: Id contrato, proveedor, descripcion, fechaVencimiento, fechaPago, monto, Moneda, proveedor (Back)
     Individual:
         - Data labels: Nombre, correo, Telefono, Provincia, Rubro (Back)
                     GET /providers/:id?queries
-        - Tabla Contratos: descripcion, fechaVencimiento, fechaPago, monto, moneda
-
-        - Tabla Compras: descripcion, precio unitario, Moneda, cantidad, fecha, entregado, pagado
-
+        - Form crear contrato: motivo, fechaVencimiento, fechaPago, monto, Moneda (Back)
+        - Tabla Contratos: descripcion, fechaVencimiento, fechaPago, monto, moneda (Back)
+        - Form crear compra: descripcion, precio unitario, cantidad, fecha, entregado, pagado, Moneda (Back)
+        - Tabla Compras: descripcion, precio unitario, Moneda, cantidad, fecha, entregado, pagado (Back)
         - Tabla incumplimientos: Descripcion, fecha, Id_Compra/Contrato, Nivel de incumplimiento
 
 
@@ -149,13 +153,6 @@ RUBRO
                     GET /markets/:id?queries
 
 COMPRAS/CONTRATOS:
-    General: 
-        - Form crear compra: descripcion, precio unitario, cantidad, fecha, entregado, pagado, Moneda, proveedor
-        - Form filtrar compras: Id compra, Entregado, Pagado, proveedor
-        - Tabla compras: Id compra, proveedor, descripcion, entregado, pagado, precioTotal, moneda
-        - Form crear contrato: descripcion, fechaVencimiento, fechaPago, monto, Moneda, proveedor
-        - Form filtrar contratos: Id contrato, proveedor
-        - Tabla contratos: Id contrato, proveedor, descripcion, fechaVencimiento, fechaPago, monto, Moneda, proveedor
     Individual compras:
         - Data labels: Id compra, proveedor, descripcion, fecha, entregado, pagado, precio unitario, moneda, cantidad, precio total.
         - Form crear incumplimiento: descripcion, fecha, Nivel de incumplimiento
@@ -169,3 +166,5 @@ COMPRAS/CONTRATOS:
 OTROS IMPORTANTES 
     - Broadcast
                     POST /clients/broadcast
+    - Ventas charts
+                    GET /sales/stats/...
