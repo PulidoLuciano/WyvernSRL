@@ -1,6 +1,6 @@
 import {clientType} from "../utils/types/clientType";
 
-const getAll = async (url : string) => {
+const getAllClients = async (url : string) => {
     
         const response = await fetch(`${url}`, {
             mode: 'cors',
@@ -59,5 +59,37 @@ const deleteClient = async (url: string, ids: Array<any | null>) => {
     return data
 }
 
+const getOne = async (url : string, id : number) => {
+    
+    const response = await fetch(`${url}/${id}`, {
+        mode: 'cors',
+        method: 'GET',
+        credentials: 'include',
+    })
+    
+    const data = await response.json();
+    
+    if (!response.ok) throw new Error(`${data.message}`);
+   
+    return data;
 
-export const clientsService = { getAll, create, deleteClient  }
+}
+
+const getAllContacts = async (url : string) => {
+    
+    const response = await fetch(`${url}`, {
+        mode: 'cors',
+        method: 'GET',
+        credentials: 'include',
+    })
+    
+    const data = await response.json();
+    
+    if (!response.ok) throw new Error(`${data.message}`);
+   
+    return data;
+
+}
+
+
+export const clientsService = { getAllClients, create, deleteClient, getOne, getAllContacts }

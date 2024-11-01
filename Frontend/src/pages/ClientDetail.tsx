@@ -11,10 +11,24 @@ import Table from "../components/table/Table";
 import TRow from "../components/table/TRow";
 import TData from "../components/table/TData";
 import { useGeneral } from "../hooks/useGeneral";
+import { useParams } from "react-router-dom";
+import { useClients } from "../hooks/useClients";
 
 const ClientData = () => {
 
-    const { countries, platforms, getAllCountries, getAllPlatforms } = useGeneral()
+    const params = useParams();
+    const clientId = parseInt(params.clientId || '', 10);
+    const { getClient, clientDetail, loading, error, getAllContacts, contacts } = useClients()
+    const { countries, platforms } = useGeneral()
+    
+    useEffect(() => {
+        getClient(clientId);
+     }, [getClient])
+
+     useEffect(() => {
+        getAllContacts(clientId);
+     }, [getAllContacts])
+     
     const [selectedAll, setSelectedAll] = useState<boolean>(false);
     const [juegosQt, setJuegosQt] = useState<number>(10);
     const [currentPageJuegos, setCurrentPageJuegos] = useState<number>(1)
@@ -28,25 +42,10 @@ const ClientData = () => {
         country: ''
     });
 
-    useEffect(() => {
-        getAllCountries();
-        getAllPlatforms();
-    }, [getAllCountries, getAllPlatforms])
-
-    const client = {
-        id: 1,
-        name: "jesus",
-        phone: "123123",
-        email: "jesus@gmail.com",
-        suscription: true,
-        pais: "argentina",
-        platform: "Steam"
-    }
-
     const indexEnd = currentPageJuegos * juegosQt;
     const indexStart = indexEnd - juegosQt;
-    const nPages = Math.ceil(compras.length / juegosQt);
-    const dataShown = compras.slice(indexStart, indexEnd);
+    const nPages = Math.ceil(contacts.length / juegosQt);
+    const dataShown = contacts.slice(indexStart, indexEnd);
 
     const changePage = (nextPage: number) => {
         setCurrentPageJuegos(nextPage);
@@ -54,10 +53,6 @@ const ClientData = () => {
 
     const handleClickEditable = () => {
         setEditable(!editable);
-    }
-
-    const handleSelectAll = () => {
-        setSelectedAll(!selectedAll)
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -72,29 +67,32 @@ const ClientData = () => {
             ...editedData,
             [name]: value
         });
-
     }
 
     const clientTableHeaders: Array<string> = [
-        "Producto",
-        "ID Venta",
-        "Fecha"
+        "ID",
+        "Motivo",
+        "Fecha",
+        "Medio"
     ]
+    
+    
+  if (loading) return <p>Cargando detalles del proveedor...</p>;
 
     return (
         <div className='w-full flex '>
             <Nav />
             <main className='ms-72 p-8'>
-                <h1 className='text-2xl'>Visualización cliente: {client.id}</h1>
-
+                { clientDetail?  <h1 className='text-2xl'>Visualización cliente: {clientDetail.id}</h1>:
+                <h1 className='text-2xl'>Visualización cliente: ?</h1>}
                 {editable ?
                     <>
                         <div className="my-6">
                             <Form handleSubmit={handleSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
                                 <>
                                     <Input id={"nombreCliente"} name={"name"} value={editedData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleChange} error=''></Input>
-                                    <Input id={"correo"} name={"email"} value={editedData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleChange} error=''></Input>
-                                    <Input id={"telefono"} name={"phone"} value={editedData.phone} title={"Teléfono"} type={"number"} placeholder={"5493816341612"} onChange={handleChange} error=''></Input>
+                                    <Input id={"correo"} name={"email"} value={editedData.email}  title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleChange} error=''></Input>
+                                    <Input id={"telefono"} name={"phone"} value={editedData.phone}  title={"Teléfono"} type={"number"} placeholder={"5493816341612"} onChange={handleChange} error=''></Input>
                                     <Select id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleChange}></Select>
                                     <Checkbox title={"Suscripto"} name={"suscription"} onChange={handleChange}></Checkbox>
                                     <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleChange}></Select>
@@ -116,18 +114,30 @@ const ClientData = () => {
                                 </button>
 
                             </div>
-                            <h4 className="font-semibold text-lg">Nombre</h4>
-                            <p>{client.name}</p>
-                            <h4 className="font-semibold text-lg">Correo</h4>
-                            <p className="underline decoration-1">{client.email}</p>
-                            <h4 className="font-semibold text-lg">Teléfono</h4>
-                            <p>{client.phone}</p>
-                            <h4 className="font-semibold text-lg">Plataforma</h4>
-                            <p>{client.platform}</p>
-                            <h4 className="font-semibold text-lg">País</h4>
-                            <p>{client.pais}</p>
-                            <h4 className="font-semibold text-lg">Suscripto</h4>
-                            <p>{client.suscription ? "Sí" : "No"}</p>
+                            {
+                                clientDetail?(
+                                       <>
+                                        <h4 className="font-semibold text-lg">Nombre</h4>
+                                        <p>{clientDetail.nombre}</p>
+                                        <h4 className="font-semibold text-lg">Correo</h4>
+                                        <p className="underline decoration-1">{clientDetail.correo}</p>
+                                        <h4 className="font-semibold text-lg">Teléfono</h4>
+                                        <p>{clientDetail.telefono}</p>
+                                        <h4 className="font-semibold text-lg">Plataforma</h4>
+                                        <p>{clientDetail.Plataformas_id}</p>
+                                        <h4 className="font-semibold text-lg">País</h4>
+                                        <p>{clientDetail.Paises_id}</p>
+                                        <h4 className="font-semibold text-lg">Suscripto</h4>
+                                        <p>{clientDetail.suscripto ? "Sí" : "No"}</p>
+                                       </>
+                                ):
+                                <>
+                                 <p>Proveedor no encontrado</p>
+                                 <p>{error}</p>;
+                                </>
+                               
+                            }
+                            
                         </div>
                     </>}
 
@@ -149,12 +159,13 @@ const ClientData = () => {
                 <div className='overflow-x-auto mt-6'>
                     <Table headers={clientTableHeaders}>
                         {
-                            dataShown.map((compras, index) => {
+                            dataShown.map((contactos, index) => {
                                 return (
-                                    <TRow key={index} id={compras.idSale}>
-                                        <TData selectedAll={selectedAll} checkbox={true}>{compras.product}</TData>
-                                        <TData>{compras.idSale}</TData>
-                                        <TData>{compras.date}</TData>
+                                    <TRow key={index} id={contactos.id}>
+                                        <TData checkbox={true}>{contactos.id}</TData>
+                                        <TData>{contactos.motivo}</TData>
+                                        <TData>{contactos.fecha}</TData>
+                                        <TData>{contactos.Medios.nombre}</TData>
                                     </TRow>)
                             })
                         }
