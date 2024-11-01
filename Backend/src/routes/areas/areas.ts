@@ -43,7 +43,7 @@ const AREAS_ROUTES : Array<WyvernRoute> = [
         handler: controlador.create
     },
     {
-        path: "/",
+        path: "/:id",
         method: "PUT",
         authentication: true,
         authorization: [ROLE.Admin,ROLE.RRHH],

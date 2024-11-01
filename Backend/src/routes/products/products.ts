@@ -43,7 +43,7 @@ const PRODUCTS_ROUTES : Array<WyvernRoute> = [
         handler: controladorProductos.create
     },
     {
-        path: "/",
+        path: "/:id",
         method: "PUT",
         authentication: true,
         authorization: [ROLE.Admin,ROLE.Ventas],
