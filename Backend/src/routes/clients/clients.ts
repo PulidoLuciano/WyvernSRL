@@ -48,7 +48,9 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         method: "GET",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
-        middlewares: [],
+        middlewares: [
+            parseQueries(ClientSchemaFilter)
+        ],
         handler: controlador.getById
     },
     {
@@ -146,7 +148,9 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         method: "GET",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
-        middlewares: [],
+        middlewares: [
+            parseQueries(ContactsSchemaFilter)
+        ],
         handler: controladorContactos.getById
     },
     {

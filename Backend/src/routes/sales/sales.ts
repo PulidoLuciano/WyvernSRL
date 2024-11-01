@@ -39,7 +39,9 @@ const SALES_ROUTES : Array<WyvernRoute> = [
         method: "GET",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
-        middlewares: [],
+        middlewares: [
+            parseQueries(SalesSchemaFilter)
+        ],
         handler: controladorVentas.getById
     },
     {

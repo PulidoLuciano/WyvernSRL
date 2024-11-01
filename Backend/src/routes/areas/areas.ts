@@ -27,6 +27,7 @@ const AREAS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin,ROLE.RRHH, ROLE.Auditor],
         middlewares: [
+            parseQueries(AreasSchemaFilter)
         ],
         handler: controlador.getById
     },
