@@ -33,7 +33,8 @@ export default abstract class RouterController{
     public async create (req : Request, res : Response) {
         let data = req.body;
         const created = await this.prismaModel.create({data});
-        return res.json(created);
+        res.json(created);
+        return created;
     }
     
     public async deleteMany (req : Request, res : Response) {

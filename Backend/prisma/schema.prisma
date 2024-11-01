@@ -54,7 +54,7 @@ model Auditoria_Empleados {
   Usuarios_id            Int
   Empleados_Historial_id Int
   Empleados              Empleados           @relation(fields: [Empleados_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Empleados_Empleados1")
-  Empleados_Historial    Empleados_Historial @relation(fields: [Empleados_Historial_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Empleados_Empleados_Historial1")
+  Empleados_Historial    Empleados_historial @relation(fields: [Empleados_Historial_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Empleados_Empleados_Historial1")
   Usuarios               Usuarios            @relation(fields: [Usuarios_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Auditoria_Empleados_Usuarios1")
 
   @@index([Empleados_id], map: "fk_Auditoria_Empleados_Empleados1_idx")
@@ -227,7 +227,7 @@ model Empleados {
   @@index([Provincias_id], map: "fk_Empleados_Provincias1_idx")
 }
 
-model Empleados_Historial {
+model Empleados_historial {
   id                  Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
   nombre              String                @db.VarChar(50)
   correo              String?               @db.VarChar(50)
@@ -402,7 +402,7 @@ model Provincias {
   Paises_id             Int
   borrado Boolean    @default(false)
   Empleados             Empleados[]
-  Empleados_Historial   Empleados_Historial[]
+  Empleados_Historial   Empleados_historial[]
   Proveedores           Proveedores[]
   Proveedores_historial Proveedores_historial[]
   Paises                Paises                  @relation(fields: [Paises_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Provincia_Paises1")

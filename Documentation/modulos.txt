@@ -58,17 +58,24 @@ PRODUCTO
 
 EMPLEADOS
     General:
-        - Form crear empleado: Nombre, Correo, Telefono, DNI, fechaContratacion, sueldo, Provincia, Puesto
-        - Form filtrar empleados: Nombre, DNI, Provincia, Puesto
-        - Tabla empleados: Nombre, DNI, Correo, Puesto, Provincia
+        - Form crear empleado: Nombre, Correo, Telefono, DNI, fechaContratacion, sueldo, Provincia, Puesto (Back)
+                    POST /employees
+        - Form filtrar empleados: Nombre, DNI, Provincia, Sueldo mayor que, Sueldo menor que (Back)
+                    GET /employees?queries
+        - Tabla empleados: Nombre, DNI, Correo, sueldo, Provincia (Back)
+                    GET /employees?queries
+                    DELETE /employees
         - Form crear area: Nombre (Back)
                     POST /areas
         - Tabla Areas: Id, Nombre (Back)
                     GET /areas?queries
                     DELETE /areas
     Individual: 
-        - Data labels: Nombre, Correo, Telefono, DNI, fechaContratacion, sueldo, Provincia, Puesto, Area
-        - Tabla puestos: Puesto, Area, fecha inicio, fecha fin
+        - Data labels: Nombre, Correo, Telefono, DNI, fechaContratacion, sueldo, Provincia, Puesto, Area (Back)
+                    GET /employees/:id?queries
+                    GET /employees/:id/position
+        - Tabla puestos: Puesto, Area, fecha inicio, fecha fin (Back)
+                    GET /employees/:id/career
 
 AREA
     Individual:
@@ -86,7 +93,8 @@ PUESTOS
         - Data labels: Nombre (Back)
                     GET /positions/:id?queries
                     PUT /positions/:id
-        - Tabla empleados: Nombre, DNI, Correo, Puesto, Provincia
+        - Tabla empleados: Nombre, DNI, Correo, sueldo, Provincia (Back)
+                    GET /employees?queries
 
 USUARIOS
     General:
