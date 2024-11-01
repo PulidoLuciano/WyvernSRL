@@ -4,20 +4,20 @@ import parseQueries from "../../middlewares/parseQueries";
 import { validateData } from "../../middlewares/validateData";
 import audit from "../../middlewares/audit";
 import { IdsSchema } from "../../schemas/usersSchemas";
-import { AreasController } from "./areasController";
-import { AreasSchemaCreate, AreasSchemaFilter } from "../../schemas/areasSchema";
+import { PuestosController } from "./puestosController";
+import { PuestosSchemaCreate, PuestosSchemaFilter } from "../../schemas/puestosSchema";
 
-const controlador = new AreasController();
+const controlador = new PuestosController();
 
 
-const AREAS_ROUTES : Array<WyvernRoute> = [
+const POSITIONS_ROUTES : Array<WyvernRoute> = [
     {
         path: "/",
         method: "GET",
         authentication: true,
         authorization: [ROLE.Admin,ROLE.RRHH, ROLE.Auditor],
         middlewares: [
-            parseQueries(AreasSchemaFilter)
+            parseQueries(PuestosSchemaFilter)
         ],
         handler: controlador.getAll
     },
@@ -27,7 +27,7 @@ const AREAS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin,ROLE.RRHH, ROLE.Auditor],
         middlewares: [
-            parseQueries(AreasSchemaFilter)
+            parseQueries(PuestosSchemaFilter)
         ],
         handler: controlador.getById
     },
@@ -37,7 +37,7 @@ const AREAS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin,ROLE.RRHH],
         middlewares: [
-            validateData(AreasSchemaCreate),
+            validateData(PuestosSchemaCreate),
             audit
         ],
         handler: controlador.create
@@ -48,7 +48,7 @@ const AREAS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin,ROLE.RRHH],
         middlewares: [
-            validateData(AreasSchemaCreate),
+            validateData(PuestosSchemaCreate),
             audit
         ],
         handler: controlador.updateById
@@ -67,5 +67,4 @@ const AREAS_ROUTES : Array<WyvernRoute> = [
 ]
 
 
-export default AREAS_ROUTES
-
+export default POSITIONS_ROUTES

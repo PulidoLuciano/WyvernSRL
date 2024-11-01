@@ -1,6 +1,6 @@
 CLIENTES
     General: 
-        - Form crear clientes: Nombre, Correo, Telefono, Plataforma, Suscripto, País 
+        - Form crear clientes: Nombre, Correo, Telefono, Plataforma, Suscripto, País (Back)
                     POST /clients
         - Form filtrar clientes: Nombre, Correo, Plataforma, Suscripto, País (Back)
                     GET /clients?queries
@@ -75,22 +75,30 @@ AREA
         -Data labels: Nombre (Back)
                     GET /areas/:id?queries
         - Tabla empleados: Nombre, DNI, Correo, Puesto, Provincia
-        - Form crear puesto: Nombre 
-        - Tabla Puestos: Id, Nombre
+        - Form crear puesto: Nombre (Back)
+                    POST /positions
+        - Tabla Puestos: Id, Nombre (Back)
+                    GET /positions?queries
 
 
 PUESTOS
     Individual:
-        - Data labels: Nombre
+        - Data labels: Nombre (Back)
+                    GET /positions/:id?queries
+                    PUT /positions/:id
         - Tabla empleados: Nombre, DNI, Correo, Puesto, Provincia
 
 USUARIOS
     General:
-        - Form crear usuario: Nombre de usuario, contrasenia, Empleado, Rol
-        - Form filtrar usuarios: Nombre de usuario, DNI empleado, Rol
-        - Tabla usuarios: Nombre de usuario, DNI empleado, Rol
+        - Form crear usuario: Nombre de usuario, contrasenia, Empleado, Rol (Back)
+                    POST /users
+        - Form filtrar usuarios: Nombre de usuario, DNI empleado, Rol (Back)
+                    GET /users?queries
+        - Tabla usuarios: Nombre de usuario, DNI empleado, Rol (Back)
+                    GET /users?queries
     Individual:
-        - Data labels: Nombre de usuario, contrasenia, DNI empleado, Rol 
+        - Data labels: Nombre de usuario, contrasenia, DNI empleado, Rol  (Back)
+                    GET /users/:id?queries
 
 ROLES
     Individual:

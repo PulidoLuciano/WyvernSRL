@@ -20,14 +20,12 @@ export const useClients = () => {
         ? (filterUrlLast = filterUrl.replace("?", "&"))
         : (filterUrlLast = "");
 
-      let url = "http://localhost:3000/clients/";
-      let includePlatformsCountries =
-        "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&include=Paises&include=borrado";
-      let includePlatforms =
-        "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&include=borrado";
-      let includeCountries =
-        "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Paises&include=borrado";
-      try {
+    let url = "http://localhost:3000/clients/";  
+    let includePlatformsCountries = "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&include=Paises&borrado=false";
+    let includePlatforms = "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&borrado=false";
+    let includeCountries = "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Paises&borrado=false";
+    try {
+  
         if (countries && platforms) {
           filterUrl
             ? (url = url.concat(includePlatformsCountries, filterUrlLast))

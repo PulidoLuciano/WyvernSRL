@@ -1,5 +1,5 @@
 import { array, string, z } from "zod";
-import { borradoSchema } from "./generalSchemas";
+import { borradoSchema, idSchema, nombreSchema } from "./generalSchemas";
 
 export const LoginSchema = z.object({
     nombre: z.string({
@@ -12,19 +12,22 @@ export const LoginSchema = z.object({
     })
 })
 
-export const UserSchema = z.object({
-    nombre: z.string().trim(),
-    contrasenia: z.string(),
-    Empleados_id: z.coerce.number(),
-    Roles_id: z.coerce.number(),
-    borrado: borradoSchema
+export const UserSchemaFilter = z.object({
+    id: idSchema,
+    nombre: nombreSchema,
+    contrasenia: z.string().max(100, "La contraseña debe ser más corta que cien caracteres").min(8, "La contraseña debe ser mayor a ocho caracteres"),
+    Empleados_id: idSchema,
+    Roles_id: idSchema,
+    borrado: borradoSchema,
+    Empleados: z.any(),
+    Roles: z.any()
 })
 
-export const UserSchemaOptional = z.object({
-    nombre: z.string().trim().nullish(),
-    contrasenia: z.string().nullish(),
-    Empleados_id: z.coerce.number().nullish(),
-    Roles_id: z.coerce.number().nullish()
+export const UserSchemaCreate = z.object({
+    nombre: nombreSchema,
+    contrasenia: z.string().max(100, "La contraseña debe ser más corta que cien caracteres").min(8, "La contraseña debe ser mayor a ocho caracteres"),
+    Empleados_id: idSchema,
+    Roles_id: idSchema,
 })
 
 export const IdsSchema = z.object({
