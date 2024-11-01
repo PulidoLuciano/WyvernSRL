@@ -5,7 +5,7 @@ import { validateData } from "../../middlewares/validateData";
 import audit from "../../middlewares/audit";
 import { IdsSchema } from "../../schemas/usersSchemas";
 import { MarketsController } from "./marketsController";
-import { MarketsSchemaCreate, MarketsSchemaFilter } from "src/schemas/marketSchema";
+import { MarketsSchemaCreate, MarketsSchemaFilter } from "../../schemas/marketSchema";
 
 const controlador = new MarketsController();
 
