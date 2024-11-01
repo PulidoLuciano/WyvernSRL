@@ -16,21 +16,22 @@ const useSales = () => {
         let filterUrlLast;
         filterUrl? filterUrlLast = filterUrl.replace("?","&") : filterUrlLast = "";
     
-        let url = "http://localhost:3000/sales/";  
+        let url = "http://localhost:3000/sales/";
+        let includesStatements =   "?include=id&include=fecha&borrado=false"
         let includeClientsProducts = "?include=id&include=fecha&include=Clientes&include=Productos&borrado=false";
         let includeClients = "?include=id&include=fecha&include=Clientes&borrado=false";
         let includeProducts = "?include=id&include=fecha&include=Productos&borrado=false";
         try {
       
             if (products && clients) {
-              filterUrl? url = url.concat(includeClientsProducts,filterUrlLast)  :
+              filterUrl? url = url.concat(includesStatements,filterUrlLast,"&include=Clientes&include=Productos")  :
                 url = url.concat(includeClientsProducts);
             }
             else if (clients) {
-              filterUrl? url = url.concat(includeClients,filterUrlLast)  :
+              filterUrl? url = url.concat(includesStatements,filterUrlLast,"&include=Clientes")  :
                 url = url.concat(includeClients);
             } else if (products){
-              filterUrl? url = url.concat(includeProducts,filterUrlLast)  :
+              filterUrl? url = url.concat(includesStatements,filterUrlLast,"&include=Productos")  :
                 url = url.concat(includeProducts);
             }
             else
