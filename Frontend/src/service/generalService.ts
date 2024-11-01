@@ -69,8 +69,28 @@ const getAllCountries = async( url : string) =>{
       
     }
   }
-  
 
+
+  const getAllMedias = async(url : string) =>{
+    try {
+      const response = await fetch(`${url}`,{
+        mode:'cors',
+        method:'GET',
+        credentials:'include',
+      })
   
+      if(!response.ok){
+        throw new Error;
+      }
   
-export const generalService = { getAllCountries, getAllPlatforms,getAllProducts }
+      const medias = response.json();
+
+      return medias;
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+  
+export const generalService = { getAllCountries, getAllPlatforms,getAllProducts, getAllMedias }

@@ -8,7 +8,6 @@ export interface clientType {
     deleted?:string
 }
 
-
 export interface CreateClientErrors{
     name?: string;
     email?: string;
@@ -17,3 +16,19 @@ export interface CreateClientErrors{
     country?: string;
     platform?: string;
 }
+
+export interface contactType{
+    Clientes_id: number,
+    Medio: string,
+    duracion?: string,
+    fecha: string,
+    motivo: string
+}
+
+export interface createContactErrors{
+    Medio?: string,
+    duracion?: string,
+    fecha?: string,
+    motivo?: string
+}
+

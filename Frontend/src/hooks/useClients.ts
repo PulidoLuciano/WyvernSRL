@@ -1,11 +1,12 @@
 import { useState, useCallback } from "react";
 import { clientsService } from "../service/clientsService";
-import { clientType } from "../utils/types/clientType";
+import { clientType, contactType } from "../utils/types/clientType";
 
 export const useClients = () => {
   const [clients, setClients] = useState<Array<any>>([]);
   const [clientDetail, setClientDetail] = useState<any>(null);
   const [contacts, setContacts] = useState<Array<any>>([]);
+  const [medias, setMedias] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [deletes, setDeletes] = useState<Array<any> | null>(null);
@@ -115,6 +116,20 @@ export const useClients = () => {
     }
   }, []);
 
+  const createContact = async (clientId : number, clientData: contactType) => {
+    setLoading(true);
+    setError(null);
+    let url = "http://localhost:3000/clients/contacts";
+    try {
+      await clientsService.createContact(url, clientData);
+      await getAllContacts(clientId);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const deleteContact= async (clientId : number, ids: Array<any>) => {
     setLoading(true);
     setError(null);
@@ -132,6 +147,7 @@ export const useClients = () => {
     }
   };
 
+
   return {
     clients,
     loading,
@@ -145,6 +161,7 @@ export const useClients = () => {
     clientDetail,
     getAllContacts,
     contacts,
+    createContact,
     deleteContact
   };
 };

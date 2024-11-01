@@ -1,4 +1,4 @@
-import {clientType} from "../utils/types/clientType";
+import {clientType, contactType} from "../utils/types/clientType";
 
 const getAllClients = async (url : string) => {
     
@@ -111,5 +111,35 @@ const deleteContact = async (url: string, ids: Array<any | null>) => {
     return data
 }
 
+const createContact = async (url: string,obj: contactType) => {
 
-export const clientsService = { getAllClients, create, deleteClient, getOne, getAllContacts, deleteContact }
+    const response = await fetch(`${url}`, {
+        mode: 'cors',
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: JSON.stringify({
+            "Clientes_id": obj.Clientes_id,
+            "Medios_id": Number(obj.Medio),
+            "duracion": obj.duracion ? obj.duracion : null,
+            "motivo": obj.motivo ,
+            "fecha": obj.fecha
+        })
+    })
+
+    const data = await response.json();
+    console.log(data);
+    
+    if (!response.ok) throw new Error(`${data.message}`);
+
+    return data;
+
+}
+
+
+
+
+
+export const clientsService = { getAllClients, create, deleteClient, getOne, getAllContacts, deleteContact, createContact, }

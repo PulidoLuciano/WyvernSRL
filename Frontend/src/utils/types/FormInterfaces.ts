@@ -10,7 +10,7 @@ export interface FormProps {
 export interface InputProps {
     id: string;
     name: string;
-    value: string | number;
+    value: any;
     title: string;
     type: string;
     placeholder: string;

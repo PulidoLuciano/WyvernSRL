@@ -165,7 +165,6 @@ const ClientsModule = () => {
 
   const handleCreateChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    console.log(e.target.ariaPressed);
 
     if (createData.suscription == "false" && e.target.type == "checkbox") {
       setCreateData({
