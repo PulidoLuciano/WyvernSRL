@@ -7,6 +7,7 @@ import PRODUCTS_ROUTES from "./products/products";
 import AREAS_ROUTES from "./areas/areas";
 import POSITIONS_ROUTES from "./puestos/puestos";
 import ROLES_ROUTES from "./roles/roles";
+import PROVIDERS_ROUTES from "./providers/providers";
 
 const ROUTERS : Array<WyvernRouter> = [
     {
@@ -40,6 +41,10 @@ const ROUTERS : Array<WyvernRouter> = [
     {
         path: "/roles",
         routes: ROLES_ROUTES
+    },
+    {
+        path: "/providers",
+        routes: PROVIDERS_ROUTES
     }
 ]
 

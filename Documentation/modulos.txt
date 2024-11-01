@@ -110,14 +110,21 @@ ROLES
 
 PROVEEDORES
     General:
-        - Form crear proveedor: Nombre, correo, Telefono, Provincia, Rubro
-        - Form filtrar proveedores: Nombre, Provincia, Rubro
-        - Tabla proveedores: Nombre, correo, provincia, rubro, Calidad (Sale de los incumplimientos)
+        - Form crear proveedor: Nombre, correo, Telefono, Provincia, Rubro (Back)
+                    POST /providers
+        - Form filtrar proveedores: Nombre, Provincia, Rubro (Back)
+                    GET /providers?queries
+        - Tabla proveedores: Nombre, correo, provincia, rubro, Calidad (Sale de los incumplimientos) (Back, falta incumplimientos)
+                    GET /providers?queries
     Individual:
-        - Data labels: Nombre, correo, Telefono, Provincia, Rubro
+        - Data labels: Nombre, correo, Telefono, Provincia, Rubro (Back)
+                    GET /providers/:id?queries
         - Tabla Contratos: descripcion, fechaVencimiento, fechaPago, monto, moneda
+
         - Tabla Compras: descripcion, precio unitario, Moneda, cantidad, fecha, entregado, pagado
+
         - Tabla incumplimientos: Descripcion, fecha, Id_Compra/Contrato, Nivel de incumplimiento
+                    
 
 
 RUBRO

@@ -2,7 +2,7 @@ import { WyvernRoute } from "../../types";
 import { ROLE } from "../../utils/Role";
 import parseQueries from "../../middlewares/parseQueries";
 import { RolesController } from "./rolesController";
-import { RolesSchemaFilter } from "src/schemas/rolesSchema";
+import { RolesSchemaFilter } from "../../schemas/rolesSchema";
 
 const controlador = new RolesController();
 
