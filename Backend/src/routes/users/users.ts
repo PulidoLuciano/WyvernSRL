@@ -2,7 +2,8 @@ import { ROLE } from "../../utils/Role.ts"
 import type { WyvernRoute } from "../../types.d.ts"
 import { UsersController } from "./usersController"
 import { validateData } from "../../middlewares/validateData.ts"
-import { IdsSchema, LoginSchema, UserSchema, UserSchemaOptional } from "../../schemas/usersSchemas.ts"
+import { IdsSchema, LoginSchema, UserSchemaFilter, UserSchemaCreate } from "../../schemas/usersSchemas.ts"
+import parseQueries from "../../middlewares/parseQueries.ts"
 
 const controlador = new UsersController();
 
@@ -13,7 +14,9 @@ const USERS_ROUTES : Array<WyvernRoute> = [
         method: "GET",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Auditor],
-        middlewares: [],
+        middlewares: [
+            parseQueries(UserSchemaFilter)
+        ],
         handler: controlador.getAll
     },
     {
@@ -34,7 +37,7 @@ const USERS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin],
         middlewares: [
-            validateData(UserSchema)
+            validateData(UserSchemaCreate)
         ],
         handler: controlador.create
     },
@@ -44,7 +47,9 @@ const USERS_ROUTES : Array<WyvernRoute> = [
         method: "GET",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Auditor],
-        middlewares: [],
+        middlewares: [
+            parseQueries(UserSchemaFilter)
+        ],
         handler: controlador.getById
     },
     {
@@ -65,7 +70,7 @@ const USERS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin],
         middlewares: [
-            validateData(UserSchemaOptional)
+            validateData(UserSchemaCreate)
         ],
         handler: controlador.updateById
     },
