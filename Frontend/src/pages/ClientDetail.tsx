@@ -18,7 +18,7 @@ const ClientData = () => {
 
     const params = useParams();
     const clientId = parseInt(params.clientId || '', 10);
-    const { getClient, clientDetail, loading, error, getAllContacts, contacts } = useClients()
+    const { getClient, clientDetail, loading, error, getAllContacts, contacts, deleteContact } = useClients()
     const { countries, platforms } = useGeneral()
     
     useEffect(() => {
@@ -33,6 +33,7 @@ const ClientData = () => {
     const [juegosQt, setJuegosQt] = useState<number>(10);
     const [currentPageJuegos, setCurrentPageJuegos] = useState<number>(1)
     const [editable, setEditable] = useState(false);
+    const [selectedData, setSelectedData] = useState<Array<string>>([])
     const [editedData, setEditedData] = useState({
         name: '',
         phone: '',
@@ -69,6 +70,31 @@ const ClientData = () => {
         });
     }
 
+    const handleSelectedItem = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let newSelectedData
+        const dataExist = selectedData.find(d => d == e.target.id);
+    
+        if (dataExist) {
+          newSelectedData = selectedData.filter(d => d != dataExist);
+          setSelectedData(newSelectedData)
+        }
+        else {
+          setSelectedData([...selectedData, e.target.id]);
+        }
+    
+      }
+    
+      const handleDeleteSelectedData = async (selectedData: Array<string>) => {
+        if (!selectedData || selectedData.length == 0) {
+          return
+        } else {
+          const dataDelete = await deleteContact(clientId, selectedData);
+          if (dataDelete) console.log("contactos eliminados exitosamente");
+          setSelectedData([])
+        }
+    
+      }
+
     const clientTableHeaders: Array<string> = [
         "ID",
         "Motivo",
@@ -76,8 +102,7 @@ const ClientData = () => {
         "Medio"
     ]
     
-    
-  if (loading) return <p>Cargando detalles del proveedor...</p>;
+  if (loading) return <p>Cargando detalles del cliente...</p>;
 
     return (
         <div className='w-full flex '>
@@ -124,9 +149,9 @@ const ClientData = () => {
                                         <h4 className="font-semibold text-lg">Teléfono</h4>
                                         <p>{clientDetail.telefono}</p>
                                         <h4 className="font-semibold text-lg">Plataforma</h4>
-                                        <p>{clientDetail.Plataformas_id}</p>
+                                        <p>{clientDetail.Plataformas?.nombre}</p>
                                         <h4 className="font-semibold text-lg">País</h4>
-                                        <p>{clientDetail.Paises_id}</p>
+                                        <p>{clientDetail.Paises?.nombre}</p>
                                         <h4 className="font-semibold text-lg">Suscripto</h4>
                                         <p>{clientDetail.suscripto ? "Sí" : "No"}</p>
                                        </>
@@ -148,26 +173,26 @@ const ClientData = () => {
                         <p>Total de compras:{compras.length}</p>
                     </div>
 
-                    <button className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
+                    <button onClick={() => handleDeleteSelectedData(selectedData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
                         <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
                         </svg>
-                        Eliminar Seleccionados (0)
+                        Eliminar Seleccionados ({selectedData.length})
                     </button>
                 </div>
 
                 <div className='overflow-x-auto mt-6'>
                     <Table headers={clientTableHeaders}>
-                        {
-                            dataShown.map((contactos, index) => {
-                                return (
-                                    <TRow key={index} id={contactos.id}>
-                                        <TData checkbox={true}>{contactos.id}</TData>
+                        {   
+                            dataShown.map((contactos, index) => (
+                                
+                                    <TRow key={index} id={contactos.id} >
+                                        <TData selectedAll={selectedAll} checkbox={true} id={contactos.id} onChange={handleSelectedItem}>{contactos.id}</TData>
                                         <TData>{contactos.motivo}</TData>
                                         <TData>{contactos.fecha}</TData>
                                         <TData>{contactos.Medios.nombre}</TData>
-                                    </TRow>)
-                            })
+                                    </TRow>
+                                    ))
                         }
                     </Table>
 
