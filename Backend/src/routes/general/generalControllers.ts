@@ -13,3 +13,21 @@ export class PlataformasController extends RouterController{
         super(prisma.plataformas, "plataforma")
     }
 }
+
+export class MediosContactoController extends RouterController{
+    constructor(){
+        super(prisma.medios, "medio")
+    }
+}
+
+export class ProvinciasController extends RouterController{
+    constructor(){
+        super(prisma.provincias, "provincia")
+    }
+}
+
+export class MonedasController extends RouterController{
+    constructor(){
+        super(prisma.monedas, "moneda")
+    }
+}
