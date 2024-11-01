@@ -10,7 +10,7 @@ import { PuestosSchemaCreate, PuestosSchemaFilter } from "../../schemas/puestosS
 const controlador = new PuestosController();
 
 
-const AREAS_ROUTES : Array<WyvernRoute> = [
+const POSITIONS_ROUTES : Array<WyvernRoute> = [
     {
         path: "/",
         method: "GET",
@@ -67,4 +67,4 @@ const AREAS_ROUTES : Array<WyvernRoute> = [
 ]
 
 
-export default AREAS_ROUTES
+export default POSITIONS_ROUTES
