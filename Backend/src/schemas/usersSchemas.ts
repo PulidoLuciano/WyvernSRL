@@ -19,7 +19,8 @@ export const UserSchemaFilter = z.object({
     Empleados_id: idSchema,
     Roles_id: idSchema,
     borrado: borradoSchema,
-    Empleados: z.any()
+    Empleados: z.any(),
+    Roles: z.any()
 })
 
 export const UserSchemaCreate = z.object({
