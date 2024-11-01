@@ -7,20 +7,15 @@ import { salesService } from "../service/salesService";
 
 interface AuthContextProps {
     user: any | null;
-    sales: Array<any>;
-    products: Array<any>
     login: (credentials: Credential) => Promise<any>;
     createClient: (client : clientType) => Promise<any>;
-    getAllSales: () => Promise<any>;
-    getAllProducts: () => Promise<any>;
   }
   
   const AuthContext = createContext<AuthContextProps | undefined>(undefined);
   
   export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<any | null>(null);
-    const [products,setProducts] = useState<Array<any>>([])
-    const [sales,setSales] = useState<Array<any>>([])
+
 
     const login = async (credentials : Credential) => {
       
@@ -35,18 +30,9 @@ interface AuthContextProps {
       return response;
     }
 
-    const getAllSales = async() =>{
-      const sales = await salesService.getAllSales();
-      setSales(sales);
-    }
-
-    const getAllProducts = async()=>{
-      const products = await salesService.getAllProducts();
-      setProducts(products);
-    }
-
+    
     return (
-      <AuthContext.Provider value={{products,sales,user, login,createClient,getAllSales,getAllProducts }}>
+      <AuthContext.Provider value={{user, login,createClient}}>
         {children}
       </AuthContext.Provider>
     );

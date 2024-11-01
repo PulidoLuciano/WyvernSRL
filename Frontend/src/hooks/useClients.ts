@@ -17,7 +17,7 @@ export const useClients = () =>{
     filterUrl? filterUrlLast = filterUrl.replace("?","&") : filterUrlLast = "";
 
     let url = "http://localhost:3000/clients/";  
-    let includePlatformsCountries = "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&include=Paises&include=borrado";
+    let includePlatformsCountries = "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&include=Paises";
     let includePlatforms = "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&include=borrado";
     let includeCountries = "?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Paises&include=borrado";
     try {
@@ -37,9 +37,7 @@ export const useClients = () =>{
         {
           if(filterUrl) url = url.concat(filterUrl); 
         }
-        
-        console.log(url);
-        
+                
         const data = await clientsService.getAll(url); 
         
         setClients(data)  
