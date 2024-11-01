@@ -1,10 +1,10 @@
 import { WyvernRoute } from "src/types";
-import {MediosContactoController, PaisesController, PlataformasController} from "./generalControllers";
-import { ROLE } from "../../utils/Role";
+import {MediosContactoController, PaisesController, PlataformasController, ProvinciasController} from "./generalControllers";
 
 const controladorPaises = new PaisesController();
 const controladorPlataformas = new PlataformasController();
 const controladorMedios = new MediosContactoController();
+const controladorProvincias = new ProvinciasController();
 
 const GENERAL_ROUTES : Array<WyvernRoute> = [
     {
@@ -32,8 +32,17 @@ const GENERAL_ROUTES : Array<WyvernRoute> = [
         authentication: false,
         authorization: [],
         middlewares: [],
-        handler: controladorPlataformas.getAll
-    }
+        handler: controladorMedios.getAll
+    },
+    {
+        //Traer medios de contacto
+        path: "/provinces",
+        method: "GET",
+        authentication: false,
+        authorization: [],
+        middlewares: [],
+        handler: controladorProvincias.getAll
+    },
 ]
 
 

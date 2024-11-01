@@ -19,3 +19,9 @@ export class MediosContactoController extends RouterController{
         super(prisma.medios, "medio")
     }
 }
+
+export class ProvinciasController extends RouterController{
+    constructor(){
+        super(prisma.provincias, "provincia")
+    }
+}
