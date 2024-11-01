@@ -9,23 +9,23 @@ CLIENTES
                     DELETE /clients
     Individual: 
         - Data labels: Nombre, Correo, Telefono, Plataforma, Suscripto, País (Back)
-                    GET /clients/:id
+                    GET /clients/:id?queries
                     PUT /clients/:id
         - Tabla compras del cliente: Producto, ID Venta, Fecha venta (Back)
                     GET /clients/:id/sales
                     DELETE /sales
         - Form crear contacto: Medio, duracion (activo solo si medio es telefono), fecha, motivo (Back)
-                    POST /contacts
+                    POST /clients/contacts
         - Tabla de contactos del cliente: Id contacto, motivo, fecha, medio (Back)
                     GET /clients/:id/contacts
-                    DELETE /contacts
+                    DELETE clients/contacts
 
 
 CONTACTOS
     Individual: 
         - Data labels: Id, Cliente, motivo, fecha, Medio, duracion (Back)
-                    GET /contacts/:id
-                    PUT /contacts/:id
+                    GET clients/contacts/:id?queries
+                    PUT clients/contacts/:id
 
 
 VENTAS
@@ -44,13 +44,13 @@ VENTAS
                     DELETE /products
     Individual:
         - Data labels: ID venta, Producto, Cliente, Fecha (Back)
-                    GET /sales/:id
+                    GET /sales/:id?queries
                     PUT /sales/:id
 
 PRODUCTO
     Individual: 
         - Data labels: Nombre, precio, Fecha de lanzamiento, Categoria (Back)
-                    GET /products/:id
+                    GET /products/:id?queries
                     PUT /products/:id
         - Tabla Ventas del Producto: ID venta, Producto, Cliente, Fecha (Back)
                     GET /sales?Productos_id={id}...
@@ -73,7 +73,7 @@ EMPLEADOS
 AREA
     Individual:
         -Data labels: Nombre (Back)
-                    GET /areas/:id
+                    GET /areas/:id?queries
         - Tabla empleados: Nombre, DNI, Correo, Puesto, Provincia
         - Form crear puesto: Nombre 
         - Tabla Puestos: Id, Nombre
