@@ -13,3 +13,9 @@ export class PlataformasController extends RouterController{
         super(prisma.plataformas, "plataforma")
     }
 }
+
+export class MediosContactoController extends RouterController{
+    constructor(){
+        super(prisma.medios, "medio")
+    }
+}
