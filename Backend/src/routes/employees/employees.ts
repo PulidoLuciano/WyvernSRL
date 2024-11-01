@@ -51,7 +51,7 @@ const EMPLOYEES_ROUTES : Array<WyvernRoute> = [
             validateData(EmployeeSchemaCreate),
             audit
         ],
-        handler: controlador.updateById
+        handler: controlador.update
     },
     {
         path: "/",

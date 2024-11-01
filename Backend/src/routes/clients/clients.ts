@@ -80,7 +80,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
     {
         //Enviar comunicados
         path: "/broadcast",
-        method: "GET",
+        method: "POST",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
         middlewares: [],

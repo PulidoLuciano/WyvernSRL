@@ -244,6 +244,7 @@ model Empleados_historial {
 }
 
 model Empleados_Puestos {
+  id                  Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
   Empleados_id Int
   Puestos_id   Int
   fechaInicio  DateTime  @db.Date
@@ -251,7 +252,6 @@ model Empleados_Puestos {
   Empleados    Empleados @relation(fields: [Empleados_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Empleados_has_Puestos_Empleados1")
   Puestos      Puestos   @relation(fields: [Puestos_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Empleados_has_Puestos_Puestos1")
 
-  @@id([Empleados_id, Puestos_id])
   @@index([Empleados_id], map: "fk_Empleados_has_Puestos_Empleados1_idx")
   @@index([Puestos_id], map: "fk_Empleados_has_Puestos_Puestos1_idx")
 }

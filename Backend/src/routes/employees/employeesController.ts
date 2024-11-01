@@ -8,6 +8,8 @@ import { idSchema } from "../../schemas/generalSchemas";
 export class EmployeesController extends RouterController {
     constructor(){
         super(prisma.empleados,"empleado")
+
+        this.update = this.update.bind(this);
     }
 
     public async create(req: Request, res: Response){
@@ -20,7 +22,30 @@ export class EmployeesController extends RouterController {
             fechaInicio: new Date(Date.now()).toISOString(),
             fechaFinal: null
         }
-        console.log(data)
+        return await prisma.empleados_Puestos.create({ data });
+    }
+
+    public async update(req: Request, res: Response){
+        const Puestos_id = req.body.Puestos_id;
+        const { id } = req.params;
+        const idNumber = idSchema.parse(id); 
+        delete req.body.Puestos_id;
+        await super.updateById(req, res);
+        const position = await prisma.empleados_Puestos.findFirst({ 
+            where: { Empleados_id: idNumber, fechaFinal: null },
+            select: { Puestos_id: true }
+        });
+        if(position?.Puestos_id == Puestos_id)
+            return;
+
+        if(position)
+            await prisma.empleados_Puestos.updateMany({ where: { Puestos_id: position.Puestos_id, Empleados_id: idNumber, fechaFinal: null }, data: { fechaFinal: new Date(Date.now()).toISOString()}})
+        let data = { 
+            Empleados_id: idNumber,
+            Puestos_id: Puestos_id,
+            fechaInicio: new Date(Date.now()).toISOString(),
+            fechaFinal: null
+        }
         return await prisma.empleados_Puestos.create({ data });
     }
 

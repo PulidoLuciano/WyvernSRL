@@ -74,6 +74,7 @@ EMPLEADOS
         - Data labels: Nombre, Correo, Telefono, DNI, fechaContratacion, sueldo, Provincia, Puesto, Area (Back)
                     GET /employees/:id?queries
                     GET /employees/:id/position
+                    PUT /employees/:id
         - Tabla puestos: Puesto, Area, fecha inicio, fecha fin (Back)
                     GET /employees/:id/career
 
@@ -165,3 +166,6 @@ COMPRAS/CONTRATOS:
         - Tabla incumplimiento: Id incumplimiento, descripcion, fecha, Nivel de incumplimiento
 
 
+OTROS IMPORTANTES 
+    - Broadcast
+                    POST /clients/broadcast
