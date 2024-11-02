@@ -1,3 +1,4 @@
+import { contractType } from "../utils/types/contractType";
 import { suppliersType } from "../utils/types/suppliersType";
 
 const getAllSuppliers = async (url : string) => {
@@ -16,7 +17,7 @@ const getAllSuppliers = async (url : string) => {
 
 }
 
-const create = async (url: string,obj: suppliersType) => {
+const createSupplier = async (url: string,obj: suppliersType) => {
 
     const response = await fetch(`${url}/`, {
         mode: 'cors',
@@ -43,7 +44,26 @@ const create = async (url: string,obj: suppliersType) => {
 
 }
 
-const deleteSupplier = async (url: string, ids: Array<any | null>) => {
+const updateSupplier = async(id:string,obj:suppliersType)=>{
+
+        const response = await fetch(`http://localhost:3000/providers/${id}`,{
+            mode:"cors",
+            method: "PUT",
+            credentials: "include",
+            headers:{
+                'Content-Type' : 'application/json; charset=UTF-8'
+            },
+            body: JSON.stringify(obj)
+        })
+        
+        const data = await response.json()
+        if(!response.ok) throw new Error(`${data.message}`);
+        return data;
+ 
+}
+
+
+const deleteObj = async (url: string, ids: Array<any | null>) => {
 const response = await fetch(`${url}`,{
             mode: 'cors',
             method: 'DELETE',
@@ -76,4 +96,37 @@ return data;
 }
 
 
-export const suppliersService = {getAllSuppliers,getOne,create,deleteSupplier}
+
+const createContract = async (url: string,obj: contractType) => {
+
+    const response = await fetch(`${url}/`, {
+        mode: 'cors',
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: JSON.stringify({
+            "descripcion": obj.motive,
+            "fechaVencimiento": new Date(obj.expireDate),
+            "fechaPago": new Date(obj.payDate) ,
+            "monto":Number(obj.amount),
+            "Proveedores_id": Number(obj.supplier),
+            "Monedas_id": Number(obj.currency) ,
+            
+        })
+    })
+
+    const data = await response.json();
+    console.log(data);
+    
+    if (!response.ok) throw new Error(`${data.message}`);
+
+    return data;
+
+}
+
+
+
+
+export const suppliersService = {updateSupplier,getAllSuppliers,getOne,createContract,createSupplier,deleteObj}

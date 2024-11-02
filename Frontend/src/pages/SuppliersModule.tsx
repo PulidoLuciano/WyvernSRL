@@ -105,6 +105,7 @@ const SuppliersModule = () => {
 
       const state = states.find(s => s.id == createData.state);
       await supplierSchema.validate(createData, { abortEarly: false });
+      createSupplier(createData)
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
 
