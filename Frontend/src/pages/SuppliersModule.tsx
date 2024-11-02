@@ -14,6 +14,7 @@ import { useGeneral } from '../hooks/useGeneral';
 import useSuppliers from '../hooks/useSuppliers';
 import { supplierSchema } from '../schemas/suppliersSchema';
 import { CreateSupplierErrors, suppliersFilter, suppliersType } from '../utils/types/suppliersType';
+import { suppliersTableHeaders } from '../utils/dataArrays';
 import * as Yup from "yup"
 
 const SuppliersModule = () => {
@@ -49,8 +50,6 @@ const SuppliersModule = () => {
     country:''
 });
 
-  //PAGINATION
-
   const indexEnd = currentPage * dataLength;
   const indexStart = indexEnd - dataLength;
   const nPages = Math.ceil(suppliers.length / dataLength);
@@ -58,17 +57,6 @@ const SuppliersModule = () => {
   const changePage = (nextPage: number) => {
     setCurrentPage(nextPage);
   }
-
-
-
-  //********
-  const suppliersTableHeaders: Array<string> = [
-    "Nombre",
-    "Correo",
-    "Teléfono",
-    "Provincia/Estado",
-    "Categoria",
-  ]
 
   const handleSelectedItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newSelectedData
@@ -85,7 +73,6 @@ const SuppliersModule = () => {
   }
 
   const handleDeleteSelectedData = async (selectedData: Array<string>) => {
-
 
     if (!selectedData || selectedData.length == 0) {
       return

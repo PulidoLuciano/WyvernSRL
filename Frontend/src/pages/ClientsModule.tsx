@@ -16,6 +16,7 @@ import { useGeneral } from '../hooks/useGeneral';
 import { clientType, CreateClientErrors } from '../utils/types/clientType';
 import { clientSchema } from '../schemas/clientsSchema';
 import * as Yup from 'yup'
+import { clientTableHeaders } from '../utils/dataArrays';
 
 const ClientsModule = () => {
 
@@ -54,8 +55,6 @@ const ClientsModule = () => {
     country: ''
   });
 
-  //PAGINATION
-
   const indexEnd = currentPage * dataLength;
   const indexStart = indexEnd - dataLength;
   const nPages = Math.ceil(clients.length / dataLength);
@@ -90,20 +89,6 @@ const ClientsModule = () => {
     }
 
   }
-
-  //********
-  const clientTableHeaders: Array<string> = [
-    "Nombre"
-    ,
-    "Plataforma"
-    ,
-    "País"
-    ,
-    "Suscripto"
-    ,
-    "Correo"
-
-  ]
 
   const handleCreateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -290,14 +275,12 @@ const ClientsModule = () => {
           }
         </div>
 
-
         <div className='flex items-center justify-center laptop:justify-end gap-6 my-6' id='paginacionTabla'>
 
           <Pagination changePage={changePage} nPages={nPages} currentPage={currentPage} indexStart={indexStart} indexEnd={indexEnd} />
 
         </div>
       </div>
-
 
     </main>
   )

@@ -211,3 +211,25 @@ export const clientTableHeaders: Array<string> = [
   "Correo"
 
 ]
+
+export const suppliersTableHeaders: Array<string> = [
+  "Nombre",
+  "Correo",
+  "Teléfono",
+  "Provincia/Estado",
+  "Categoria",
+]
+
+export const salesTableHeaders: Array<string> = [
+  "Nombre de Usuario",
+  "Producto",
+  "Fecha"
+]
+
+export const contractTableHeaders = [
+  "Descripcion",
+  "Fecha vencimiento",
+  "Fecha pago",
+  "Monto",
+  "Moneda"
+]

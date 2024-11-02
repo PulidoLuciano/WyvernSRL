@@ -40,7 +40,6 @@ export const useGeneral = () => {
     let includeCountries = "/?include=id&include=nombre&borrado=false&include=Paises"
     try {
         // if(countries) url = url.concat(includeCountries);
-        console.log(url);
         
         const data = await generalService.getAllStates(url);
         setStates(data);

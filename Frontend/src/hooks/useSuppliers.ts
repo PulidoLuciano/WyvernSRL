@@ -154,9 +154,7 @@ const useSuppliers = () => {
         setError(null);
         let url = "http://localhost:3000/contracts";
         try {
-           await suppliersService.createContract(url, contractData);
-            
-            
+            await suppliersService.createContract(url, contractData);
             await getSupplierContracts(true, true,undefined,supplierId);
         } catch (err: any) {
             setError(err.message);
@@ -195,11 +193,12 @@ const useSuppliers = () => {
         }
     }, []);
 
-    const updateSupplier = async(id:string,supplierData:suppliersType)=>{
+    const updateSupplier = async(id:number,supplierData:suppliersType)=>{
        setLoading(true)
        setError(null)
         try {
-        const response = await suppliersService.updateSupplier(id,supplierData);
+        await suppliersService.updateSupplier(id,supplierData);
+        await getSupplier(id);
        } catch (err : any) {
         setError(err.message)
        }finally{
@@ -208,7 +207,7 @@ const useSuppliers = () => {
 
     }
 
-    return { createSupplier, deleteSuppliers, createContract, getContract, deleteContract, getSupplierContracts, getAllSuppliers, getSupplier, contracts, contractDetail, loading, supplierDetail, suppliers, error }
+    return { createSupplier, updateSupplier, deleteSuppliers, createContract, getContract, deleteContract, getSupplierContracts, getAllSuppliers, getSupplier, contracts, contractDetail, loading, supplierDetail, suppliers, error }
 
 }
 
