@@ -16,6 +16,7 @@ import * as Yup from 'yup'
 import { saleSchema } from '../schemas/salesSchema';
 import { useClients } from '../hooks/useClients';
 import { useGeneral } from '../hooks/useGeneral';
+import { salesTableHeaders } from '../utils/dataArrays';
 
 const SalesModule = () => {
 
@@ -27,8 +28,6 @@ const SalesModule = () => {
     getAllProducts();
     getAllClients()
   }, [])
-
-
 
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -55,14 +54,6 @@ const SalesModule = () => {
   const changePage = (nextPage: number) => {
     setCurrentPage(nextPage);
   }
-
-
-  //********
-  const salesTableHeaders: Array<string> = [
-    "Nombre de Usuario",
-    "Producto",
-    "Fecha"
-  ]
 
   const handleSelectedItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newSelectedData

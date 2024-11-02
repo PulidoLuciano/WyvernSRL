@@ -1,13 +1,13 @@
 import { SelectProps } from '../../utils/types/FormInterfaces'
 
 
-const Select = ({ id, name, title, options,error, onChange }: SelectProps) => {
+const Select = ({ id, name, title, options,error, onChange, editName, editId }: SelectProps) => {
 
   return (
     <div className='flex flex-col'>
       <label htmlFor={id}>{title}</label>
       {options.length>0 ? <select id={id} name={name} onChange={onChange} className='bg-gray border border-gray2 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5'>
-        <option></option>
+        {editId?<option value={editId}>{editName}</option>:<option></option>}
         {options.map((option, index) => (<option key={index} value={option.id}>{option.nombre}</option>))}
       </select> : <select disabled id={id} name={name} onChange={onChange} className='bg-gray border border-gray2 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5'>
        

@@ -44,7 +44,7 @@ const createSupplier = async (url: string,obj: suppliersType) => {
 
 }
 
-const updateSupplier = async(id:string,obj:suppliersType)=>{
+const updateSupplier = async(id: number,obj:suppliersType)=>{
 
         const response = await fetch(`http://localhost:3000/providers/${id}`,{
             mode:"cors",

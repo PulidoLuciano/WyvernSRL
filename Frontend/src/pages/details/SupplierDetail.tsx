@@ -14,9 +14,9 @@ import { useParams } from 'react-router-dom';
 import { contractType, CreateContractErrors } from '../../utils/types/contractType';
 import Pagination from '../../components/Pagination';
 import { contractSchema, supplierSchema,supplierEditSchema } from '../../schemas/suppliersSchema';
-import { CreateSupplierErrors } from '../../utils/types/suppliersType';
+import { CreateSupplierErrors, suppliersType } from '../../utils/types/suppliersType';
 import * as Yup from 'yup'
-
+import { contractTableHeaders } from '../../utils/dataArrays';
 
 const SupplierDetail = () => {
 
@@ -25,7 +25,7 @@ const SupplierDetail = () => {
   const supplierId = parseInt(params.supplierId || "", 10);
 
   const { } = useGeneral()
-  const { loading, error, supplierDetail, contractDetail, contracts, getSupplierContracts, createContract, deleteContract, getSupplier, getAllSuppliers } = useSuppliers()
+  const { loading, error, supplierDetail, contractDetail, contracts, getSupplierContracts, createContract, deleteContract, getSupplier, updateSupplier } = useSuppliers()
   const { categories, states, currencies, countries, getAllCurrencies, getAllCategories, getAllStates, getAllCountries, } = useGeneral()
 
   useEffect(() => {
@@ -70,24 +70,16 @@ const SupplierDetail = () => {
     currency: ""
   })
 
-  const [editedData, setEditedData] = useState({
-    category: "",
-    email: "",
+  const [editedData, setEditedData] = useState<suppliersType>({
+    category: '',
+    email: '',
     country: "",
-    name: "",
+    name: '',
     phone: "",
     state: ""
   });
-
-  const contractTableHeaders = [
-    "Descripcion",
-    "Fecha vencimiento",
-    "Fecha pago",
-    "Monto",
-    "Moneda"
-  ]
-
-  //Pagination Contracts
+  console.log(supplierDetail);
+  
   const indexEndContracts = currentPageContracts * dataLength;
   const indexStartContracts = indexEndContracts - dataLength;
   const nPagesContracts = Math.ceil(contracts.length / dataLength);
@@ -102,30 +94,10 @@ const SupplierDetail = () => {
     e.preventDefault();
 
     try {
-      const state = states.find(s => s.id == editedData.state);
-      let data = {
-        nombre: editedData.name ? editedData.name : undefined,
-        correo: editedData.email ? editedData.email : undefined,
-        telefono:editedData.phone? editedData.phone : undefined,
-        Provincias_id:editedData.state ? editedData.state : undefined,
-        Rubros_id:editedData.category ? editedData.category : undefined
-      }
-      if(Object.entries(data).every(d => d[1] == "" || d[1]==undefined)){
-        setEditErrors({
-          category: "Debe ingresar un dato",
-          name:"Debe ingresar un dato",
-          state:"Debe ingresar un dato",
-          country:"Debe ingresar un dato"
-        })
-        throw new Error("No ingresó ningun dato")
-      }
+      await supplierEditSchema.validate(editedData, { abortEarly: false });
       
-      await supplierEditSchema.validate(data, { abortEarly: false });
-      
-
-      const editData = Object.fromEntries(Object.entries(data).filter(d=> d[1]!=""));
-      console.log(editData);
-      
+      updateSupplier(supplierId, editedData);
+      setEditErrors({});
 
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
@@ -157,8 +129,6 @@ const SupplierDetail = () => {
   const handleClickEditable = () => {
     setEditable(!editable);
   };
-
-  //*************
 
   //Contract
   const handleCreateContractSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
@@ -213,8 +183,6 @@ const SupplierDetail = () => {
     }
   }
 
-  //*************
-
   return (
     <div className='w-full flex'>
 
@@ -234,12 +202,12 @@ const SupplierDetail = () => {
             <div className="my-6">
             <Form handleSubmit={handleEditSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
             <>
-              <Input id={"nombreProveedor"} name={"name"} value={editedData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleEditChange} error={editErrors.name}></Input>
-              <Input id={"correoProveedor"} name={"email"} value={editedData.email} title={"Correo"} type={"email"} placeholder={"username@wyvern.com"} onChange={handleEditChange} error={editErrors.email}></Input>
-              <Input id={"telefonoProveedor"} name={"phone"} value={editedData.phone} title={"Teléfono"} type={"number"} placeholder={"543816341612"} onChange={handleEditChange} error={editErrors.phone}></Input>
-              <Select error={editErrors.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleEditChange}></Select>
-              <Select error={editErrors.state} id={"provincias"} name={"state"} title={"Provincia"} options={editFormStates} onChange={handleEditChange}></Select>
-              <Select error={editErrors.category} id={"rubros"} name={"category"} title={"Rubro"} options={categories} onChange={handleEditChange}></Select>
+              <Input id={"nombreProveedor"} name={"name"} defaultValue={supplierDetail.nombre}  title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleEditChange} error={editErrors.name}></Input>
+              <Input id={"correoProveedor"} name={"email"} defaultValue={supplierDetail.correo} title={"Correo"} type={"email"} placeholder={"username@wyvern.com"} onChange={handleEditChange} error={editErrors.email}></Input>
+              <Input id={"telefonoProveedor"} name={"phone"} value={supplierDetail.telefono} title={"Teléfono"} type={"number"} placeholder={"543816341612"} onChange={handleEditChange} error={editErrors.phone}></Input>
+              <Select editName={supplierDetail.Provincias.Paises_id} editId={supplierDetail.Provincias.Paises_id} error={editErrors.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleEditChange}></Select>
+              <Select editName={supplierDetail.Provincias.nombre} editId={supplierDetail.Provincias.id} error={editErrors.state} id={"provincias"} name={"state"} title={"Provincia"} options={editFormStates} onChange={handleEditChange}></Select>
+              <Select editName={supplierDetail.Rubros.nombre} editId={supplierDetail.Rubros.id} error={editErrors.category} id={"rubros"} name={"category"} title={"Rubro"} options={categories} onChange={handleEditChange}></Select>
               <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
             </>
           </Form>

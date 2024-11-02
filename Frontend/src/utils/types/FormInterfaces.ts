@@ -10,7 +10,8 @@ export interface FormProps {
 export interface InputProps {
     id: string;
     name: string;
-    value: any;
+    defaultValue?:any;
+    value?: any;
     title: string;
     type: string;
     placeholder: string;
@@ -25,6 +26,8 @@ export interface SelectProps {
     options: Array<any>;
     onChange: FormEventHandler;
     error?: string | undefined;
+    editName?: string
+    editId?: string;
 
 }
 
