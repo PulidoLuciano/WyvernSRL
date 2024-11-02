@@ -6,6 +6,8 @@ import { SalesSchemaCreate, SalesSchemaFilter } from "../../schemas/salesSchema"
 import audit from "../../middlewares/audit";
 import { validateData } from "../../middlewares/validateData";
 import { IdsSchema } from "../../schemas/usersSchemas";
+import ApiError from "../../utils/ApiError";
+import HttpStatuses from "../../utils/HttpStatus";
 
 const controladorVentas = new SalesController();
 
@@ -67,6 +69,42 @@ const SALES_ROUTES : Array<WyvernRoute> = [
             audit
         ],
         handler: controladorVentas.deleteMany
+    },
+    {
+        path: "/stats/platforms",
+        method: "GET",
+        authentication: true,
+        authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
+        middlewares: [
+        ],
+        handler: controladorVentas.platformsStats
+    },
+    {
+        path: "/stats/countries",
+        method: "GET",
+        authentication: true,
+        authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
+        middlewares: [
+        ],
+        handler: controladorVentas.countiesStats
+    },
+    {
+        path: "/stats/products",
+        method: "GET",
+        authentication: true,
+        authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
+        middlewares: [
+        ],
+        handler: controladorVentas.productsStats
+    },
+    {
+        path: "/stats/months",
+        method: "GET",
+        authentication: true,
+        authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
+        middlewares: [
+        ],
+        handler: controladorVentas.monthsStats
     },
 ]
 

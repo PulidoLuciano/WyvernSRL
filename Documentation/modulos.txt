@@ -191,5 +191,12 @@ COMPRAS/CONTRATOS:
 OTROS IMPORTANTES 
     - Broadcast (Back)
                     POST /clients/broadcast
-    - Ventas charts 
-                    GET /sales/stats/...
+    - Ventas charts (Back)
+        - Ventas por plataforma (Back)
+                    GET /sales/stats/platforms
+        - Ventas por mes (Back)
+                    GET /sales/stats/months
+        - Ventas por producto (Back)
+                    GET /sales/stats/products
+        - Ventas por país (Back)
+                    GET /sales/stats/countries
