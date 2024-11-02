@@ -64,6 +64,24 @@ const PROVIDERS_ROUTES : Array<WyvernRoute> = [
         ],
         handler: controlador.deleteMany
     },
+    {
+        path: "/:id/breaches",
+        method: "GET",
+        authentication: true,
+        authorization: [ROLE.Admin,ROLE.Compras, ROLE.Auditor],
+        middlewares: [
+        ],
+        handler: controlador.getBreaches
+    },
+    {
+        path: "/:id/score",
+        method: "GET",
+        authentication: true,
+        authorization: [ROLE.Admin,ROLE.Compras, ROLE.Auditor],
+        middlewares: [
+        ],
+        handler: controlador.getScore
+    },
 ]
 
 

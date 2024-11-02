@@ -82,7 +82,7 @@ AREA
     Individual:
         -Data labels: Nombre (Back)
                     GET /areas/:id?queries
-        - Tabla empleados: Nombre, DNI, Correo, Puesto, Provincia
+        - Tabla empleados: Nombre, DNI, Correo, Puesto, Provincia (Back)
         - Form crear puesto: Nombre (Back)
                     POST /positions
         - Tabla Puestos: Id, Nombre (Back)
@@ -130,13 +130,20 @@ PROVEEDORES
         - Tabla rubros: Nombre (Back)
                     GET /markets?queries 
                     DELETE /markets
-        - Form filtrar compras: Id compra, Entregado, Pagado, proveedor
-        - Tabla compras: Id compra, proveedor, descripcion, entregado, pagado, precioTotal, moneda
+        - Form filtrar compras: Id compra, Entregado, Pagado, proveedor (Back)
+                    GET /purchases?queries
+        - Tabla compras: Id compra, proveedor, descripcion, entregado, pagado, precioTotal, moneda (Back)
+                    GET /purchases?queries
+                    DELETE /purchases
         - Form filtrar contratos: Id contrato, proveedor (Back)
+                    GET /contracts?queries
         - Tabla contratos: Id contrato, proveedor, descripcion, fechaVencimiento, fechaPago, monto, Moneda, proveedor (Back)
+                    GET /contracts?queries
+                    DELETE /contracts
     Individual:
-        - Data labels: Nombre, correo, Telefono, Provincia, Rubro (Back)
+        - Data labels: Nombre, correo, Telefono, Provincia, Rubro, Calificación (Back)
                     GET /providers/:id?queries
+                    GET /providers/:id/score
                     PUT /providers/:id
         - Form crear contrato: motivo, fechaVencimiento, fechaPago, monto, Moneda (Back)
                     POST /contracts
@@ -148,7 +155,8 @@ PROVEEDORES
         - Tabla Compras: descripcion, precio unitario, Moneda, cantidad, fecha, entregado, pagado (Back)
                     GET /purchases?queries
                     DELETE /purchases
-        - Tabla incumplimientos: Descripcion, fecha, Id_Compra/Contrato, Nivel de incumplimiento
+        - Tabla incumplimientos: Descripcion, fecha, Id_Compra/Contrato, Nivel de incumplimiento (Back)
+                    GET /providers/:id/breaches
 
 
 
@@ -167,7 +175,7 @@ COMPRAS/CONTRATOS:
         - Form crear incumplimiento: descripcion, fecha, Nivel de incumplimiento
         - Tabla incumplimiento: Id incumplimiento, descripcion, fecha, Nivel de incumplimiento
     Individual contratos:
-        - Data labels: Id contrato, proveedor, descripcion, fechaVencimiento, fechaPago, monto, Moneda  (Back)
+        - Data labels: Id contrato, proveedor, descripcion, fechaVencimiento, fechaPago, monto, Moneda (Back)
                     GET /contracts/:id?queries
                     PUT /contracts/:id
         - Form crear incumplimiento: descripcion, fecha, Nivel de incumplimiento
@@ -177,5 +185,5 @@ COMPRAS/CONTRATOS:
 OTROS IMPORTANTES 
     - Broadcast (Back)
                     POST /clients/broadcast
-    - Ventas charts
+    - Ventas charts 
                     GET /sales/stats/...
