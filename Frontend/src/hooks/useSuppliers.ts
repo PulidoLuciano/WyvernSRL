@@ -1,16 +1,19 @@
 import { useState, useCallback } from "react";
 import { suppliersService } from "../service/suppliersService";
 import { suppliersType } from "../utils/types/suppliersType";
+import { contractType } from "../utils/types/contractType";
 
 const useSuppliers = () => {
 
     const [suppliers, setSuppliers] = useState<Array<any>>([]);
     const [supplierDetail, setSupplierDetail] = useState<any>(null);
+    const [contracts, setContracts] = useState<Array<any>>([]);
+    const [contractDetail, setContractDetail] = useState<any>(null)
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [deletes, setDeletes] = useState<Array<any> | null>(null);
 
-
+    //Suppliers
     const getAllSuppliers = useCallback(
         async (state?: boolean, category?: boolean, filterUrl?: string) => {
             setLoading(true);
@@ -60,7 +63,7 @@ const useSuppliers = () => {
         setError(null);
         let url = "http://localhost:3000/providers";
         try {
-            await suppliersService.create(url, supplierData);
+            await suppliersService.createSupplier(url, supplierData);
             await getAllSuppliers(true, true);
         } catch (err: any) {
             setError(err.message);
@@ -74,7 +77,7 @@ const useSuppliers = () => {
         setError(null);
         let url = "http://localhost:3000/providers/";
         try {
-            const response = await suppliersService.deleteSupplier(url, ids);
+            const response = await suppliersService.deleteObj(url, ids);
             await getAllSuppliers(true, true);
             console.log(await response.json());
             return response;
@@ -88,7 +91,7 @@ const useSuppliers = () => {
     const getSupplier = useCallback(async (id: number) => {
         setLoading(true);
         setError(null);
-        let url = `http://localhost:3000/providers/${id}/?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&include=Paises&borrado=false`;
+        let url = `http://localhost:3000/providers/${id}/?include=id&include=nombre&include=correo&include=telefono&include=Provincias&include=Rubros&borrado=false`;
         try {
             const data = await suppliersService.getOne(url);
             setSupplierDetail(data);
@@ -99,7 +102,113 @@ const useSuppliers = () => {
         }
     }, []);
 
-    return {createSupplier,deleteSuppliers,getAllSuppliers,getSupplier,loading,supplierDetail,suppliers,error}
+
+    //Contracts
+    const getSupplierContracts = useCallback(
+        async (supplier?: boolean, currency?: boolean, filterUrl?: string, id?: string) => {
+            setLoading(true);
+            setError(null);
+
+            let filterUrlLast;
+            filterUrl
+                ? (filterUrlLast = filterUrl.replace("?", "&"))
+                : (filterUrlLast = "");
+
+            let url = `http://localhost:3000/contracts/?Proveedores_id=${id}`;
+            let includesStatements = "&include=id&include=descripcion&include=fechaVencimiento&include=fechaPago&include=monto&borrado=false"
+            let includeSupplier = "&include=Proveedores";
+            let includeCurrency = "&include=Monedas";
+            try {
+
+                if (supplier && currency) {
+                    filterUrl
+                        ? (url = url.concat(includesStatements, filterUrlLast, includeSupplier, includeCurrency))
+                        : (url = url.concat(includesStatements, includeSupplier, includeCurrency));
+                } else if (supplier) {
+                    filterUrl
+                        ? (url = url.concat(includesStatements, filterUrlLast, includeSupplier))
+                        : (url = url.concat(includesStatements, includeSupplier));
+                } else if (currency) {
+                    filterUrl
+                        ? (url = url.concat(includesStatements, filterUrlLast, includeCurrency))
+                        : (url = url.concat(includesStatements, includeCurrency));
+                } else {
+                    if (filterUrl) url = url.concat(filterUrl);
+                }
+
+                const data = await suppliersService.getAllSuppliers(url);
+                console.log(data);
+
+                setContracts(data);
+            } catch (err: any) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        },
+        []
+    );
+
+    const createContract = async (supplierId:string,contractData: contractType) => {
+        setLoading(true);
+        setError(null);
+        let url = "http://localhost:3000/contracts";
+        try {
+           await suppliersService.createContract(url, contractData);
+            
+            
+            await getSupplierContracts(true, true,undefined,supplierId);
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const deleteContract = async (idSupplier: string, ids: Array<any>) => {
+        setLoading(true);
+        setError(null);
+        let url = "http://localhost:3000/contracts";
+        try {
+            const response = await suppliersService.deleteObj(url, ids);
+            console.log(response);
+            await getSupplierContracts(true,true,undefined,idSupplier);
+            return response;
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const getContract = useCallback(async (id: number) => {
+        setLoading(true);
+        setError(null);
+        let url = `http://localhost:3000/contracts/${id}/?include=id&include=descripcion&include=fechaVencimiento&include=fechaPago&include=monto&borrado=false&include=Proveedores&include=Monedas`;
+        try {
+            const data = await suppliersService.getOne(url);
+            setContractDetail(data);
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    const updateSupplier = async(id:string,supplierData:suppliersType)=>{
+       setLoading(true)
+       setError(null)
+        try {
+        const response = await suppliersService.updateSupplier(id,supplierData);
+       } catch (err : any) {
+        setError(err.message)
+       }finally{
+        setLoading(false)
+       }
+
+    }
+
+    return { createSupplier, deleteSuppliers, createContract, getContract, deleteContract, getSupplierContracts, getAllSuppliers, getSupplier, contracts, contractDetail, loading, supplierDetail, suppliers, error }
 
 }
 

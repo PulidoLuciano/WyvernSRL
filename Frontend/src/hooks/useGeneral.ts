@@ -15,6 +15,8 @@ export const useGeneral = () => {
   const [loadingStates, setLoadingStates] = useState<boolean>(false);
   const [loadingPlatforms, setLoadingPlatforms] = useState<boolean>(false);
   const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
+  const [currencies, setCurrencies] = useState<Array<any>>([])
+  const [loadingCurrencies, setLoadingCurrencies] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const getAllCountries = useCallback(async () => {
@@ -107,6 +109,22 @@ export const useGeneral = () => {
     }
   },[])
 
-  return {states,categories, platforms, countries , products, medias,getAllCategories,getAllStates, getAllProducts , getAllCountries, getAllPlatforms, getAllMedias, loadingProducts, LoadingMedias, loadingCountries, loadingPlatforms, error };
+  const getAllCurrencies= useCallback(async()=>{
+    setLoadingCurrencies(true);
+    setError(null)
+    let url = "http://localhost:3000/currencies"
+    try {
+      const data = await generalService.getAllProducts(url);
+      setCurrencies(data)
+    } catch (err : any) {
+      setError(err.message);
+    }finally{
+      setLoadingCurrencies(false);
+    }
+  },[])
+
+  
+
+  return {states,categories, platforms,currencies, countries , products, medias,getAllCurrencies,getAllCategories,getAllStates, getAllProducts , getAllCountries, getAllPlatforms, getAllMedias, loadingProducts, LoadingMedias, loadingCountries, loadingPlatforms, error };
 
 };
