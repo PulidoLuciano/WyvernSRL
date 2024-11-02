@@ -137,10 +137,17 @@ PROVEEDORES
     Individual:
         - Data labels: Nombre, correo, Telefono, Provincia, Rubro (Back)
                     GET /providers/:id?queries
+                    PUT /providers/:id
         - Form crear contrato: motivo, fechaVencimiento, fechaPago, monto, Moneda (Back)
+                    POST /contracts
         - Tabla Contratos: descripcion, fechaVencimiento, fechaPago, monto, moneda (Back)
+                    GET /contracts?queries
+                    DELETE /contracts
         - Form crear compra: descripcion, precio unitario, cantidad, fecha, entregado, pagado, Moneda (Back)
+                    POST /purchases
         - Tabla Compras: descripcion, precio unitario, Moneda, cantidad, fecha, entregado, pagado (Back)
+                    GET /purchases?queries
+                    DELETE /purchases
         - Tabla incumplimientos: Descripcion, fecha, Id_Compra/Contrato, Nivel de incumplimiento
 
 
@@ -154,17 +161,21 @@ RUBRO
 
 COMPRAS/CONTRATOS:
     Individual compras:
-        - Data labels: Id compra, proveedor, descripcion, fecha, entregado, pagado, precio unitario, moneda, cantidad, precio total.
+        - Data labels: Id compra, proveedor, descripcion, fecha, entregado, pagado, precio unitario, moneda, cantidad, precio total. (Back)
+                    GET /purchases/:id?queries
+                    PUT /purchases/:id
         - Form crear incumplimiento: descripcion, fecha, Nivel de incumplimiento
         - Tabla incumplimiento: Id incumplimiento, descripcion, fecha, Nivel de incumplimiento
     Individual contratos:
-        - Data labels: Id contrato, proveedor, descripcion, fechaVencimiento, fechaPago, monto, Moneda
+        - Data labels: Id contrato, proveedor, descripcion, fechaVencimiento, fechaPago, monto, Moneda  (Back)
+                    GET /contracts/:id?queries
+                    PUT /contracts/:id
         - Form crear incumplimiento: descripcion, fecha, Nivel de incumplimiento
         - Tabla incumplimiento: Id incumplimiento, descripcion, fecha, Nivel de incumplimiento
 
 
 OTROS IMPORTANTES 
-    - Broadcast
+    - Broadcast (Back)
                     POST /clients/broadcast
     - Ventas charts
                     GET /sales/stats/...

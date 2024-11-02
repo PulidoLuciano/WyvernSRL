@@ -1,11 +1,9 @@
 import { ROLE } from "../../utils/Role.ts"
 import type { WyvernRoute } from "../../types.d.ts"
-import ApiError from "../../utils/ApiError.ts"
-import HttpStatuses from "../../utils/HttpStatus.ts"
 import ClientsController from "./clientsController.ts"
 import audit from "../../middlewares/audit.ts"
 import { validateData } from "../../middlewares/validateData.ts"
-import { ClientSchemaFilter, ClientSchemaCreate } from "../../schemas/clientsSchemas.ts"
+import { ClientSchemaFilter, ClientSchemaCreate, broadcastSchema } from "../../schemas/clientsSchemas.ts"
 import { IdsSchema } from "../../schemas/usersSchemas.ts"
 import ContactsController from "./contactsController.ts"
 import { ContactsSchemaCreate, ContactsSchemaFilter } from "../../schemas/contactsSchemas.ts"
@@ -83,8 +81,10 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
         method: "POST",
         authentication: true,
         authorization: [ROLE.Admin, ROLE.Ventas, ROLE.Auditor],
-        middlewares: [],
-        handler: (_, _1) => {throw new ApiError(HttpStatuses.NOT_IMPLEMENTED, "To do")}
+        middlewares: [
+            validateData(broadcastSchema)
+        ],
+        handler: controlador.broadcastToSubscribers
     },
     {
         //Traer contactos del cliente
