@@ -13,7 +13,7 @@ import TRow from '../components/table/TRow';
 import { useGeneral } from '../hooks/useGeneral';
 import useSuppliers from '../hooks/useSuppliers';
 import { supplierSchema } from '../schemas/suppliersSchema';
-import { CreateSupplierErrors, suppliersType } from '../utils/types/suppliersType';
+import { CreateSupplierErrors, suppliersFilter, suppliersType } from '../utils/types/suppliersType';
 import * as Yup from "yup"
 
 const SuppliersModule = () => {
@@ -27,7 +27,8 @@ const SuppliersModule = () => {
     getAllCategories();
 
   }, [])
-
+  const [createFormStates,setCreateFormStates] = useState<Array<any>>([])
+  const [filterFormStates,setFilterFormStates] = useState<Array<any>>([])
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [createErrors, setCreateErrors] = useState<CreateSupplierErrors>({})
@@ -39,22 +40,14 @@ const SuppliersModule = () => {
     phone: '',
     category: '',
     country: '',
-    // cbu: '',
-    // paymentMethod: '',
-    // qualification: ''
   });
 
-  const [filterData, setFilterData] = useState<suppliersType>({
+  const [filterData, setFilterData] = useState<suppliersFilter>({
     name: '',
     state: '',
-    email: '',
-    phone: '',
     category: '',
-    country: '',
-    // cbu: '',
-    // paymentMethod: '',
-    // qualification: ''
-  });
+    country:''
+});
 
   //PAGINATION
 
@@ -92,8 +85,8 @@ const SuppliersModule = () => {
   }
 
   const handleDeleteSelectedData = async (selectedData: Array<string>) => {
-    
-    
+
+
     if (!selectedData || selectedData.length == 0) {
       return
     } else {
@@ -112,17 +105,7 @@ const SuppliersModule = () => {
 
       const state = states.find(s => s.id == createData.state);
       await supplierSchema.validate(createData, { abortEarly: false });
-      if (state.Paises_id == createData.country) {
-
-        createSupplier(createData)
-        setCreateErrors({});
-      }
-      else {
-        setCreateErrors({ ...createErrors, country: "Esta pais no contiene esta provincia/estado" })
-        throw new Error
-      }
-
-
+      createSupplier(createData)
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
 
@@ -142,8 +125,6 @@ const SuppliersModule = () => {
     e.preventDefault();
     const data = {
       nombre: filterData.name,
-      correo: filterData.email,
-      telefono: filterData.phone,
       Provincias_id: filterData.state,
       Rubros_id: filterData.category,
     }
@@ -174,6 +155,10 @@ const SuppliersModule = () => {
 
   const handleCreateChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    if(name == "country"){
+      const statesAvailables = states.filter(s => s.Paises_id == Number.parseInt(value))
+      setCreateFormStates(statesAvailables)
+    }
     setCreateData({
       ...createData,
       [name]: value
@@ -182,6 +167,10 @@ const SuppliersModule = () => {
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    if(name == "country"){
+      const statesAvailables = states.filter(s => s.Paises_id == Number.parseInt(value))
+      setFilterFormStates(statesAvailables)
+    }
     setFilterData({
       ...filterData,
       [name]: value
@@ -204,11 +193,8 @@ const SuppliersModule = () => {
               <Input id={"correoProveedor"} name={"email"} value={createData.email} title={"Correo"} type={"email"} placeholder={"username@wyvern.com"} onChange={handleCreateChange} error={createErrors.email}></Input>
               <Input id={"telefonoProveedor"} name={"phone"} value={createData.phone} title={"Teléfono"} type={"number"} placeholder={"543816341612"} onChange={handleCreateChange} error={createErrors.phone}></Input>
               <Select error={createErrors.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange}></Select>
-              <Select error={createErrors.state} id={"provincias"} name={"state"} title={"Provincia"} options={states} onChange={handleCreateChange}></Select>
+              <Select error={createErrors.state} id={"provincias"} name={"state"} title={"Provincia"} options={createFormStates} onChange={handleCreateChange}></Select>
               <Select error={createErrors.category} id={"rubros"} name={"category"} title={"Rubro"} options={categories} onChange={handleCreateChange}></Select>
-              {/* <Input id={"cbu"} name={"cbu"} value={createData.cbu} title={"CBU"} type={"number"} placeholder={"4516161561651651"} onChange={handleCreateChange} error=''></Input>
-              <Input id={"metodoPago"} name={"paymentMethod"} value={createData.paymentMethod} title={"Metodo de Pago"} type={"text"} placeholder={"Efectivo"} onChange={handleCreateChange} error=''></Input> */}
-              {/* <Input id={"calificacion"} name={"qualification"} value={createData.qualification} title={"Calificacion"} type={"number"} placeholder={"0-5"} onChange={handleCreateChange} error=''></Input> */}
               <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
             </>
           </Form>
@@ -216,14 +202,11 @@ const SuppliersModule = () => {
         <Accordion title="Filtrar por">
           <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
             <>
-              <Input  id={"nombreProveedor"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange} ></Input>
-              <Input  id={"correoProveedor"} name={"email"} value={filterData.email} title={"Correo"} type={"text"} placeholder={"username@wyvern.com"} onChange={handleFilterChange} ></Input>
-              <Input  id={"telefonoProveedor"} name={"phone"} value={filterData.phone} title={"Teléfono"} type={"number"} placeholder={"546341612"} onChange={handleFilterChange} ></Input>
-              <Select id={"provincias"} name={"state"} title={"Provincia"} options={states} onChange={handleFilterChange}></Select>
-              <Select id={"rubros"} name={"category"} title={"Rubro"} options={categories} onChange={handleFilterChange}></Select>
-              {/* <Input id={"cbu"} name={"cbu"} value={filterData.cbu} title={"CBU"} type={"number"} placeholder={"4516161561651651"} onChange={handleFilterChange} error=''></Input>
-              <Input id={"metodoPago"} name={"paymentMethod"} value={filterData.paymentMethod} title={"Metodo de Pago"} type={"text"} placeholder={"Efectivo"} onChange={handleFilterChange} error=''></Input>
-              <Input id={"calificacion"} name={"qualification"} value={filterData.qualification} title={"Calificacion"} type={"number"} placeholder={"0-5"} onChange={handleFilterChange} error=''></Input> */}
+              <Input id={"nombreProveedorFiltrar"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange} ></Input>
+              <Select id={"paisesFiltrar"} title={"País"} name={"country"} options={countries} onChange={handleFilterChange}></Select>
+              <Select id={"provinciasFiltrar"} name={"state"} title={"Provincia"} options={filterFormStates} onChange={handleFilterChange}></Select>
+              <Select id={"rubrosFiltrar"} name={"category"} title={"Rubro"} options={categories} onChange={handleFilterChange}></Select>
+
               <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"} />
             </>
           </Form>
