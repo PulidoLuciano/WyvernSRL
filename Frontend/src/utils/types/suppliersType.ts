@@ -5,9 +5,13 @@ export interface suppliersType {
     state:string,
     category:string,
     country:string,
-    // cbu:string,
-    // paymentMethod:string,
-    // qualification:string
+}
+
+export interface suppliersFilter {
+    name:string,
+    category:string,
+    state:string,
+    country:string
 }
 
 export interface CreateSupplierErrors {
@@ -17,9 +21,6 @@ export interface CreateSupplierErrors {
     state?:string,
     category?:string,
     country?:string,
-    // cbu?:string,
-    // paymentMethod?:string,
-    // qualification?:string
 }
 
 
