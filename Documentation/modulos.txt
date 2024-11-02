@@ -172,14 +172,20 @@ COMPRAS/CONTRATOS:
         - Data labels: Id compra, proveedor, descripcion, fecha, entregado, pagado, precio unitario, moneda, cantidad, precio total. (Back)
                     GET /purchases/:id?queries
                     PUT /purchases/:id
-        - Form crear incumplimiento: descripcion, fecha, Nivel de incumplimiento
-        - Tabla incumplimiento: Id incumplimiento, descripcion, fecha, Nivel de incumplimiento
+        - Form crear incumplimiento: descripcion, fecha, Nivel de incumplimiento (Back)
+                    POST /breaches
+        - Tabla incumplimiento: Id incumplimiento, descripcion, fecha, Nivel de incumplimiento (Back)
+                    GET /breaches?queries
+                    DELETE /breaches
     Individual contratos:
         - Data labels: Id contrato, proveedor, descripcion, fechaVencimiento, fechaPago, monto, Moneda (Back)
                     GET /contracts/:id?queries
                     PUT /contracts/:id
-        - Form crear incumplimiento: descripcion, fecha, Nivel de incumplimiento
-        - Tabla incumplimiento: Id incumplimiento, descripcion, fecha, Nivel de incumplimiento
+        - Form crear incumplimiento: descripcion, fecha, Nivel de incumplimiento (Back)
+                    POST /breaches
+        - Tabla incumplimiento: Id incumplimiento, descripcion, fecha, Nivel de incumplimiento (Back)
+                    GET /breaches?queries
+                    DELETE /breaches
 
 
 OTROS IMPORTANTES 
