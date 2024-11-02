@@ -22,3 +22,8 @@ export const ClientSchemaCreate = z.object({
     Paises_id: idSchema,
     Plataformas_id: idSchema,
 })
+
+export const broadcastSchema = z.object({
+    subject: z.string({message: "Es necesario un asunto para el broadcast"}).min(2, "Se necesita un asunto de al menos dos caracteres").max(100, "No se puede enviar un asunto de mas de 100 caracteres"),
+    text: z.string({message: "Es necesario un texto para el broadcast"}).min(2, "El texto debe ser de al menos dos caracteres")
+})

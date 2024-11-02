@@ -19,6 +19,8 @@ for (let index = 0; index < ROUTERS.length; index++) {
   app.use(router.path, createRouter(router.routes));
 }
 
+app.use(express.static('public'))
+
 app.use(notFoundHandler);
 
 app.use(errorHandler);

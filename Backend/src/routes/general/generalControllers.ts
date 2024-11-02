@@ -31,3 +31,9 @@ export class MonedasController extends RouterController{
         super(prisma.monedas, "moneda")
     }
 }
+
+export class BreachLevelController extends RouterController{
+    constructor(){
+        super(prisma.nivelDeIncumplimiento, "nivel de incumplimiento")
+    }
+}

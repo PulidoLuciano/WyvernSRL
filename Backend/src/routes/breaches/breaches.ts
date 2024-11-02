@@ -4,20 +4,20 @@ import parseQueries from "../../middlewares/parseQueries";
 import { validateData } from "../../middlewares/validateData";
 import audit from "../../middlewares/audit";
 import { IdsSchema } from "../../schemas/usersSchemas";
-import { ProvidersController } from "./providersController";
-import { ProviderSchemaCreate, ProviderSchemaFilter } from "../../schemas/providersSchema";
+import { BreachesController } from "./breachesController";
+import { BreachSchemaCreate, BreachSchemaFilter } from "../../schemas/breachesSchema";
 
-const controlador = new ProvidersController();
+const controlador = new BreachesController();
 
 
-const PROVIDERS_ROUTES : Array<WyvernRoute> = [
+const BREACHES_ROUTES : Array<WyvernRoute> = [
     {
         path: "/",
         method: "GET",
         authentication: true,
-        authorization: [ROLE.Admin, ROLE.Compras, ROLE.Auditor],
+        authorization: [ROLE.Admin,ROLE.Compras, ROLE.Auditor],
         middlewares: [
-            parseQueries(ProviderSchemaFilter)
+            parseQueries(BreachSchemaFilter)
         ],
         handler: controlador.getAll
     },
@@ -27,7 +27,7 @@ const PROVIDERS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin,ROLE.Compras, ROLE.Auditor],
         middlewares: [
-            parseQueries(ProviderSchemaFilter)
+            parseQueries(BreachSchemaFilter)
         ],
         handler: controlador.getById
     },
@@ -37,7 +37,7 @@ const PROVIDERS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin,ROLE.Compras],
         middlewares: [
-            validateData(ProviderSchemaCreate),
+            validateData(BreachSchemaCreate),
             audit
         ],
         handler: controlador.create
@@ -48,7 +48,7 @@ const PROVIDERS_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin,ROLE.Compras],
         middlewares: [
-            validateData(ProviderSchemaCreate),
+            validateData(BreachSchemaCreate),
             audit
         ],
         handler: controlador.updateById
@@ -64,25 +64,8 @@ const PROVIDERS_ROUTES : Array<WyvernRoute> = [
         ],
         handler: controlador.deleteMany
     },
-    {
-        path: "/:id/breaches",
-        method: "GET",
-        authentication: true,
-        authorization: [ROLE.Admin,ROLE.Compras, ROLE.Auditor],
-        middlewares: [
-        ],
-        handler: controlador.getBreaches
-    },
-    {
-        path: "/:id/score",
-        method: "GET",
-        authentication: true,
-        authorization: [ROLE.Admin,ROLE.Compras, ROLE.Auditor],
-        middlewares: [
-        ],
-        handler: controlador.getScore
-    },
 ]
 
 
-export default PROVIDERS_ROUTES
+export default BREACHES_ROUTES
+
