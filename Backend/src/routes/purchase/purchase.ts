@@ -4,8 +4,8 @@ import parseQueries from "../../middlewares/parseQueries";
 import { validateData } from "../../middlewares/validateData";
 import audit from "../../middlewares/audit";
 import { IdsSchema } from "../../schemas/usersSchemas";
-import { ProductsSchemaCreate, ProductsSchemaFilter } from "../../schemas/productsSchema";
 import { PurchasesController } from "./purchaseController";
+import { PurchasesSchemaCreate, PurchasesSchemaFilter } from "../../schemas/purchaseSchema";
 
 const controlador = new PurchasesController();
 
@@ -17,7 +17,7 @@ const PURCHASES_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin,ROLE.Compras, ROLE.Auditor],
         middlewares: [
-            parseQueries(ProductsSchemaFilter)
+            parseQueries(PurchasesSchemaFilter)
         ],
         handler: controlador.getAll
     },
@@ -27,7 +27,7 @@ const PURCHASES_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin,ROLE.Compras, ROLE.Auditor],
         middlewares: [
-            parseQueries(ProductsSchemaFilter)
+            parseQueries(PurchasesSchemaFilter)
         ],
         handler: controlador.getById
     },
@@ -37,7 +37,7 @@ const PURCHASES_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin,ROLE.Compras],
         middlewares: [
-            validateData(ProductsSchemaCreate),
+            validateData(PurchasesSchemaCreate),
             audit
         ],
         handler: controlador.create
@@ -48,7 +48,7 @@ const PURCHASES_ROUTES : Array<WyvernRoute> = [
         authentication: true,
         authorization: [ROLE.Admin,ROLE.Compras],
         middlewares: [
-            validateData(ProductsSchemaCreate),
+            validateData(PurchasesSchemaCreate),
             audit
         ],
         handler: controlador.updateById
