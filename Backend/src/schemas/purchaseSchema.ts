@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { borradoSchema, dateTimeSchema, descripcionSchema, idSchema, trueBooleanSchema } from "./generalSchemas";
 
-export const ContractsSchemaFilter = z.object({
+export const PurchasesSchemaFilter = z.object({
     id: idSchema,
     descripcion: descripcionSchema,
     fechaCompra: dateTimeSchema,
@@ -17,7 +17,7 @@ export const ContractsSchemaFilter = z.object({
     Incumplimientos: z.any()
 })
 
-export const ContractsSchemaCreate = z.object({
+export const PurchasesSchemaCreate = z.object({
     descripcion: descripcionSchema,
     fechaCompra: dateTimeSchema,
     precioUnitario: z.coerce.number({ message: "Se require el campo monto"}).min(0, "El monto no puede ser menor que cero"),
