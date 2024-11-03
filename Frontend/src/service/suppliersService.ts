@@ -18,7 +18,7 @@ const getAllSuppliers = async (url : string) => {
 }
 
 const createSupplier = async (url: string,obj: suppliersType) => {
-
+    
     const response = await fetch(`${url}/`, {
         mode: 'cors',
         method: 'POST',
@@ -53,10 +53,18 @@ const updateSupplier = async(id: number,obj:suppliersType)=>{
             headers:{
                 'Content-Type' : 'application/json; charset=UTF-8'
             },
-            body: JSON.stringify(obj)
+            body: JSON.stringify({
+                "nombre": obj.name,
+                "correo": obj.email? obj.email : null,
+                "telefono": obj.phone ? obj.phone : null,
+                "Provincias_id": Number(obj.state),
+                "Rubros_id": Number(obj.category) ,
+                
+            })
         })
         
         const data = await response.json()
+        console.log(data);
         if(!response.ok) throw new Error(`${data.message}`);
         return data;
  
