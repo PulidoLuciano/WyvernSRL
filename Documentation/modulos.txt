@@ -16,7 +16,7 @@ CLIENTES
                     DELETE /sales
         - Form crear contacto: Medio, duracion (activo solo si medio es telefono), fecha, motivo (Back)
                     POST /clients/contacts
-        - Tabla de contactos del cliente: Id contacto, motivo, fecha, medio (Back)
+        - Tabla de contactos del cliente: Id contacto, motivo, fecha, medio (Back, front)
                     GET /clients/:id/contacts
                     DELETE clients/contacts
 
@@ -30,11 +30,11 @@ CONTACTOS
 
 VENTAS
     General: 
-        - Form crear ventas: Producto, Cliente, fecha (Back)
+        - Form crear ventas: Producto, Cliente, fecha (Back, front)
                     POST /sales
-        - Form filtrar ventas: Producto, Fecha (Back)
+        - Form filtrar ventas: Producto, Fecha (Back, front)
                     GET /sales?queries
-        - Tabla ventas: ID venta, Producto, Cliente, Fecha (Back)
+        - Tabla ventas: ID venta, Producto, Cliente, Fecha (Back, front)
                     GET /sales?queries
                     DELETE /sales
         - Form crear Productos: Nombre, precio, fecha de lanzamiento, Categoria (Back)

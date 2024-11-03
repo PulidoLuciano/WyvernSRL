@@ -103,8 +103,6 @@ return data;
 
 }
 
-
-
 const createContract = async (url: string,obj: contractType) => {
 
     const response = await fetch(`${url}/`, {

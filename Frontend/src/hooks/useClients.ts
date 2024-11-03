@@ -100,6 +100,21 @@ export const useClients = () => {
     }
   }, []);
 
+  
+  const updateClient = async(id:number,supplierData:clientType)=>{
+    setLoading(true)
+    setError(null)
+     try {
+     await clientsService.updateClient(id,supplierData);
+     await getClient(id);
+    } catch (err : any) {
+     setError(err.message)
+    }finally{
+     setLoading(false)
+    }
+
+ }
+
   const getClientsPurchases = useCallback(async (id: number) => {
     setLoading(true);
     setError(null);
@@ -200,6 +215,7 @@ export const useClients = () => {
     deleteContact,
     getClientsPurchases,
     clientPurchases,
-    deletePurchase
+    deletePurchase,
+    updateClient
   };
 };

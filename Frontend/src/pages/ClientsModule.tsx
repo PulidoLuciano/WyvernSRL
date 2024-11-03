@@ -60,6 +60,7 @@ const ClientsModule = () => {
   const nPages = Math.ceil(clients.length / dataLength);
   const dataShown = clients.slice(indexStart, indexEnd);
 
+console.log(createData);
 
   const changePage = (nextPage: number) => {
     setCurrentPage(nextPage);

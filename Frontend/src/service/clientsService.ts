@@ -59,6 +59,32 @@ const deleteClient = async (url: string, ids: Array<any | null>) => {
     return data
 }
 
+const updateClient = async(id: number,obj:clientType)=>{
+
+    const response = await fetch(`http://localhost:3000/clients/${id}`,{
+        mode:"cors",
+        method: "PUT",
+        credentials: "include",
+        headers:{
+            'Content-Type' : 'application/json; charset=UTF-8'
+        },
+        body: JSON.stringify({
+            "nombre": obj.name,
+            "correo": obj.email? obj.email : null,
+            "telefono": obj.phone ? obj.phone : null,
+            "suscripto": obj.suscription,
+            "Plataformas_id": Number(obj.platform),
+            "Paises_id": Number(obj.country) ,
+        })
+    })
+    
+    const data = await response.json()
+    console.log(data);
+    if(!response.ok) throw new Error(`${data.message}`);
+    return data;
+
+}
+
 const getOne = async (url : string) => {
     
     const response = await fetch(`${url}`, {
@@ -173,4 +199,4 @@ const deletePurchase= async (url: string, ids: Array<any | null>) => {
     return data
 }
 
-export const clientsService = { getAllClients, create, deleteClient, getOne, getAllContacts, deleteContact, createContact, getClientsPurchases, deletePurchase }
+export const clientsService = { getAllClients, create, deleteClient,updateClient, getOne, getAllContacts, deleteContact, createContact, getClientsPurchases, deletePurchase }
