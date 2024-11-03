@@ -228,10 +228,20 @@ export const salesTableHeaders: Array<string> = [
   "Fecha"
 ]
 
-export const contractTableHeaders = [
+export const contractTableHeaders: Array<string> = [
   "Descripcion",
   "Fecha vencimiento",
   "Fecha pago",
   "Monto",
   "Moneda"
+]
+
+export const purchasesSupplierTableHeaders: Array<string> = [
+  "Descripción",
+  "Precio unitario",
+  "Moneda",
+  "Cantidad",
+  "Fecha",
+  "Entregado",
+  "Pagado"
 ]

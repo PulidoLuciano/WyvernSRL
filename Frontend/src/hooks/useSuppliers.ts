@@ -206,6 +206,21 @@ const useSuppliers = () => {
 
     }
 
+    const getSupplierPurchases = async(idSupplier:string) =>{
+
+        let url = "http://localhost:3000/purchases"
+        
+        try {
+            
+            
+
+        } catch (error) {
+            
+        }
+
+
+    }
+
     return { createSupplier, updateSupplier, deleteSuppliers, createContract, getContract, deleteContract, getSupplierContracts, getAllSuppliers, getSupplier, contracts, contractDetail, loading, supplierDetail, suppliers, error }
 
 }
