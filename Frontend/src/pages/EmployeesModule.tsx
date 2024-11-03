@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { employees, optionsStates } from '../utils/dataArrays'
+import { optionsStates } from '../utils/dataArrays'
 import Accordion from '../components/Accordion';
 import Pagination from '../components/Pagination';
 import Nav from '../components/Nav'
@@ -12,10 +12,18 @@ import Table from '../components/table/Table';
 import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
 import { employeeTableHeaders } from "../utils/dataArrays"
+import { useEmployees } from '../hooks/useEmployees';
 
 const EmployeesModule = () => {
 
-  const [selectedAll, setSelectedAll] = useState<boolean>(false);
+  const { getAllEmployees, employees } = useEmployees();
+
+
+  useEffect(() => {
+    getAllEmployees(true)
+
+  }, [])
+
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [createData, setCreateData] = useState({
@@ -24,7 +32,7 @@ const EmployeesModule = () => {
     email: '',
     dni: '',
     hiringDate: '',
-    salary: 0,
+    salary: '',
     state: ''
   });
 
@@ -32,26 +40,23 @@ const EmployeesModule = () => {
     name: '',
     phone: '',
     email: '',
-    dni: 0,
+    dni: '',
     hiringDate: '',
-    salary: 0,
+    salary: '',
     state: ''
   });
 
-  //PAGINATION
-
+  
+  
   const indexEnd = currentPage * dataLength;
   const indexStart = indexEnd - dataLength;
   const nPages = Math.ceil(employees.length / dataLength);
   const dataShown = employees.slice(indexStart, indexEnd);
+
   const changePage = (nextPage: number) => {
     setCurrentPage(nextPage);
   }
 
-  const handleSelectAll = () => {
-    setSelectedAll(!selectedAll)
-  }
- 
   const handleCreateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(createData);
@@ -144,13 +149,13 @@ const EmployeesModule = () => {
               dataShown.map((empleado, index) => {
                 return (
                   <TRow key={index} id={empleado.dni} detail={true}>
-                    <TData selectedAll={selectedAll} checkbox={true}>{empleado.name}</TData>
-                    <TData>{empleado.email}</TData>
-                    <TData>{empleado.dni}</TData>
-                    <TData>{empleado.phone}</TData>
-                    <TData>{empleado.hiringDate}</TData>
-                    <TData>{empleado.salary}</TData>
-                    <TData>{empleado.state}</TData>
+                    <TData checkbox={true}>{empleado.nombre}</TData>
+                    <TData>{empleado.correo ? empleado.correo : "-"}</TData>
+                    <TData>{empleado.dni ? empleado.dni : "-"}</TData>
+                    <TData>{empleado.telefono ? empleado.telefono : "-"}</TData>
+                    <TData>{empleado.fechaContratacion ? empleado.fechaContratacion : "-"}</TData>
+                    <TData>{empleado.sueldo ? empleado.sueldo : "-"}</TData>
+                    <TData>{empleado.Provincias?.nombre }</TData>
                   </TRow>)
               })
             }

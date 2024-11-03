@@ -137,7 +137,6 @@ const useSuppliers = () => {
                 }
 
                 const data = await suppliersService.getAllSuppliers(url);
-                console.log(data);
 
                 setContracts(data);
             } catch (err: any) {

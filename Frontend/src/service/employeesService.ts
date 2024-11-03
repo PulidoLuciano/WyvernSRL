@@ -1,7 +1,6 @@
-import { contractType } from "../utils/types/contractType";
-import { suppliersType } from "../utils/types/suppliersType";
+import { employeeType } from "../utils/types/employeeType";
 
-const getAllSuppliers = async (url : string) => {
+const getAllEmployees = async (url : string) => {
     
     const response = await fetch(`${url}`, {
         mode: 'cors',
@@ -17,7 +16,7 @@ const getAllSuppliers = async (url : string) => {
 
 }
 
-const createSupplier = async (url: string,obj: suppliersType) => {
+const createEmployee= async (url: string,obj: employeeType) => {
     
     const response = await fetch(`${url}/`, {
         mode: 'cors',
@@ -27,12 +26,7 @@ const createSupplier = async (url: string,obj: suppliersType) => {
             'Content-Type': 'application/json; charset=UTF-8',
         },
         body: JSON.stringify({
-            "nombre": obj.name,
-            "correo": obj.email? obj.email : null,
-            "telefono": obj.phone ? obj.phone : null,
-            "Provincias_id": Number(obj.state),
-            "Rubros_id": Number(obj.category) ,
-            
+      
         })
     })
 
@@ -44,7 +38,7 @@ const createSupplier = async (url: string,obj: suppliersType) => {
 
 }
 
-const updateSupplier = async(id: number,obj:suppliersType)=>{
+const updateEmployee = async(id: number,obj:employeeType)=>{
 
         const response = await fetch(`http://localhost:3000/providers/${id}`,{
             mode:"cors",
@@ -54,11 +48,6 @@ const updateSupplier = async(id: number,obj:suppliersType)=>{
                 'Content-Type' : 'application/json; charset=UTF-8'
             },
             body: JSON.stringify({
-                "nombre": obj.name,
-                "correo": obj.email? obj.email : null,
-                "telefono": obj.phone ? obj.phone : null,
-                "Provincias_id": Number(obj.state),
-                "Rubros_id": Number(obj.category) ,
                 
             })
         })
@@ -70,8 +59,7 @@ const updateSupplier = async(id: number,obj:suppliersType)=>{
  
 }
 
-
-const deleteObj = async (url: string, ids: Array<any | null>) => {
+const deleteEmployee = async (url: string, ids: Array<any | null>) => {
 const response = await fetch(`${url}`,{
             mode: 'cors',
             method: 'DELETE',
@@ -103,36 +91,5 @@ return data;
 
 }
 
-const createContract = async (url: string,obj: contractType) => {
 
-    const response = await fetch(`${url}/`, {
-        mode: 'cors',
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: JSON.stringify({
-            "descripcion": obj.motive,
-            "fechaVencimiento": new Date(obj.expireDate),
-            "fechaPago": new Date(obj.payDate) ,
-            "monto":Number(obj.amount),
-            "Proveedores_id": Number(obj.supplier),
-            "Monedas_id": Number(obj.currency) ,
-            
-        })
-    })
-
-    const data = await response.json();
-    console.log(data);
-    
-    if (!response.ok) throw new Error(`${data.message}`);
-
-    return data;
-
-}
-
-
-
-
-export const suppliersService = {updateSupplier,getAllSuppliers,getOne,createContract,createSupplier,deleteObj}
+export const employeesService = {updateEmployee,getAllEmployees,getOne,createEmployee,deleteEmployee}

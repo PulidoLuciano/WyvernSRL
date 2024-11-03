@@ -37,9 +37,29 @@ const SupplierDetail = () => {
 
   useEffect(() => {
     getSupplier(supplierId)
+   
+    
     getSupplierContracts(true, true, undefined, supplierId.toString())
   }, [getSupplier, getSupplierContracts])
 
+
+  useEffect(() => {
+    if (supplierDetail) {
+      setEditedData({
+        category: supplierDetail.Rubros.id,
+        email: supplierDetail.correo,
+        country: supplierDetail.Provincias.Paises_id,
+        name: supplierDetail.nombre,
+        phone: supplierDetail.telefono,
+        state: supplierDetail.Provincias.id
+      })
+
+      const previousStates = states.filter(s => s.Paises_id == supplierDetail.Provincias?.Paises_id);
+      setEditFormStates(previousStates);
+    }
+    console.log(supplierDetail);
+    
+  }, [supplierDetail])
 
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPageContracts, setCurrentPageContracts] = useState<number>(1);
@@ -78,7 +98,6 @@ const SupplierDetail = () => {
     phone: "",
     state: ""
   });
-  console.log(supplierDetail);
   
   const indexEndContracts = currentPageContracts * dataLength;
   const indexStartContracts = indexEndContracts - dataLength;
@@ -95,7 +114,6 @@ const SupplierDetail = () => {
 
     try {
       await supplierEditSchema.validate(editedData, { abortEarly: false });
-      
       updateSupplier(supplierId, editedData);
       setEditErrors({});
 
@@ -202,15 +220,15 @@ const SupplierDetail = () => {
             <div className="my-6">
             <Form handleSubmit={handleEditSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
             <>
-              <Input id={"nombreProveedor"} name={"name"} defaultValue={supplierDetail.nombre}  title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleEditChange} error={editErrors.name}></Input>
-              <Input id={"correoProveedor"} name={"email"} defaultValue={supplierDetail.correo} title={"Correo"} type={"email"} placeholder={"username@wyvern.com"} onChange={handleEditChange} error={editErrors.email}></Input>
-              <Input id={"telefonoProveedor"} name={"phone"} value={supplierDetail.telefono} title={"Teléfono"} type={"number"} placeholder={"543816341612"} onChange={handleEditChange} error={editErrors.phone}></Input>
-              <Select editName={supplierDetail.Provincias.Paises_id} editId={supplierDetail.Provincias.Paises_id} error={editErrors.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleEditChange}></Select>
-              <Select editName={supplierDetail.Provincias.nombre} editId={supplierDetail.Provincias.id} error={editErrors.state} id={"provincias"} name={"state"} title={"Provincia"} options={editFormStates} onChange={handleEditChange}></Select>
-              <Select editName={supplierDetail.Rubros.nombre} editId={supplierDetail.Rubros.id} error={editErrors.category} id={"rubros"} name={"category"} title={"Rubro"} options={categories} onChange={handleEditChange}></Select>
+              <Input id={"nombreProveedor"} name={"name"} value={editedData.name}  title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleEditChange} error={editErrors.name}></Input>
+              <Input id={"correoProveedor"} name={"email"} value={editedData.email} title={"Correo"} type={"email"} placeholder={"username@wyvern.com"} onChange={handleEditChange} error={editErrors.email}></Input>
+              <Input id={"telefonoProveedor"} name={"phone"} value={editedData.phone} title={"Teléfono"} type={"number"} placeholder={"543816341612"} onChange={handleEditChange} error={editErrors.phone}></Input>
+              <Select selected={supplierDetail.Provincias.Paises_id} error={editErrors.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleEditChange}></Select>
+              <Select selected={supplierDetail.Provincias.id}  error={editErrors.state} id={"provincias"} name={"state"} title={"Provincia"} options={editFormStates} onChange={handleEditChange}></Select>
+              <Select selected={supplierDetail.Rubros.id} error={editErrors.category} id={"rubros"} name={"category"} title={"Rubro"} options={categories} onChange={handleEditChange}></Select>
               <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
             </>
-          </Form>
+            </Form>
             </div>
           </>
         ) : (

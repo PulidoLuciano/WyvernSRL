@@ -26,9 +26,8 @@ export interface SelectProps {
     options: Array<any>;
     onChange: FormEventHandler;
     error?: string | undefined;
-    editName?: string
     editId?: string;
-
+    selected?: any
 }
 
 export interface CheckboxProps {

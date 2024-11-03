@@ -3,6 +3,8 @@ import { InputProps } from '../../utils/types/FormInterfaces.ts'
 
 
 const Input = ({ id, name,defaultValue, value, title, type, placeholder, onChange, error,  }: InputProps) => {
+
+
   return (
     <div className='flex flex-col'>
       <label htmlFor={id} className='flex gap-2 ' >{title}  </label>
