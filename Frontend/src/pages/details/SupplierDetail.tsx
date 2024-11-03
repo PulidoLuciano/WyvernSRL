@@ -53,6 +53,9 @@ const SupplierDetail = () => {
         phone: supplierDetail.telefono,
         state: supplierDetail.Provincias.id
       })
+
+      const previousStates = states.filter(s => s.Paises_id == supplierDetail.Provincias?.Paises_id);
+      setEditFormStates(previousStates);
     }
     console.log(supplierDetail);
     
