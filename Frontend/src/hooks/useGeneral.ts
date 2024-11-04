@@ -13,11 +13,13 @@ export const useGeneral = () => {
   const [products, setProducts] = useState<Array<any>>([])
   const [loadingCountries, setLoadingCountries] = useState<boolean>(false);
   const [categories, setCategories] = useState<Array<any>>([]);
+  const [gamesCategories, setGamesCategories] = useState<Array<any>>([]);
   const [loadingPositions, setLoadingPositions] = useState<boolean>(false)
   const [loadingCategories, setLoadingCategories] = useState<boolean>(false);
   const [loadingStates, setLoadingStates] = useState<boolean>(false);
   const [loadingPlatforms, setLoadingPlatforms] = useState<boolean>(false);
   const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
+  const [loadingGamesCategories, setLoadingGamesCategories] = useState<boolean>(false);
   const [currencies, setCurrencies] = useState<Array<any>>([])
   const [loadingCurrencies, setLoadingCurrencies] = useState<boolean>(false);
   const [errorGeneral, setErrorGeneral] = useState<string | null>(null);
@@ -143,6 +145,20 @@ export const useGeneral = () => {
     }
   }, [])
 
+  const getAllGamesCategories = async()=>{
+    setLoadingGamesCategories(true);
+    setErrorGeneral(null)
+    let url = "http://localhost:3000/categories/"
+    try {
+      const data = await generalService.getAllCategories(url);
+      setGamesCategories(data)
+    } catch (err: any) {
+      setErrorGeneral(err.message);
+    } finally {
+      setLoadingGamesCategories(false);
+    }
+  }
+
   const createProduct = async (productData: productType) => {
     setLoadingProducts(true);
     setErrorGeneral(null)
@@ -172,6 +188,6 @@ export const useGeneral = () => {
     }
   }
 
-  return { states, positions, categories, platforms, currencies, countries, products, medias,createProduct, getAllCurrencies, getAllPositions, getAllCategories, getAllStates, getAllProducts, getAllCountries, getAllPlatforms, getAllMedias,deleteProducts, loadingProducts, LoadingMedias, loadingCountries, loadingPositions, loadingPlatforms, errorGeneral };
+  return { states, positions, categories, platforms,gamesCategories,loadingGamesCategories, currencies, countries, products, medias,createProduct,getAllGamesCategories, getAllCurrencies, getAllPositions, getAllCategories, getAllStates, getAllProducts, getAllCountries, getAllPlatforms, getAllMedias,deleteProducts, loadingProducts, LoadingMedias, loadingCountries, loadingPositions, loadingPlatforms, errorGeneral };
 
 };

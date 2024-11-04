@@ -25,12 +25,12 @@ const SalesModule = () => {
 
   const { sales, loading, error, createSale, deleteSale, getAllSales } = useSales()
   const { clients, getAllClients } = useClients()
-  const { products, categories, loadingProducts, errorGeneral, deleteProducts,createProduct, getAllCategories, getAllProducts } = useGeneral()
+  const { products, gamesCategories,loadingGamesCategories, loadingProducts, errorGeneral, deleteProducts,createProduct, getAllGamesCategories, getAllProducts } = useGeneral()
   useEffect(() => {
     getAllSales(true, true)
     getAllProducts(true);
     getAllClients();
-    getAllCategories();
+    getAllGamesCategories();
   }, [])
 
   const [dataLength, setDataLength] = useState<number>(10);
@@ -333,7 +333,7 @@ const SalesModule = () => {
               <Input error={createProductErrors.name} id={"nombreProducto"} name={"name"} value={createProductData.name} title={"Nombre del Producto"} type={"text"} placeholder={"Wyvern Game"} onChange={handleCreateProductChange} ></Input>
               <Input error={createProductErrors.price} id={"precioProducto"} name={"price"} value={createProductData.price} title={"Precio"} type={"number"} placeholder={"0.00"} onChange={handleCreateProductChange} ></Input>
               <Input error={createProductErrors.date} id={"fechaLanzamientoProducto"} name={"date"} value={createProductData.date} title={"Fecha de lanzamiento"} type={"text"} placeholder={"2023-07-17"} onChange={handleCreateProductChange} ></Input>
-              <Select error={createProductErrors.category} id={"categoriaProducto"} title={"Categoría"} name={"category"} options={categories} onChange={handleCreateProductChange}></Select>
+              <Select error={createProductErrors.category} id={"categoriaProducto"} title={"Categoría"} name={"category"} options={gamesCategories} onChange={handleCreateProductChange}></Select>
               <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
             </>
           </Form>
