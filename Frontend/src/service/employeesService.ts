@@ -26,11 +26,19 @@ const createEmployee= async (url: string,obj: employeeType) => {
             'Content-Type': 'application/json; charset=UTF-8',
         },
         body: JSON.stringify({
-      
+            "nombre": obj.name,
+            "correo": obj.email,
+            "dni": obj.dni,
+            "telefono": obj.phone ? obj.phone : null,
+            "fechaContratacion": obj.hiringDate,
+            "sueldo": obj.salary,
+            "Provincias_id": Number(obj.state),
+            "Puestos_id": Number(obj.positions)
         })
     })
 
     const data = await response.json();
+    console.log(data);
     
     if (!response.ok) throw new Error(`${data.message}`);
 

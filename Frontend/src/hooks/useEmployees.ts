@@ -32,7 +32,7 @@ export const useEmployees = () => {
         }
 
         const data = await employeesService.getAllEmployees(url);
-
+        
         setEmployees(data);
       } catch (err: any) {
         setError(err.message);

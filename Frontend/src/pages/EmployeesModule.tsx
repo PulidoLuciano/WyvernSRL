@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { optionsStates } from '../utils/dataArrays'
 import Accordion from '../components/Accordion';
 import Pagination from '../components/Pagination';
 import Nav from '../components/Nav'
@@ -13,40 +12,50 @@ import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
 import { employeeTableHeaders } from "../utils/dataArrays"
 import { useEmployees } from '../hooks/useEmployees';
+import { useGeneral } from '../hooks/useGeneral';
+import * as Yup from "yup"
+import { employeeType, CreateEmployeesErrors } from '../utils/types/employeeType';
+import { employeeSchema } from '../schemas/employeeSchema';
 
 const EmployeesModule = () => {
 
-  const { getAllEmployees, employees } = useEmployees();
-
+  const { getAllEmployees, employees, createEmployee } = useEmployees();
+  const { states, countries, positions, getAllPositions, getAllStates, getAllCountries } = useGeneral();
 
   useEffect(() => {
-    getAllEmployees(true)
-
+    getAllEmployees(true);
+    getAllStates();
+    getAllCountries();
+    getAllPositions()
   }, [])
 
+  const [createFormStates,setCreateFormStates] = useState<Array<any>>([]);
   const [dataLength, setDataLength] = useState<number>(10);
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [createData, setCreateData] = useState({
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [createErrors, setCreateErrors] = useState<CreateEmployeesErrors>({});
+  const [createData, setCreateData] = useState<employeeType>({
+    name: '',
+    phone: '',
+    email: '',
+    dni: null,
+    hiringDate: null,
+    salary: null,
+    country: null,
+    state: null,
+    positions: null
+  });
+
+  const [filterData, setFilterData] = useState<employeeType>({
     name: '',
     phone: '',
     email: '',
     dni: '',
     hiringDate: '',
     salary: '',
-    state: ''
+    country: '',
+    state: '',
+    positions: ''
   });
-
-  const [filterData, setFilterData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    dni: '',
-    hiringDate: '',
-    salary: '',
-    state: ''
-  });
-
-  
   
   const indexEnd = currentPage * dataLength;
   const indexStart = indexEnd - dataLength;
@@ -57,9 +66,26 @@ const EmployeesModule = () => {
     setCurrentPage(nextPage);
   }
 
-  const handleCreateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCreateSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(createData);
+    try {
+
+      const state = states.find(s => s.id == createData.state);
+      await employeeSchema.validate(createData, { abortEarly: false });
+      createEmployee(createData)
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+
+        const createErrors: CreateEmployeesErrors = {};
+        err.inner.forEach((error) => {
+          if (error.path) createErrors[error.path as keyof CreateEmployeesErrors] = error.message;
+        });
+
+        setCreateErrors(createErrors);
+        console.log(createErrors);
+
+      }
+    }
   }
 
   const handleFilterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -69,6 +95,10 @@ const EmployeesModule = () => {
 
   const handleCreateChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    if(name == "country"){
+      const statesAvailables = states.filter(s => s.Paises_id == Number.parseInt(value))
+      setCreateFormStates(statesAvailables)
+    }
     setCreateData({
       ...createData,
       [name]: value
@@ -83,6 +113,8 @@ const EmployeesModule = () => {
     });
   }
 
+  console.log(createData);
+  
   return (
     <main className='w-full flex '>
       <Nav />
@@ -95,13 +127,15 @@ const EmployeesModule = () => {
         <Accordion title="Crear Nuevo">
           <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-4 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
             <>
-              <Input id={"nombre"} name={"name"} value={createData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleCreateChange} error=''></Input>
-              <Input id={"correo"} name={"email"} value={createData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleCreateChange} error=''></Input>
-              <Input id={"dni"} name={"dni"} value={createData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleCreateChange} error=''></Input>
-              <Input id={"telefono"} name={"phone"} value={createData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleCreateChange} error=''></Input>
-              <Input id={"fechaContratacion"} name={"hiringDate"} value={createData.hiringDate} title={"Fecha de contratacion"} type={"text"} placeholder={"2024-09-30 14:30:14"} onChange={handleCreateChange} error=''></Input>
-              <Input id={"salario"} name={"salary"} value={createData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleCreateChange} error=''></Input>
-              <Select id={"provincia"} title={"Provincia"} name={"state"} options={optionsStates} onChange={handleCreateChange}></Select>
+              <Input id={"nombre"} name={"name"} value={createData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleCreateChange} error={createErrors.name}></Input>
+              <Input id={"correo"} name={"email"} value={createData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleCreateChange} error={createErrors.email}></Input>
+              <Input id={"dni"} name={"dni"} value={createData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleCreateChange} error={createErrors.dni}></Input>
+              <Input id={"telefono"} name={"phone"} value={createData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleCreateChange} error={createErrors.phone}></Input>
+              <Input id={"fechaContratacion"} name={"hiringDate"} value={createData.hiringDate} title={"Fecha de contratacion"} type={"text"} placeholder={"2024-09-30 14:30:14"} onChange={handleCreateChange} error={createErrors.hiringDate}></Input>
+              <Input id={"salario"} name={"salary"} value={createData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleCreateChange} error={createErrors.salary}></Input>
+              <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange} error={createErrors.country}></Select>
+              <Select id={"provincia"} title={"Provincia"} name={"state"} options={createFormStates} onChange={handleCreateChange} error={createErrors.state}></Select>
+              <Select id={"puesto"} title={"Puesto"} name={"positions"} options={positions} onChange={handleCreateChange} error={createErrors.positions}></Select>
               <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end'} />
             </>
           </Form>
@@ -115,7 +149,7 @@ const EmployeesModule = () => {
               <Input id={"telefono"} name={"phone"} value={filterData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleFilterChange} error=''></Input>
               <Input id={"fechaContratacion"} name={"hiringDate"} value={filterData.hiringDate} title={"Fecha de contratacion"} type={"text"} placeholder={"2024-09-30 14:30:14"} onChange={handleFilterChange} error=''></Input>
               <Input id={"salario"} name={"salary"} value={filterData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleFilterChange} error=''></Input>
-              <Select id={"provincia"} title={"Provincia"} name={"state"} options={optionsStates} onChange={handleCreateChange}></Select>
+              <Select id={"provincia"} title={"Provincia"} name={"state"} options={states} onChange={handleCreateChange}></Select>
               <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"} />
             </>
           </Form>
@@ -154,7 +188,7 @@ const EmployeesModule = () => {
                     <TData>{empleado.dni ? empleado.dni : "-"}</TData>
                     <TData>{empleado.telefono ? empleado.telefono : "-"}</TData>
                     <TData>{empleado.fechaContratacion ? empleado.fechaContratacion : "-"}</TData>
-                    <TData>{empleado.sueldo ? empleado.sueldo : "-"}</TData>
+                    <TData>{empleado.sueldo ? `$${empleado.sueldo}` : "-"}</TData>
                     <TData>{empleado.Provincias?.nombre }</TData>
                   </TRow>)
               })

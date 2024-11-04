@@ -4,13 +4,15 @@ import { generalService } from '../service/generalService'
 export const useGeneral = () => {
  
   const [countries, setCountries] = useState<Array<any>>([]);
+  const [positions, setPositions] = useState<Array<any>>([]);
   const [medias, setMedias] = useState<Array<any>>([]);
   const [LoadingMedias, setLoadingMedias] = useState<boolean>(false);
   const [states, setStates] = useState<Array<any>>([]);
   const [platforms, setPlatforms] = useState<Array<any>>([])
   const [products, setProducts] = useState<Array<any>>([])
   const [loadingCountries, setLoadingCountries] = useState<boolean>(false);
-  const [categories, setCategories] = useState<Array<any>>([])
+  const [categories, setCategories] = useState<Array<any>>([]);
+  const [loadingPositions, setLoadingPositions] = useState<boolean>(false)
   const [loadingCategories, setLoadingCategories] = useState<boolean>(false);
   const [loadingStates, setLoadingStates] = useState<boolean>(false);
   const [loadingPlatforms, setLoadingPlatforms] = useState<boolean>(false);
@@ -122,8 +124,21 @@ export const useGeneral = () => {
     }
   },[])
 
-  
+  const getAllPositions= useCallback(async()=>{
+    setLoadingCurrencies(true);
+    setError(null)
+    let url = "http://localhost:3000/positions"
+    try {
+      const data = await generalService.getAllPositions(url);
+      setPositions(data)
+    } catch (err : any) {
+      setError(err.message);
+    }finally{
+      setLoadingPositions(false);
+    }
+  },[])
 
-  return {states,categories, platforms,currencies, countries , products, medias,getAllCurrencies,getAllCategories,getAllStates, getAllProducts , getAllCountries, getAllPlatforms, getAllMedias, loadingProducts, LoadingMedias, loadingCountries, loadingPlatforms, error };
+
+  return {states, positions, categories, platforms,currencies, countries , products, medias,getAllCurrencies, getAllPositions, getAllCategories,getAllStates, getAllProducts , getAllCountries, getAllPlatforms, getAllMedias, loadingProducts, LoadingMedias, loadingCountries,loadingPositions, loadingPlatforms, error };
 
 };
