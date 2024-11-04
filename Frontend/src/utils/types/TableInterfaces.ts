@@ -10,10 +10,11 @@ export interface TableProps {
 
 export interface TRowProps {
     children: React.ReactNode;
-    id?: number;
+    id: number;
     detail?: boolean;
     deleteButton?: boolean;
     path?: string
+    handleDelete?: (ids:Array<string>) => Promise<void>
 }
 
 export interface TDataProps {
