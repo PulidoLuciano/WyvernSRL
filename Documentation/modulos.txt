@@ -39,7 +39,7 @@ VENTAS
                     DELETE /sales
         - Form crear Productos: Nombre, precio, fecha de lanzamiento, Categoria (Back,front)
                     POST /products
-        - Tabla Productos: Nombre, precio, Fecha de lanzamiento, Categoria (Back)
+        - Tabla Productos: Nombre, precio, Fecha de lanzamiento, Categoria (Back,front)
                     GET /products?queries
                     DELETE /products
     Individual:
