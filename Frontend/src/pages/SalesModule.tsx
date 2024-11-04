@@ -220,7 +220,7 @@ const SalesModule = () => {
             {
               dataShown.map((sale, index) => {
                 return (
-                  <TRow key={index} id={sale.id} deleteButton={true} detail={true}>
+                  <TRow key={index} id={sale.id} path='sales' detail={true}>
                     <TData onChange={handleSelectedItem} id={sale.id} checkbox={true}>{sale.Clientes?.nombre}</TData>
                     <TData>{sale.Productos?.nombre}</TData>
                     <TData>{sale.fecha}</TData>
