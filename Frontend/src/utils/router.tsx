@@ -7,6 +7,7 @@ const Suppliers = lazy(() => import("../pages/SuppliersModule.tsx"));
 const SupplierDetail = lazy(() => import("../pages/details/SupplierDetail.tsx"));
 const Sales = lazy(() => import("../pages/SalesModule.tsx"));
 const Employees = lazy(() => import("../pages/EmployeesModule.tsx"));
+const EmployeeDetail = lazy(() => import("../pages/details/EmployeeDetail.tsx"));
 
 const router = createBrowserRouter([
     {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
     {
       path: '/employees',
       element: <Employees/>
+    },
+    {
+      path: '/employees/:employeeId',
+      element: <EmployeeDetail/>
     },
   ]);
 

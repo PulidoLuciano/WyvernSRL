@@ -24,7 +24,6 @@ const SupplierDetail = () => {
 
   const supplierId = parseInt(params.supplierId || "", 10);
 
-  const { } = useGeneral()
   const { loading, error, supplierDetail, contractDetail, contracts, getSupplierContracts, createContract, deleteContract, getSupplier, updateSupplier } = useSuppliers()
   const { categories, states, currencies, countries, getAllCurrencies, getAllCategories, getAllStates, getAllCountries, } = useGeneral()
 
@@ -148,7 +147,6 @@ const SupplierDetail = () => {
     setEditable(!editable);
   };
 
-  //Contract
   const handleCreateContractSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.currentTarget.children;

@@ -43,7 +43,7 @@ const EmployeesModule = () => {
     salary: null,
     country: null,
     state: null,
-    positions: null
+    position: null
   });
 
   const [filterData, setFilterData] = useState<employeeFilterType>({
@@ -162,7 +162,7 @@ const EmployeesModule = () => {
               <Input id={"salario"} name={"salary"} value={createData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleCreateChange} error={createErrors.salary}></Input>
               <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange} error={createErrors.country}></Select>
               <Select id={"provincia"} title={"Provincia"} name={"state"} options={createFormStates} onChange={handleCreateChange} error={createErrors.state}></Select>
-              <Select id={"puesto"} title={"Puesto"} name={"positions"} options={positions} onChange={handleCreateChange} error={createErrors.positions}></Select>
+              <Select id={"puesto"} title={"Puesto"} name={"positions"} options={positions} onChange={handleCreateChange} error={createErrors.position}></Select>
               <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end'} />
             </>
           </Form>
@@ -207,7 +207,7 @@ const EmployeesModule = () => {
             {
               dataShown.map((empleado, index) => {
                 return (
-                  <TRow key={index} id={empleado.dni} detail={true}>
+                  <TRow key={index} id={empleado.id} detail={true} path='employees'>
                     <TData checkbox={true}>{empleado.nombre}</TData>
                     <TData>{empleado.correo ? empleado.correo : "-"}</TData>
                     <TData>{empleado.dni ? empleado.dni : "-"}</TData>

@@ -7,7 +7,7 @@ export interface employeeType {
     country:string | null;
     state: string | null;
     salary: string | null;
-    positions: string | null
+    position: string | null
 }
 
 export interface employeeFilterType {
@@ -28,7 +28,7 @@ export interface CreateEmployeesErrors {
     country?:string;
     state?: string;
     salary?: string;
-    positions?: string
+    position?: string
 
 }
 
