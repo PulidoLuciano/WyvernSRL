@@ -11,7 +11,8 @@ export interface TableProps {
 export interface TRowProps {
     children: React.ReactNode;
     id?: number;
-    detail: boolean;
+    detail?: boolean;
+    deleteButton?: boolean;
     path?: string
 }
 

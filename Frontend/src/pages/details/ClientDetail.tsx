@@ -362,7 +362,7 @@ const ClientData = () => {
         <div className="overflow-x-auto mt-6">
           <Table headers={purchasesTableHeaders}>
             {dataShownPurchases.map((compras, index) => (
-              <TRow key={index} id={compras.id} detail={false}>
+              <TRow key={index} id={compras.id} deleteButton={false} detail={false}>
                 <TData checkbox={true} id={compras.id} onChange={handleSelectedItemPurchase}>
                   {compras.id}
                 </TData>
@@ -395,7 +395,7 @@ const ClientData = () => {
         <div className="overflow-x-auto mt-6">
           <Table headers={contactTableHeaders}>
             {dataShownContacts.map((contactos, index) => (
-              <TRow key={index} id={contactos.id} detail={true}>
+              <TRow key={index} id={contactos.id} deleteButton={true} detail={true}>
                 <TData checkbox={true} id={contactos.id} onChange={handleSelectedItemContact}>
                   {contactos.id}
                 </TData>
