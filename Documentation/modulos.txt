@@ -43,7 +43,7 @@ VENTAS
                     GET /products?queries
                     DELETE /products
     Individual:
-        - Data labels: ID venta, Producto, Cliente, Fecha (Back)
+        - Data labels: ID venta, Producto, Cliente, Fecha (Back,front)
                     GET /sales/:id?queries
                     PUT /sales/:id
 
