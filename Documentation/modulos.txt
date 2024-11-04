@@ -37,7 +37,7 @@ VENTAS
         - Tabla ventas: ID venta, Producto, Cliente, Fecha (Back, front)
                     GET /sales?queries
                     DELETE /sales
-        - Form crear Productos: Nombre, precio, fecha de lanzamiento, Categoria (Back)
+        - Form crear Productos: Nombre, precio, fecha de lanzamiento, Categoria (Back,front)
                     POST /products
         - Tabla Productos: Nombre, precio, Fecha de lanzamiento, Categoria (Back)
                     GET /products?queries
