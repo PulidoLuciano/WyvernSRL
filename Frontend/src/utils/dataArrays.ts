@@ -139,3 +139,50 @@ export const contractTableHeaders: Array<string> = [
   "Monto",
   "Moneda"
 ]
+
+export const suppliersScores = [{
+  id:"Sin puntuaciones",
+  nombre:"Sin puntuaciones"
+},
+{
+  id:"Excelente",
+  nombre:"Excelente"
+},
+{
+  id:"Muy buena",
+  nombre:"Muy buena"
+},
+{
+  id:"Buena",
+  nombre:"Buena"
+},
+{
+  id:"Adecuado",
+  nombre:"Adecuado"
+},
+{
+  id:"Mala",
+  nombre:"Mala"
+},
+{
+  id:"Grave",
+  nombre:"Grave"
+},
+{
+  id:"Muy grave",
+  nombre:"Muy grave"
+},
+]
+
+export const breachesSupplierTableHeaders = ["Descripcion", "Fecha", "Id Compra/Contrato", "Nivel de incumplimiento"]
+
+
+export const purchasesSupplierTableHeaders: Array<string> = [
+  "Descripción",
+  "Precio unitario",
+  "Moneda",
+  "Cantidad",
+  "Fecha",
+  "Entregado",
+  "Pagado"
+]
