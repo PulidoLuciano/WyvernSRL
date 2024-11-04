@@ -207,7 +207,7 @@ const EmployeesModule = () => {
             {
               dataShown.map((empleado, index) => {
                 return (
-                  <TRow key={index} id={empleado.dni} detail={true}>
+                  <TRow key={index} id={empleado.id} detail={true} deleteButton={true} path='employees'>
                     <TData checkbox={true}>{empleado.nombre}</TData>
                     <TData>{empleado.correo ? empleado.correo : "-"}</TData>
                     <TData>{empleado.dni ? empleado.dni : "-"}</TData>

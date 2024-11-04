@@ -28,7 +28,7 @@ const EmployeeDetail = () => {
     getEmployee(employeeId);
     getEmployeePosition(employeeId)
     getEmployeeCareer(employeeId)
-  }, [getEmployee, getEmployeePosition]);
+  }, [getEmployee, getEmployeePosition,getEmployeeCareer]);
 
   useEffect(() => {
     getAllStates();
@@ -311,8 +311,8 @@ const EmployeeDetail = () => {
         <div className="overflow-x-auto mt-6">
         {loading && <p>Cargando puestos...</p>}
           <Table headers={careerTableHeaders}>
-            {dataShownCareer.length!=0?
-            dataShownCareer.map((position,index) => (
+            {dataShownCareer.length !=0 ?
+            dataShownCareer.map((position, index) => (
               <TRow key={index} id={position.id} detail={false}>
                 <TData checkbox={true} id={position.id} >
                   {position.Puestos.nombre}
@@ -322,7 +322,7 @@ const EmployeeDetail = () => {
                 <TData>{position.fechaFinal}</TData>
               </TRow>
             )):
-            <div className=''>No hay puestos con esas caracteristicas</div>
+            <div className=''>Este empleado aun no tiene puestos en su carrera</div>
           }
           </Table>
         </div>

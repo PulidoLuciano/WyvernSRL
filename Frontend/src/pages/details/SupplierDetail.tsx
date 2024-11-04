@@ -26,7 +26,7 @@ const SupplierDetail = () => {
   const supplierId = parseInt(params.supplierId || "", 10);
 
   const { } = useGeneral()
-  const { loading, error, supplierDetail, contractDetail, contracts, getSupplierContracts, createContract, deleteContract, getSupplier, updateSupplier } = useSuppliers()
+  const { loading, error, supplierDetail, contractDetail, getSupplierPurchases, purchases, getSupplierBreaches, breaches, createPurchase, deletePurchase, contracts, getSupplierContracts, createContract, deleteContract, getSupplier, updateSupplier } = useSuppliers()
   const { categories, states, currencies, countries, getAllCurrencies, getAllCategories, getAllStates, getAllCountries, } = useGeneral()
 
   useEffect(() => {
