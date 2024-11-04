@@ -220,7 +220,7 @@ const SuppliersModule = () => {
             {
               dataShown.map((s, index) => {
                 return (
-                  <TRow key={index} id={s.id} detail={true} path='suppliers'>
+                  <TRow key={index} id={s.id} detail={true} deleteButton={true} path='suppliers'>
                     <TData id={s.id} onChange={handleSelectedItem} checkbox={true}>{s.nombre}</TData>
                     <TData>{s.correo ? s.correo : "-"}</TData>
                     <TData>{s.telefono ? s.telefono : "-"}</TData>

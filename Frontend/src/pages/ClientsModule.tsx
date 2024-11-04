@@ -262,7 +262,7 @@ console.log(createData);
             <Table id='ClientsTable' headers={clientTableHeaders}>
               {dataShown.length != 0 ?
                 dataShown.map((cliente, index) => (
-                  <TRow id={cliente.id} key={index} detail={true} path='clients'>
+                  <TRow id={cliente.id} key={index} detail={true} deleteButton={true} path='clients'>
                     <TData selectedAll={selectedAll} id={cliente.id} checkbox={true} onChange={handleSelectedItem} >{cliente.nombre}</TData>
                     <TData>{cliente.Plataformas?.nombre}</TData>
                     <TData>{cliente.Paises?.nombre}</TData>
