@@ -139,3 +139,10 @@ export const contractTableHeaders: Array<string> = [
   "Monto",
   "Moneda"
 ]
+
+export const careerTableHeaders: Array<string> = [
+  "Puesto",
+  "Area",
+  "Fecha inicio",
+  "Fecha fin",
+]

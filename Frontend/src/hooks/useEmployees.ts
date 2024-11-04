@@ -6,6 +6,7 @@ export const useEmployees = () => {
   const [employees, setEmployees] = useState<Array<any>>([]);
   const [employeeDetail, setEmployeeDetail] = useState<any>(null);
   const [employeePosition, setEmployeePosition] = useState<any>(null);
+  const [employeeCareer, setEmployeeCareer] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [deletes, setDeletes] = useState<Array<any> | null>(null);
@@ -119,7 +120,22 @@ export const useEmployees = () => {
   }
 }, []);
 
+const getEmployeeCareer= useCallback(async (id: number) => {
+  setLoading(true);
+  setError(null);
+  let url = `http://localhost:3000/employees/${id}/career`;
+  try {
+    const data = await employeesService.getEmployeeCareer(url);
+    setEmployeeCareer(data);
+  } catch (err: any) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+}, []);
+
+
 
   return { getAllEmployees,employees, createEmployee, updateEmployee, 
-    deleteEmployee, getEmployee, employeeDetail, getEmployeePosition,employeePosition, loading, error };
+    deleteEmployee, getEmployee, employeeDetail, getEmployeePosition,employeePosition,getEmployeeCareer, employeeCareer, loading, error };
 };

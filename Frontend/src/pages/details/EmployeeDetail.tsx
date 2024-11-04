@@ -11,21 +11,23 @@ import TRow from "../../components/table/TRow";
 import TData from "../../components/table/TData";
 import { useGeneral } from "../../hooks/useGeneral";
 import { useParams } from "react-router-dom";
-import { CreateEmployeesErrors, employeeType } from "../../utils/types/employeeType";
+import { CreateEmployeesErrors, employeeType, positionCareerType } from "../../utils/types/employeeType";
 import * as Yup from "yup";
 import { useEmployees } from "../../hooks/useEmployees";
 import { employeeSchema } from "../../schemas/employeeSchema";
+import { careerTableHeaders } from "../../utils/dataArrays";
 
 const EmployeeDetail = () => {
   const params = useParams();
   const employeeId = parseInt(params.employeeId || "", 10);
   
-  const {getEmployee, employeeDetail, employeePosition, getEmployeePosition ,loading,error, updateEmployee} = useEmployees();
+  const {getEmployee, employeeDetail, employeePosition, employeeCareer, getEmployeeCareer, getEmployeePosition ,loading,error, updateEmployee} = useEmployees();
   const { states, countries, positions, getAllPositions, getAllStates, getAllCountries } = useGeneral();
-
+  
   useEffect(() => {
     getEmployee(employeeId);
     getEmployeePosition(employeeId)
+    getEmployeeCareer(employeeId)
   }, [getEmployee, getEmployeePosition]);
 
   useEffect(() => {
@@ -57,10 +59,10 @@ const EmployeeDetail = () => {
   const [createFormStates,setCreateFormStates] = useState<Array<any>>([]);
   const [dataLength, setDataLength] = useState<number>(10);
   const [createErrors, setCreateErrors] = useState<CreateEmployeesErrors>({});
-  const [currentPageContacts, setCurrentPageContacts] = useState<number>(1);
+  const [currentPageCareer, setCurrentPageCareer] = useState<number>(1);
   const [editable, setEditable] = useState(false);
+  const [selectedDataCareer, setSelectedDataCareer] = useState<Array<string>>([]);
   const [editFormStates,setEditFormStates] = useState<Array<any>>([])
-  const [editFormPositions,setEditFormPositions] = useState<Array<any>>([])
   const [selectedDataContact, setSelectedDataContact] = useState<Array<string>>([]);
 
   const [editedData, setEditedData] = useState<employeeType>({
@@ -75,13 +77,21 @@ const EmployeeDetail = () => {
     position: '',
   });
 
-  // const indexEndContacts = currentPageContacts * dataLength;
-  // const indexStartContacts = indexEndContacts - dataLength;
-  // const nPagesContacts = Math.ceil(contacts.length / dataLength);
-  // const dataShownContacts = contacts.slice(indexStartContacts, indexEndContacts);
+  // const [positionCareer, setPositionCareer] = useState<positionCareerType>({
+  //   employee: `${employeeId}`,
+  //   position: '',
+  //   area:'',
+  //   initialDate: '',
+  //   endDate: ''
+  // });
 
-  const changePageContacts = (nextPage: number) => {
-    setCurrentPageContacts(nextPage);
+  const indexEndCareer = currentPageCareer * dataLength;
+  const indexStartCareer = indexEndCareer - dataLength;
+  const nPagesCareer = employeeCareer? Math.ceil(employeeCareer.length / dataLength): 0;
+  const dataShownCareer = employeeCareer? employeeCareer.slice(indexStartCareer, indexEndCareer): [];
+
+  const changePageCareer = (nextPage: number) => {
+    setCurrentPageCareer(nextPage);
   };
   const handleClickEditable = () => {
     setEditable(!editable);
@@ -148,7 +158,7 @@ const EmployeeDetail = () => {
     }
   };
 
-  // const handleDeleteSelectedDataContact = async (selectedData: Array<string>) => {
+  // const handleDeleteSelectedDataCareer = async (selectedData: Array<string>) => {
   //   if (!selectedData || selectedData.length == 0) {
   //     return;
   //   } else {
@@ -234,8 +244,8 @@ const EmployeeDetail = () => {
           </>
         )}
 
-        {/* <Accordion title="Crear Nuevo Contacto">
-          <Form handleSubmit={handleContactSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
+         {/* <Accordion title="Crear Nuevo Contacto">
+          <Form handleSubmit={handleCareerubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
             <>
               <Select
                 id={"medios"}
@@ -282,73 +292,45 @@ const EmployeeDetail = () => {
               />
             </>
           </Form>
-        </Accordion>
+        </Accordion> */}
 
         <div className="grid grid-rows-2 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6">
           <div className="flex flex-col gap-2 items-start tablet:col-span-2">
             <h2 className="text-3xl">Compras del cliente</h2>
-            <p>Total de compras:{clientPurchases.length}</p>
+            <p>Total de compras:{employeeCareer ? employeeCareer.length: 0}</p>
           </div>
 
-          <button onClick={() => handleDeleteSelectedDataPurchase(selectedDataPurchase)} className="bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6">
+          {/* <button onClick={() => handleDeleteSelectedDataPurchase(selectedDataPurchase)} className="bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6">
             <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor"strokeLinecap="round"strokeLinejoin="round"strokeWidth="2"d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
             </svg>
             Eliminar Seleccionados ({selectedDataPurchase.length})
-          </button>
+          </button> */}
         </div>
 
         <div className="overflow-x-auto mt-6">
-          <Table headers={purchasesTableHeaders}>
-            {dataShownPurchases.map((compras, index) => (
-              <TRow key={index} id={compras.id} detail={false}>
-                <TData checkbox={true} id={compras.id} onChange={handleSelectedItemPurchase}>
-                  {compras.id}
+        {loading && <p>Cargando puestos...</p>}
+          <Table headers={careerTableHeaders}>
+            {dataShownCareer.length!=0?
+            dataShownCareer.map((position,index) => (
+              <TRow key={index} id={position.id} detail={false}>
+                <TData checkbox={true} id={position.id} >
+                  {position.Puestos.nombre}
                 </TData>
-                <TData>{compras.Productos.nombre}</TData>
-                <TData>{compras.fecha}</TData>
+                <TData>{position.Puestos.Areas.nombre}</TData>
+                <TData>{position.fechaInicio}</TData>
+                <TData>{position.fechaFinal}</TData>
               </TRow>
-            ))}
+            )):
+            <div className=''>No hay puestos con esas caracteristicas</div>
+          }
           </Table>
         </div>
 
         <div className="flex items-center justify-center laptop:justify-end gap-6 my-6"id="paginacionTabla">
-          <Pagination changePage={changePagePurchases} nPages={nPagesPurchases}currentPage={currentPagePurchases} indexStart={indexStartPurchases}indexEnd={indexEndPurchases}/>
+          <Pagination changePage={changePageCareer} nPages={nPagesCareer}currentPage={currentPageCareer} indexStart={indexStartCareer}indexEnd={indexEndCareer}/>
         </div>
 
-
-        <div className="grid grid-rows-2 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6">
-          <div className="flex flex-col gap-2 items-start tablet:col-span-2">
-            <h2 className="text-3xl">Contactos del cliente</h2>
-            <p>Total de contactos:{contacts.length}</p>
-          </div>
-
-          <button onClick={() => handleDeleteSelectedDataContact(selectedDataContact)} className="bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6">
-            <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor"strokeLinecap="round"strokeLinejoin="round"strokeWidth="2"d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
-            </svg>
-            Eliminar Seleccionados ({selectedDataContact.length})
-          </button>
-        </div>
-
-        <div className="overflow-x-auto mt-6">
-          <Table headers={contactTableHeaders}>
-            {dataShownContacts.map((contactos, index) => (
-              <TRow key={index} id={contactos.id} detail={true}>
-                <TData checkbox={true} id={contactos.id} onChange={handleSelectedItemContact}>
-                  {contactos.id}
-                </TData>
-                <TData>{contactos.motivo}</TData>
-                <TData>{contactos.fecha}</TData>
-                <TData>{contactos.Medios.nombre}</TData>
-              </TRow>
-            ))}
-          </Table>
-        </div>
-
-        <div className="flex items-center justify-center laptop:justify-end gap-6 my-6"id="paginacionTabla">
-          <Pagination changePage={changePageContacts} nPages={nPagesContacts} currentPage={currentPageContacts} indexStart={indexStartContacts}indexEnd={indexEndContacts}/>
-        </div> */}
       </main>
     </div>
   );

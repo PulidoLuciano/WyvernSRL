@@ -121,8 +121,24 @@ const getEmployeePosition = async (url : string) => {
     
     return data;
     
-    }
+}
+
+const getEmployeeCareer = async (url : string) => {
+
+    const response = await fetch(`${url}`, {
+        mode: 'cors',
+        method: 'GET',
+        credentials: 'include',
+    })
+    
+    const data = await response.json();
+    
+    if (!response.ok) throw new Error(`${data.message}`);
+    
+    return data;
+    
+}
     
 
 
-export const employeesService = {updateEmployee,getAllEmployees,getOne,createEmployee,deleteEmployee, getEmployeePosition}
+export const employeesService = {updateEmployee, getAllEmployees, getOne, createEmployee, deleteEmployee, getEmployeePosition, getEmployeeCareer}

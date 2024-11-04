@@ -29,6 +29,14 @@ export interface CreateEmployeesErrors {
     state?: string;
     salary?: string;
     position?: string
-
 }
+
+export interface positionCareerType {
+    employee: string;
+    position: string;
+    area: string;
+    initialDate: string;
+    endDate: string
+}
+
 
