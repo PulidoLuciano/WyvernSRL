@@ -10,6 +10,14 @@ export interface employeeType {
     positions: string | null
 }
 
+export interface employeeFilterType {
+    name: string;
+    dni: string | null;
+    country:string | null;
+    state: string | null;
+    salary: string | null;
+}
+
 
 export interface CreateEmployeesErrors {
     name?: string;

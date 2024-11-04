@@ -101,9 +101,7 @@ export const employeeTableHeaders: Array<string> = [
   "Nombre",
   "Correo",
   "DNI",
-  "Telefono",
-  "Fecha de contratacion",
-  "sueldo",
+  "Sueldo",
   "Provincia",
 ]
 

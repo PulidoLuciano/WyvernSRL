@@ -14,7 +14,7 @@ import { employeeTableHeaders } from "../utils/dataArrays"
 import { useEmployees } from '../hooks/useEmployees';
 import { useGeneral } from '../hooks/useGeneral';
 import * as Yup from "yup"
-import { employeeType, CreateEmployeesErrors } from '../utils/types/employeeType';
+import { employeeType, CreateEmployeesErrors, employeeFilterType } from '../utils/types/employeeType';
 import { employeeSchema } from '../schemas/employeeSchema';
 
 const EmployeesModule = () => {
@@ -30,6 +30,7 @@ const EmployeesModule = () => {
   }, [])
 
   const [createFormStates,setCreateFormStates] = useState<Array<any>>([]);
+  const [filterFormStates,setFilterFormStates] = useState<Array<any>>([]);
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [createErrors, setCreateErrors] = useState<CreateEmployeesErrors>({});
@@ -45,16 +46,12 @@ const EmployeesModule = () => {
     positions: null
   });
 
-  const [filterData, setFilterData] = useState<employeeType>({
+  const [filterData, setFilterData] = useState<employeeFilterType>({
     name: '',
-    phone: '',
-    email: '',
     dni: '',
-    hiringDate: '',
     salary: '',
     country: '',
     state: '',
-    positions: ''
   });
   
   const indexEnd = currentPage * dataLength;
@@ -90,7 +87,35 @@ const EmployeesModule = () => {
 
   const handleFilterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(filterData);
+    const data = {
+      nombre: filterData.name,
+      dni: filterData.dni,
+      sueldo: filterData.salary,
+      Provincias_id: filterData.state,
+    }
+
+    const datos = Object.entries(data);
+    if (datos.length == 2) return;
+
+    const filter: Array<string> = []
+    datos.forEach((d, index) => {
+      if (d[1] != "" && index == 0) {
+        if (d[0] == "Provincias_id" || d[0] == "sueldo" || d[0] == "dni") {
+          filter.push(`?${d[0]}=${d[1]}`);
+        } else {
+          filter.push(`?${d[0]}[contains]=${d[1]}`)
+        }
+      } else if (d[1] != "") {
+        if (d[0] == "Provincias_id" || d[0] == "sueldo" || d[0] == "dni") {
+          filter.push(`&${d[0]}=${d[1]}`);
+        } else {
+          filter.push(`&${d[0]}[contains]=${d[1]}`);
+        }
+
+      }
+    })
+
+    getAllEmployees(true,false,filter.join(""));
   }
 
   const handleCreateChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -107,13 +132,15 @@ const EmployeesModule = () => {
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    if(name == "country"){
+      const statesAvailables = states.filter(s => s.Paises_id == Number.parseInt(value))
+      setFilterFormStates(statesAvailables)
+    }
     setFilterData({
       ...filterData,
       [name]: value
     });
   }
-
-  console.log(createData);
   
   return (
     <main className='w-full flex '>
@@ -143,13 +170,11 @@ const EmployeesModule = () => {
         <Accordion title="Filtrar por">
           <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
             <>
-              <Input id={"nombre"} name={"name"} value={filterData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleFilterChange} error=''></Input>
-              <Input id={"correo"} name={"email"} value={filterData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleFilterChange} error=''></Input>
-              <Input id={"dni"} name={"dni"} value={filterData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleFilterChange} error=''></Input>
-              <Input id={"telefono"} name={"phone"} value={filterData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleFilterChange} error=''></Input>
-              <Input id={"fechaContratacion"} name={"hiringDate"} value={filterData.hiringDate} title={"Fecha de contratacion"} type={"text"} placeholder={"2024-09-30 14:30:14"} onChange={handleFilterChange} error=''></Input>
-              <Input id={"salario"} name={"salary"} value={filterData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleFilterChange} error=''></Input>
-              <Select id={"provincia"} title={"Provincia"} name={"state"} options={states} onChange={handleCreateChange}></Select>
+              <Input id={"nombreFiltrar"} name={"name"} value={filterData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleFilterChange} error=''></Input>
+              <Input id={"dniFiltrar"} name={"dni"} value={filterData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleFilterChange} error=''></Input>
+              <Input id={"salarioFiltrar"} name={"salary"} value={filterData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleFilterChange} error=''></Input>
+              <Select id={"paisesFiltrar"} title={"País"} name={"country"} options={countries} onChange={handleFilterChange}></Select>
+              <Select id={"provinciaFiltrar"} title={"Provincia"} name={"state"} options={filterFormStates} onChange={handleFilterChange}></Select>
               <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"} />
             </>
           </Form>
@@ -186,8 +211,6 @@ const EmployeesModule = () => {
                     <TData checkbox={true}>{empleado.nombre}</TData>
                     <TData>{empleado.correo ? empleado.correo : "-"}</TData>
                     <TData>{empleado.dni ? empleado.dni : "-"}</TData>
-                    <TData>{empleado.telefono ? empleado.telefono : "-"}</TData>
-                    <TData>{empleado.fechaContratacion ? empleado.fechaContratacion : "-"}</TData>
                     <TData>{empleado.sueldo ? `$${empleado.sueldo}` : "-"}</TData>
                     <TData>{empleado.Provincias?.nombre }</TData>
                   </TRow>)

@@ -10,7 +10,7 @@ export const useEmployees = () => {
   const [deletes, setDeletes] = useState<Array<any> | null>(null);
 
   const getAllEmployees = useCallback(
-    async (states?: boolean, filterUrl?: string) => {
+    async (state?: boolean, position?: boolean, filterUrl?: string) => {
       setLoading(true);
       setError(null);
 
@@ -20,15 +20,15 @@ export const useEmployees = () => {
         : (filterUrlLast = "");
 
     let url = "http://localhost:3000/employees/";  
-    let includesStatements = "?include=id&include=nombre&include=correo&include=telefono&include=dni&include=fechaContratacion&include=sueldo&borrado=false"
-    let includeState = "?include=id&include=nombre&include=correo&include=telefono&include=dni&include=fechaContratacion&include=sueldo&include=Provincias&borrado=false";
+    let includesStatements = "?include=id&include=nombre&include=correo&include=dni&include=sueldo&borrado=false"
+    let includeState = "&include=Provincias";
     try {
-        if ( states ) {
+        if ( state ) {
           filterUrl
-            ? (url = url.concat(includesStatements, filterUrlLast,"&include=Plataformas&include=Paises"))
-            : (url = url.concat(includeState));
-        } else {
-          if (filterUrl) url = url.concat(filterUrl);
+            ? (url = url.concat(includesStatements, filterUrlLast, includeState, ))
+            : (url = url.concat(includesStatements, includeState))
+        } else{
+            if(filterUrl) url = url.concat(filterUrl);
         }
 
         const data = await employeesService.getAllEmployees(url);
