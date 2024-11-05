@@ -133,12 +133,12 @@ const SupplierDetail = () => {
 
   const indexEndPurchases = currentPagePurchases * dataLength;
   const indexStartPurchases = indexEndPurchases - dataLength;
-  const nPagesPurchases = Math.ceil(contracts.length / dataLength);
+  const nPagesPurchases = Math.ceil(purchases.length / dataLength);
   const dataShownPurchases = purchases.slice(indexStartPurchases, indexEndPurchases);
 
   const indexEndBreaches = currentPageBreaches * dataLength;
   const indexStartBreaches = indexEndBreaches - dataLength;
-  const nPagesBreaches = Math.ceil(contracts.length / dataLength);
+  const nPagesBreaches = Math.ceil(breaches.length / dataLength);
   const dataShownBreaches = breaches.slice(indexStartBreaches, indexEndBreaches);
 
   const changePageContracts = (nextPage: number) => {
@@ -423,7 +423,7 @@ const SupplierDetail = () => {
         <div className="overflow-x-auto mt-6">
           <Table id='ContractsTable' headers={contractTableHeaders}>
             {dataShownContracts.map((contract, index) => (
-              <TRow key={index} id={contract.id} detail={true} handleDelete={()=>deleteContract(supplierId.toString(),[contract.id.toString()])} deleteButton={true}>
+              <TRow key={index} id={contract.id} path='contracts' detail={true} handleDelete={()=>deleteContract(supplierId.toString(),[contract.id.toString()])} deleteButton={true}>
                 <TData checkbox={true} id={contract.id} onChange={handleSelectedItemContract}>
                   {contract.descripcion}
                 </TData>
