@@ -14,7 +14,7 @@ export interface TRowProps {
     detail?: boolean;
     deleteButton?: boolean;
     path?: string
-    handleDelete?: (ids:Array<string>) => Promise<void>
+    handleDelete?: () => Promise<any>
 }
 
 export interface TDataProps {

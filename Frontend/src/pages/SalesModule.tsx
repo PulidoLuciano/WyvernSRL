@@ -308,7 +308,7 @@ const SalesModule = () => {
               {
                 dataShown.map((sale, index) => {
                   return (
-                    <TRow key={index} id={sale.id} handleDelete={deleteSale} deleteButton={true} path='sales' detail={true}>
+                    <TRow key={index} id={sale.id} handleDelete={()=>deleteSale([sale.id.toString()])} deleteButton={true} path='sales' detail={true}>
                       <TData onChange={handleSelectedItem} id={sale.id} checkbox={true}>{sale.Clientes?.nombre}</TData>
                       <TData>{sale.Productos?.nombre}</TData>
                       <TData>{sale.fecha}</TData>
@@ -361,7 +361,7 @@ const SalesModule = () => {
               {
                 dataShownProducts.map((product, index) => {
                   return (
-                    <TRow key={index} id={product.id} handleDelete={deleteProducts} path='products' deleteButton={true} detail={true}>
+                    <TRow key={index} id={product.id} handleDelete={()=>deleteProducts([product.id.toString()])} path='products' deleteButton={true} detail={true}>
                       <TData onChange={handleSelectedItemProducts} id={product.id} checkbox={true}>{product.nombre}</TData>
                       <TData>{product.precio}</TData>
                       <TData>{product.lanzamiento}</TData>

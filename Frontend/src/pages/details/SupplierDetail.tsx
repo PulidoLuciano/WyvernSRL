@@ -133,12 +133,12 @@ const SupplierDetail = () => {
 
   const indexEndPurchases = currentPagePurchases * dataLength;
   const indexStartPurchases = indexEndPurchases - dataLength;
-  const nPagesPurchases = Math.ceil(contracts.length / dataLength);
+  const nPagesPurchases = Math.ceil(purchases.length / dataLength);
   const dataShownPurchases = purchases.slice(indexStartPurchases, indexEndPurchases);
 
   const indexEndBreaches = currentPageBreaches * dataLength;
   const indexStartBreaches = indexEndBreaches - dataLength;
-  const nPagesBreaches = Math.ceil(contracts.length / dataLength);
+  const nPagesBreaches = Math.ceil(breaches.length / dataLength);
   const dataShownBreaches = breaches.slice(indexStartBreaches, indexEndBreaches);
 
   const changePageContracts = (nextPage: number) => {
@@ -328,7 +328,6 @@ const SupplierDetail = () => {
                   <Input id={"nombreProveedor"} name={"name"} value={editedData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleEditChange} error={editErrors.name}></Input>
                   <Input id={"correoProveedor"} name={"email"} value={editedData.email} title={"Correo"} type={"email"} placeholder={"username@wyvern.com"} onChange={handleEditChange} error={editErrors.email}></Input>
                   <Input id={"telefonoProveedor"} name={"phone"} value={editedData.phone} title={"Teléfono"} type={"text"} placeholder={"543816341612"} onChange={handleEditChange} error={editErrors.phone}></Input>
-                  <Select selected={supplierDetail.calificacion.nombre} error={editErrors.score} id={"calificacion"} title={"Calificación"} name={"score"} options={suppliersScores} onChange={handleEditChange}></Select>
                   <Select selected={supplierDetail.Provincias.Paises_id} error={editErrors.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleEditChange}></Select>
                   <Select selected={supplierDetail.Provincias.id} error={editErrors.state} id={"provincias"} name={"state"} title={"Provincia"} options={editFormStates} onChange={handleEditChange}></Select>
                   <Select selected={supplierDetail.Rubros.id} error={editErrors.category} id={"rubros"} name={"category"} title={"Rubro"} options={categories} onChange={handleEditChange}></Select>
@@ -371,7 +370,7 @@ const SupplierDetail = () => {
                   <h4 className="font-semibold text-lg">Nombre</h4>
                   <p>{supplierDetail.nombre}</p>
                   <h4 className="font-semibold text-lg">Correo</h4>
-                  <p className="underline decoration-1">
+                  <p className={supplierDetail.correo? "underline decoration-1" : ""}>
                     {supplierDetail.correo ? supplierDetail.correo : "-"}
                   </p>
                   <h4 className="font-semibold text-lg">Teléfono</h4>
@@ -424,7 +423,7 @@ const SupplierDetail = () => {
         <div className="overflow-x-auto mt-6">
           <Table id='ContractsTable' headers={contractTableHeaders}>
             {dataShownContracts.map((contract, index) => (
-              <TRow key={index} id={contract.id} detail={true} deleteButton={true}>
+              <TRow key={index} id={contract.id} path='contracts' detail={true} handleDelete={()=>deleteContract(supplierId.toString(),[contract.id.toString()])} deleteButton={true}>
                 <TData checkbox={true} id={contract.id} onChange={handleSelectedItemContract}>
                   {contract.descripcion}
                 </TData>
@@ -472,9 +471,9 @@ const SupplierDetail = () => {
         </div>
 
         <div className="overflow-x-auto mt-6">
-          <Table id='ContractsTable' headers={purchasesSupplierTableHeaders}>
+          <Table id='PurchasesTable' headers={purchasesSupplierTableHeaders}>
             {dataShownPurchases.map((purchase, index) => (
-              <TRow key={index} id={purchase.id} detail={true} deleteButton={true} >
+              <TRow key={index} handleDelete={()=> deletePurchase(supplierId,[purchase.id.toString()])} id={purchase.id} detail={true} deleteButton={true} >
                 <TData checkbox={true} id={purchase.id} onChange={handleSelectedItemPurchase}>
                   {purchase.descripcion}
                 </TData>

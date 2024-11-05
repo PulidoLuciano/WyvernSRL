@@ -23,6 +23,9 @@ export const useGeneral = () => {
   const [currencies, setCurrencies] = useState<Array<any>>([])
   const [loadingCurrencies, setLoadingCurrencies] = useState<boolean>(false);
   const [errorGeneral, setErrorGeneral] = useState<string | null>(null);
+  const [breaches, setBreaches] = useState<Array<any>>([])
+  const [loadingBreaches, setLoadingBreaches] = useState<boolean>(false);
+
 
   const getAllCountries = useCallback(async () => {
     setLoadingCountries(true);
@@ -131,6 +134,21 @@ export const useGeneral = () => {
     }
   }, [])
 
+  const getAllBreaches = async()=>{
+    setLoadingBreaches(true);
+    setErrorGeneral(null)
+    let url = "http://localhost:3000/breach_levels"
+    try {
+      const data = await generalService.getAllCategories(url);
+      setBreaches(data)
+    } catch (err: any) {
+      setErrorGeneral(err.message);
+    } finally {
+      setLoadingBreaches(false);
+    }
+  }
+
+
   const getAllPositions = useCallback(async () => {
     setLoadingCurrencies(true);
     setErrorGeneral(null)
@@ -188,6 +206,7 @@ export const useGeneral = () => {
     }
   }
 
-  return { states, positions, categories, platforms,gamesCategories,loadingGamesCategories, currencies, countries, products, medias,createProduct,getAllGamesCategories, getAllCurrencies, getAllPositions, getAllCategories, getAllStates, getAllProducts, getAllCountries, getAllPlatforms, getAllMedias,deleteProducts, loadingProducts, LoadingMedias, loadingCountries, loadingPositions, loadingPlatforms, errorGeneral };
+
+  return { breaches,states, positions, categories, platforms,gamesCategories,loadingGamesCategories, currencies, countries, products, medias,createProduct,getAllGamesCategories, getAllCurrencies, getAllPositions,getAllBreaches, getAllCategories, getAllStates, getAllProducts, getAllCountries, getAllPlatforms, getAllMedias,deleteProducts, loadingProducts, LoadingMedias, loadingCountries, loadingPositions, loadingPlatforms, errorGeneral,loadingBreaches };
 
 };

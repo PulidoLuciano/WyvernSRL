@@ -181,6 +181,8 @@ export const suppliersScores = [{
 },
 ]
 
+export const breachesContractTableHeaders = [ "Id","Descripción","Fecha","Nivel de incumplimiento" ]
+
 export const breachesSupplierTableHeaders = ["Descripcion", "Fecha", "Id Compra/Contrato", "Nivel de incumplimiento"]
 
 export const productsTableHeaders = ["Nombre", "Precio", "Fecha de lanzamiento", "Categoría"]

@@ -17,7 +17,7 @@ export const supplierEditSchema = Yup.object().shape({
 }) 
 
 export const contractSchema = Yup.object().shape({
-    motive: Yup.string().min(10,"La descripción debe tener min. 15 caracteres.").max(100,"La descripcion debe tener max. 100 caracteres.").required("Este campo es obligatorio"),
+    motive: Yup.string().min(10,"La descripción debe tener min. 15 caracteres.").max(200,"La descripcion debe tener max. 200 caracteres.").required("Este campo es obligatorio"),
     expireDate: Yup.string().matches(/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?)?$/,"Ingrese una fecha valida").required("Este campo es obligatorio"),
     payDate: Yup.string().matches(/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?)?$/,"Ingrese una fecha valida").required("Este campo es obligatorio"),
     amount: Yup.number().positive("Ingrese un número positivo").typeError("Este número no es valido").required("Este campo es obligatorio"),

@@ -178,12 +178,12 @@ COMPRAS/CONTRATOS:
                     GET /breaches?queries
                     DELETE /breaches
     Individual contratos:
-        - Data labels: Id contrato, proveedor, descripcion, fechaVencimiento, fechaPago, monto, Moneda (Back)
+        - Data labels: Id contrato, proveedor, descripcion, fechaVencimiento, fechaPago, monto, Moneda (Back,front)
                     GET /contracts/:id?queries
                     PUT /contracts/:id
-        - Form crear incumplimiento: descripcion, fecha, Nivel de incumplimiento (Back)
+        - Form crear incumplimiento: descripcion, fecha, Nivel de incumplimiento (Back,front)
                     POST /breaches
-        - Tabla incumplimiento: Id incumplimiento, descripcion, fecha, Nivel de incumplimiento (Back)
+        - Tabla incumplimiento: Id incumplimiento, descripcion, fecha, Nivel de incumplimiento (Back,front)
                     GET /breaches?queries
                     DELETE /breaches
 
