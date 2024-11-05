@@ -14,7 +14,7 @@ CLIENTES
         - Tabla compras del cliente: Producto, ID Venta, Fecha venta (Back, front)
                     GET /clients/:id/sales
                     DELETE /sales
-        - Form crear contacto: Medio, duracion (activo solo si medio es telefono), fecha, motivo (Back)
+        - Form crear contacto: Medio, duracion (activo solo si medio es telefono), fecha, motivo (Back, front)
                     POST /clients/contacts
         - Tabla de contactos del cliente: Id contacto, motivo, fecha, medio (Back, front)
                     GET /clients/:id/contacts

@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 const Login = lazy(() => import("../pages/Login.tsx"));
 const Clients = lazy(() => import('../pages/ClientsModule.tsx'));
 const ClientDetail = lazy(() => import("../pages/details/ClientDetail.tsx"));
+const ContactDetail = lazy(() => import("../pages/details/ContactDetail.tsx"));
 const Suppliers = lazy(() => import("../pages/SuppliersModule.tsx"));
 const SupplierDetail = lazy(() => import("../pages/details/SupplierDetail.tsx"));
 const Sales = lazy(() => import("../pages/SalesModule.tsx"));
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
     {
       path: '/clients/:clientId',
       element: <ClientDetail/>
+    }, 
+    {
+      path: '/clients/:clientId/:contactId',
+      element: <ContactDetail/>
     },
     {
       path: '/suppliers',

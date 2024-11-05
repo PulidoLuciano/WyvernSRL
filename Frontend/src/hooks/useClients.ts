@@ -6,6 +6,7 @@ export const useClients = () => {
   const [clients, setClients] = useState<Array<any>>([]);
   const [clientDetail, setClientDetail] = useState<any>(null);
   const [contacts, setContacts] = useState<Array<any>>([]);
+  const [contactDetail, setContactDetail] = useState<any>(null);
   const [clientPurchases, setClientsPurchases] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -101,11 +102,11 @@ export const useClients = () => {
   }, []);
 
   
-  const updateClient = async(id:number,supplierData:clientType)=>{
+  const updateClient = async(id:number,clientData:clientType)=>{
     setLoading(true)
     setError(null)
      try {
-     await clientsService.updateClient(id,supplierData);
+     await clientsService.updateClient(id,clientData);
      await getClient(id);
     } catch (err : any) {
      setError(err.message)
@@ -136,7 +137,7 @@ export const useClients = () => {
     setLoading(true);
     setError(null);
 
-    let url = `http://localhost:3000/clients/${id}/contacts/?include=motivo`;
+    let url = `http://localhost:3000/clients/${id}/contacts/?include=motivo&include=fecha`;
   
     try {
       const data = await clientsService.getAllContacts(url);
@@ -166,12 +167,12 @@ export const useClients = () => {
     }
   };
 
-  const createContact = async (clientId : number, clientData: contactType) => {
+  const createContact = async (clientId : number, contactData: contactType) => {
     setLoading(true);
     setError(null);
     let url = "http://localhost:3000/clients/contacts";
     try {
-      await clientsService.createContact(url, clientData);
+      await clientsService.createContact(url, contactData);
       await getAllContacts(clientId);
     } catch (err: any) {
       setError(err.message);
@@ -197,6 +198,34 @@ export const useClients = () => {
     }
   };
 
+  const getContact = useCallback(async (id: number) => {
+    setLoading(true);
+    setError(null);
+    let url = `http://localhost:3000/clients/contacts/${id}/?include=id&include=fecha&include=Clientes&include=motivo&include=Medios&include=duracion`;
+    try {
+      const data = await clientsService.getOne(url);
+      setContactDetail(data);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  
+  const updateContact = async(id:number,contactData:contactType)=>{
+    setLoading(true)
+    setError(null)
+     try {
+     await clientsService.updateContact(id,contactData);
+     await getClient(id);
+    } catch (err : any) {
+     setError(err.message)
+    }finally{
+     setLoading(false)
+    }
+
+ }
 
   return {
     clients,
@@ -216,6 +245,9 @@ export const useClients = () => {
     getClientsPurchases,
     clientPurchases,
     deletePurchase,
-    updateClient
+    updateClient,
+    getContact,
+    contactDetail,
+    updateContact
   };
 };

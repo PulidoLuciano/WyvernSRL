@@ -6,13 +6,13 @@ export const useEmployees = () => {
   const [employees, setEmployees] = useState<Array<any>>([]);
   const [employeeDetail, setEmployeeDetail] = useState<any>(null);
   const [employeePosition, setEmployeePosition] = useState<any>(null);
-  const [employeeCareer, setEmployeeCareer] = useState<any>(null);
+  const [employeeCareer, setEmployeeCareer] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [deletes, setDeletes] = useState<Array<any> | null>(null);
 
   const getAllEmployees = useCallback(
-    async (state?: boolean, position?: boolean, filterUrl?: string) => {
+    async (state?: boolean, filterUrl?: string) => {
       setLoading(true);
       setError(null);
 
