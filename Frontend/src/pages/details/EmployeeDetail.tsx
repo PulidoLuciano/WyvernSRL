@@ -11,7 +11,7 @@ import TRow from "../../components/table/TRow";
 import TData from "../../components/table/TData";
 import { useGeneral } from "../../hooks/useGeneral";
 import { useParams } from "react-router-dom";
-import { CreateEmployeesErrors, employeeType, positionCareerType } from "../../utils/types/employeeType";
+import { CreateEmployeesErrors, employeeType } from "../../utils/types/employeeType";
 import * as Yup from "yup";
 import { useEmployees } from "../../hooks/useEmployees";
 import { employeeSchema } from "../../schemas/employeeSchema";
@@ -76,14 +76,6 @@ const EmployeeDetail = () => {
     salary: '',
     position: '',
   });
-
-  // const [positionCareer, setPositionCareer] = useState<positionCareerType>({
-  //   employee: `${employeeId}`,
-  //   position: '',
-  //   area:'',
-  //   initialDate: '',
-  //   endDate: ''
-  // });
 
   const indexEndCareer = currentPageCareer * dataLength;
   const indexStartCareer = indexEndCareer - dataLength;

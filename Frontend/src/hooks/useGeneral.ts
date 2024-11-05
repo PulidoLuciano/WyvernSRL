@@ -1,12 +1,14 @@
 import { useState, useCallback } from 'react';
 import { generalService } from '../service/generalService'
 import { productType } from '../utils/types/productType';
+import { areaType } from '../utils/types/positionType';
 
 export const useGeneral = () => {
 
   const [countries, setCountries] = useState<Array<any>>([]);
   const [positions, setPositions] = useState<Array<any>>([]);
   const [medias, setMedias] = useState<Array<any>>([]);
+  const [areas, setAreas] = useState<Array<any>>([]);
   const [LoadingMedias, setLoadingMedias] = useState<boolean>(false);
   const [states, setStates] = useState<Array<any>>([]);
   const [platforms, setPlatforms] = useState<Array<any>>([])
@@ -17,6 +19,7 @@ export const useGeneral = () => {
   const [loadingPositions, setLoadingPositions] = useState<boolean>(false)
   const [loadingCategories, setLoadingCategories] = useState<boolean>(false);
   const [loadingStates, setLoadingStates] = useState<boolean>(false);
+  const [loadingAreas, setLoadingAreas] = useState<boolean>(false);
   const [loadingPlatforms, setLoadingPlatforms] = useState<boolean>(false);
   const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
   const [loadingGamesCategories, setLoadingGamesCategories] = useState<boolean>(false);
@@ -25,7 +28,6 @@ export const useGeneral = () => {
   const [errorGeneral, setErrorGeneral] = useState<string | null>(null);
   const [breaches, setBreaches] = useState<Array<any>>([])
   const [loadingBreaches, setLoadingBreaches] = useState<boolean>(false);
-
 
   const getAllCountries = useCallback(async () => {
     setLoadingCountries(true);
@@ -71,8 +73,6 @@ export const useGeneral = () => {
       setLoadingCategories(false);
     }
   }, []);
-
-
 
   const getAllPlatforms = useCallback(async () => {
     setLoadingPlatforms(true);
@@ -206,7 +206,34 @@ export const useGeneral = () => {
     }
   }
 
+  const getAllAreas = async()=>{
+    setLoadingAreas(true);
+    setErrorGeneral(null)
+    let url = "http://localhost:3000/areas/"
+    try {
+      const data = await generalService.getAllAreas(url);
+      setAreas(data)
+    } catch (err: any) {
+      setErrorGeneral(err.message);
+    } finally {
+      setLoadingAreas(false);
+    }
+  }
 
-  return { breaches,states, positions, categories, platforms,gamesCategories,loadingGamesCategories, currencies, countries, products, medias,createProduct,getAllGamesCategories, getAllCurrencies, getAllPositions,getAllBreaches, getAllCategories, getAllStates, getAllProducts, getAllCountries, getAllPlatforms, getAllMedias,deleteProducts, loadingProducts, LoadingMedias, loadingCountries, loadingPositions, loadingPlatforms, errorGeneral,loadingBreaches };
+  const createArea = async (areaData: areaType) => {
+    setLoadingAreas(true);
+    setErrorGeneral(null)
+    try {
+      await generalService.createArea(areaData)
+      await getAllAreas()
+    } catch (err:any) {
+      setErrorGeneral(err.message)
+    }finally{
+      setLoadingAreas(false)
+    }
+  }
+
+
+  return { breaches,states, positions, categories, platforms,gamesCategories, areas, loadingGamesCategories, currencies, countries, products, medias,createProduct,getAllGamesCategories, getAllCurrencies, getAllPositions,getAllBreaches, getAllCategories, getAllStates, getAllProducts, getAllCountries, getAllPlatforms, getAllMedias,deleteProducts,getAllAreas, createArea, loadingProducts, LoadingMedias, loadingCountries, loadingPositions, loadingPlatforms, errorGeneral,loadingBreaches };
 
 };

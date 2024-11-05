@@ -10,31 +10,35 @@ import FilterButton from '../components/form/FilterButton';
 import Table from '../components/table/Table';
 import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
-import { employeeTableHeaders } from "../utils/dataArrays"
+import { areaTableHeaders, employeeTableHeaders } from "../utils/dataArrays"
 import { useEmployees } from '../hooks/useEmployees';
 import { useGeneral } from '../hooks/useGeneral';
 import * as Yup from "yup"
 import { employeeType, CreateEmployeesErrors, employeeFilterType } from '../utils/types/employeeType';
 import { employeeSchema } from '../schemas/employeeSchema';
+import { areaSchema } from '../schemas/positionsSchema';
+import { areaType } from '../utils/types/positionType';
 
 const EmployeesModule = () => {
 
   const { getAllEmployees, employees, createEmployee } = useEmployees();
-  const { states, countries, positions, getAllPositions, getAllStates, getAllCountries } = useGeneral();
+  const { states, countries, positions, areas, getAllPositions, getAllStates, getAllCountries, getAllAreas, createArea } = useGeneral();
 
   useEffect(() => {
     getAllEmployees(true);
     getAllStates();
     getAllCountries();
     getAllPositions()
+    getAllAreas();
   }, [])
-
+  
   const [createFormStates,setCreateFormStates] = useState<Array<any>>([]);
   const [filterFormStates,setFilterFormStates] = useState<Array<any>>([]);
   const [dataLength, setDataLength] = useState<number>(10);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPageEmployee, setCurrentPageEmployee] = useState<number>(1);
+  const [currentPageArea, setCurrentPageArea] = useState<number>(1);
   const [createErrors, setCreateErrors] = useState<CreateEmployeesErrors>({});
-  const [createData, setCreateData] = useState<employeeType>({
+  const [createEmployeeData, setCreateEmployeeData] = useState<employeeType>({
     name: '',
     phone: '',
     email: '',
@@ -46,7 +50,7 @@ const EmployeesModule = () => {
     position: null
   });
 
-  const [filterData, setFilterData] = useState<employeeFilterType>({
+  const [filterEmployeeData, setFilterEmployeeData] = useState<employeeFilterType>({
     name: '',
     dni: '',
     salary: '',
@@ -54,22 +58,35 @@ const EmployeesModule = () => {
     state: '',
   });
   
-  const indexEnd = currentPage * dataLength;
-  const indexStart = indexEnd - dataLength;
-  const nPages = Math.ceil(employees.length / dataLength);
-  const dataShown = employees.slice(indexStart, indexEnd);
+  const [createAreaData, setCreateAreaData] = useState<areaType>({
+    name: '',
+  });
 
-  const changePage = (nextPage: number) => {
-    setCurrentPage(nextPage);
+  const indexEndEmployee = currentPageEmployee * dataLength;
+  const indexStartEmployee = indexEndEmployee - dataLength;
+  const nPagesEmployee = Math.ceil(employees.length / dataLength);
+  const dataEmployeeShown = employees.slice(indexStartEmployee, indexEndEmployee);
+
+  const indexEndArea = currentPageArea * dataLength;
+  const indexStartArea = indexEndArea - dataLength;
+  const nPagesArea = Math.ceil(areas.length / dataLength);
+  const dataAreaShown = areas.slice(indexStartArea, indexEndArea);
+
+  const changePageEmployee = (nextPage: number) => {
+    setCurrentPageEmployee(nextPage);
   }
 
-  const handleCreateSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const changePageArea = (nextPage: number) => {
+    setCurrentPageArea(nextPage);
+  }
+
+  const handleCreateEmployeeSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
 
-      const state = states.find(s => s.id == createData.state);
-      await employeeSchema.validate(createData, { abortEarly: false });
-      createEmployee(createData)
+      const state = states.find(s => s.id == createEmployeeData.state);
+      await employeeSchema.validate(createEmployeeData, { abortEarly: false });
+      createEmployee(createEmployeeData)
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
 
@@ -85,13 +102,13 @@ const EmployeesModule = () => {
     }
   }
 
-  const handleFilterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFilterEmployeeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = {
-      nombre: filterData.name,
-      dni: filterData.dni,
-      sueldo: filterData.salary,
-      Provincias_id: filterData.state,
+      nombre: filterEmployeeData.name,
+      dni: filterEmployeeData.dni,
+      sueldo: filterEmployeeData.salary,
+      Provincias_id: filterEmployeeData.state,
     }
 
     const datos = Object.entries(data);
@@ -118,26 +135,55 @@ const EmployeesModule = () => {
     getAllEmployees(true,filter.join(""));
   }
 
-  const handleCreateChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleCreateEmployeeChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     if(name == "country"){
       const statesAvailables = states.filter(s => s.Paises_id == Number.parseInt(value))
       setCreateFormStates(statesAvailables)
     }
-    setCreateData({
-      ...createData,
+    setCreateEmployeeData({
+      ...createEmployeeData,
       [name]: value
     });
   }
 
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleFilterEmployeeChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     if(name == "country"){
       const statesAvailables = states.filter(s => s.Paises_id == Number.parseInt(value))
       setFilterFormStates(statesAvailables)
     }
-    setFilterData({
-      ...filterData,
+    setFilterEmployeeData({
+      ...filterEmployeeData,
+      [name]: value
+    });
+  }
+
+  const handleCreateAreaSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await areaSchema.validate(createAreaData, { abortEarly: false });
+      createArea(createAreaData)
+      setCreateErrors({});
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+
+        const createErrors: CreateEmployeesErrors = {};
+        err.inner.forEach((error) => {
+          if (error.path) createErrors[error.path as keyof CreateEmployeesErrors] = error.message;
+        });
+
+        setCreateErrors(createErrors);
+        console.log(createErrors);
+      }
+    }
+  }
+
+  const handleCreateAreaChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+
+    setCreateAreaData({
+      ...createEmployeeData,
       [name]: value
     });
   }
@@ -151,35 +197,34 @@ const EmployeesModule = () => {
           <p>Ver, crear, editar y eliminar Empleados</p>
         </div>
 
-        <Accordion title="Crear Nuevo">
-          <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-4 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
+        <Accordion title="Crear Nuevo Empleado">
+          <Form handleSubmit={handleCreateEmployeeSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-4 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
             <>
-              <Input id={"nombre"} name={"name"} value={createData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleCreateChange} error={createErrors.name}></Input>
-              <Input id={"correo"} name={"email"} value={createData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleCreateChange} error={createErrors.email}></Input>
-              <Input id={"dni"} name={"dni"} value={createData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleCreateChange} error={createErrors.dni}></Input>
-              <Input id={"telefono"} name={"phone"} value={createData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleCreateChange} error={createErrors.phone}></Input>
-              <Input id={"fechaContratacion"} name={"hiringDate"} value={createData.hiringDate} title={"Fecha de contratacion"} type={"text"} placeholder={"2024-09-30 14:30:14"} onChange={handleCreateChange} error={createErrors.hiringDate}></Input>
-              <Input id={"salario"} name={"salary"} value={createData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleCreateChange} error={createErrors.salary}></Input>
-              <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange} error={createErrors.country}></Select>
-              <Select id={"provincia"} title={"Provincia"} name={"state"} options={createFormStates} onChange={handleCreateChange} error={createErrors.state}></Select>
-              <Select id={"puesto"} title={"Puesto"} name={"positions"} options={positions} onChange={handleCreateChange} error={createErrors.position}></Select>
+              <Input id={"nombre"} name={"name"} value={createEmployeeData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleCreateEmployeeChange} error={createErrors.name}></Input>
+              <Input id={"correo"} name={"email"} value={createEmployeeData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleCreateEmployeeChange} error={createErrors.email}></Input>
+              <Input id={"dni"} name={"dni"} value={createEmployeeData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleCreateEmployeeChange} error={createErrors.dni}></Input>
+              <Input id={"telefono"} name={"phone"} value={createEmployeeData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleCreateEmployeeChange} error={createErrors.phone}></Input>
+              <Input id={"fechaContratacion"} name={"hiringDate"} value={createEmployeeData.hiringDate} title={"Fecha de contratacion"} type={"text"} placeholder={"2024-09-30 14:30:14"} onChange={handleCreateEmployeeChange} error={createErrors.hiringDate}></Input>
+              <Input id={"salario"} name={"salary"} value={createEmployeeData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleCreateEmployeeChange} error={createErrors.salary}></Input>
+              <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateEmployeeChange} error={createErrors.country}></Select>
+              <Select id={"provincia"} title={"Provincia"} name={"state"} options={createFormStates} onChange={handleCreateEmployeeChange} error={createErrors.state}></Select>
+              <Select id={"puesto"} title={"Puesto"} name={"positions"} options={positions} onChange={handleCreateEmployeeChange} error={createErrors.position}></Select>
               <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end'} />
             </>
           </Form>
         </Accordion>
         <Accordion title="Filtrar por">
-          <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
+          <Form handleSubmit={handleFilterEmployeeSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
             <>
-              <Input id={"nombreFiltrar"} name={"name"} value={filterData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleFilterChange} error=''></Input>
-              <Input id={"dniFiltrar"} name={"dni"} value={filterData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleFilterChange} error=''></Input>
-              <Input id={"salarioFiltrar"} name={"salary"} value={filterData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleFilterChange} error=''></Input>
-              <Select id={"paisesFiltrar"} title={"País"} name={"country"} options={countries} onChange={handleFilterChange}></Select>
-              <Select id={"provinciaFiltrar"} title={"Provincia"} name={"state"} options={filterFormStates} onChange={handleFilterChange}></Select>
+              <Input id={"nombreFiltrar"} name={"name"} value={filterEmployeeData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleFilterEmployeeChange} error=''></Input>
+              <Input id={"dniFiltrar"} name={"dni"} value={filterEmployeeData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleFilterEmployeeChange} error=''></Input>
+              <Input id={"salarioFiltrar"} name={"salary"} value={filterEmployeeData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleFilterEmployeeChange} error=''></Input>
+              <Select id={"paisesFiltrar"} title={"País"} name={"country"} options={countries} onChange={handleFilterEmployeeChange}></Select>
+              <Select id={"provinciaFiltrar"} title={"Provincia"} name={"state"} options={filterFormStates} onChange={handleFilterEmployeeChange}></Select>
               <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"} />
             </>
           </Form>
         </Accordion>
-
 
         <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
           <div className='flex gap-2 items-end tablet:col-span-2'>
@@ -205,7 +250,7 @@ const EmployeesModule = () => {
         <div className='overflow-x-auto mt-6'>
           <Table headers={employeeTableHeaders}>
             {
-              dataShown.map((empleado, index) => {
+              dataEmployeeShown.map((empleado, index) => {
                 return (
                   <TRow key={index} id={empleado.id} detail={true} deleteButton={true} path='employees'>
                     <TData checkbox={true}>{empleado.nombre}</TData>
@@ -216,19 +261,62 @@ const EmployeesModule = () => {
                   </TRow>)
               })
             }
+          </Table>
+        </div>
+        <div className='flex items-center justify-center laptop:justify-end gap-6 my-6' id='paginacionTabla'>
+          <Pagination changePage={changePageEmployee} nPages={nPagesEmployee} currentPage={currentPageEmployee} indexStart={indexStartEmployee} indexEnd={indexEndEmployee} />
+        </div>
+
+        <Accordion title="Crear Nueva area">
+          <Form handleSubmit={handleCreateAreaSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-10">
+            <>
+              <Input id={"name"} name={"name"} value={createAreaData.name} title={"Nombre"} type={"text"} placeholder={"Ventas"} onChange={handleCreateAreaChange} error={createErrors.name}></Input>
+              <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-end-2 tablet:place-self-end'} />
+            </>
+          </Form>
+        </Accordion>
+
+        <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
+          <div className='flex gap-2 items-end tablet:col-span-2'>
+            <h2>Areas</h2>
+            <p>Página 1 de 20</p>
+          </div>
+
+          <button className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
+            <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+            </svg>
+            Eliminar Seleccionados (0)
+          </button>
+
+          <button className='bg-primary font-semibold laptopL:col-start-6 laptopL:col-end-7 rounded flex gap-2 items-center justify-center text-white'>
+            <svg className="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
+            </svg>
+            Enviar Noticia
+          </button>
+        </div>
+
+        <div className='overflow-x-auto mt-6'>
+          <Table headers={areaTableHeaders}>
+            {
+              dataAreaShown.map((area, index) => {
+                return (
+                  <TRow key={index} id={area.id} detail={true} deleteButton={true}>
+                    <TData checkbox={true}>{area.id}</TData>
+                    <TData>{area.nombre}</TData>
+                  </TRow>)
+              })
+            }
 
           </Table>
 
-        </div>
-
-
-        <div className='flex items-center justify-center laptop:justify-end gap-6 my-6' id='paginacionTabla'>
-
-          <Pagination changePage={changePage} nPages={nPages} currentPage={currentPage} indexStart={indexStart} indexEnd={indexEnd} />
+          <div className='flex items-center justify-center laptop:justify-end gap-6 my-6' id='paginacionTabla'>
+            <Pagination changePage={changePageArea} nPages={nPagesArea} currentPage={currentPageArea} indexStart={indexStartArea} indexEnd={indexEndArea} />
+          </div>
 
         </div>
       </div>
-
 
     </main>
   )

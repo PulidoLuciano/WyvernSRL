@@ -91,8 +91,6 @@ export const suppliers = [
   },
 ]
 
-export const optionsProducts = ["Dragon's Legacy","Mystic Chronicles","Eternal Quest","Shadow of Valor"];
-
 export const contactTableHeaders: Array<string> = ["ID", "Motivo", "Fecha", "Medio"];
 
 export const purchasesTableHeaders: Array<string> = ["ID", "Producto", "Fecha"];
@@ -181,11 +179,11 @@ export const suppliersScores = [{
 },
 ]
 
-export const breachesContractTableHeaders = [ "Id","Descripción","Fecha","Nivel de incumplimiento" ]
+export const breachesContractTableHeaders: Array<string> = [ "Id","Descripción","Fecha","Nivel de incumplimiento" ]
 
-export const breachesSupplierTableHeaders = ["Descripcion", "Fecha", "Id Compra/Contrato", "Nivel de incumplimiento"]
+export const breachesSupplierTableHeaders: Array<string> = ["Descripcion", "Fecha", "Id Compra/Contrato", "Nivel de incumplimiento"]
 
-export const productsTableHeaders = ["Nombre", "Precio", "Fecha de lanzamiento", "Categoría"]
+export const productsTableHeaders: Array<string> = ["Nombre", "Precio", "Fecha de lanzamiento", "Categoría"]
 
 export const purchasesSupplierTableHeaders: Array<string> = [
   "Descripción",
@@ -196,3 +194,5 @@ export const purchasesSupplierTableHeaders: Array<string> = [
   "Entregado",
   "Pagado"
 ]
+
+export const areaTableHeaders: Array<string> = ["Id", "Nombre"]

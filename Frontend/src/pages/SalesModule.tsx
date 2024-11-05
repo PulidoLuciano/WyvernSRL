@@ -71,6 +71,7 @@ const SalesModule = () => {
   const indexStart = indexEnd - dataLength;
   const nPages = Math.ceil(sales.length / dataLength);
   const dataShown = sales.slice(indexStart, indexEnd);
+  
   const changePage = (nextPage: number) => {
     setCurrentPage(nextPage);
   }

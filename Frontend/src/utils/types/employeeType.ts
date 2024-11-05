@@ -31,12 +31,6 @@ export interface CreateEmployeesErrors {
     position?: string
 }
 
-export interface positionCareerType {
-    employee: string;
-    position: string;
-    area: string;
-    initialDate: string;
-    endDate: string
-}
+
 
 
