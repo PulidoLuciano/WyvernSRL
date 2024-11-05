@@ -328,7 +328,6 @@ const SupplierDetail = () => {
                   <Input id={"nombreProveedor"} name={"name"} value={editedData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleEditChange} error={editErrors.name}></Input>
                   <Input id={"correoProveedor"} name={"email"} value={editedData.email} title={"Correo"} type={"email"} placeholder={"username@wyvern.com"} onChange={handleEditChange} error={editErrors.email}></Input>
                   <Input id={"telefonoProveedor"} name={"phone"} value={editedData.phone} title={"Teléfono"} type={"text"} placeholder={"543816341612"} onChange={handleEditChange} error={editErrors.phone}></Input>
-                  <Select selected={supplierDetail.calificacion.nombre} error={editErrors.score} id={"calificacion"} title={"Calificación"} name={"score"} options={suppliersScores} onChange={handleEditChange}></Select>
                   <Select selected={supplierDetail.Provincias.Paises_id} error={editErrors.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleEditChange}></Select>
                   <Select selected={supplierDetail.Provincias.id} error={editErrors.state} id={"provincias"} name={"state"} title={"Provincia"} options={editFormStates} onChange={handleEditChange}></Select>
                   <Select selected={supplierDetail.Rubros.id} error={editErrors.category} id={"rubros"} name={"category"} title={"Rubro"} options={categories} onChange={handleEditChange}></Select>
@@ -371,7 +370,7 @@ const SupplierDetail = () => {
                   <h4 className="font-semibold text-lg">Nombre</h4>
                   <p>{supplierDetail.nombre}</p>
                   <h4 className="font-semibold text-lg">Correo</h4>
-                  <p className="underline decoration-1">
+                  <p className={supplierDetail.correo? "underline decoration-1" : ""}>
                     {supplierDetail.correo ? supplierDetail.correo : "-"}
                   </p>
                   <h4 className="font-semibold text-lg">Teléfono</h4>
