@@ -40,8 +40,6 @@ const useSales = () => {
               if(filterUrl) url = url.concat(filterUrl); 
             }
             
-            console.log(url);
-            
             const data = await salesService.getAll(url); 
             
             setSales(data)  
@@ -56,7 +54,6 @@ const useSales = () => {
       const getSale = async(idSale:number,products?:boolean,clients?:boolean,)=>{
         setLoading(true);
         setError(null);
-    
            
         let url = `http://localhost:3000/sales/${idSale}/`;
         let includesStatements =   "?include=id&include=fecha&borrado=false"

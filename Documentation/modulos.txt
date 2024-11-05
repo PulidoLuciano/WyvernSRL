@@ -23,7 +23,7 @@ CLIENTES
 
 CONTACTOS
     Individual: 
-        - Data labels: Id, Cliente, motivo, fecha, Medio, duracion (Back)
+        - Data labels: Id, Cliente, motivo, fecha, Medio, duracion (Back, front)
                     GET clients/contacts/:id?queries
                     PUT clients/contacts/:id
 
@@ -58,11 +58,11 @@ PRODUCTO
 
 EMPLEADOS
     General:
-        - Form crear empleado: Nombre, Correo, Telefono, DNI, fechaContratacion, sueldo, Provincia, Puesto (Back)
+        - Form crear empleado: Nombre, Correo, Telefono, DNI, fechaContratacion, sueldo, Provincia, Puesto (Back,front)
                     POST /employees
-        - Form filtrar empleados: Nombre, DNI, Provincia, Sueldo mayor que, Sueldo menor que (Back)
+        - Form filtrar empleados: Nombre, DNI, Provincia, Sueldo mayor que, Sueldo menor que (Back, front)
                     GET /employees?queries
-        - Tabla empleados: Nombre, DNI, Correo, sueldo, Provincia (Back)
+        - Tabla empleados: Nombre, DNI, Correo, sueldo, Provincia (Back, front)
                     GET /employees?queries
                     DELETE /employees
         - Form crear area: Nombre (Back)
@@ -71,11 +71,11 @@ EMPLEADOS
                     GET /areas?queries
                     DELETE /areas
     Individual: 
-        - Data labels: Nombre, Correo, Telefono, DNI, fechaContratacion, sueldo, Provincia, Puesto, Area (Back)
+        - Data labels: Nombre, Correo, Telefono, DNI, fechaContratacion, sueldo, Provincia, Puesto, Area (Back, front)
                     GET /employees/:id?queries
                     GET /employees/:id/position
                     PUT /employees/:id
-        - Tabla puestos: Puesto, Area, fecha inicio, fecha fin (Back)
+        - Tabla puestos: Puesto, Area, fecha inicio, fecha fin (Back, front)
                     GET /employees/:id/career
 
 AREA
@@ -141,21 +141,21 @@ PROVEEDORES
                     GET /contracts?queries
                     DELETE /contracts
     Individual:
-        - Data labels: Nombre, correo, Telefono, Provincia, Rubro, Calificación (Back)
+        - Data labels: Nombre, correo, Telefono, Provincia, Rubro, Calificación (Back,front)
                     GET /providers/:id?queries
                     GET /providers/:id/score
                     PUT /providers/:id
-        - Form crear contrato: motivo, fechaVencimiento, fechaPago, monto, Moneda (Back)
+        - Form crear contrato: motivo, fechaVencimiento, fechaPago, monto, Moneda (Back, front)
                     POST /contracts
-        - Tabla Contratos: descripcion, fechaVencimiento, fechaPago, monto, moneda (Back)
+        - Tabla Contratos: descripcion, fechaVencimiento, fechaPago, monto, moneda (Back, front)
                     GET /contracts?queries
                     DELETE /contracts
-        - Form crear compra: descripcion, precio unitario, cantidad, fecha, entregado, pagado, Moneda (Back)
+        - Form crear compra: descripcion, precio unitario, cantidad, fecha, entregado, pagado, Moneda (Back, front)
                     POST /purchases
-        - Tabla Compras: descripcion, precio unitario, Moneda, cantidad, fecha, entregado, pagado (Back)
+        - Tabla Compras: descripcion, precio unitario, Moneda, cantidad, fecha, entregado, pagado (Back, front)
                     GET /purchases?queries
                     DELETE /purchases
-        - Tabla incumplimientos: Descripcion, fecha, Id_Compra/Contrato, Nivel de incumplimiento (Back)
+        - Tabla incumplimientos: Descripcion, fecha, Id_Compra/Contrato, Nivel de incumplimiento (Back, front)
                     GET /providers/:id/breaches
 
 

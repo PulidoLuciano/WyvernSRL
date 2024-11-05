@@ -115,7 +115,7 @@ const EmployeesModule = () => {
       }
     })
 
-    getAllEmployees(true,false,filter.join(""));
+    getAllEmployees(true,filter.join(""));
   }
 
   const handleCreateChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

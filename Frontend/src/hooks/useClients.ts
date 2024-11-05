@@ -45,6 +45,8 @@ export const useClients = () => {
           if (filterUrl) url = url.concat(filterUrl);
         }
 
+        console.log(url);
+
         const data = await clientsService.getAllClients(url);
 
         setClients(data);

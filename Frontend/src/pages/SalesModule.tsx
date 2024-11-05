@@ -164,6 +164,7 @@ const SalesModule = () => {
 
 
     const datos = Object.entries(data);
+    if (datos.length == 2) return;
 
     const filter: Array<string> = []
     datos.forEach((d, index) => {
@@ -265,7 +266,7 @@ const SalesModule = () => {
         </div>
 
         <Accordion title="Crear Nuevo">
-          <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
+          <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
             <>
               <Input error={createErrors.client} id={"nombreUsuario"} name={"client"} value={createData.client} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleCreateChange} ></Input>
               <Select error={createErrors.product} id={"productos"} title={"Productos"} name={"product"} options={products} onChange={handleCreateChange}></Select>
@@ -275,7 +276,7 @@ const SalesModule = () => {
           </Form>
         </Accordion>
         <Accordion title="Filtrar por">
-          <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
+          <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
             <>
               <Input id={"nombreUsuario"} name={"client"} value={filterData.client} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleFilterChange} error=''></Input>
               <Select id={"productos"} title={"Productos"} name={"product"} options={products} onChange={handleFilterChange}></Select>

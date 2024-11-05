@@ -136,16 +136,6 @@ const EmployeeDetail = () => {
   };
   
 
-  // const handleDeleteSelectedDataPurchase = async (selectedData: Array<string>) => {
-  //   if (!selectedData || selectedData.length == 0) {
-  //     return;
-  //   } else {
-  //     const dataDelete = await deletePurchase(clientId, selectedData);
-  //     if (dataDelete) console.log("compras eliminados exitosamente");
-  //     setSelectedDataPurchase([]);
-  //   }
-  // };
-
   const handleSelectedItemContact = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newSelectedData;
     const dataExist = selectedDataContact.find((d) => d == e.target.id);
@@ -157,16 +147,6 @@ const EmployeeDetail = () => {
       setSelectedDataContact([...selectedDataContact, e.target.id]);
     }
   };
-
-  // const handleDeleteSelectedDataCareer = async (selectedData: Array<string>) => {
-  //   if (!selectedData || selectedData.length == 0) {
-  //     return;
-  //   } else {
-  //     const dataDelete = await deleteContact(clientId, selectedData);
-  //     if (dataDelete) console.log("contactos eliminados exitosamente");
-  //     setSelectedDataContact([]);
-  //   }
-  // };
 
 
   if (loading) return <p>Cargando detalles del cliente...</p>;
@@ -222,7 +202,7 @@ const EmployeeDetail = () => {
                     {employeeDetail.correo}
                   </p>
                   <h4 className="font-semibold text-lg">Teléfono</h4>
-                  <p>{employeeDetail.telefono}</p>
+                  <p>{employeeDetail.telefono ? employeeDetail.telefono : "-"}</p>
                   <h4 className="font-semibold text-lg">DNI</h4>
                   <p>{employeeDetail.dni}</p>
                   <h4 className="font-semibold text-lg">Fecha de contratacion</h4>
@@ -299,13 +279,6 @@ const EmployeeDetail = () => {
             <h2 className="text-3xl">Compras del cliente</h2>
             <p>Total de compras:{employeeCareer ? employeeCareer.length: 0}</p>
           </div>
-
-          {/* <button onClick={() => handleDeleteSelectedDataPurchase(selectedDataPurchase)} className="bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6">
-            <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor"strokeLinecap="round"strokeLinejoin="round"strokeWidth="2"d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
-            </svg>
-            Eliminar Seleccionados ({selectedDataPurchase.length})
-          </button> */}
         </div>
 
         <div className="overflow-x-auto mt-6">

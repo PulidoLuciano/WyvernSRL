@@ -23,12 +23,12 @@ export const useEmployees = () => {
 
     let url = "http://localhost:3000/employees/";  
     let includesStatements = "?include=id&include=nombre&include=correo&include=dni&include=sueldo&borrado=false"
-    let includeState = "&include=Provincias";
+    let includeState = "?include=id&include=nombre&include=correo&include=dni&include=sueldo&include=Provincias&borrado=false";
     try {
         if ( state ) {
           filterUrl
-            ? (url = url.concat(includesStatements, filterUrlLast, includeState, ))
-            : (url = url.concat(includesStatements, includeState))
+            ? (url = url.concat(includesStatements, filterUrlLast,'&include=Provincias', ))
+            : (url = url.concat(includeState))
         } else{
             if(filterUrl) url = url.concat(filterUrl);
         }

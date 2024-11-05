@@ -164,7 +164,6 @@ const createContact = async (url: string,obj: contactType) => {
 
 }
 
-
 const getClientsPurchases = async (url : string) => {
     
     const response = await fetch(`${url}`, {
