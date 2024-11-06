@@ -80,7 +80,7 @@ EMPLEADOS
 
 AREA
     Individual:
-        -Data labels: Nombre (Back)
+        -Data labels: Nombre (Back, front)
                     GET /areas/:id?queries
         - Tabla empleados: Nombre, DNI, Correo, Puesto, Provincia (Back)
                     GET /areas/:id/employees
