@@ -21,8 +21,8 @@ import { areaType } from '../utils/types/positionType';
 
 const EmployeesModule = () => {
 
-  const { getAllEmployees, employees, createEmployee } = useEmployees();
-  const { states, countries, positions, areas, getAllPositions, getAllStates, getAllCountries, getAllAreas, createArea } = useGeneral();
+  const { getAllEmployees, employees, createEmployee, deleteEmployee } = useEmployees();
+  const { states, countries, positions, areas, getAllPositions, getAllStates, getAllCountries, getAllAreas, createArea, deleteArea } = useGeneral();
 
   useEffect(() => {
     getAllEmployees(true);
@@ -35,6 +35,8 @@ const EmployeesModule = () => {
   const [createFormStates,setCreateFormStates] = useState<Array<any>>([]);
   const [filterFormStates,setFilterFormStates] = useState<Array<any>>([]);
   const [dataLength, setDataLength] = useState<number>(10);
+  const [selectedEmployees, setSelectedEmployees] = useState<Array<string>>([])
+  const [selectedAreas, setSelectedAreas] = useState<Array<string>>([])
   const [currentPageEmployee, setCurrentPageEmployee] = useState<number>(1);
   const [currentPageArea, setCurrentPageArea] = useState<number>(1);
   const [createErrors, setCreateErrors] = useState<CreateEmployeesErrors>({});
@@ -83,7 +85,6 @@ const EmployeesModule = () => {
   const handleCreateEmployeeSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-
       const state = states.find(s => s.id == createEmployeeData.state);
       await employeeSchema.validate(createEmployeeData, { abortEarly: false });
       createEmployee(createEmployeeData)
@@ -159,6 +160,30 @@ const EmployeesModule = () => {
     });
   }
 
+  const handleSelectedEmployees = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let newSelectedData
+    const dataExist = selectedEmployees.find(d => d == e.target.id);
+
+    if (dataExist) {
+      newSelectedData = selectedEmployees.filter(d => d != dataExist);
+      setSelectedEmployees(newSelectedData)
+    }
+    else {
+      setSelectedEmployees([...selectedEmployees, e.target.id]);
+    }
+
+  }
+
+  const handleDeleteSelectedEmployees = async (selectedData: Array<string>) => {
+    if (!selectedData || selectedData.length == 0) {
+      return
+    } else {
+      const dataDelete = await deleteEmployee(selectedData);
+      if (dataDelete) console.log("clientes eliminados exitosamente");
+      setSelectedEmployees([])
+    }
+  }
+
   const handleCreateAreaSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -186,6 +211,30 @@ const EmployeesModule = () => {
       ...createEmployeeData,
       [name]: value
     });
+  }
+
+  const handleSelectedAreas = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let newSelectedData
+    const dataExist = selectedAreas.find(d => d == e.target.id);
+
+    if (dataExist) {
+      newSelectedData = selectedAreas.filter(d => d != dataExist);
+      setSelectedAreas(newSelectedData)
+    }
+    else {
+      setSelectedAreas([...selectedAreas, e.target.id]);
+    }
+
+  }
+
+  const handleDeleteSelectedAreas = async (selectedData: Array<string>) => {
+    if (!selectedData || selectedData.length == 0) {
+      return
+    } else {
+      const dataDelete = await deleteArea(selectedData);
+      if (dataDelete) console.log("clientes eliminados exitosamente");
+      setSelectedEmployees([])
+    }
   }
   
   return (
@@ -232,11 +281,11 @@ const EmployeesModule = () => {
             <p>Página 1 de 20</p>
           </div>
 
-          <button className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
+          <button onClick={() => handleDeleteSelectedEmployees(selectedEmployees)} className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
             <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
             </svg>
-            Eliminar Seleccionados (0)
+            Eliminar Seleccionados ({selectedEmployees.length})
           </button>
 
           <button className='bg-primary font-semibold laptopL:col-start-6 laptopL:col-end-7 rounded flex gap-2 items-center justify-center text-white'>
@@ -253,7 +302,7 @@ const EmployeesModule = () => {
               dataEmployeeShown.map((empleado, index) => {
                 return (
                   <TRow key={index} id={empleado.id} detail={true} deleteButton={true} path='employees'>
-                    <TData checkbox={true}>{empleado.nombre}</TData>
+                    <TData id={empleado.id} onChange={handleSelectedEmployees} checkbox={true}>{empleado.nombre}</TData>
                     <TData>{empleado.correo ? empleado.correo : "-"}</TData>
                     <TData>{empleado.dni ? empleado.dni : "-"}</TData>
                     <TData>{empleado.sueldo ? `$${empleado.sueldo}` : "-"}</TData>
@@ -282,11 +331,11 @@ const EmployeesModule = () => {
             <p>Página 1 de 20</p>
           </div>
 
-          <button className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
+          <button onClick={() => handleDeleteSelectedAreas(selectedAreas)} className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
             <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
             </svg>
-            Eliminar Seleccionados (0)
+            Eliminar Seleccionados ({selectedAreas.length})
           </button>
 
           <button className='bg-primary font-semibold laptopL:col-start-6 laptopL:col-end-7 rounded flex gap-2 items-center justify-center text-white'>
@@ -303,7 +352,7 @@ const EmployeesModule = () => {
               dataAreaShown.map((area, index) => {
                 return (
                   <TRow key={index} id={area.id} detail={true} deleteButton={true}>
-                    <TData checkbox={true}>{area.id}</TData>
+                    <TData id={area.id} onChange={handleSelectedAreas} checkbox={true}>{area.id}</TData>
                     <TData>{area.nombre}</TData>
                   </TRow>)
               })

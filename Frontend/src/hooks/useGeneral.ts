@@ -209,7 +209,7 @@ export const useGeneral = () => {
   const getAllAreas = async()=>{
     setLoadingAreas(true);
     setErrorGeneral(null)
-    let url = "http://localhost:3000/areas/"
+    let url = "http://localhost:3000/areas/?include=id&include=nombre&borrado=false"
     try {
       const data = await generalService.getAllAreas(url);
       setAreas(data)
@@ -233,7 +233,22 @@ export const useGeneral = () => {
     }
   }
 
+  const deleteArea = async(ids:Array<string>) => {
+    setLoadingProducts(true);
+    setErrorGeneral(null);
+    let url = "http://localhost:3000/areas/";
+    try {
+      const response = await generalService.deleteArea(url, ids);
+      await getAllAreas();
+      return response;
+    } catch (err: any) {
+      setErrorGeneral(err.message);
+    } finally {
+      setLoadingProducts(false);
+    }
+  }
 
-  return { breaches,states, positions, categories, platforms,gamesCategories, areas, loadingGamesCategories, currencies, countries, products, medias,createProduct,getAllGamesCategories, getAllCurrencies, getAllPositions,getAllBreaches, getAllCategories, getAllStates, getAllProducts, getAllCountries, getAllPlatforms, getAllMedias,deleteProducts,getAllAreas, createArea, loadingProducts, LoadingMedias, loadingCountries, loadingPositions, loadingPlatforms, errorGeneral,loadingBreaches };
+
+  return { breaches,states, positions, categories, platforms, gamesCategories, areas, loadingGamesCategories, currencies, countries, products, medias,createProduct,getAllGamesCategories, getAllCurrencies, getAllPositions,getAllBreaches, getAllCategories, getAllStates, getAllProducts, getAllCountries, getAllPlatforms, getAllMedias,deleteProducts,getAllAreas, createArea, deleteArea, loadingProducts, LoadingMedias, loadingCountries, loadingPositions, loadingPlatforms, errorGeneral,loadingBreaches };
 
 };

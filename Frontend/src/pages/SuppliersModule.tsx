@@ -78,7 +78,7 @@ const SuppliersModule = () => {
       return
     } else {
       const dataDelete = await deleteSuppliers(selectedData);
-      if (dataDelete) console.log("clientes eliminados exitosamente");
+      if (dataDelete) console.log("proveedores eliminados exitosamente");
       setSelectedData([])
     }
 

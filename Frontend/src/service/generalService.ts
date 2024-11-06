@@ -255,4 +255,23 @@ const createArea = async (areaData: areaType) => {
 
 }
 
-export const generalService = { deleteObj,createProduct, getAllStates, getAllCategories, getAllCountries, getAllPlatforms, getAllProducts, getAllMedias, getAllPositions, getAllAreas, createArea }
+const deleteArea = async (url: string, ids: Array<string>) => {
+  const response = await fetch(`${url}`, {
+    mode: "cors",
+    method: "DELETE",
+    credentials: "include",
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: JSON.stringify({ ids })
+  })
+
+  if (!response.ok) {
+    throw new Error;
+  }
+
+  const obj = await response.json()
+  return obj;
+}
+
+export const generalService = { deleteObj,createProduct, getAllStates, getAllCategories, getAllCountries, getAllPlatforms, getAllProducts, getAllMedias, getAllPositions, getAllAreas, createArea, deleteArea }

@@ -32,7 +32,6 @@ const ClientsModule = () => {
     getAllPlatforms();
   }, [getAllCountries, getAllPlatforms])
 
-  const [selectedAll, setSelectedAll] = useState<boolean>(false);
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [createErrors, setCreateErrors] = useState<CreateClientErrors>({})
@@ -86,16 +85,12 @@ const ClientsModule = () => {
       if (dataDelete) console.log("clientes eliminados exitosamente");
       setSelectedData([])
     }
-
   }
 
   const handleCreateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.currentTarget.children
-    if (createData.suscription == "" && createData.country == "" && createData.platform == "") {
-
-    }
-
+    if (createData.suscription == "" && createData.country == "" && createData.platform == "") {}
     
     try {
 
