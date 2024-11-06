@@ -21,6 +21,21 @@ const getPositions = async (url: string) => {
     }
   }
 
+  const getPosition = async (url : string) => {
+    
+    const response = await fetch(`${url}`, {
+        mode: 'cors',
+        method: 'GET',
+        credentials: 'include',
+    })
+    
+    const data = await response.json();
+    
+    if (!response.ok) throw new Error(`${data.message}`);
+   
+    return data;
+}
+
   const createPosition = async (areaId:number, positionData: positionType) => {
     console.log(areaId);
     
@@ -68,9 +83,9 @@ const getPositions = async (url: string) => {
   }
 
 
-const updateArea = async(id: number,obj: positionType)=>{
+const updatePosition = async(id: number, areaId: number,obj: positionType)=>{
 
-    const response = await fetch(`http://localhost:3000/areas/${id}`,{
+    const response = await fetch(`http://localhost:3000/positions/${id}`,{
         mode:"cors",
         method: "PUT",
         credentials: "include",
@@ -78,6 +93,7 @@ const updateArea = async(id: number,obj: positionType)=>{
             'Content-Type' : 'application/json; charset=UTF-8'
         },
         body: JSON.stringify({
+            "Areas_id": Number(areaId),
             "nombre": obj.name,
         })
     })
@@ -91,4 +107,4 @@ const updateArea = async(id: number,obj: positionType)=>{
 
 
 
-export const positionService = {getPositions, createPosition, deletePosition, updateArea, }
+export const positionService = {getPositions, getPosition, createPosition, deletePosition, updatePosition }

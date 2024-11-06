@@ -8,7 +8,7 @@ import TData from "../../components/table/TData";
 import Input from "../../components/form/Input";
 import Nav from "../../components/Nav";
 import SaveButton from "../../components/form/SaveButton";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { areaSchema } from "../../schemas/areaSchema";
 import { areaType, CreateAreaErrors } from "../../utils/types/areaType";
@@ -21,7 +21,10 @@ import { employeeType } from "../../utils/types/employeeType";
 
 const AreaDetail = () => {
   const params = useParams();
+  const { pathname } = useLocation()
   const areaId = parseInt(params.areaId || "", 10);
+
+  const path = pathname.slice(1)
   
   const { areaDetail , getArea, getAreaEmployees, areaEmployees, updateArea, loading, error } = useAreas();
   const {getPositions, positions, deletePosition, createPosition} = usePositions()
@@ -234,7 +237,6 @@ const AreaDetail = () => {
           </>
         )}
 
-     
         <div className="flex flex-col gap-2 items-start tablet:col-span-2">
             <h2 className="text-3xl">Empleados del area</h2>
             <p>Total de empleados:{areaEmployees.length}</p>
@@ -257,6 +259,15 @@ const AreaDetail = () => {
           <Pagination changePage={changePageEmployees} nPages={nPagesEmployees} currentPage={currentPageEmployees} indexStart={indexStartEmployees}indexEnd={indexEndEmployees}/>
         </div>
 
+        <Accordion title="Crear Nuevo Puesto">
+          <Form handleSubmit={handlePositionSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
+            <>
+              <Input error={createErrors.name} id={"name"} name={"name"} value={position.name} title={"Nombre"} type={"text"} placeholder={"Gerente de Ventas"} onChange={handlePositionChange}></Input>
+              <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-end-2 tablet:place-self-end"}/>
+            </>
+          </Form>
+        </Accordion>
+
         <div className="grid grid-rows-2 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6">
           <div className="flex flex-col gap-2 items-start tablet:col-span-2">
             <h2 className="text-3xl">Puestos del area</h2>
@@ -271,19 +282,11 @@ const AreaDetail = () => {
           </button>
         </div>    
 
-        <Accordion title="Crear Nuevo Puesto">
-          <Form handleSubmit={handlePositionSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
-            <>
-              <Input error={createErrors.name} id={"name"} name={"name"} value={position.name} title={"Nombre"} type={"text"} placeholder={"Gerente de Ventas"} onChange={handlePositionChange}></Input>
-              <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-end-2 tablet:place-self-end"}/>
-            </>
-          </Form>
-        </Accordion>
-
+ 
         <div className="overflow-x-auto mt-6">
           <Table headers={positionsTableHeaders}>
             {dataShownPositions.map((puesto, index) => (
-              <TRow key={index} id={puesto.id} deleteButton={false} detail={false} >
+              <TRow key={index} id={puesto.id} deleteButton={true} detail={true} path={path}>
                 <TData checkbox={true} id={puesto.id} onChange={handleSelectedPositions}>
                   {puesto.id}
                 </TData>

@@ -102,7 +102,6 @@ export const useClients = () => {
       setLoading(false);
     }
   }, []);
-
   
   const updateClient = async(id:number,clientData:clientType)=>{
     setLoading(true)

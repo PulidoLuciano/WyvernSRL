@@ -24,6 +24,20 @@ export const usePositions = () => {
         }
     }
 
+    const getPosition = useCallback(async (id: number) => {
+        setLoading(true);
+        setError(null);
+        let url = `http://localhost:3000/positions/${id}/?include=id&include=nombre`;
+        try {
+          const data = await positionService.getPosition(url);
+          setPositionDetail(data);
+        } catch (err: any) {
+          setError(err.message);
+        } finally {
+          setLoading(false);
+        }
+      }, []);
+
     const createPosition = async (areaId: number, positionData: positionType) => {
         setLoading(true);
         setError(null)
@@ -52,8 +66,21 @@ export const usePositions = () => {
         }
     }
 
+    const updatePosition = async(id:number, areaId:number, positionData: positionType)=>{
+        setLoading(true)
+        setError(null)
+         try {
+         await positionService.updatePosition(id, areaId, positionData);
+         await getPosition(id);
+        } catch (err : any) {
+         setError(err.message)
+        }finally{
+         setLoading(false)
+        }
+    
+     }
     
       
     
-    return {getPositions, positions, createPosition, deletePosition, loading, error, };
+    return {getPositions, positions, getPosition, positionDetail, createPosition, deletePosition, updatePosition, loading, error, };
 }
