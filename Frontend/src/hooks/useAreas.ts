@@ -5,6 +5,7 @@ import { areaService } from "../service/areaService";
 export const useAreas = () => {
 
     const [areas, setAreas] = useState<Array<any>>([]);
+    const [areaEmployees, setAreaEmployees] = useState<Array<any>>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [areaDetail, setAreaDetail] = useState<any>([]);
@@ -21,6 +22,20 @@ export const useAreas = () => {
         } finally {
         setLoading(false);
         }
+    }
+
+    const getAreaEmployees = async( id: number)=>{
+      setLoading(true);
+      setError(null)
+      let url = `http://localhost:3000/areas/${id}/employees`
+      try {
+      const data = await areaService.getAreaEmployees(url);
+      setAreaEmployees(data)
+      } catch (err: any) {
+      setError(err.message);
+      } finally {
+      setLoading(false);
+      }
     }
 
     const createArea = async (areaData: areaType) => {
@@ -83,6 +98,6 @@ export const useAreas = () => {
 
       
     
-    return { getAllAreas, areas, createArea, deleteArea, getArea, areaDetail, loading, error, updateArea };
+    return { getAllAreas, areas, getAreaEmployees, areaEmployees, createArea, deleteArea, getArea, areaDetail, loading, error, updateArea };
 }
 

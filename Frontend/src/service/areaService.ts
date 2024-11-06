@@ -20,6 +20,26 @@ const getAllAreas = async (url: string) => {
   
     }
   }
+
+  const getAreaEmployees= async (url: string) => {
+    try {
+      const response = await fetch(`${url}`, {
+        mode: "cors",
+        method: "GET",
+        credentials: "include",
+      })
+  
+      if (!response.ok) {
+        throw new Error;
+      }
+  
+      const products = await response.json()
+      return products;
+  
+    } catch (error) {
+      console.log(error);
+    }
+  }
   
   const createArea = async (areaData: areaType) => {
     const response = await fetch("http://localhost:3000/areas", {
@@ -101,4 +121,4 @@ const updateArea = async(id: number,obj:areaType)=>{
 }
 
 
-export const areaService = { getAllAreas, deleteArea, createArea, getOne, updateArea}
+export const areaService = { getAllAreas, getAreaEmployees, deleteArea, createArea, getOne, updateArea}

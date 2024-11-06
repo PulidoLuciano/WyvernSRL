@@ -17,17 +17,19 @@ import { employeeTableHeaders, positionsTableHeaders } from "../../utils/dataArr
 import { usePositions } from "../../hooks/usePositions";
 import { CreatePositionErrors, positionType } from "../../utils/types/positionType";
 import { positionSchema } from "../../schemas/positionSchema";
+import { employeeType } from "../../utils/types/employeeType";
 
 const AreaDetail = () => {
   const params = useParams();
   const areaId = parseInt(params.areaId || "", 10);
   
-  const { areaDetail , getArea, updateArea, loading, error } = useAreas();
+  const { areaDetail , getArea, getAreaEmployees, areaEmployees, updateArea, loading, error } = useAreas();
   const {getPositions, positions, deletePosition, createPosition} = usePositions()
   
   useEffect(() => {
     getArea(areaId)
     getPositions(areaId)
+    getAreaEmployees(areaId)
   }, []);
   
   
@@ -43,6 +45,7 @@ const AreaDetail = () => {
   
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPagePositions, setCurrentPagePositions] = useState<number>(1);
+  const [currentPageEmployees, setCurrentPageEmployees] = useState<number>(1);
   const [createErrors, setCreateErrors] = useState<CreateAreaErrors>({});
   const [editable, setEditable] = useState(false);
   const [selectedPositions, setSelectedPositions] = useState<Array<string>>([]);
@@ -55,12 +58,33 @@ const AreaDetail = () => {
     name: '',
   });
 
+  const [employees, setEmployees] = useState<employeeType>({
+    name: '',
+    phone: '',
+    email: '',
+    dni: null,
+    hiringDate: null,
+    salary: null,
+    country: null,
+    state: null,
+    position: null
+  });
+
   const indexEndPositions= currentPagePositions * dataLength;
   const indexStartPositions = indexEndPositions - dataLength;
   const nPagesPositions = Math.ceil(positions.length / dataLength);
   const dataShownPositions = positions.slice(indexStartPositions, indexEndPositions);
 
-  const changePagePositions = (nextPage: number) => {
+  const indexEndEmployees = currentPageEmployees * dataLength;
+  const indexStartEmployees = indexEndEmployees - dataLength;
+  const nPagesEmployees = Math.ceil(areaEmployees.length / dataLength);
+  const dataShownEmployees = areaEmployees.slice(indexStartEmployees, indexEndEmployees);
+
+  const changePagePositions= (nextPage: number) => {
+    setCurrentPagePositions(nextPage);
+  };
+
+  const changePageEmployees= (nextPage: number) => {
     setCurrentPagePositions(nextPage);
   };
 
@@ -210,6 +234,29 @@ const AreaDetail = () => {
           </>
         )}
 
+     
+        <div className="flex flex-col gap-2 items-start tablet:col-span-2">
+            <h2 className="text-3xl">Empleados del area</h2>
+            <p>Total de empleados:{areaEmployees.length}</p>
+        </div>
+        <div className="overflow-x-auto mt-6">
+          <Table headers={employeeTableHeaders}>
+            {dataShownEmployees.map((empleado, index) => (
+              <TRow key={index} id={empleado.id} deleteButton={false} detail={false} >
+                <TData checkbox={true} id={empleado.id}>{empleado.id}</TData>
+                <TData>{empleado.correo ? empleado.correo : "-"}</TData>
+                <TData>{empleado.dni ? empleado.dni : "-"}</TData>
+                <TData>{empleado.sueldo ? `$${empleado.sueldo}` : "-"}</TData>
+                <TData>{empleado.Provincias?.nombre }</TData>
+              </TRow>
+            ))}
+          </Table>
+        </div>
+
+        <div className="flex items-center justify-center laptop:justify-end gap-6 my-6"id="paginacionTabla">
+          <Pagination changePage={changePageEmployees} nPages={nPagesEmployees} currentPage={currentPageEmployees} indexStart={indexStartEmployees}indexEnd={indexEndEmployees}/>
+        </div>
+
         <div className="grid grid-rows-2 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6">
           <div className="flex flex-col gap-2 items-start tablet:col-span-2">
             <h2 className="text-3xl">Puestos del area</h2>
@@ -222,7 +269,7 @@ const AreaDetail = () => {
             </svg>
             Eliminar Seleccionados ({selectedPositions.length})
           </button>
-        </div>      
+        </div>    
 
         <Accordion title="Crear Nuevo Puesto">
           <Form handleSubmit={handlePositionSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
