@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { areaType } from '../utils/types/positionType';
+import { areaType } from '../utils/types/areaType';
 import { areaService } from "../service/areaService";
 
 export const useAreas = () => {
@@ -78,6 +78,9 @@ export const useAreas = () => {
         }
     
      }
+
+
+
       
     
     return { getAllAreas, areas, createArea, deleteArea, getArea, areaDetail, loading, error, updateArea };

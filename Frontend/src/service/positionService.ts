@@ -1,6 +1,6 @@
-import { areaType } from '../utils/types/areaType';
+import { positionType } from '../utils/types/positionType'
 
-const getAllAreas = async (url: string) => {
+const getPositions = async (url: string) => {
     try {
       const response = await fetch(`${url}`, {
         mode: "cors",
@@ -20,9 +20,11 @@ const getAllAreas = async (url: string) => {
   
     }
   }
-  
-  const createArea = async (areaData: areaType) => {
-    const response = await fetch("http://localhost:3000/areas", {
+
+  const createPosition = async (areaId:number, positionData: positionType) => {
+    console.log(areaId);
+    
+    const response = await fetch("http://localhost:3000/positions", {
       mode: "cors",
       method: "POST",
       credentials: "include",
@@ -30,7 +32,8 @@ const getAllAreas = async (url: string) => {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: JSON.stringify({
-        "nombre": areaData.name,
+        "Areas_id":Number(areaId),
+        "nombre": positionData.name,
       })
     })
   
@@ -38,12 +41,14 @@ const getAllAreas = async (url: string) => {
       throw new Error;
     }
   
-    const product = await response.json()
-    return product;
+    const position = await response.json()
+    console.log(position);
+    
+    return position;
   
   }
   
-  const deleteArea = async (url: string, ids: Array<string>) => {
+  const deletePosition = async (url: string, ids: Array<string>) => {
     const response = await fetch(`${url}`, {
       mode: "cors",
       method: "DELETE",
@@ -63,23 +68,7 @@ const getAllAreas = async (url: string) => {
   }
 
 
-  const getOne = async (url : string) => {
-    
-    const response = await fetch(`${url}`, {
-        mode: 'cors',
-        method: 'GET',
-        credentials: 'include',
-    })
-    
-    const data = await response.json();
-    
-    if (!response.ok) throw new Error(`${data.message}`);
-   
-    return data;
-
-}
-
-const updateArea = async(id: number,obj:areaType)=>{
+const updateArea = async(id: number,obj: positionType)=>{
 
     const response = await fetch(`http://localhost:3000/areas/${id}`,{
         mode:"cors",
@@ -101,4 +90,5 @@ const updateArea = async(id: number,obj:areaType)=>{
 }
 
 
-export const areaService = { getAllAreas, deleteArea, createArea, getOne, updateArea}
+
+export const positionService = {getPositions, createPosition, deletePosition, updateArea, }

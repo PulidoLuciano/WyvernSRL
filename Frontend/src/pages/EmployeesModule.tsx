@@ -17,8 +17,8 @@ import { useAreas } from '../hooks/useAreas';
 import * as Yup from "yup"
 import { employeeType, CreateEmployeesErrors, employeeFilterType } from '../utils/types/employeeType';
 import { employeeSchema } from '../schemas/employeeSchema';
-import { areaSchema } from '../schemas/positionsSchema';
-import { areaType } from '../utils/types/positionType';
+import { areaSchema } from '../schemas/areaSchema';
+import { areaType } from '../utils/types/areaType';
 
 const EmployeesModule = () => {
 
