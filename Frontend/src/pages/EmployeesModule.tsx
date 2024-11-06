@@ -13,6 +13,7 @@ import TRow from '../components/table/TRow';
 import { areaTableHeaders, employeeTableHeaders } from "../utils/dataArrays"
 import { useEmployees } from '../hooks/useEmployees';
 import { useGeneral } from '../hooks/useGeneral';
+import { useAreas } from '../hooks/useAreas';
 import * as Yup from "yup"
 import { employeeType, CreateEmployeesErrors, employeeFilterType } from '../utils/types/employeeType';
 import { employeeSchema } from '../schemas/employeeSchema';
@@ -22,7 +23,8 @@ import { areaType } from '../utils/types/positionType';
 const EmployeesModule = () => {
 
   const { getAllEmployees, employees, createEmployee, deleteEmployee } = useEmployees();
-  const { states, countries, positions, areas, getAllPositions, getAllStates, getAllCountries, getAllAreas, createArea, deleteArea } = useGeneral();
+  const { states, countries, positions, getAllPositions, getAllStates, getAllCountries } = useGeneral();
+  const { getAllAreas, areas, createArea, deleteArea} = useAreas();
 
   useEffect(() => {
     getAllEmployees(true);
@@ -351,7 +353,7 @@ const EmployeesModule = () => {
             {
               dataAreaShown.map((area, index) => {
                 return (
-                  <TRow key={index} id={area.id} detail={true} deleteButton={true}>
+                  <TRow key={index} id={area.id} detail={true} deleteButton={true} path='area'>
                     <TData id={area.id} onChange={handleSelectedAreas} checkbox={true}>{area.id}</TData>
                     <TData>{area.nombre}</TData>
                   </TRow>)

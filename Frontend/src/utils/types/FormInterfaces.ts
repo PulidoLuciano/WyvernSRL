@@ -14,7 +14,7 @@ export interface InputProps {
     value?: any;
     title: string;
     type: string;
-    placeholder: string;
+    placeholder?: string;
     onChange: FormEventHandler;
     error?: string | undefined
 }
