@@ -93,10 +93,6 @@ export const useAreas = () => {
         }
     
      }
-
-
-
-      
     
     return { getAllAreas, areas, getAreaEmployees, areaEmployees, createArea, deleteArea, getArea, areaDetail, loading, error, updateArea };
 }

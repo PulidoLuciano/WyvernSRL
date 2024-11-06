@@ -25,5 +25,13 @@ export interface CreateSupplierErrors {
     score?:string,
 }
 
+export interface marketType {
+    name: string,
+}
+
+export interface CreateMarketsErrors {
+    name?: string,
+}
+
 
 

@@ -6,6 +6,7 @@ const ClientDetail = lazy(() => import("../pages/details/ClientDetail.tsx"));
 const ContactDetail = lazy(() => import("../pages/details/ContactDetail.tsx"));
 const Suppliers = lazy(() => import("../pages/SuppliersModule.tsx"));
 const SupplierDetail = lazy(() => import("../pages/details/SupplierDetail.tsx"));
+const MarketDetail = lazy(()=>import("../pages/details/MarketDetail.tsx"))
 const Sales = lazy(() => import("../pages/SalesModule.tsx"));
 const SaleDetail = lazy(() => import("../pages/details/SaleDetail.tsx"));
 const ProductDetail = lazy(()=> import("../pages/details/ProductDetail.tsx"))
@@ -14,6 +15,7 @@ const EmployeeDetail = lazy(() => import("../pages/details/EmployeeDetail.tsx"))
 const ContractDetail = lazy(()=>import("../pages/details/ContractDetail.tsx"));
 const AreaDetail = lazy(()=>import("../pages/details/AreaDetail.tsx"));
 const PositionDetail = lazy(()=>import("../pages/details/PositionDetail.tsx"))
+
 
 const router = createBrowserRouter([
     {
@@ -39,6 +41,10 @@ const router = createBrowserRouter([
     {
       path: '/suppliers/:supplierId',
       element: <SupplierDetail/>
+    },
+    {
+      path: '/markets/:marketId',
+      element: <MarketDetail/>
     },
     {
       path: '/contracts/:contractId',

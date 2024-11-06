@@ -198,3 +198,5 @@ export const purchasesSupplierTableHeaders: Array<string> = [
 export const areaTableHeaders: Array<string> = ["Id", "Nombre"]
 
 export const positionsTableHeaders: Array<string> = ["Id", "Nombre"]
+
+export const marketsTableHeaders: Array<string> = ["Id", "Nombre"]

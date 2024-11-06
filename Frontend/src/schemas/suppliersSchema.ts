@@ -35,3 +35,9 @@ export const purchaseSchema = Yup.object().shape({
     quantity:Yup.number().positive("Ingrese un numero positivo").integer("Ingrese un numero entero").required("Este campo es obligatorio").typeError("Ingrese un numero"),
     currency:Yup.number().typeError("Este id no es valido").required("Este campo es obligatorio")
 })
+
+export const marketSchema = Yup.object().shape({
+
+    name: Yup.string().trim().min(2,"Ingrese un nombre de mínimo 2 letras").max(20,"Ingrese un nombre de máximo 20 letras").required("Este campo es obligatorio"),
+
+})
