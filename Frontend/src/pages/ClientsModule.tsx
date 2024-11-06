@@ -32,7 +32,6 @@ const ClientsModule = () => {
     getAllPlatforms();
   }, [getAllCountries, getAllPlatforms])
 
-  const [selectedAll, setSelectedAll] = useState<boolean>(false);
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [createErrors, setCreateErrors] = useState<CreateClientErrors>({})
@@ -60,8 +59,6 @@ const ClientsModule = () => {
   const nPages = Math.ceil(clients.length / dataLength);
   const dataShown = clients.slice(indexStart, indexEnd);
 
-console.log(createData);
-
   const changePage = (nextPage: number) => {
     setCurrentPage(nextPage);
   }
@@ -88,16 +85,12 @@ console.log(createData);
       if (dataDelete) console.log("clientes eliminados exitosamente");
       setSelectedData([])
     }
-
   }
 
   const handleCreateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.currentTarget.children
-    if (createData.suscription == "" && createData.country == "" && createData.platform == "") {
-
-    }
-
+    if (createData.suscription == "" && createData.country == "" && createData.platform == "") {}
     
     try {
 
@@ -148,7 +141,6 @@ console.log(createData);
 
       }
     })
-
 
     getAllClients(true, true, filter.join(""));
 
@@ -223,7 +215,7 @@ console.log(createData);
           </Form>
         </Accordion>
         <Accordion title="Filtrar por">
-          <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-4 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
+          <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
             <>
               <Input id={"nombreCliente"} name={"name"} value={filterData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange} ></Input>
               <Input id={"correo"} name={"email"} value={filterData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleFilterChange} ></Input>
@@ -262,8 +254,8 @@ console.log(createData);
             <Table id='ClientsTable' headers={clientTableHeaders}>
               {dataShown.length != 0 ?
                 dataShown.map((cliente, index) => (
-                  <TRow id={cliente.id} key={index} detail={true} path='clients'>
-                    <TData selectedAll={selectedAll} id={cliente.id} checkbox={true} onChange={handleSelectedItem} >{cliente.nombre}</TData>
+                  <TRow id={cliente.id} key={index} detail={true} deleteButton={true} path='clients'>
+                    <TData id={cliente.id} checkbox={true} onChange={handleSelectedItem} >{cliente.nombre}</TData>
                     <TData>{cliente.Plataformas?.nombre}</TData>
                     <TData>{cliente.Paises?.nombre}</TData>
                     <TData>{cliente.suscripto ? "Si" : "No"}</TData>

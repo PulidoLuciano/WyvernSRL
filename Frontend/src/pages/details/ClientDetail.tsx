@@ -11,7 +11,7 @@ import Table from "../../components/table/Table";
 import TRow from "../../components/table/TRow";
 import TData from "../../components/table/TData";
 import { useGeneral } from "../../hooks/useGeneral";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useClients } from "../../hooks/useClients";
 import { contactType, createContactErrors } from "../../utils/types/clientType";
 import * as Yup from "yup";
@@ -19,12 +19,16 @@ import { contactSchema } from "../../schemas/contactSchema";
 import { contactTableHeaders, purchasesTableHeaders} from "../../utils/dataArrays"
 import { clientSchema } from "../../schemas/clientsSchema";
 
+
 const ClientData = () => {
   const params = useParams();
+  const { pathname } = useLocation()
   const clientId = parseInt(params.clientId || "", 10);
   
+  const path = pathname.slice(1)
+  
   const {getClient,clientDetail,loading,error,getAllContacts,contacts, deleteContact, createContact,
-  getClientsPurchases,clientPurchases,deletePurchase,updateClient} = useClients();
+  getClientsPurchases,clientPurchases,updateClient} = useClients();
   
   const { getAllCountries,getAllPlatforms,getAllMedias,medias,platforms,countries,} = useGeneral();
 
@@ -60,7 +64,6 @@ const ClientData = () => {
   const [currentPageContacts, setCurrentPageContacts] = useState<number>(1);
   const [currentPagePurchases, setCurrentPagePurchases] = useState<number>(1);
   const [editable, setEditable] = useState(false);
-  const [selectedDataPurchase, setSelectedDataPurchase] = useState<Array<string>>([]);
   const [selectedDataContact, setSelectedDataContact] = useState<Array<string>>([]);
 
   const [editedData, setEditedData] = useState({
@@ -155,9 +158,6 @@ const ClientData = () => {
     });
   };
 
-  console.log(editedData);
-  
-
   const handleEditChange = ( e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     console.log(editedData.suscription);
@@ -182,28 +182,6 @@ const ClientData = () => {
     }
   };
   
-  const handleSelectedItemPurchase = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newSelectedData;
-    const dataExist = selectedDataPurchase.find((d) => d == e.target.id);
-
-    if (dataExist) {
-      newSelectedData = selectedDataPurchase.filter((d) => d != dataExist);
-      setSelectedDataPurchase(newSelectedData);
-    } else {
-      setSelectedDataPurchase([...selectedDataPurchase, e.target.id]);
-    }
-  };
-
-  const handleDeleteSelectedDataPurchase = async (selectedData: Array<string>) => {
-    if (!selectedData || selectedData.length == 0) {
-      return;
-    } else {
-      const dataDelete = await deletePurchase(clientId, selectedData);
-      if (dataDelete) console.log("compras eliminados exitosamente");
-      setSelectedDataPurchase([]);
-    }
-  };
-
   const handleSelectedItemContact = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newSelectedData;
     const dataExist = selectedDataContact.find((d) => d == e.target.id);
@@ -216,11 +194,11 @@ const ClientData = () => {
     }
   };
 
-  const handleDeleteSelectedDataContact = async (selectedData: Array<string>) => {
-    if (!selectedData || selectedData.length == 0) {
+  const handleDeleteSelectedDataContact = async (selectedDataContact: Array<string>) => {
+    if (!selectedDataContact || selectedDataContact.length == 0) {
       return;
     } else {
-      const dataDelete = await deleteContact(clientId, selectedData);
+      const dataDelete = await deleteContact(clientId, selectedDataContact);
       if (dataDelete) console.log("contactos eliminados exitosamente");
       setSelectedDataContact([]);
     }
@@ -298,49 +276,11 @@ const ClientData = () => {
         <Accordion title="Crear Nuevo Contacto">
           <Form handleSubmit={handleContactSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
             <>
-              <Select
-                id={"medios"}
-                name={"Medio"}
-                title={"Medios"}
-                options={medias}
-                onChange={handleContactChange}
-                error={createErrors.Medio}
-              ></Select>
-              <Input
-                id={"duracion"}
-                name={"duracion"}
-                value={contact.duracion}
-                title={"Duracion"}
-                type={"text"}
-                placeholder={"duracion"}
-                onChange={handleContactChange}
-                error={createErrors.duracion}
-              ></Input>
-              <Input
-                error={createErrors.motivo}
-                id={"motivo"}
-                name={"motivo"}
-                value={contact.motivo}
-                title={"Motivo"}
-                type={"text"}
-                placeholder={""}
-                onChange={handleContactChange}
-              ></Input>
-              <Input
-                error={createErrors.fecha}
-                id={"fecha"}
-                name={"fecha"}
-                value={contact.fecha}
-                title={"Fecha"}
-                type={"text"}
-                placeholder={"2023-04-28 00:00:00"}
-                onChange={handleContactChange}
-              ></Input>
-              <SaveButton
-                className={
-                  "text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end"
-                }
-              />
+              <Select id={"medios"} name={"Medio"} title={"Medios"} options={medias} onChange={handleContactChange} error={createErrors.Medio}></Select>
+               {contact.Medio=='1' ? <Input id={"duracion"} name={"duracion"} value={contact.duracion} title={"Duracion"} type={"text"} placeholder={"182.5"} onChange={handleContactChange} error={createErrors.duracion}></Input>: <></>}
+              <Input error={createErrors.motivo} id={"motivo"} name={"motivo"} value={contact.motivo} title={"Motivo"} type={"text"} placeholder={""} onChange={handleContactChange}></Input>
+              <Input error={createErrors.fecha} id={"fecha"} name={"fecha"} value={contact.fecha} title={"Fecha"} type={"text"} placeholder={"2023-04-28 00:00:00"} onChange={handleContactChange}></Input>
+              <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end"}/>
             </>
           </Form>
         </Accordion>
@@ -350,20 +290,13 @@ const ClientData = () => {
             <h2 className="text-3xl">Compras del cliente</h2>
             <p>Total de compras:{clientPurchases.length}</p>
           </div>
-
-          <button onClick={() => handleDeleteSelectedDataPurchase(selectedDataPurchase)} className="bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6">
-            <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor"strokeLinecap="round"strokeLinejoin="round"strokeWidth="2"d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
-            </svg>
-            Eliminar Seleccionados ({selectedDataPurchase.length})
-          </button>
         </div>
 
         <div className="overflow-x-auto mt-6">
           <Table headers={purchasesTableHeaders}>
             {dataShownPurchases.map((compras, index) => (
-              <TRow key={index} id={compras.id} detail={false}>
-                <TData checkbox={true} id={compras.id} onChange={handleSelectedItemPurchase}>
+              <TRow key={index} id={compras.id} deleteButton={false} detail={false}>
+                <TData checkbox={true} id={compras.id} >
                   {compras.id}
                 </TData>
                 <TData>{compras.Productos.nombre}</TData>
@@ -395,8 +328,8 @@ const ClientData = () => {
         <div className="overflow-x-auto mt-6">
           <Table headers={contactTableHeaders}>
             {dataShownContacts.map((contactos, index) => (
-              <TRow key={index} id={contactos.id} detail={true}>
-                <TData checkbox={true} id={contactos.id} onChange={handleSelectedItemContact}>
+              <TRow key={index} id={contactos.id} path={path} deleteButton={true} detail={true}>
+                <TData checkbox={true} id={contactos.id}  onChange={handleSelectedItemContact}>
                   {contactos.id}
                 </TData>
                 <TData>{contactos.motivo}</TData>

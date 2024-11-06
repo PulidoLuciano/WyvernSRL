@@ -16,23 +16,43 @@ import * as Yup from 'yup'
 import { saleSchema } from '../schemas/salesSchema';
 import { useClients } from '../hooks/useClients';
 import { useGeneral } from '../hooks/useGeneral';
-import { salesTableHeaders } from '../utils/dataArrays';
+import { salesTableHeaders, productsTableHeaders } from '../utils/dataArrays';
+import { productType, CreateProductErrors } from '../utils/types/productType';
+import { productSchema } from '../schemas/productSchema';
+
 
 const SalesModule = () => {
 
   const { sales, loading, error, createSale, deleteSale, getAllSales } = useSales()
   const { clients, getAllClients } = useClients()
-  const { products, getAllProducts } = useGeneral()
+  const { products, gamesCategories,loadingGamesCategories, loadingProducts, errorGeneral, deleteProducts,createProduct, getAllGamesCategories, getAllProducts } = useGeneral()
   useEffect(() => {
     getAllSales(true, true)
-    getAllProducts();
-    getAllClients()
+    getAllProducts(true);
+    getAllClients();
+    getAllGamesCategories();
   }, [])
 
   const [dataLength, setDataLength] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1)
+  const [currentPageProducts, setCurrentPageProducts] = useState<number>(1)
   const [createErrors, setCreateErrors] = useState<CreateSaleErrors>({})
   const [selectedData, setSelectedData] = useState<Array<string>>([])
+  const [selectedProductsData, setSelectedProductsData] = useState<Array<string>>([])
+  const [createProductErrors, setCreateProductErrors] = useState<CreateProductErrors>({
+    name: '',
+    price: '',
+    date: '',
+    category: ''
+  })
+
+  const [createProductData, setCreateProductData] = useState<productType>({
+    name: '',
+    price: '',
+    date: '',
+    category: ''
+  });
+
   const [createData, setCreateData] = useState<saleType>({
     client: '',
     product: '',
@@ -51,8 +71,17 @@ const SalesModule = () => {
   const indexStart = indexEnd - dataLength;
   const nPages = Math.ceil(sales.length / dataLength);
   const dataShown = sales.slice(indexStart, indexEnd);
+  
   const changePage = (nextPage: number) => {
     setCurrentPage(nextPage);
+  }
+
+  const indexEndProducts = currentPageProducts * dataLength;
+  const indexStartProducts = indexEndProducts - dataLength;
+  const nPagesProducts = Math.ceil(products.length / dataLength);
+  const dataShownProducts = products.slice(indexStartProducts, indexEndProducts);
+  const changePageProducts = (nextPage: number) => {
+    setCurrentPageProducts(nextPage);
   }
 
   const handleSelectedItem = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,7 +117,7 @@ const SalesModule = () => {
 
 
       const clientExist = clients.find(c => c.nombre == createData.client);
-      
+
 
       if (clientExist == undefined) {
         setCreateErrors({ ...createErrors, client: "Este cliente no existe" })
@@ -127,20 +156,21 @@ const SalesModule = () => {
     e.preventDefault();
 
     const client = clients.find(c => c.nombre == filterData.client);
-    const fechaISO = filterData.date? new Date(filterData.date).toISOString() : "";
+    const fechaISO = filterData.date ? new Date(filterData.date).toISOString() : "";
     const data = {
       fecha: fechaISO,
       Clientes_id: client ? client.id : "",
       Productos_id: filterData.product
     }
-   
-  
+
+
     const datos = Object.entries(data);
+    if (datos.length == 2) return;
 
     const filter: Array<string> = []
     datos.forEach((d, index) => {
       if (d[1] != "" && index == 0) {
-        filter.push(`?${d[0]}=${d[1]}`) 
+        filter.push(`?${d[0]}=${d[1]}`)
       }
       else if (d[1] != "") {
         filter.push(`&${d[0]}=${d[1]}`)
@@ -167,6 +197,66 @@ const SalesModule = () => {
     });
   }
 
+
+  const handleSelectedItemProducts = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let newSelectedData
+    const dataExist = selectedProductsData.find(d => d == e.target.id);
+
+    if (dataExist) {
+      newSelectedData = selectedProductsData.filter(d => d != dataExist);
+      setSelectedProductsData(newSelectedData)
+    }
+    else {
+      setSelectedProductsData([...selectedProductsData, e.target.id]);
+    }
+
+  }
+
+  const handleDeleteSelectedProducts = async (selectedData: Array<string>) => {
+    if (!selectedData || selectedData.length == 0) {
+      return
+    } else {
+      const dataDelete = await deleteProducts(selectedData);
+      if (dataDelete) console.log("productos eliminados exitosamente");
+      setSelectedProductsData([])
+    }
+
+  }
+
+
+  const handleCreateProductsSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+
+      await productSchema.validate(createProductData, { abortEarly: false });
+      createProduct(createProductData)
+      setCreateErrors({});
+    } catch (err: any) {
+      console.log(err);
+
+      if (err instanceof Yup.ValidationError) {
+
+        const createProductErrors: CreateProductErrors = {};
+        err.inner.forEach((error) => {
+          if (error.path) createProductErrors[error.path as keyof CreateProductErrors] = error.message;
+        });
+
+        setCreateProductErrors(createProductErrors);
+        console.log(createProductErrors);
+
+      }
+    }
+  }
+
+  const handleCreateProductChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setCreateProductData({
+      ...createProductData,
+      [name]: value
+    });
+  }
+
   return (
     <main className='w-full flex '>
       <Nav />
@@ -177,7 +267,7 @@ const SalesModule = () => {
         </div>
 
         <Accordion title="Crear Nuevo">
-          <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
+          <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
             <>
               <Input error={createErrors.client} id={"nombreUsuario"} name={"client"} value={createData.client} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleCreateChange} ></Input>
               <Select error={createErrors.product} id={"productos"} title={"Productos"} name={"product"} options={products} onChange={handleCreateChange}></Select>
@@ -187,7 +277,7 @@ const SalesModule = () => {
           </Form>
         </Accordion>
         <Accordion title="Filtrar por">
-          <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
+          <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
             <>
               <Input id={"nombreUsuario"} name={"client"} value={filterData.client} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleFilterChange} error=''></Input>
               <Select id={"productos"} title={"Productos"} name={"product"} options={products} onChange={handleFilterChange}></Select>
@@ -214,20 +304,20 @@ const SalesModule = () => {
         </div>
 
         <div className='overflow-x-auto mt-6'>
-          {loading && <p>Cargando clientes...</p>}
+          {loading && <p>Cargando ventas...</p>}
           {error ? <p>Error: {error}</p> :
-          <Table id="SalesTable" headers={salesTableHeaders}>
-            {
-              dataShown.map((sale, index) => {
-                return (
-                  <TRow key={index} id={sale.id} detail={true}>
-                    <TData onChange={handleSelectedItem} id={sale.id} checkbox={true}>{sale.Clientes?.nombre}</TData>
-                    <TData>{sale.Productos?.nombre}</TData>
-                    <TData>{sale.fecha}</TData>
-                  </TRow>)
-              })
-            }
-          </Table>
+            <Table id="SalesTable" headers={salesTableHeaders}>
+              {
+                dataShown.map((sale, index) => {
+                  return (
+                    <TRow key={index} id={sale.id} handleDelete={()=>deleteSale([sale.id.toString()])} deleteButton={true} path='sales' detail={true}>
+                      <TData onChange={handleSelectedItem} id={sale.id} checkbox={true}>{sale.Clientes?.nombre}</TData>
+                      <TData>{sale.Productos?.nombre}</TData>
+                      <TData>{sale.fecha}</TData>
+                    </TRow>)
+                })
+              }
+            </Table>
           }
         </div>
 
@@ -237,9 +327,62 @@ const SalesModule = () => {
           <Pagination changePage={changePage} nPages={nPages} currentPage={currentPage} indexStart={indexStart} indexEnd={indexEnd} />
 
         </div>
+
+
+        <Accordion title="Crear nuevo producto">
+          <Form handleSubmit={handleCreateProductsSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
+            <>
+              <Input error={createProductErrors.name} id={"nombreProducto"} name={"name"} value={createProductData.name} title={"Nombre del Producto"} type={"text"} placeholder={"Wyvern Game"} onChange={handleCreateProductChange} ></Input>
+              <Input error={createProductErrors.price} id={"precioProducto"} name={"price"} value={createProductData.price} title={"Precio"} type={"number"} placeholder={"0.00"} onChange={handleCreateProductChange} ></Input>
+              <Input error={createProductErrors.date} id={"fechaLanzamientoProducto"} name={"date"} value={createProductData.date} title={"Fecha de lanzamiento"} type={"text"} placeholder={"2023-07-17"} onChange={handleCreateProductChange} ></Input>
+              <Select error={createProductErrors.category} id={"categoriaProducto"} title={"Categoría"} name={"category"} options={gamesCategories} onChange={handleCreateProductChange}></Select>
+              <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
+            </>
+          </Form>
+        </Accordion>
+
+        <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
+          <div className='flex gap-2 items-end tablet:col-span-2'>
+            <h2>Productos</h2>
+            <p>Productos totales: {products.length}</p>
+          </div>
+
+          <button onClick={() => handleDeleteSelectedProducts(selectedProductsData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
+            <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+            </svg>
+            Eliminar Seleccionados ({selectedProductsData.length})
+          </button>
+
+        </div>
+
+        <div className='overflow-x-auto mt-6'>
+          {loadingProducts && <p>Cargando productos...</p>}
+          {errorGeneral ? <p>Error: {errorGeneral}</p> :
+            <Table id="SalesTable" headers={productsTableHeaders}>
+              {
+                dataShownProducts.map((product, index) => {
+                  return (
+                    <TRow key={index} id={product.id} handleDelete={()=>deleteProducts([product.id.toString()])} path='products' deleteButton={true} detail={true}>
+                      <TData onChange={handleSelectedItemProducts} id={product.id} checkbox={true}>{product.nombre}</TData>
+                      <TData>{product.precio}</TData>
+                      <TData>{product.lanzamiento}</TData>
+                      <TData>{product.Categorias?.nombre}</TData>
+
+                    </TRow>)
+                })
+              }
+            </Table>
+          }
+        </div>
+
+        <div className='flex items-center justify-center laptop:justify-end gap-6 my-6' id='paginacionTabla'>
+
+          <Pagination changePage={changePageProducts} nPages={nPagesProducts} currentPage={currentPageProducts} indexStart={indexStartProducts} indexEnd={indexEndProducts} />
+
+        </div>
+
       </div>
-
-
     </main>
   )
 }

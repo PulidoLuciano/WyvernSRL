@@ -5,12 +5,14 @@ import { employeeType } from "../utils/types/employeeType";
 export const useEmployees = () => {
   const [employees, setEmployees] = useState<Array<any>>([]);
   const [employeeDetail, setEmployeeDetail] = useState<any>(null);
+  const [employeePosition, setEmployeePosition] = useState<any>(null);
+  const [employeeCareer, setEmployeeCareer] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [deletes, setDeletes] = useState<Array<any> | null>(null);
 
   const getAllEmployees = useCallback(
-    async (states?: boolean, filterUrl?: string) => {
+    async (state?: boolean, filterUrl?: string) => {
       setLoading(true);
       setError(null);
 
@@ -20,19 +22,19 @@ export const useEmployees = () => {
         : (filterUrlLast = "");
 
     let url = "http://localhost:3000/employees/";  
-    let includesStatements = "?include=id&include=nombre&include=correo&include=telefono&include=dni&include=fechaContratacion&include=sueldo&borrado=false"
-    let includeState = "?include=id&include=nombre&include=correo&include=telefono&include=dni&include=fechaContratacion&include=sueldo&include=Provincias&borrado=false";
+    let includesStatements = "?include=id&include=nombre&include=correo&include=dni&include=sueldo&borrado=false"
+    let includeState = "?include=id&include=nombre&include=correo&include=dni&include=sueldo&include=Provincias&borrado=false";
     try {
-        if ( states ) {
+        if ( state ) {
           filterUrl
-            ? (url = url.concat(includesStatements, filterUrlLast,"&include=Plataformas&include=Paises"))
-            : (url = url.concat(includeState));
-        } else {
-          if (filterUrl) url = url.concat(filterUrl);
+            ? (url = url.concat(includesStatements, filterUrlLast,'&include=Provincias', ))
+            : (url = url.concat(includeState))
+        } else{
+            if(filterUrl) url = url.concat(filterUrl);
         }
 
         const data = await employeesService.getAllEmployees(url);
-
+        
         setEmployees(data);
       } catch (err: any) {
         setError(err.message);
@@ -76,7 +78,7 @@ export const useEmployees = () => {
   const getEmployee = useCallback(async (id: number) => {
     setLoading(true);
     setError(null);
-    let url = `http://localhost:3000/clients/${id}/?include=id&include=nombre&include=correo&include=telefono&include=suscripto&include=Plataformas&include=Paises&borrado=false`;
+    let url = `http://localhost:3000/employees/${id}/?include=id&include=nombre&include=correo&include=telefono&include=dni&include=fechaContratacion&include=sueldo&include=Provincias&borrado=false`;
     try {
       const data = await employeesService.getOne(url);
       setEmployeeDetail(data);
@@ -88,11 +90,13 @@ export const useEmployees = () => {
   }, []);
 
   
-  const updateEmployee = async(id:number,supplierData:employeeType)=>{
+  const updateEmployee = async(id:number,employeeData:employeeType)=>{
+    console.log(employeeData);
+    
     setLoading(true)
     setError(null)
      try {
-     await employeesService.updateEmployee(id,supplierData);
+     await employeesService.updateEmployee(id,employeeData);
      await getEmployee(id);
     } catch (err : any) {
      setError(err.message)
@@ -102,5 +106,36 @@ export const useEmployees = () => {
 
  }
 
-  return { getAllEmployees,employees, createEmployee, updateEmployee, deleteEmployee, loading, error };
+ const getEmployeePosition = useCallback(async (id: number) => {
+  setLoading(true);
+  setError(null);
+  let url = `http://localhost:3000/employees/${id}/position`;
+  try {
+    const data = await employeesService.getEmployeePosition(url);
+    setEmployeePosition(data);
+  } catch (err: any) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+}, []);
+
+const getEmployeeCareer= useCallback(async (id: number) => {
+  setLoading(true);
+  setError(null);
+  let url = `http://localhost:3000/employees/${id}/career`;
+  try {
+    const data = await employeesService.getEmployeeCareer(url);
+    setEmployeeCareer(data);
+  } catch (err: any) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+}, []);
+
+
+
+  return { getAllEmployees,employees, createEmployee, updateEmployee, 
+    deleteEmployee, getEmployee, employeeDetail, getEmployeePosition,employeePosition,getEmployeeCareer, employeeCareer, loading, error };
 };

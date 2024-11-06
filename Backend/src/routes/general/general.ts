@@ -1,5 +1,5 @@
 import { WyvernRoute } from "src/types";
-import {BreachLevelController, MediosContactoController, MonedasController, PaisesController, PlataformasController, ProvinciasController} from "./generalControllers";
+import {BreachLevelController, CategoriesController, MediosContactoController, MonedasController, PaisesController, PlataformasController, ProvinciasController} from "./generalControllers";
 
 const controladorPaises = new PaisesController();
 const controladorPlataformas = new PlataformasController();
@@ -7,6 +7,7 @@ const controladorMedios = new MediosContactoController();
 const controladorProvincias = new ProvinciasController();
 const controladorMonedas = new MonedasController();
 const controladorNiveles = new BreachLevelController()
+const controladorCategorias = new CategoriesController();
 
 const GENERAL_ROUTES : Array<WyvernRoute> = [
     {
@@ -63,6 +64,14 @@ const GENERAL_ROUTES : Array<WyvernRoute> = [
         middlewares: [],
         handler: controladorNiveles.getAll
     },
+    {
+        path:"/categories",
+        method:"GET",
+        authentication: false,
+        authorization:[],
+        middlewares:[],
+        handler: controladorCategorias.getAll
+    }
 ]
 
 

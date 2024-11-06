@@ -100,7 +100,8 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
                         "id",
                         "motivo",
                         "fecha",
-                        "Medios"
+                        "Medios",
+                        "borrado"
                     ]
                 };
                 next();

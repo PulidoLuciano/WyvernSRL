@@ -2,6 +2,8 @@ import { useState, useCallback } from "react";
 import { suppliersService } from "../service/suppliersService";
 import { suppliersType } from "../utils/types/suppliersType";
 import { contractType } from "../utils/types/contractType";
+import { purchaseType } from "../utils/types/purchaseType";
+import { set } from "react-hook-form";
 
 const useSuppliers = () => {
 
@@ -9,6 +11,9 @@ const useSuppliers = () => {
     const [supplierDetail, setSupplierDetail] = useState<any>(null);
     const [contracts, setContracts] = useState<Array<any>>([]);
     const [contractDetail, setContractDetail] = useState<any>(null)
+    const [purchases, setPurchases] = useState<Array<any>>([]);
+    const [purchaseDetail, setPurchaseDetail] = useState<any>(null)
+    const [breaches,setBreaches] = useState<Array<any>>([])
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [deletes, setDeletes] = useState<Array<any> | null>(null);
@@ -94,7 +99,10 @@ const useSuppliers = () => {
         let url = `http://localhost:3000/providers/${id}/?include=id&include=nombre&include=correo&include=telefono&include=Provincias&include=Rubros&borrado=false`;
         try {
             const data = await suppliersService.getOne(url);
-            setSupplierDetail(data);
+            const score = await getSupplierScore(id);
+            setSupplierDetail({...data,
+                calificacion: score
+            });
         } catch (err: any) {
             setError(err.message);
         } finally {
@@ -102,6 +110,19 @@ const useSuppliers = () => {
         }
     }, []);
 
+
+    const getSupplierScore = async(idSupplier:number) => {
+        setLoading(true)
+        setError(null)
+        try {
+            const data = await suppliersService.getSupplierScore(idSupplier);
+            return data;
+        } catch (err:any) {
+            setError(err.message);
+        }finally{
+            setLoading(true);
+        }
+    }
 
     //Contracts
     const getSupplierContracts = useCallback(
@@ -206,7 +227,76 @@ const useSuppliers = () => {
 
     }
 
-    return { createSupplier, updateSupplier, deleteSuppliers, createContract, getContract, deleteContract, getSupplierContracts, getAllSuppliers, getSupplier, contracts, contractDetail, loading, supplierDetail, suppliers, error }
+    const getSupplierPurchases = async(idSupplier:number) =>{
+
+        let url = `http://localhost:3000/purchases/?include=id&include=descripcion&include=precioUnitario&include=cantidad&include=fechaCompra&include=entregado&include=pagado&include=borrado&borrado=false&include=Monedas&Proveedores_id=${idSupplier.toString()}`
+        setLoading(true)
+        setError(null)
+        try {
+            const data = await suppliersService.getAllSuppliers(url)
+            setPurchases(data)
+        } catch (err : any) {
+            setError(err.message)
+        }finally{
+            setLoading(false);
+        }
+
+
+    }
+
+    const createPurchase = async(idSupplier:number,purchaseData : purchaseType) =>{
+
+        setLoading(true)
+        setError(null)
+        let url = "http://localhost:3000/purchases"
+        try {
+            
+            await suppliersService.createPurchase(url,purchaseData);
+            await getSupplierPurchases(idSupplier)
+
+        } catch (err : any) {
+            setError(err.message)
+        }finally{
+            setLoading(false)
+        }
+
+    }
+
+    const deletePurchase = async (idSupplier: number, ids: Array<any>) => {
+        setLoading(true);
+        setError(null);
+        let url = "http://localhost:3000/purchases";
+        try {
+            const response = await suppliersService.deleteObj(url, ids);
+            console.log(response);
+            await getSupplierPurchases(idSupplier);
+            return response;
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    const getSupplierBreaches = async(idSupplier: number)=>{
+        
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await suppliersService.getSupplierBreaches(idSupplier);
+            setBreaches(data);
+        } catch (err:any) {
+            setError(err.message)
+        }finally{
+            setLoading(false)
+        }
+
+
+    }
+
+    
+    return { deletePurchase,createPurchase,getSupplierPurchases,createSupplier, updateSupplier, deleteSuppliers, createContract, getContract, deleteContract, getSupplierContracts, getAllSuppliers, getSupplier,getSupplierBreaches, contracts, contractDetail,purchases, loading, supplierDetail, suppliers,breaches, error }
 
 }
 

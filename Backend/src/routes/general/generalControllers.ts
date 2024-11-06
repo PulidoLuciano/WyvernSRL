@@ -37,3 +37,10 @@ export class BreachLevelController extends RouterController{
         super(prisma.nivelDeIncumplimiento, "nivel de incumplimiento")
     }
 }
+
+
+export class CategoriesController extends RouterController{
+    constructor(){
+        super(prisma.categorias,"categorias")
+    }
+}

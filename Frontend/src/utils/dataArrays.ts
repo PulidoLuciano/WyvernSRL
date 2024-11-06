@@ -91,113 +91,15 @@ export const suppliers = [
   },
 ]
 
-
-export const employees = [
-  {
-    name: "jesus",
-    phone: "123123",
-    email: "jesus@gmail.com",
-    dni: 454654664,
-    hiringDate: "2024-09-30 14:30:14",
-    salary: 800000,
-    state: "Buenos Aires"
-  },
-  {
-    name: "jesus",
-    phone: "123123",
-    email: "jesus@gmail.com",
-    dni: 454654664,
-    hiringDate: "2024-09-30 14:30:14",
-    salary: 800000,
-    state: "Buenos Aires"
-  }, {
-    name: "jesus",
-    phone: "123123",
-    email: "jesus@gmail.com",
-    dni: 454654664,
-    hiringDate: "2024-09-30 14:30:14",
-    salary: 800000,
-    state: "Buenos Aires"
-  },  {
-    name: "jesus",
-    phone: "123123",
-    email: "jesus@gmail.com",
-    dni: 454654664,
-    hiringDate: "2024-09-30 14:30:14",
-    salary: 800000,
-    state: "Buenos Aires"
-  },  {
-    name: "jesus",
-    phone: "123123",
-    email: "jesus@gmail.com",
-    dni: 454654664,
-    hiringDate: "2024-09-30 14:30:14",
-    salary: 800000,
-    state: "Buenos Aires"
-  },  {
-    name: "jesus",
-    phone: "123123",
-    email: "jesus@gmail.com",
-    dni: 454654664,
-    hiringDate: "2024-09-30 14:30:14",
-    salary: 800000,
-    state: "Buenos Aires"
-  },  {
-    name: "jesus",
-    phone: "123123",
-    email: "jesus@gmail.com",
-    dni: 454654664,
-    hiringDate: "2024-09-30 14:30:14",
-    salary: 800000,
-    state: "Buenos Aires"
-  },  {
-    name: "jesus",
-    phone: "123123",
-    email: "jesus@gmail.com",
-    dni: 454654664,
-    hiringDate: "2024-09-30 14:30:14",
-    salary: 800000,
-    state: "Buenos Aires"
-  },  {
-    name: "jesus",
-    phone: "123123",
-    email: "jesus@gmail.com",
-    dni: 454654664,
-    hiringDate: "2024-09-30 14:30:14",
-    salary: 800000,
-    state: "Buenos Aires"
-  },  {
-    name: "jesus",
-    phone: "123123",
-    email: "jesus@gmail.com",
-    dni: 454654664,
-    hiringDate: "2024-09-30 14:30:14",
-    salary: 800000,
-    state: "Buenos Aires"
-  },  {
-    name: "jesus",
-    phone: "123123",
-    email: "jesus@gmail.com",
-    dni: 454654664,
-    hiringDate: "2024-09-30 14:30:14",
-    salary: 800000,
-    state: "Buenos Aires"
-  }
-]
-
-export const optionsStates = ["Buenos Aires","Cordoba","Tucuman","San Juan"];
-export const optionsProducts = ["Dragon's Legacy","Mystic Chronicles","Eternal Quest","Shadow of Valor"];
-
 export const contactTableHeaders: Array<string> = ["ID", "Motivo", "Fecha", "Medio"];
+
 export const purchasesTableHeaders: Array<string> = ["ID", "Producto", "Fecha"];
 
 export const employeeTableHeaders: Array<string> = [
   "Nombre",
   "Correo",
   "DNI",
-  "Telefono",
-  "Fecha de contratacion",
-  "sueldo",
+  "Sueldo",
   "Provincia",
 ]
 
@@ -228,10 +130,69 @@ export const salesTableHeaders: Array<string> = [
   "Fecha"
 ]
 
-export const contractTableHeaders = [
+export const contractTableHeaders: Array<string> = [
   "Descripcion",
   "Fecha vencimiento",
   "Fecha pago",
   "Monto",
   "Moneda"
 ]
+
+export const careerTableHeaders: Array<string> = [
+  "Puesto",
+  "Area",
+  "Fecha inicio",
+  "Fecha fin",
+]
+
+export const suppliersScores = [{
+  id:"Sin puntuaciones",
+  nombre:"Sin puntuaciones"
+},
+{
+  id:"Excelente",
+  nombre:"Excelente"
+},
+{
+  id:"Muy buena",
+  nombre:"Muy buena"
+},
+{
+  id:"Buena",
+  nombre:"Buena"
+},
+{
+  id:"Adecuado",
+  nombre:"Adecuado"
+},
+{
+  id:"Mala",
+  nombre:"Mala"
+},
+{
+  id:"Grave",
+  nombre:"Grave"
+},
+{
+  id:"Muy grave",
+  nombre:"Muy grave"
+},
+]
+
+export const breachesContractTableHeaders: Array<string> = [ "Id","Descripción","Fecha","Nivel de incumplimiento" ]
+
+export const breachesSupplierTableHeaders: Array<string> = ["Descripcion", "Fecha", "Id Compra/Contrato", "Nivel de incumplimiento"]
+
+export const productsTableHeaders: Array<string> = ["Nombre", "Precio", "Fecha de lanzamiento", "Categoría"]
+
+export const purchasesSupplierTableHeaders: Array<string> = [
+  "Descripción",
+  "Precio unitario",
+  "Moneda",
+  "Cantidad",
+  "Fecha",
+  "Entregado",
+  "Pagado"
+]
+
+export const areaTableHeaders: Array<string> = ["Id", "Nombre"]

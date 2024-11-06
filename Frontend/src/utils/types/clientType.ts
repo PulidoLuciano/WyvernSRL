@@ -18,7 +18,7 @@ export interface CreateClientErrors{
 }
 
 export interface contactType{
-    Clientes_id: number,
+    Clientes_id: number | null,
     Medio: string,
     duracion?: string,
     fecha: string,

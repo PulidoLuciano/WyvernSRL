@@ -54,7 +54,7 @@ export class EmployeesController extends RouterController {
         const idNumber = idSchema.parse(id);
         const position = await prisma.empleados_Puestos.findFirst({ 
             where: { Empleados_id: idNumber, fechaFinal: null },
-            select: { Puestos: { select: {Areas: true, nombre: true} } }
+            select: { Puestos: { select:{Areas: true, nombre: true, id:true },   }}
         });
         res.json(position);
     }
@@ -64,7 +64,7 @@ export class EmployeesController extends RouterController {
         const idNumber = idSchema.parse(id);
         const career = await prisma.empleados_Puestos.findMany({ 
             where: { Empleados_id: idNumber },
-            select: { Puestos: { select: {Areas: true, nombre: true} }, fechaInicio: true, fechaFinal: true },
+            select: { id:true, Puestos: { select: {Areas: true, nombre: true} }, fechaInicio: true, fechaFinal: true },
             orderBy: { fechaInicio: "desc" }
         });
         res.json(career);
