@@ -5,7 +5,7 @@ import Nav from "../../components/Nav";
 import SaveButton from "../../components/form/SaveButton";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
-import { contactSchema } from "../../schemas/contactSchema";
+import { areaSchema } from "../../schemas/positionsSchema";
 import { areaType, CreateAreaErrors } from "../../utils/types/positionType";
 import { useAreas } from "../../hooks/useAreas";
 
@@ -48,7 +48,7 @@ const AreaDetail = () => {
     e.currentTarget.children;
     
     try {
-      await contactSchema.validate(editedData, { abortEarly: false });
+      await areaSchema.validate(editedData, { abortEarly: false });
       
       updateArea(areaId, editedData);
       setCreateErrors({});
