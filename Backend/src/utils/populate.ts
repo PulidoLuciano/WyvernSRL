@@ -44,6 +44,10 @@ async function populate(tabla : PopulateData) {
 async function main(){
     await prisma.paises.create({data: {nombre: "Bhutan"}});
     await prisma.provincias.create({data: {nombre: "Juanlandia", Paises_id: 1}});
+    await prisma.roles.create({data: {
+        nombre: "Admin"
+    }})
+    await prisma.$queryRaw`SET @User = 1`
     await prisma.empleados.create({data:{ 
         nombre: "Juan Manuel Lopez Asis", 
         correo: "juancitoLopez@wyvern.com",
@@ -51,17 +55,15 @@ async function main(){
         dni: 431039123,
         fechaContratacion: new Date(Date.now()).toISOString(),
         sueldo: 4000,
+        Usuarios: {
+            create: {
+                nombre: "JuanLopezAsis",
+                contrasenia: hashSync("1234",10),
+                Roles_id: 1,
+            }
+        },
         Provincias_id: 1
     }});
-    prisma.roles.create({data: {
-        nombre: "Admin"
-    }})
-    prisma.usuarios.create({ data: {
-        nombre: "JuanLopezAsis",
-        contrasenia: hashSync("1234",10),
-        Empleados_id: 1,
-        Roles_id: 1
-    }})
     for (let index = 0; index < ENTRY_POINTS.length; index++) {
         const element = ENTRY_POINTS[index];
         await populate(element);
