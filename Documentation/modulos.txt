@@ -65,9 +65,9 @@ EMPLEADOS
         - Tabla empleados: Nombre, DNI, Correo, sueldo, Provincia (Back, front)
                     GET /employees?queries
                     DELETE /employees
-        - Form crear area: Nombre (Back)
+        - Form crear area: Nombre (Back, front)
                     POST /areas
-        - Tabla Areas: Id, Nombre (Back)
+        - Tabla Areas: Id, Nombre (Back, front)
                     GET /areas?queries
                     DELETE /areas
     Individual: 
@@ -84,9 +84,9 @@ AREA
                     GET /areas/:id?queries
         - Tabla empleados: Nombre, DNI, Correo, Puesto, Provincia (Back)
                     GET /areas/:id/employees
-        - Form crear puesto: Nombre (Back)
+        - Form crear puesto: Nombre (Back, front)
                     POST /positions
-        - Tabla Puestos: Id, Nombre (Back)
+        - Tabla Puestos: Id, Nombre (Back, front)
                     GET /positions?queries
 
 
