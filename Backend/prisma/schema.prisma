@@ -214,7 +214,7 @@ model Empleados {
   nombre              String                @db.VarChar(50)
   correo              String?               @db.VarChar(50)
   telefono            String?
-  dni                 Int
+  dni                 Int                   @unique
   fechaContratacion   DateTime              @db.Date
   sueldo              Float
   Provincias_id       Int
