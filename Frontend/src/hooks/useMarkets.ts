@@ -38,7 +38,20 @@ export const useMarkets = () => {
         }
     }
 
-    const updateMarket = async(id:number,marketData: marketType)=>{
+    const createMarket = async (marketData: marketType) => {
+        setLoading(true);
+        setError(null)
+        try {
+        await marketsService.createMarket(marketData)
+        await getMarkets()
+        } catch (err:any) {
+        setError(err.message)
+        }finally{
+        setLoading(false)
+        }
+    }
+
+    const updateMarket = async(id:number, marketData: marketType)=>{
         setLoading(true)
         setError(null)
          try {
@@ -53,5 +66,5 @@ export const useMarkets = () => {
      }
 
     
-    return {getMarkets, getMarket, updateMarket, markets, marketDetail, loading, error  };
+    return {getMarkets, getMarket, updateMarket, createMarket, markets, marketDetail, loading, error  };
 }

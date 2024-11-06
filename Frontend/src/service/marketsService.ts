@@ -22,6 +22,28 @@ const getMarkets = async (url: string) => {
     }
   }
 
+  const createMarket = async (marketData: marketType) => {
+    const response = await fetch("http://localhost:3000/markets", {
+      mode: "cors",
+      method: "POST",
+      credentials: "include",
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify({
+        "nombre": marketData.name,
+      })
+    })
+  
+    if (!response.ok) {
+      throw new Error;
+    }
+  
+    const market = await response.json()
+    return market;
+  
+  }
+
 const updateMarket = async(id: number,obj: marketType)=>{
 
     const response = await fetch(`http://localhost:3000/markets/${id}`,{
@@ -40,8 +62,6 @@ const updateMarket = async(id: number,obj: marketType)=>{
     console.log(data);
     if(!response.ok) throw new Error(`${data.message}`);
     return data;
-
 }
 
-
-export const marketsService = { getMarkets, updateMarket }
+export const marketsService = { getMarkets, updateMarket, createMarket }

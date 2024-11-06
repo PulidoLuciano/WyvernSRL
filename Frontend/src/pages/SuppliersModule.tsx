@@ -12,8 +12,8 @@ import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
 import { useGeneral } from '../hooks/useGeneral';
 import useSuppliers from '../hooks/useSuppliers';
-import { supplierSchema } from '../schemas/suppliersSchema';
-import { CreateSupplierErrors, suppliersFilter, suppliersType } from '../utils/types/suppliersType';
+import { marketSchema, supplierSchema } from '../schemas/suppliersSchema';
+import { CreateMarketsErrors, CreateSupplierErrors, suppliersFilter, suppliersType } from '../utils/types/suppliersType';
 import { suppliersTableHeaders, marketsTableHeaders } from '../utils/dataArrays';
 import * as Yup from "yup"
 import { useMarkets } from '../hooks/useMarkets';
@@ -21,7 +21,7 @@ import { useMarkets } from '../hooks/useMarkets';
 const SuppliersModule = () => {
   const { states, categories, getAllCategories, countries, getAllStates, getAllCountries } = useGeneral();
   const { suppliers, loading, error, getAllSuppliers, getSupplier, createSupplier, deleteSuppliers } = useSuppliers();
-  const { getMarkets, markets } = useMarkets();
+  const { getMarkets, markets, createMarket } = useMarkets();
 
 
   useEffect(() => {
@@ -215,6 +215,35 @@ const SuppliersModule = () => {
 
   }
 
+  
+  const handleMarketSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      await marketSchema.validate(market, { abortEarly: false });
+      createMarket(market)
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+
+        const createErrors: CreateMarketsErrors = {};
+        err.inner.forEach((error) => {
+          if (error.path) createErrors[error.path as keyof CreateMarketsErrors] = error.message;
+        });
+
+        setCreateErrors(createErrors);
+
+      }
+    }
+  }
+
+  const handleMarketChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setMarket({
+      ...market,
+      [name]: value
+    });
+  }
+
 
   return (
     <main className='w-full flex '>
@@ -281,13 +310,22 @@ const SuppliersModule = () => {
                   </TRow>)
               })
             }
-
           </Table>
         </div>
 
         <div className='flex items-center justify-center laptop:justify-end gap-6 my-6' id='paginacionTabla'>
           <Pagination changePage={changePageSupplier} nPages={nPagesSupplier} currentPage={currentPageSupplier} indexStart={indexStartSupplier} indexEnd={indexEndSupplier} />
         </div>
+
+
+        <Accordion title="Crear Nuevo Rubro">
+          <Form handleSubmit={handleMarketSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
+            <>
+              <Input id={"nombreRubro"} name={"name"} value={market.name} title={"Nombre"} type={"text"} placeholder={"Hardware"} onChange={handleMarketChange} error={createErrors.name}></Input>
+              <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-end-2 tablet:place-self-end'} />
+            </>
+          </Form>
+        </Accordion>
 
         <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
           <div className='flex gap-2 items-end tablet:col-span-2'>
