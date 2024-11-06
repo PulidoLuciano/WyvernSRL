@@ -83,6 +83,7 @@ AREA
         -Data labels: Nombre (Back)
                     GET /areas/:id?queries
         - Tabla empleados: Nombre, DNI, Correo, Puesto, Provincia (Back)
+                    GET /areas/:id/employees
         - Form crear puesto: Nombre (Back)
                     POST /positions
         - Tabla Puestos: Id, Nombre (Back)
@@ -95,7 +96,7 @@ PUESTOS
                     GET /positions/:id?queries
                     PUT /positions/:id
         - Tabla empleados: Nombre, DNI, Correo, sueldo, Provincia (Back)
-                    GET /employees?queries
+                    GET /positions/:id/employees
 
 USUARIOS
     General:

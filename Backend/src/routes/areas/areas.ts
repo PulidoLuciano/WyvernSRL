@@ -32,6 +32,15 @@ const AREAS_ROUTES : Array<WyvernRoute> = [
         handler: controlador.getById
     },
     {
+        path: "/:id/employees",
+        method: "GET",
+        authentication: true,
+        authorization: [ROLE.Admin,ROLE.RRHH, ROLE.Auditor],
+        middlewares: [
+        ],
+        handler: controlador.getEmployees
+    },
+    {
         path: "/",
         method: "POST",
         authentication: true,
