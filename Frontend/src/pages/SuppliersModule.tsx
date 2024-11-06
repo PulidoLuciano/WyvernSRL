@@ -21,7 +21,7 @@ import { useMarkets } from '../hooks/useMarkets';
 const SuppliersModule = () => {
   const { states, categories, getAllCategories, countries, getAllStates, getAllCountries } = useGeneral();
   const { suppliers, loading, error, getAllSuppliers, getSupplier, createSupplier, deleteSuppliers } = useSuppliers();
-  const { getMarkets, markets, createMarket } = useMarkets();
+  const { getMarkets, markets, createMarket, deleteMarkets } = useMarkets();
 
 
   useEffect(() => {
@@ -63,8 +63,6 @@ const SuppliersModule = () => {
     category: '',
     country: '',
   });
-
-  console.log(markets);
   
 
   const indexEndSupplier = currentPageSupplier * dataLength;
@@ -191,16 +189,15 @@ const SuppliersModule = () => {
 
   const handleSelectedMarket = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newSelectedData
-    const dataExist = selectedSupplierData.find(d => d == e.target.id);
+    const dataExist = selectedMarketData.find(d => d == e.target.id);
 
     if (dataExist) {
-      newSelectedData = selectedSupplierData.filter(d => d != dataExist);
-      setSelectedSupplierData(newSelectedData)
+      newSelectedData = selectedMarketData.filter(d => d != dataExist);
+      setSelectedMarketData(newSelectedData)
     }
     else {
-      setSelectedSupplierData([...selectedSupplierData, e.target.id]);
+      setSelectedMarketData([...selectedMarketData, e.target.id]);
     }
-
   }
 
   const handleDeleteSelectedMarket = async (selectedData: Array<string>) => {
@@ -208,13 +205,14 @@ const SuppliersModule = () => {
     if (!selectedData || selectedData.length == 0) {
       return
     } else {
-      const dataDelete = await deleteSuppliers(selectedData);
+      
+      const dataDelete = await deleteMarkets(selectedData);
       if (dataDelete) console.log("proveedores eliminados exitosamente");
-      setSelectedSupplierData([])
+      
+      setSelectedMarketData([])
     }
 
   }
-
   
   const handleMarketSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -231,7 +229,6 @@ const SuppliersModule = () => {
         });
 
         setCreateErrors(createErrors);
-
       }
     }
   }
@@ -243,7 +240,6 @@ const SuppliersModule = () => {
       [name]: value
     });
   }
-
 
   return (
     <main className='w-full flex '>
@@ -293,7 +289,6 @@ const SuppliersModule = () => {
             </svg>
             Eliminar Seleccionados ({selectedSupplierData.length})
           </button>
-
         </div>
 
         <div className='overflow-x-auto mt-6'>
@@ -347,7 +342,7 @@ const SuppliersModule = () => {
             {
               dataShownMarket.map((r, index) => {
                 return (
-                  <TRow key={index} id={r.id} detail={true} deleteButton={true} handleDelete={()=>deleteSuppliers([r.id.toString()])} path='markets'>
+                  <TRow key={index} id={r.id} detail={true} deleteButton={true} handleDelete={()=>deleteMarkets([r.id.toString()])} path='markets'>
                     <TData id={r.id} onChange={handleSelectedMarket} checkbox={true}>{r.id}</TData>
                     <TData>{r.nombre}</TData>
                   </TRow>)

@@ -13,7 +13,7 @@ export const useMarkets = () => {
     const getMarkets = async()=>{
         setLoading(true);
         setError(null)
-        let url = `http://localhost:3000/markets`
+        let url = `http://localhost:3000/markets/?include=id&include=nombre&borrado=false`
         try {
         const data = await marketsService.getMarkets(url);
         setMarkets(data)
@@ -65,6 +65,24 @@ export const useMarkets = () => {
     
      }
 
+     const deleteMarkets = async(ids:Array<string>) => {
+        setLoading(true);
+        setError(null);
+        console.log(ids);
+        
+        let url = "http://localhost:3000/markets";
+        try {
+        const response = await marketsService.deleteMarkets(url, ids);
+        await getMarkets();
+        return response;
+        } catch (err: any) {
+        setError(err.message);
+        } finally {
+        setLoading(false);
+        }
+    }
+
+
     
-    return {getMarkets, getMarket, updateMarket, createMarket, markets, marketDetail, loading, error  };
+    return {getMarkets, getMarket, updateMarket, createMarket, deleteMarkets, markets, marketDetail, loading, error };
 }

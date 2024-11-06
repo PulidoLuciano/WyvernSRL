@@ -64,4 +64,27 @@ const updateMarket = async(id: number,obj: marketType)=>{
     return data;
 }
 
-export const marketsService = { getMarkets, updateMarket, createMarket }
+const deleteMarkets = async (url: string, ids: Array<string>) => {
+  console.log(ids);
+  
+  const response = await fetch(`${url}`, {
+    mode: "cors",
+    method: "DELETE",
+    credentials: "include",
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: JSON.stringify({ ids })
+  })
+
+  if (!response.ok) {
+    throw new Error;
+  }
+
+  const obj = await response.json()
+  
+  return obj;
+}
+
+
+export const marketsService = { getMarkets, updateMarket, createMarket, deleteMarkets }
