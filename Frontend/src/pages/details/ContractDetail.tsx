@@ -207,7 +207,7 @@ const ContractDetail = () => {
                     <>
                         <div className="grid grid-cols-2 my-6">
                             <div className="col-span-2 flex gap-x-3 mb-4">
-                                <h2 className="text-xl">Datos del cliente</h2>
+                                <h2 className="text-xl">Datos del contrato</h2>
                                 <button
                                     onClick={handleClickEditable}
                                     className="bg-primary flex text-white rounded px-6 py-2"
