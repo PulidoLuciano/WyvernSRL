@@ -16,6 +16,7 @@ const ContractDetail = lazy(()=>import("../pages/details/ContractDetail.tsx"));
 const AreaDetail = lazy(()=>import("../pages/details/AreaDetail.tsx"));
 const PositionDetail = lazy(()=>import("../pages/details/PositionDetail.tsx"))
 const Admin = lazy(()=>import("../pages/AdminModule.tsx"))
+const PurchaseDetail = lazy(()=> import("../pages/details/PurchaseDetail.tsx"))
 const UserDetail = lazy(()=>import("../pages/details/UserDetail.tsx"))
 const RoleDetail = lazy(()=>import("../pages/details/RoleDetail.tsx"))
 
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
     {
       path: '/contracts/:contractId',
       element: <ContractDetail/>
+    },
+    {
+      path: '/purchases/:purchaseId',
+      element: <PurchaseDetail/>
     },
     {
       path: '/sales',
