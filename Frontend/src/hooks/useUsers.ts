@@ -9,7 +9,7 @@ export const useUsers = () => {
     const [roles, setRoles] = useState<Array<any>>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const [areaDetail, setAreaDetail] = useState<any>([]);
+    const [userDetail, setUserDetail] = useState<any>([]);
 
     const getAllUsers = useCallback(
         async ( roles?: boolean, empleados?: boolean, filterUrl?: string) => {
@@ -55,19 +55,6 @@ export const useUsers = () => {
         []
       );
 
-    // const getAllUsers = useCallback(async()=>{
-    //     setLoading(true);
-    //     setError(null)
-    //     let url = "http://localhost:3000/users/?include=id&include=Empleados&include=Roles&include=nombre"
-    //     try {
-    //     const data = await userService.getAll(url);
-    //     setUsers(data)
-    //     } catch (err: any) {
-    //     setError(err.message);
-    //     } finally {
-    //     setLoading(false);
-    //     }
-    // },[])
 
     const getAllRoles = useCallback(async()=>{
         setLoading(true);
@@ -83,6 +70,19 @@ export const useUsers = () => {
         }
     },[])
 
+    const getUser = useCallback(async (id: number) => {
+      setLoading(true);
+      setError(null);
+      let url = `http://localhost:3000/users/${id}/?include=id&include=nombre&include=Empleados&include=Roles`;
+      try {
+        const data = await userService.getOne(url);
+        setUserDetail(data);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }, []);
     
   const createUser = async (userData: userType) => {
     setLoading(true);
@@ -99,6 +99,6 @@ export const useUsers = () => {
 
 
     
-    return { getAllUsers, users, getAllRoles, roles, createUser, loading, error };
+    return { getAllUsers, users, getAllRoles, roles, createUser, getUser, userDetail, loading, error };
 }
 
