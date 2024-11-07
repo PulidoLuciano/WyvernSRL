@@ -46,13 +46,16 @@ const EmployeesModule = () => {
     name: '',
     phone: '',
     email: '',
-    dni: null,
-    hiringDate: null,
-    salary: null,
-    country: null,
-    state: null,
-    position: null
+    dni: '',
+    hiringDate: '',
+    salary: '',
+    country: '',
+    state: '',
+    position: ''
   });
+
+  console.log(createEmployeeData);
+  
 
   const [filterEmployeeData, setFilterEmployeeData] = useState<employeeFilterType>({
     name: '',
@@ -90,6 +93,7 @@ const EmployeesModule = () => {
       const state = states.find(s => s.id == createEmployeeData.state);
       await employeeSchema.validate(createEmployeeData, { abortEarly: false });
       createEmployee(createEmployeeData)
+      setCreateErrors({})
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
 
@@ -259,7 +263,7 @@ const EmployeesModule = () => {
               <Input id={"salario"} name={"salary"} value={createEmployeeData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleCreateEmployeeChange} error={createErrors.salary}></Input>
               <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateEmployeeChange} error={createErrors.country}></Select>
               <Select id={"provincia"} title={"Provincia"} name={"state"} options={createFormStates} onChange={handleCreateEmployeeChange} error={createErrors.state}></Select>
-              <Select id={"puesto"} title={"Puesto"} name={"positions"} options={positions} onChange={handleCreateEmployeeChange} error={createErrors.position}></Select>
+              <Select id={"puesto"} title={"Puesto"} name={"position"} options={positions} onChange={handleCreateEmployeeChange} error={createErrors.position}></Select>
               <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end'} />
             </>
           </Form>
@@ -301,6 +305,7 @@ const EmployeesModule = () => {
         <div className='overflow-x-auto mt-6'>
           <Table headers={employeeTableHeaders}>
             {
+              dataEmployeeShown.length != 0?
               dataEmployeeShown.map((empleado, index) => {
                 return (
                   <TRow key={index} id={empleado.id} detail={true} deleteButton={true} path='employees'>
@@ -310,7 +315,8 @@ const EmployeesModule = () => {
                     <TData>{empleado.sueldo ? `$${empleado.sueldo}` : "-"}</TData>
                     <TData>{empleado.Provincias?.nombre }</TData>
                   </TRow>)
-              })
+              }):
+              <div className=''>No hay empleados con esas caracteristicas </div>
             }
           </Table>
         </div>
@@ -351,13 +357,15 @@ const EmployeesModule = () => {
         <div className='overflow-x-auto mt-6'>
           <Table headers={areaTableHeaders}>
             {
+              dataAreaShown.length !=0 ?
               dataAreaShown.map((area, index) => {
                 return (
                   <TRow key={index} id={area.id} detail={true} deleteButton={true} path='area'>
                     <TData id={area.id} onChange={handleSelectedAreas} checkbox={true}>{area.id}</TData>
                     <TData>{area.nombre}</TData>
                   </TRow>)
-              })
+              }):
+              <div className=''>No hay areas </div>
             }
 
           </Table>

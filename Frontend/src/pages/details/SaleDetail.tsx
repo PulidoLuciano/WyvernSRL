@@ -19,7 +19,7 @@ const SaleDetail = () => {
 
     const { products, getAllProducts } = useProducts()
     const {clients,getAllClients} = useClients();
-    const { error, saleDetail, getSale,updateSale } = useSales()
+    const {loading, error, saleDetail, getSale,updateSale } = useSales()
     const params = useParams();
     const saleId = parseInt(params.saleId || "", 10);
     const [editable, setEditable] = useState(false);
@@ -101,6 +101,7 @@ const SaleDetail = () => {
         });
       }
 
+    if (loading) return <p>Cargando detalles de la venta...</p>;
 
     return (
         <div className='w-full flex'>

@@ -5,6 +5,12 @@ export interface userType{
     role: string;
 }
 
+export interface userFilterType{
+    name: string;
+    dni: string;
+    role: string;
+}
+
 export interface CreateUserErrors{
     name?: string;
     password?: string;
@@ -20,4 +26,10 @@ export interface Credential{
 export interface credentialErrors {
     nombre?: string;
     password?: string;
+}
+
+export interface FilterUserErrors{
+    name?: string;
+    dni?: string;
+    role?: string;
 }

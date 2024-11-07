@@ -11,53 +11,63 @@ export const useUsers = () => {
     const [error, setError] = useState<string | null>(null);
     const [areaDetail, setAreaDetail] = useState<any>([]);
 
-    // const getAllEmployees = useCallback(
-    //     async (state?: boolean, filterUrl?: string) => {
-    //       setLoading(true);
-    //       setError(null);
+    const getAllUsers = useCallback(
+        async ( roles?: boolean, empleados?: boolean, filterUrl?: string) => {
+          setLoading(true);
+          setError(null);
     
-    //       let filterUrlLast;
-    //       filterUrl
-    //         ? (filterUrlLast = filterUrl.replace("?", "&"))
-    //         : (filterUrlLast = "");
+          let filterUrlLast;
+          filterUrl
+            ? (filterUrlLast = filterUrl.replace("?", "&"))
+            : (filterUrlLast = "");
     
-    //     let url = "http://localhost:3000/employees/";  
-    //     let includesStatements = "?include=id&include=nombre&include=correo&include=dni&include=sueldo&borrado=false"
-    //     let includeState = "?include=id&include=nombre&include=correo&include=dni&include=sueldo&include=Provincias&borrado=false";
-    //     try {
-    //         if ( state ) {
-    //           filterUrl
-    //             ? (url = url.concat(includesStatements, filterUrlLast,'&include=Provincias', ))
-    //             : (url = url.concat(includeState))
-    //         } else{
-    //             if(filterUrl) url = url.concat(filterUrl);
-    //         }
-    
-    //         const data = await employeesService.getAllEmployees(url);
+        let url = "http://localhost:3000/users/";  
+        let includesStatements = "?include=id&include=nombre&borrado=false"
+        let includeRolesEmployees = "?include=id&include=nombre&borrado=false&include=Empleados&include=Roles";
+        let includeRoles = "?include=id&include=nombre&borrado=false&include=Roles";
+        let includeEmployees = "?include=id&include=nombre&borrado=false&include=Empleados";
+          try {
+  
+            if (roles && empleados) {
+              filterUrl
+                ? (url = url.concat(includesStatements, filterUrlLast,"&include=Roles&include=Empleados"))
+                : (url = url.concat(includeRolesEmployees));
+            } else if (roles) {
+              filterUrl
+                ? (url = url.concat(includesStatements, filterUrlLast,"&include=Roles"))
+                : (url = url.concat(includeRoles));
+            } else if (empleados) {
+              filterUrl
+                ? (url = url.concat(includesStatements, filterUrlLast,"&include=Empleados"))
+                : (url = url.concat(includeEmployees));
+            } else {
+              if (filterUrl) url = url.concat(filterUrl);
+            }
+            const data = await userService.getAll(url);
             
-    //         setEmployees(data);
-    //       } catch (err: any) {
-    //         setError(err.message);
-    //       } finally {
-    //         setLoading(false);
-    //       }
-    //     },
-    //     []
-    //   );
+            setUsers(data);
+          } catch (err: any) {
+            setError(err.message);
+          } finally {
+            setLoading(false);
+          }
+        },
+        []
+      );
 
-    const getAllUsers = useCallback(async()=>{
-        setLoading(true);
-        setError(null)
-        let url = "http://localhost:3000/users/?include=id&include=Empleados&include=Roles&include=nombre"
-        try {
-        const data = await userService.getAll(url);
-        setUsers(data)
-        } catch (err: any) {
-        setError(err.message);
-        } finally {
-        setLoading(false);
-        }
-    },[])
+    // const getAllUsers = useCallback(async()=>{
+    //     setLoading(true);
+    //     setError(null)
+    //     let url = "http://localhost:3000/users/?include=id&include=Empleados&include=Roles&include=nombre"
+    //     try {
+    //     const data = await userService.getAll(url);
+    //     setUsers(data)
+    //     } catch (err: any) {
+    //     setError(err.message);
+    //     } finally {
+    //     setLoading(false);
+    //     }
+    // },[])
 
     const getAllRoles = useCallback(async()=>{
         setLoading(true);

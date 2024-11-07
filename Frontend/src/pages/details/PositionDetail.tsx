@@ -156,7 +156,9 @@ const PositionDetail = () => {
         
         <div className="overflow-x-auto mt-6">
           <Table headers={employeeTableHeaders}>
-            {dataShownPositionEmployees.map((empleado, index) => (
+            {
+            dataShownPositionEmployees.length != 0 ?
+            dataShownPositionEmployees.map((empleado, index) => (
               <TRow key={index} id={empleado.id} deleteButton={false} detail={false} >
                 <TData checkbox={true} id={empleado.id}>{empleado.id}</TData>
                 <TData>{empleado.correo ? empleado.correo : "-"}</TData>
@@ -164,7 +166,9 @@ const PositionDetail = () => {
                 <TData>{empleado.sueldo ? `$${empleado.sueldo}` : "-"}</TData>
                 <TData>{empleado.Provincias?.nombre }</TData>
               </TRow>
-            ))}
+            )):
+            <div className=''>No hay empleados</div>
+          }
           </Table>
         </div>
 

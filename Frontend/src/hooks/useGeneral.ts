@@ -55,20 +55,6 @@ export const useGeneral = () => {
     }
   }, []);
 
-  const getAllCategories = useCallback(async () => {
-    setLoadingCategories(true);
-    setErrorGeneral(null);
-    let url = "http://localhost:3000/markets";
-    try {
-      const data = await generalService.getAllCategories(url);
-      setCategories(data);
-    } catch (err: any) {
-      setErrorGeneral(err.message);
-    } finally {
-      setLoadingCategories(false);
-    }
-  }, []);
-
   const getAllPlatforms = useCallback(async () => {
     setLoadingPlatforms(true);
     setErrorGeneral(null);
@@ -154,6 +140,6 @@ export const useGeneral = () => {
     }
   }
 
-  return { breaches,states, positions, categories, platforms, gamesCategories, loadingGamesCategories, currencies, countries, medias, getAllGamesCategories, getAllCurrencies, getAllPositions,getAllBreaches, getAllCategories, getAllStates, getAllCountries, getAllPlatforms, getAllMedias, LoadingMedias, loadingCountries, loadingPositions, loadingPlatforms, errorGeneral,loadingBreaches };
+  return { breaches,states, positions, categories, platforms, gamesCategories, loadingGamesCategories, currencies, countries, medias, getAllGamesCategories, getAllCurrencies, getAllPositions,getAllBreaches, getAllStates, getAllCountries, getAllPlatforms, getAllMedias, LoadingMedias, loadingCountries, loadingPositions, loadingPlatforms, errorGeneral,loadingBreaches };
 
 };

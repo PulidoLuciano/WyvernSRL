@@ -207,7 +207,9 @@ const ProductDetail = () => {
  
         <div className="overflow-x-auto mt-6">
           <Table headers={salesTableHeaders}>
-            {dataShownSales.map((ventas, index) => (
+            {
+            dataShownSales.length != 0 ?
+            dataShownSales.map((ventas, index) => (
               <TRow key={index} id={ventas.id} deleteButton={true}>
                 <TData checkbox={true} id={ventas.id} onChange={handleSales}>
                   {ventas.Clientes.nombre}
@@ -215,7 +217,9 @@ const ProductDetail = () => {
                 <TData>{ventas.Productos.nombre}</TData>
                 <TData>{ventas.fecha}</TData>
               </TRow>
-            ))}
+            )):
+            <div className=''>No hay ventas</div>
+          }
           </Table>
         </div>
 

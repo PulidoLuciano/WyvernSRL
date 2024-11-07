@@ -100,11 +100,11 @@ PUESTOS
 
 USUARIOS
     General:
-        - Form crear usuario: Nombre de usuario, contrasenia, Empleado, Rol (Back)
+        - Form crear usuario: Nombre de usuario, contrasenia, Empleado, Rol (Back, front)
                     POST /users
         - Form filtrar usuarios: Nombre de usuario, DNI empleado, Rol (Back)
                     GET /users?queries
-        - Tabla usuarios: Nombre de usuario, DNI empleado, Rol (Back)
+        - Tabla usuarios: Nombre de usuario, DNI empleado, Rol (Back, front)
                     GET /users?queries
     Individual:
         - Data labels: Nombre de usuario, contrasenia, DNI empleado, Rol  (Back)

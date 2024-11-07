@@ -13,7 +13,7 @@ import TRow from '../components/table/TRow';
 import { useUsers } from '../hooks/useUsers';
 import { usersTableHeaders } from '../utils/dataArrays';
 import * as Yup from "yup"
-import { CreateUserErrors, userType } from '../utils/types/userTypes';
+import { CreateUserErrors, FilterUserErrors, userFilterType, userType } from '../utils/types/userTypes';
 import { userSchema } from '../schemas/userSchema';
 import { useEmployees } from '../hooks/useEmployees';
 
@@ -23,12 +23,13 @@ const AdminModule = () => {
     const { getAllEmployees, employees }= useEmployees();
 
     useEffect(() => {
-        getAllUsers();
+        getAllUsers(true,true);
         getAllRoles();
         getAllEmployees();
       }, [])
 
     const [createErrors, setCreateErrors] = useState<CreateUserErrors>({})
+    const [filterErrors, setFilterErrors] = useState<FilterUserErrors>({})
     const [dataLength, setDataLength] = useState<number>(10);
     const [currentPageUser, setCurrentPageUser] = useState<number>(1)
 
@@ -37,6 +38,12 @@ const AdminModule = () => {
         name: '',
         password: '',
         employee: '',
+        role: ''
+      });
+
+      const [filterUser, setFilterUser] = useState<userFilterType>({
+        name: '',
+        dni: '',
         role: ''
       });
 
@@ -100,6 +107,58 @@ const AdminModule = () => {
            
       }
 
+      const handleFilterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        // const employeeExist = employees.find(e => e.nombre == filterUser.dni);
+
+        // if (employeeExist == undefined) {
+        //    setCreateErrors({ ...createErrors, employee: "Este cliente no existe" })
+        //    throw new Error("Este cliente no existe")
+        //  }
+
+        const data = {
+          nombre: filterUser.name,
+          Empleados_id: filterUser.dni,
+          Roles_id: filterUser.role
+        }
+        const datos = Object.entries(data);
+        if (datos.length == 2) return;
+    
+        const filter: Array<string> = []
+        datos.forEach((d, index) => {
+          console.log(d);
+          
+          if (d[1] != "" && index == 0) {
+            if (d[0] == "Roles_id" || d[0] == "Empleados_id") {
+              filter.push(`?${d[0]}=${d[1]}`);
+            } else {
+              filter.push(`?${d[0]}[contains]=${d[1]}`)
+            }
+          } else if (d[1] != "") {
+            if (d[0] == "Roles_id" || d[0] == "Empleados_id:") {
+              filter.push(`&${d[0]}=${d[1]}`);
+            } else {
+              filter.push(`&${d[0]}[contains]=${d[1]}`);
+            }
+    
+          }
+        })
+    
+        getAllUsers(true, true, filter.join(""));
+    
+      }
+
+      const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+    
+          setFilterUser({
+            ...filterUser,
+            [name]: value
+          });
+        
+      }
+
     //   const handleSelectedUser = (e: React.ChangeEvent<HTMLInputElement>) => {
     //     let newSelectedData
     //     const dataExist = selectedUser.find(d => d == e.target.id);
@@ -148,18 +207,17 @@ const AdminModule = () => {
             </>
           </Form>
         </Accordion>
-        {/* <Accordion title="Filtrar por">
+        <Accordion title="Filtrar por">
           <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
             <>
-              <Input id={"nombreProveedorFiltrar"} name={"name"} value={filterSupplier.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange} ></Input>
-              <Select id={"paisesFiltrar"} title={"País"} name={"country"} options={countries} onChange={handleFilterChange}></Select>
-              <Select id={"provinciasFiltrar"} name={"state"} title={"Provincia"} options={filterFormStates} onChange={handleFilterChange}></Select>
-              <Select id={"rubrosFiltrar"} name={"category"} title={"Rubro"} options={categories} onChange={handleFilterChange}></Select>
+              <Input id={"nombreProveedorFiltrar"} name={"name"} value={filterUser.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange} ></Input>
+              <Input id={"dni"} name={"dni"} value={filterUser.dni} title={"DNI"} type={"text"} placeholder={"444448787"} onChange={handleFilterChange} error={filterErrors.dni}></Input>       
+              <Select id={"provinciasFiltrar"} name={"role"} title={"Rol"} options={roles} onChange={handleFilterChange}></Select>
 
               <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"} />
             </>
           </Form>
-        </Accordion> */}
+        </Accordion>
 
         
         <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>

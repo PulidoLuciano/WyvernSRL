@@ -295,7 +295,9 @@ const ClientData = () => {
 
         <div className="overflow-x-auto mt-6">
           <Table headers={purchasesTableHeaders}>
-            {dataShownPurchases.map((compras, index) => (
+            {
+            dataShownPurchases.length != 0 ?
+            dataShownPurchases.map((compras, index) => (
               <TRow key={index} id={compras.id} deleteButton={false} detail={false}>
                 <TData checkbox={true} id={compras.id} >
                   {compras.id}
@@ -303,7 +305,9 @@ const ClientData = () => {
                 <TData>{compras.Productos.nombre}</TData>
                 <TData>{compras.fecha}</TData>
               </TRow>
-            ))}
+            )):
+            <div className=''>No hay compras </div>
+          }
           </Table>
         </div>
 
@@ -328,7 +332,9 @@ const ClientData = () => {
 
         <div className="overflow-x-auto mt-6">
           <Table headers={contactTableHeaders}>
-            {dataShownContacts.map((contactos, index) => (
+            {
+            dataShownContacts. length !=0 ?
+            dataShownContacts.map((contactos, index) => (
               <TRow key={index} id={contactos.id} path={path} deleteButton={true} detail={true}>
                 <TData checkbox={true} id={contactos.id}  onChange={handleSelectedItemContact}>
                   {contactos.id}
@@ -337,7 +343,9 @@ const ClientData = () => {
                 <TData>{contactos.fecha}</TData>
                 <TData>{contactos.Medios.nombre}</TData>
               </TRow>
-            ))}
+            )):
+            <div className=''>No hay contactos </div>
+            }
           </Table>
         </div>
 

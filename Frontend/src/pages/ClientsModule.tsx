@@ -96,7 +96,15 @@ const ClientsModule = () => {
       await clientSchema.validate(createData, { abortEarly: false });
       createClient(createData)
       setCreateErrors({});
-      
+
+      setCreateData({
+          ...createData,
+          name: '',
+          phone: '',
+          email: '',
+          platform: '',
+          country: ''
+        })
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
 
@@ -207,9 +215,9 @@ const ClientsModule = () => {
               <Input error={createErrors.name} id={"nombreCliente"} name={"name"} value={createData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange}></Input>
               <Input error={createErrors.email} id={"correo"} name={"email"} value={createData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleCreateChange}></Input>
               <Input error={createErrors.phone} id={"telefono"} name={"phone"} value={createData.phone} title={"Teléfono"} type={"text"} placeholder={"5493816341612"} onChange={handleCreateChange}></Input>
-              <Select error={createErrors.platform} id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleCreateChange}></Select>
+              <Select selected={createData.platform} error={createErrors.platform} id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleCreateChange}></Select>
               <Checkbox title={"Suscripto"} name={"suscription"} onChange={handleCreateChange}></Checkbox>
-              <Select error={createErrors.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange}></Select>
+              <Select selected={createData.country} error={createErrors.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange}></Select>
               <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
             </>
           </Form>
@@ -233,7 +241,7 @@ const ClientsModule = () => {
             <p>Página {currentPage} de {nPages}</p>
           </div>
 
-          <button onClick={() => handleDeleteSelectedData(selectedData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
+          <button onClick={() => handleDeleteSelectedData(selectedData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center p-1 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
             <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
             </svg>
@@ -254,8 +262,8 @@ const ClientsModule = () => {
             <Table id='ClientsTable' headers={clientTableHeaders}>
               {dataShown.length != 0 ?
                 dataShown.map((cliente, index) => (
-                  <TRow id={cliente.id} key={index} detail={true} deleteButton={true} path='clients'>
-                    <TData id={cliente.id} checkbox={true} onChange={handleSelectedItem} >{cliente.nombre}</TData>
+                  <TRow id={cliente.id} key={index} handleDelete={()=>deleteClient([cliente.id.toString()])} detail={true} deleteButton={true} path='clients'>
+                    <TData id={cliente.id} checkbox={true}  onChange={handleSelectedItem} >{cliente.nombre}</TData>
                     <TData>{cliente.Plataformas?.nombre}</TData>
                     <TData>{cliente.Paises?.nombre}</TData>
                     <TData>{cliente.suscripto ? "Si" : "No"}</TData>

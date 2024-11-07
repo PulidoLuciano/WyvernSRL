@@ -21,7 +21,7 @@ const ContactDetail = () => {
   
   useEffect(() => {
     getContact(contactId)
-  }, []);
+  }, [getContact]);
   
   useEffect(() => {
     getAllMedias()
@@ -59,7 +59,6 @@ const ContactDetail = () => {
 
   const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    e.currentTarget.children;
     
     try {
       await contactSchema.validate(editedData, { abortEarly: false });

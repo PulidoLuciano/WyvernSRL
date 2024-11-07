@@ -19,7 +19,7 @@ import * as Yup from "yup"
 import { useMarkets } from '../hooks/useMarkets';
 
 const SuppliersModule = () => {
-  const { states, categories, getAllCategories, countries, getAllStates, getAllCountries } = useGeneral();
+  const { states, categories, countries, getAllStates, getAllCountries } = useGeneral();
   const { suppliers, loading, error, getAllSuppliers, getSupplier, createSupplier, deleteSuppliers } = useSuppliers();
   const { getMarkets, markets, createMarket, deleteMarkets } = useMarkets();
 
@@ -28,7 +28,6 @@ const SuppliersModule = () => {
     getAllCountries();
     getAllSuppliers(true, true);
     getAllStates();
-    getAllCategories();
     getMarkets();
   }, [])
   const [createFormStates,setCreateFormStates] = useState<Array<any>>([])
@@ -181,10 +180,10 @@ const SuppliersModule = () => {
       const statesAvailables = states.filter(s => s.Paises_id == Number.parseInt(value))
       setFilterFormStates(statesAvailables)
     }
-    setFilterSupplier({
-      ...filterSupplier,
-      [name]: value
-    });
+      setFilterSupplier({
+        ...filterSupplier,
+        [name]: value
+      });
   }
 
   const handleSelectedMarket = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -258,7 +257,7 @@ const SuppliersModule = () => {
               <Input id={"telefonoProveedor"} name={"phone"} value={supplier.phone} title={"Teléfono"} type={"number"} placeholder={"543816341612"} onChange={handleCreateChange} error={createErrors.phone}></Input>
               <Select error={createErrors.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange}></Select>
               <Select error={createErrors.state} id={"provincias"} name={"state"} title={"Provincia"} options={createFormStates} onChange={handleCreateChange}></Select>
-              <Select error={createErrors.category} id={"rubros"} name={"category"} title={"Rubro"} options={categories} onChange={handleCreateChange}></Select>
+              <Select error={createErrors.category} id={"rubros"} name={"category"} title={"Rubro"} options={markets} onChange={handleCreateChange}></Select>
               <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
             </>
           </Form>
@@ -269,7 +268,7 @@ const SuppliersModule = () => {
               <Input id={"nombreProveedorFiltrar"} name={"name"} value={filterSupplier.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange} ></Input>
               <Select id={"paisesFiltrar"} title={"País"} name={"country"} options={countries} onChange={handleFilterChange}></Select>
               <Select id={"provinciasFiltrar"} name={"state"} title={"Provincia"} options={filterFormStates} onChange={handleFilterChange}></Select>
-              <Select id={"rubrosFiltrar"} name={"category"} title={"Rubro"} options={categories} onChange={handleFilterChange}></Select>
+              <Select id={"rubrosFiltrar"} name={"category"} title={"Rubro"} options={markets} onChange={handleFilterChange}></Select>
 
               <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"} />
             </>
@@ -294,6 +293,7 @@ const SuppliersModule = () => {
         <div className='overflow-x-auto mt-6'>
           <Table headers={suppliersTableHeaders}>
             {
+            dataShownSupplier.length != 0 ?
               dataShownSupplier.map((s, index) => {
                 return (
                   <TRow key={index} id={s.id} detail={true} deleteButton={true} handleDelete={()=>deleteSuppliers([s.id.toString()])} path='suppliers'>
@@ -303,7 +303,8 @@ const SuppliersModule = () => {
                     <TData>{s.Provincias?.nombre}</TData>
                     <TData>{s.Rubros?.nombre}</TData>
                   </TRow>)
-              })
+              }):
+              <div>No hay proveedores con esas caracteristicas</div>
             }
           </Table>
         </div>

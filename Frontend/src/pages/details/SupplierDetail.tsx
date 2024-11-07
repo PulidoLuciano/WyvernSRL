@@ -18,6 +18,7 @@ import { CreateSupplierErrors, suppliersType } from '../../utils/types/suppliers
 import * as Yup from 'yup'
 import { contractTableHeaders,purchasesSupplierTableHeaders,suppliersScores,breachesSupplierTableHeaders } from '../../utils/dataArrays';
 import { purchaseType,CreatePurchaseErrors } from '../../utils/types/purchaseType';
+import { useMarkets } from '../../hooks/useMarkets';
 
 const SupplierDetail = () => {
 
@@ -25,12 +26,12 @@ const SupplierDetail = () => {
 
   const supplierId = parseInt(params.supplierId || "", 10);
 
-  const { } = useGeneral()
-  const { loading, error, supplierDetail, contractDetail, getSupplierPurchases, purchases, getSupplierBreaches, breaches, createPurchase, deletePurchase, contracts, getSupplierContracts, createContract, deleteContract, getSupplier, updateSupplier } = useSuppliers()
-  const { categories, states, currencies, countries, getAllCurrencies, getAllCategories, getAllStates, getAllCountries, } = useGeneral()
+  const { getMarkets, markets } = useMarkets()
+  const { loading, error, supplierDetail, getSupplierPurchases, purchases, getSupplierBreaches, breaches, createPurchase, deletePurchase, contracts, getSupplierContracts, createContract, deleteContract, getSupplier, updateSupplier } = useSuppliers()
+  const { states, currencies, countries, getAllCurrencies, getAllStates, getAllCountries,  } = useGeneral()
 
   useEffect(() => {
-    getAllCategories()
+    getMarkets()
     getAllStates()
     getAllCountries()
     getAllCurrencies()
@@ -300,6 +301,8 @@ const SupplierDetail = () => {
     }
    }
 
+  if (loading) return <p>Cargando detalles del proveedor...</p>;
+
   return (
     <div className='w-full flex'>
 
@@ -324,7 +327,7 @@ const SupplierDetail = () => {
                   <Input id={"telefonoProveedor"} name={"phone"} value={editedData.phone} title={"Teléfono"} type={"text"} placeholder={"543816341612"} onChange={handleEditChange} error={editErrors.phone}></Input>
                   <Select selected={supplierDetail.Provincias.Paises_id} error={editErrors.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleEditChange}></Select>
                   <Select selected={supplierDetail.Provincias.id} error={editErrors.state} id={"provincias"} name={"state"} title={"Provincia"} options={editFormStates} onChange={handleEditChange}></Select>
-                  <Select selected={supplierDetail.Rubros.id} error={editErrors.category} id={"rubros"} name={"category"} title={"Rubro"} options={categories} onChange={handleEditChange}></Select>
+                  <Select selected={supplierDetail.Rubros.id} error={editErrors.category} id={"rubros"} name={"category"} title={"Rubro"} options={markets} onChange={handleEditChange}></Select>
                   <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
                 </>
               </Form>
@@ -399,17 +402,21 @@ const SupplierDetail = () => {
 
         <div className="overflow-x-auto mt-6">
           <Table id='ContractsTable' headers={contractTableHeaders}>
-            {dataShownContracts.map((contract, index) => (
-              <TRow key={index} id={contract.id} path='contracts' detail={true} handleDelete={()=>deleteContract(supplierId.toString(),[contract.id.toString()])} deleteButton={true}>
-                <TData checkbox={true} id={contract.id} onChange={handleSelectedItemContract}>
-                  {contract.descripcion}
-                </TData>
-                <TData>{contract.fechaVencimiento}</TData>
-                <TData>{contract.fechaPago}</TData>
-                <TData>{contract.monto}</TData>
-                <TData>{contract.Monedas?.nombre}</TData>
-              </TRow>
-            ))}
+            {
+            dataShownContracts.length != 0?
+              dataShownContracts.map((contract, index) => (
+                <TRow key={index} id={contract.id} path='contracts' detail={true} handleDelete={()=>deleteContract(supplierId.toString(),[contract.id.toString()])} deleteButton={true}>
+                  <TData checkbox={true} id={contract.id} onChange={handleSelectedItemContract}>
+                    {contract.descripcion}
+                  </TData>
+                  <TData>{contract.fechaVencimiento}</TData>
+                  <TData>{contract.fechaPago}</TData>
+                  <TData>{contract.monto}</TData>
+                  <TData>{contract.Monedas?.nombre}</TData>
+                </TRow>
+            )):
+            <div className=''>No hay contratos</div>
+          }
           </Table>
         </div>
 
@@ -449,7 +456,9 @@ const SupplierDetail = () => {
 
         <div className="overflow-x-auto mt-6">
           <Table id='PurchasesTable' headers={purchasesSupplierTableHeaders}>
-            {dataShownPurchases.map((purchase, index) => (
+            {
+            dataShownPurchases.length != 0 ?
+            dataShownPurchases.map((purchase, index) => (
               <TRow key={index} handleDelete={()=> deletePurchase(supplierId,[purchase.id.toString()])} id={purchase.id} detail={true} deleteButton={true} >
                 <TData checkbox={true} id={purchase.id} onChange={handleSelectedItemPurchase}>
                   {purchase.descripcion}
@@ -462,7 +471,9 @@ const SupplierDetail = () => {
                 <TData>{purchase.pagado? "Sí" : "No"}</TData>
                 
               </TRow>
-            ))}
+            )):
+            <div className=''>No hay compras </div>
+          }
           </Table>
         </div>
 
@@ -481,7 +492,9 @@ const SupplierDetail = () => {
 
         <div className="overflow-x-auto mt-6">
           <Table id='ContractsTable' headers={breachesSupplierTableHeaders}>
-            {dataShownBreaches.map((breache, index) => (
+            {
+            dataShownBreaches.length != 0 ?
+            dataShownBreaches.map((breache, index) => (
               <TRow key={index} id={breache.id} detail={true} >
                 <TData id={breache.id}>
                   {breache.descripcion}
@@ -490,7 +503,9 @@ const SupplierDetail = () => {
                 <TData>{breache.Compras_id? breache.Compras_id : ""}{breache.Contratos_id? breache.Contratos_id : ""}</TData> 
                 <TData>{breache.NivelDeIncumplimiento?.nombre ?  breache.NivelDeIncumplimiento?.nombre : ""}</TData>
               </TRow>
-            ))}
+            )):
+            <div className=''>No hay incumplimientos </div>   
+          }
           </Table>
         </div>
 

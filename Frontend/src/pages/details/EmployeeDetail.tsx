@@ -128,19 +128,6 @@ const EmployeeDetail = () => {
   };
   
 
-  const handleSelectedItemContact = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newSelectedData;
-    const dataExist = selectedDataContact.find((d) => d == e.target.id);
-
-    if (dataExist) {
-      newSelectedData = selectedDataContact.filter((d) => d != dataExist);
-      setSelectedDataContact(newSelectedData);
-    } else {
-      setSelectedDataContact([...selectedDataContact, e.target.id]);
-    }
-  };
-
-
   if (loading) return <p>Cargando detalles del cliente...</p>;
 
   return (
@@ -216,60 +203,10 @@ const EmployeeDetail = () => {
           </>
         )}
 
-         {/* <Accordion title="Crear Nuevo Contacto">
-          <Form handleSubmit={handleCareerubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
-            <>
-              <Select
-                id={"medios"}
-                name={"Medio"}
-                title={"Medios"}
-                options={medias}
-                onChange={handleContactChange}
-                error={createErrors.Medio}
-              ></Select>
-              <Input
-                id={"duracion"}
-                name={"duracion"}
-                value={contact.duracion}
-                title={"Duracion"}
-                type={"text"}
-                placeholder={"duracion"}
-                onChange={handleContactChange}
-                error={createErrors.duracion}
-              ></Input>
-              <Input
-                error={createErrors.motivo}
-                id={"motivo"}
-                name={"motivo"}
-                value={contact.motivo}
-                title={"Motivo"}
-                type={"text"}
-                placeholder={""}
-                onChange={handleContactChange}
-              ></Input>
-              <Input
-                error={createErrors.fecha}
-                id={"fecha"}
-                name={"fecha"}
-                value={contact.fecha}
-                title={"Fecha"}
-                type={"text"}
-                placeholder={"2023-04-28 00:00:00"}
-                onChange={handleContactChange}
-              ></Input>
-              <SaveButton
-                className={
-                  "text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end"
-                }
-              />
-            </>
-          </Form>
-        </Accordion> */}
-
         <div className="grid grid-rows-2 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6">
           <div className="flex flex-col gap-2 items-start tablet:col-span-2">
-            <h2 className="text-3xl">Compras del cliente</h2>
-            <p>Total de compras:{employeeCareer ? employeeCareer.length: 0}</p>
+            <h2 className="text-3xl">Historial de puestos del empleado</h2>
+            <p>Total de puestos:{employeeCareer ? employeeCareer.length: 0}</p>
           </div>
         </div>
 
@@ -279,7 +216,7 @@ const EmployeeDetail = () => {
             {dataShownCareer.length !=0 ?
             dataShownCareer.map((position, index) => (
               <TRow key={index} id={position.id} detail={false}>
-                <TData checkbox={true} id={position.id} >
+                <TData id={position.id} >
                   {position.Puestos.nombre}
                 </TData>
                 <TData>{position.Puestos.Areas.nombre}</TData>

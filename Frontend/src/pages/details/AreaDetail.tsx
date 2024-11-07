@@ -184,7 +184,7 @@ const AreaDetail = () => {
   };
 
 
-  if (loading) return <p>Cargando detalles del contacto...</p>;
+  if (loading) return <p>Cargando detalles del area...</p>;
 
   return (
     <div className="w-full flex ">
@@ -243,7 +243,9 @@ const AreaDetail = () => {
         </div>
         <div className="overflow-x-auto mt-6">
           <Table headers={employeeTableHeaders}>
-            {dataShownEmployees.map((empleado, index) => (
+            {
+            dataShownEmployees.length != 0 ?
+            dataShownEmployees.map((empleado, index) => (
               <TRow key={index} id={empleado.id} deleteButton={false} detail={false} >
                 <TData checkbox={true} id={empleado.id}>{empleado.id}</TData>
                 <TData>{empleado.correo ? empleado.correo : "-"}</TData>
@@ -251,7 +253,9 @@ const AreaDetail = () => {
                 <TData>{empleado.sueldo ? `$${empleado.sueldo}` : "-"}</TData>
                 <TData>{empleado.Provincias?.nombre }</TData>
               </TRow>
-            ))}
+            )):
+            <div className=''>No hay empleados </div>
+          }
           </Table>
         </div>
 

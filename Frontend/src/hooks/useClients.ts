@@ -219,7 +219,7 @@ export const useClients = () => {
     setError(null)
      try {
      await clientsService.updateContact(id,contactData);
-     await getClient(id);
+     await getContact(id);
     } catch (err : any) {
      setError(err.message)
     }finally{

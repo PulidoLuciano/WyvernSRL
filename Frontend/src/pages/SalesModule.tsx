@@ -117,15 +117,12 @@ const SalesModule = () => {
 
     try {
 
-
       const clientExist = clients.find(c => c.nombre == createData.client);
-
 
       if (clientExist == undefined) {
         setCreateErrors({ ...createErrors, client: "Este cliente no existe" })
         throw new Error("Este cliente no existe")
       }
-
 
       await saleSchema.validate(createData, { abortEarly: false });
       const data: saleType = {
@@ -310,6 +307,7 @@ const SalesModule = () => {
           {error ? <p>Error: {error}</p> :
             <Table id="SalesTable" headers={salesTableHeaders}>
               {
+                dataShown.length != 0 ?
                 dataShown.map((sale, index) => {
                   return (
                     <TRow key={index} id={sale.id} handleDelete={()=>deleteSale([sale.id.toString()])} deleteButton={true} path='sales' detail={true}>
@@ -317,7 +315,8 @@ const SalesModule = () => {
                       <TData>{sale.Productos?.nombre}</TData>
                       <TData>{sale.fecha}</TData>
                     </TRow>)
-                })
+                }):
+                <div className=''>No hay ventas con esas caracteristicas</div>
               }
             </Table>
           }
@@ -363,6 +362,7 @@ const SalesModule = () => {
           {errorGeneral ? <p>Error: {errorGeneral}</p> :
             <Table id="SalesTable" headers={productsTableHeaders}>
               {
+                dataShownProducts.length != 0 ?
                 dataShownProducts.map((product, index) => {
                   return (
                     <TRow key={index} id={product.id} handleDelete={()=>deleteProducts([product.id.toString()])} path='products' deleteButton={true} detail={true}>
@@ -372,7 +372,8 @@ const SalesModule = () => {
                       <TData>{product.Categorias?.nombre}</TData>
 
                     </TRow>)
-                })
+                }):
+                <div className=''>No hay productos</div>
               }
             </Table>
           }

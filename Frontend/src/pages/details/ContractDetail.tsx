@@ -23,7 +23,7 @@ const ContractDetail = () => {
 
     const { breaches,currencies, getAllCurrencies,getAllBreaches } = useGeneral()
     
-    const { contractDetail,contractBreaches,loadingContractBreaches, error,deleteContractBreaches, getContract, updateContract,getContractBreaches,createBreache } = useContracts()
+    const { contractDetail,contractBreaches,loadingContract,error,deleteContractBreaches, getContract, updateContract,getContractBreaches,createBreache } = useContracts()
     const params = useParams();
     const contractId = parseInt(params.contractId || "", 10);
     const [editable, setEditable] = useState<boolean>(false)
@@ -170,9 +170,9 @@ const ContractDetail = () => {
             }
         }
 
-
-
     }
+
+    if (loadingContract) return <p>Cargando detalles del contrato...</p>;
 
     return (
         <div className='w-full flex'>
