@@ -450,7 +450,7 @@ const SupplierDetail = () => {
         <div className="overflow-x-auto mt-6">
           <Table id='PurchasesTable' headers={purchasesSupplierTableHeaders}>
             {dataShownPurchases.map((purchase, index) => (
-              <TRow key={index} handleDelete={()=> deletePurchase(supplierId,[purchase.id.toString()])} id={purchase.id} detail={true} deleteButton={true} >
+              <TRow key={index} path='purchases' handleDelete={()=> deletePurchase(supplierId,[purchase.id.toString()])} id={purchase.id} detail={true} deleteButton={true} >
                 <TData checkbox={true} id={purchase.id} onChange={handleSelectedItemPurchase}>
                   {purchase.descripcion}
                 </TData>
