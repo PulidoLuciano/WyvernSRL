@@ -126,9 +126,9 @@ PROVEEDORES
                     GET /providers?queries
         - Tabla proveedores: Nombre, correo, telefono, provincia, rubro (Back, front)
                     GET /providers?queries
-        - Form crear rubro: Nombre (Back)
+        - Form crear rubro: Nombre (Back, front)
                     POST /markets
-        - Tabla rubros: Nombre (Back)
+        - Tabla rubros: Nombre (Back, front)
                     GET /markets?queries 
                     DELETE /markets
         - Form filtrar compras: Id compra, Entregado, Pagado, proveedor (Back)
@@ -163,7 +163,7 @@ PROVEEDORES
 
 RUBRO
     Individual:
-        - Data labels: Nombre (Back)
+        - Data labels: Nombre (Back, front)
                     GET /markets/:id?queries
         - Tabla proveedores: Nombre, correo, telefono, provincia (Back)
                     GET /markets/:id?queries

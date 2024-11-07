@@ -28,13 +28,13 @@ const EmployeeDetail = () => {
     getEmployee(employeeId);
     getEmployeePosition(employeeId)
     getEmployeeCareer(employeeId)
-  }, [getEmployee, getEmployeePosition,getEmployeeCareer]);
+  }, []);
 
   useEffect(() => {
     getAllStates();
     getAllCountries();
     getAllPositions()
-  }, [getAllPositions])
+  }, [])
   
   useEffect(() => {
     if (employeeDetail && employeePosition) {
@@ -98,6 +98,7 @@ const EmployeeDetail = () => {
       
       updateEmployee(employeeId, editedData);
       setCreateErrors({});
+      handleClickEditable()
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const createErrors: CreateEmployeesErrors = {};

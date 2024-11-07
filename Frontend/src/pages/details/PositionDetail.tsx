@@ -1,30 +1,32 @@
 import { useState, useEffect } from "react";
 import Form from "../../components/form/Form";
-import Input from "../../components/form/Input";
-import Select from "../../components/form/Select";
 import Nav from "../../components/Nav";
+import Pagination from "../../components/Pagination";
 import SaveButton from "../../components/form/SaveButton";
-import { useGeneral } from "../../hooks/useGeneral";
+import Table from "../../components/table/Table";
+import TRow from "../../components/table/TRow";
+import TData from "../../components/table/TData";
+import Input from "../../components/form/Input";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
-import { contactSchema } from "../../schemas/contactSchema";
+import { employeeTableHeaders } from "../../utils/dataArrays";
 import { CreatePositionErrors, positionType } from "../../utils/types/positionType";
 import { usePositions } from "../../hooks/usePositions";
 import { positionSchema } from "../../schemas/positionSchema";
+import { useEmployees } from "../../hooks/useEmployees";
 
 const PositionDetail = () => {
   const params = useParams();
   const areaId = parseInt(params.areaId || "", 10);
   const positionId = parseInt(params.positionId || "", 10);
   
-  const { positionDetail , getPosition, updatePosition, loading, error} = usePositions();
+  const { positionDetail , getPosition, updatePosition, loading, error, getPositionEmployees, positionEmployees} = usePositions();
+  const { deleteEmployee } = useEmployees();
   
   useEffect(() => {
     getPosition(positionId)
+    getPositionEmployees(positionId)
   }, []);
-  
-  console.log(areaId);
-  
 
   useEffect(() => {
     if (positionDetail) {
@@ -33,15 +35,25 @@ const PositionDetail = () => {
       })
     }
   }, [positionDetail])
-
-  console.log(positionDetail);
   
+  const [dataLength, setDataLength] = useState<number>(10);
+  const [currentPagePositionEmployees, setCurrentPagePositionEmployees] = useState<number>(1);
   const [createErrors, setCreateErrors] = useState<CreatePositionErrors>({});
   const [editable, setEditable] = useState(false);
+  const [selected, setSelected] = useState<Array<string>>([]);
 
   const [editedData, setEditedData] = useState<positionType>({
     name: ''
   });
+
+  const indexEndPositionEmployees= currentPagePositionEmployees * dataLength;
+  const indexStartPositionEmployees = indexEndPositionEmployees - dataLength;
+  const nPagesPositionEmployees = Math.ceil(positionEmployees.length / dataLength);
+  const dataShownPositionEmployees = positionEmployees.slice(indexStartPositionEmployees, indexEndPositionEmployees);
+
+  const changePagePositionEmployees= (nextPage: number) => {
+    setCurrentPagePositionEmployees(nextPage);
+  };
 
   const handleClickEditable = () => {
     setEditable(!editable);
@@ -56,6 +68,7 @@ const PositionDetail = () => {
       
       updatePosition(positionId, areaId, editedData);
       setCreateErrors({});
+      handleClickEditable()
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const createErrors: CreatePositionErrors = {};
@@ -72,7 +85,6 @@ const PositionDetail = () => {
     }
   };
   
-
   const handleEditChange = ( e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
 
@@ -98,10 +110,10 @@ const PositionDetail = () => {
         {editable ? (
           <>
             <div className="my-6">
-              <Form handleSubmit={handleEditSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
+              <Form handleSubmit={handleEditSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
                 <>
                   <Input id={"name"} name={"name"} value={editedData.name} title={"Nombre"} type={"text"} onChange={handleEditChange} error={createErrors.name}></Input>
-                  <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end"}/>
+                  <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-center"}/>
                 </>
               </Form>
             </div>
@@ -134,6 +146,31 @@ const PositionDetail = () => {
             </div>
           </>
         )}
+
+        <div className="grid grid-rows-2 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6">
+          <div className="flex flex-col gap-2 items-start tablet:col-span-2">
+              <h2 className="text-3xl">Empleados del area</h2>
+              <p>Total de empleados:{positionEmployees.length}</p>
+          </div>
+        </div>    
+        
+        <div className="overflow-x-auto mt-6">
+          <Table headers={employeeTableHeaders}>
+            {dataShownPositionEmployees.map((empleado, index) => (
+              <TRow key={index} id={empleado.id} deleteButton={false} detail={false} >
+                <TData checkbox={true} id={empleado.id}>{empleado.id}</TData>
+                <TData>{empleado.correo ? empleado.correo : "-"}</TData>
+                <TData>{empleado.dni ? empleado.dni : "-"}</TData>
+                <TData>{empleado.sueldo ? `$${empleado.sueldo}` : "-"}</TData>
+                <TData>{empleado.Provincias?.nombre }</TData>
+              </TRow>
+            ))}
+          </Table>
+        </div>
+
+        <div className="flex items-center justify-center laptop:justify-end gap-6 my-6"id="paginacionTabla">
+          <Pagination changePage={changePagePositionEmployees} nPages={nPagesPositionEmployees} currentPage={currentPagePositionEmployees} indexStart={indexStartPositionEmployees}indexEnd={indexEndPositionEmployees}/>
+        </div>
 
       </main>
     </div>

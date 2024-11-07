@@ -82,7 +82,6 @@ const getAllAreas = async (url: string) => {
     return obj;
   }
 
-
   const getOne = async (url : string) => {
     
     const response = await fetch(`${url}`, {

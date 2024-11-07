@@ -7,8 +7,8 @@ export const usePositions = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [positions, setPositions] = useState<Array<any>>([]);
     const [error, setError] = useState<string | null>(null);
-    const [positionDetail, setPositionDetail] = useState<any>([]);
-
+    const [positionDetail, setPositionDetail] = useState<any>({});
+    const [positionEmployees, setPositionEmployees] = useState<Array<any>>([]);
 
     const getPositions = async( id: number)=>{
         setLoading(true);
@@ -37,6 +37,21 @@ export const usePositions = () => {
           setLoading(false);
         }
       }, []);
+
+      const getPositionEmployees = useCallback(async (id: number) => {
+        setLoading(true);
+        setError(null);
+        let url = `http://localhost:3000/positions/${id}/employees`;
+        try {
+          const data = await positionService.getPosition(url);
+          setPositionEmployees(data);
+        } catch (err: any) {
+          setError(err.message);
+        } finally {
+          setLoading(false);
+        }
+      }, []);
+
 
     const createPosition = async (areaId: number, positionData: positionType) => {
         setLoading(true);
@@ -82,5 +97,5 @@ export const usePositions = () => {
     
       
     
-    return {getPositions, positions, getPosition, positionDetail, createPosition, deletePosition, updatePosition, loading, error, };
+    return {getPositions, positions, getPosition, positionDetail, getPositionEmployees, positionEmployees, createPosition, deletePosition, updatePosition, loading, error, };
 }

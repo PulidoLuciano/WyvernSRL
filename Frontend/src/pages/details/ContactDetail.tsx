@@ -66,6 +66,7 @@ const ContactDetail = () => {
       
       updateContact(contactId, editedData);
       setCreateErrors({});
+      handleClickEditable()
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const createErrors: createContactErrors = {};

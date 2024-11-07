@@ -95,8 +95,6 @@ const ContractDetail = () => {
 
     }, [contractDetail])
 
-
-
     const handleClickEditable = () => {
         setEditable(!editable);
     }

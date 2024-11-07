@@ -97,13 +97,13 @@ const AreaDetail = () => {
 
   const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    e.currentTarget.children;
     
     try {
       await areaSchema.validate(editedData, { abortEarly: false });
       
       updateArea(areaId, editedData);
       setCreateErrors({});
+      handleClickEditable()
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const createErrors: CreateAreaErrors = {};
@@ -137,6 +137,7 @@ const AreaDetail = () => {
       await positionSchema.validate(position, { abortEarly: false });
       createPosition(areaId, position);
       setCreateErrors({});
+      handleClickEditable()
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const createErrors: CreatePositionErrors = {};
@@ -200,10 +201,10 @@ const AreaDetail = () => {
         {editable ? (
           <>
             <div className="my-6">
-              <Form handleSubmit={handleEditSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
+              <Form handleSubmit={handleEditSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
                 <>
                   <Input id={"name"} name={"name"} value={editedData.name} title={"Nombre"} type={"text"} onChange={handleEditChange} error={createErrors.name}></Input>
-                  <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end"}/>
+                  <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-center"}/>
                 </>
               </Form>
             </div>

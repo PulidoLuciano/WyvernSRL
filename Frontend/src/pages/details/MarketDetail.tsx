@@ -51,6 +51,7 @@ const MarketDetail = () => {
           
           updateMarket(marketId, editedData);
           setCreateErrors({});
+          handleClickEditable()
         } catch (err) {
           if (err instanceof Yup.ValidationError) {
             const createErrors: CreateMarketsErrors = {};
