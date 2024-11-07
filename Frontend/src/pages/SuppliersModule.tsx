@@ -73,7 +73,7 @@ const SuppliersModule = () => {
   const indexEndMarket = currentPageMarket * dataLength;
   const indexStartMarket = indexEndMarket - dataLength;
   const nPagesMarket = Math.ceil(markets.length / dataLength);
-  const dataShownMarket = markets.slice(indexStartSupplier, indexEndSupplier);
+  const dataShownMarket = markets.slice(indexStartMarket, indexEndMarket);
 
   const changePageSupplier = (nextPage: number) => {
     setCurrentPageSupplier(nextPage);

@@ -1,10 +1,12 @@
 import { useState, useCallback } from 'react';
 import { productsService } from '../service/productService'
 import { productType } from '../utils/types/productType';
+import { salesService } from '../service/salesService';
 
 export const useProducts = () => {
 
     const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
+    const [loadingSales, setLoadingSales] = useState<boolean>(false);
     const [products, setProducts] = useState<Array<any>>([]);
     const [productSales, setProductSales] = useState<Array<any>>([]);
     const [productDetail, setProductDetail] = useState<any>({});
@@ -48,15 +50,14 @@ export const useProducts = () => {
       const getProductSales = useCallback(async (id: number) => {
         setLoadingProducts(true);
         setError(null)
-        let url = `http://localhost:3000/sales/?Productos_id=${id}&include=Clientes&include=Productos&include=fecha`
+        let url = `http://localhost:3000/sales/?Productos_id=${id}&include=id&include=Clientes&include=Productos&include=fecha&borrado=false`
         try {
-    
-          const data = await productsService.getAllProducts(url);
+          const data = await productsService.getProductSales(url);
           setProductSales(data)
         } catch (err: any) {
           setError(err.message);
         } finally {
-            setLoadingProducts(false);
+          setLoadingProducts(false);
         }
       }, [])
 
@@ -104,6 +105,22 @@ export const useProducts = () => {
             setLoadingProducts(false);
         }
       }
+
+      const deleteSale = async (productId: number, ids: Array<any>) => {
+        setLoadingSales(true);
+        setError(null);
+        let url = "http://localhost:3000/sales";
+        try {
+          
+          const response = await salesService.deleteSale(url,ids);
+          await getProductSales(productId); 
+          return response;
+        } catch (err: any) {
+          setError(err.message);
+        } finally {
+          setLoadingSales(false);
+        }
+      };
  
-    return { getAllProducts, getProduct,productDetail, getProductSales, productSales,updateProduct, products, createProduct, deleteProducts, loadingProducts, error };
+    return { getAllProducts, getProduct,productDetail, getProductSales, productSales,updateProduct, products, createProduct, deleteProducts, loadingProducts, error, deleteSale, loadingSales };
 }

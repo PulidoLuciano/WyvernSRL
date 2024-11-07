@@ -23,6 +23,29 @@ const getAllProducts = async (url: string) => {
     }
   }
 
+  const getProductSales = async (url: string) => {
+    try {
+      const response = await fetch(`${url}`, {
+        mode: "cors",
+        method: "GET",
+        credentials: "include",
+      })
+  
+      if (!response.ok) {
+        console.log(response);
+        console.log(await response.json());
+        throw new Error;
+      }
+  
+      const products = await response.json()
+      return products;
+  
+    } catch (error) {
+      console.log(error);
+  
+    }
+  }
+
   const getOne = async (url : string) => {
 
     const response = await fetch(`${url}`, {
@@ -112,5 +135,4 @@ const getAllProducts = async (url: string) => {
       
       }
 
-
-export const productsService = { getAllProducts, createProduct, updateProduct, deleteProduct, getOne }
+export const productsService = { getAllProducts, createProduct, updateProduct, deleteProduct, getOne, getProductSales }

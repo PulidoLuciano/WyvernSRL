@@ -30,7 +30,7 @@ const ProductDetail = () => {
   useEffect(() => {
     getProduct(productId )
     getProductSales(productId)
-  }, [getProduct])
+  }, [])
 
   useEffect(() => {
     getAllGamesCategories()
@@ -125,7 +125,7 @@ const ProductDetail = () => {
       return;
     } else {
       const dataDelete = await deleteSale(selectedSales);
-      if (dataDelete) console.log("contactos eliminados exitosamente");
+      if (dataDelete) console.log("ventas eliminados exitosamente");
       setSelectedSales([]);
     }
   };
@@ -220,7 +220,7 @@ const ProductDetail = () => {
         </div>
 
         <div className="flex items-center justify-center laptop:justify-end gap-6 my-6"id="paginacionTabla">
-          <Pagination changePage={changePageSales} nPages={nPagesSales}currentPage={currentPageSales} indexStart={indexStartSales}indexEnd={indexEndSales}/>
+          <Pagination changePage={changePageSales} nPages={nPagesSales} currentPage={currentPageSales} indexStart={indexStartSales}indexEnd={indexEndSales}/>
         </div>
       </main>
     </div>

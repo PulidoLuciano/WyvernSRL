@@ -50,6 +50,8 @@ const create = async(url:string,obj : saleType) =>{
 }
 
 const deleteSale = async (url: string, ids: Array<any | null>) => {
+    console.log(ids);
+    
     const response = await fetch(`${url}`,{
                 mode: 'cors',
                 method: 'DELETE',
@@ -121,4 +123,4 @@ const getClientsPurchases = async(url : string) =>{
 
 
 
-export const salesService = {updateSale,getAll,create,deleteSale}
+export const salesService = {updateSale,getAll,create,deleteSale, getClientsPurchases}

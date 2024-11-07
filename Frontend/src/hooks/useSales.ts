@@ -103,11 +103,11 @@ const useSales = () => {
       const deleteSale = async (ids: Array<any>) => {
         setLoading(true);
         setError(null);
-        let url = "http://localhost:3000/sales/";
+        let url = "http://localhost:3000/sales";
         try {
+          
           const response = await salesService.deleteSale(url,ids);
           await getAllSales(true, true); 
-          console.log(await response);
           return response;
         } catch (err: any) {
           setError(err.message);
