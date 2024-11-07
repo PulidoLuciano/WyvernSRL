@@ -137,7 +137,6 @@ const AreaDetail = () => {
       await positionSchema.validate(position, { abortEarly: false });
       createPosition(areaId, position);
       setCreateErrors({});
-      handleClickEditable()
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const createErrors: CreatePositionErrors = {};

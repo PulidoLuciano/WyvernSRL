@@ -10,7 +10,6 @@ export const useGeneral = () => {
   const [LoadingMedias, setLoadingMedias] = useState<boolean>(false);
   const [states, setStates] = useState<Array<any>>([]);
   const [platforms, setPlatforms] = useState<Array<any>>([])
-  const [products, setProducts] = useState<Array<any>>([])
   const [loadingCountries, setLoadingCountries] = useState<boolean>(false);
   const [categories, setCategories] = useState<Array<any>>([]);
   const [gamesCategories, setGamesCategories] = useState<Array<any>>([]);
@@ -18,7 +17,6 @@ export const useGeneral = () => {
   const [loadingCategories, setLoadingCategories] = useState<boolean>(false);
   const [loadingStates, setLoadingStates] = useState<boolean>(false);
   const [loadingPlatforms, setLoadingPlatforms] = useState<boolean>(false);
-  const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
   const [loadingGamesCategories, setLoadingGamesCategories] = useState<boolean>(false);
   const [currencies, setCurrencies] = useState<Array<any>>([])
   const [loadingCurrencies, setLoadingCurrencies] = useState<boolean>(false);
@@ -85,35 +83,17 @@ export const useGeneral = () => {
     }
   }, []);
 
-  const getAllProducts = useCallback(async (categories?:boolean) => {
-    setLoadingProducts(true);
-    setErrorGeneral(null)
-    let url = "http://localhost:3000/products/?borrado=false"
-    let includeStatements = "&include=id&include=lanzamiento&include=precio&include=nombre&include=Categorias"
-    try {
-
-      if(categories) url = url.concat(includeStatements);
-
-      const data = await generalService.getAllProducts(url);
-      setProducts(data)
-    } catch (err: any) {
-      setErrorGeneral(err.message);
-    } finally {
-      setLoadingProducts(false);
-    }
-  }, [])
-
   const getAllMedias = useCallback(async () => {
     setLoadingMedias(true);
     setErrorGeneral(null)
     let urlMedias = "http://localhost:3000/medias"
     try {
-      const data = await generalService.getAllProducts(urlMedias);
+      const data = await generalService.getAllMedias(urlMedias);
       setMedias(data)
     } catch (err: any) {
       setErrorGeneral(err.message);
     } finally {
-      setLoadingProducts(false);
+      setLoadingMedias(false);
     }
   }, [])
 
@@ -122,7 +102,7 @@ export const useGeneral = () => {
     setErrorGeneral(null)
     let url = "http://localhost:3000/currencies"
     try {
-      const data = await generalService.getAllProducts(url);
+      const data = await generalService.getAllCategories(url);
       setCurrencies(data)
     } catch (err: any) {
       setErrorGeneral(err.message);
@@ -174,37 +154,6 @@ export const useGeneral = () => {
     }
   }
 
-  const createProduct = async (productData: productType) => {
-    setLoadingProducts(true);
-    setErrorGeneral(null)
-    try {
-      await generalService.createProduct(productData)
-      await getAllProducts(true)
-    } catch (err:any) {
-      setErrorGeneral(err.message)
-    }finally{
-      setLoadingProducts(false)
-    }
-  }
-
-  const deleteProducts = async(ids:Array<string>) => {
-    setLoadingProducts(true);
-    setErrorGeneral(null);
-    let url = "http://localhost:3000/products/";
-    try {
-      const response = await generalService.deleteObj(url, ids);
-      await getAllProducts(true);
-      console.log(await response);
-      return response;
-    } catch (err: any) {
-      setErrorGeneral(err.message);
-    } finally {
-      setLoadingProducts(false);
-    }
-  }
-
-
-
-  return { breaches,states, positions, categories, platforms, gamesCategories, loadingGamesCategories, currencies, countries, products, medias,createProduct,getAllGamesCategories, getAllCurrencies, getAllPositions,getAllBreaches, getAllCategories, getAllStates, getAllProducts, getAllCountries, getAllPlatforms, getAllMedias,deleteProducts, loadingProducts, LoadingMedias, loadingCountries, loadingPositions, loadingPlatforms, errorGeneral,loadingBreaches };
+  return { breaches,states, positions, categories, platforms, gamesCategories, loadingGamesCategories, currencies, countries, medias, getAllGamesCategories, getAllCurrencies, getAllPositions,getAllBreaches, getAllCategories, getAllStates, getAllCountries, getAllPlatforms, getAllMedias, LoadingMedias, loadingCountries, loadingPositions, loadingPlatforms, errorGeneral,loadingBreaches };
 
 };

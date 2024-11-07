@@ -115,7 +115,6 @@ const EmployeeDetail = () => {
     }
   };
   
-
   const handleEditChange = ( e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     if(name == "country"){

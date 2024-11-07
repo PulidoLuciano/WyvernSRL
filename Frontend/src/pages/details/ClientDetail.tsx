@@ -113,7 +113,6 @@ const ClientData = () => {
       await contactSchema.validate(contact, { abortEarly: false });
       createContact(clientId, contact);
       setCreateErrors({});
-      handleClickEditable()
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const createErrors: createContactErrors = {};
@@ -136,6 +135,7 @@ const ClientData = () => {
       await clientSchema.validate(editedData, { abortEarly: false });
       updateClient(clientId, editedData);
       setCreateErrors({});
+      handleClickEditable()
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const createErrors: createContactErrors = {};

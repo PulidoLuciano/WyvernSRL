@@ -70,31 +70,6 @@ const getAllPlatforms = async (url: string) => {
   }
 }
 
-
-const getAllProducts = async (url: string) => {
-  try {
-    const response = await fetch(`${url}`, {
-      mode: "cors",
-      method: "GET",
-      credentials: "include",
-    })
-
-    if (!response.ok) {
-      console.log(response);
-      console.log(await response.json());
-      throw new Error;
-    }
-
-    const products = await response.json()
-    return products;
-
-  } catch (error) {
-    console.log(error);
-
-  }
-}
-
-
 const getAllMedias = async (url: string) => {
   try {
     const response = await fetch(`${url}`, {
@@ -163,33 +138,6 @@ const getAllPositions = async (url: string) => {
   }
 }
 
-const createProduct = async (productData: productType) => {
-  const response = await fetch("http://localhost:3000/products", {
-    mode: "cors",
-    method: "POST",
-    credentials: "include",
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: JSON.stringify({
-      "nombre": productData.name,
-      "lanzamiento": new Date(productData.date),
-      "precio": Number(productData.price),
-      "Categorias_id": Number(productData.category)
-
-    })
-  })
-
-
-  if (!response.ok) {
-    throw new Error;
-  }
-
-  const product = await response.json()
-  return product;
-
-}
-
 const deleteObj = async (url: string, ids: Array<string>) => {
   const response = await fetch(`${url}`, {
     mode: "cors",
@@ -211,4 +159,4 @@ const deleteObj = async (url: string, ids: Array<string>) => {
 
 }
 
-export const generalService = { deleteObj,createProduct, getAllStates, getAllCategories, getAllCountries, getAllPlatforms, getAllProducts, getAllMedias, getAllPositions}
+export const generalService = { deleteObj, getAllStates, getAllCategories, getAllCountries, getAllPlatforms, getAllMedias, getAllPositions}

@@ -12,11 +12,12 @@ import { useClients } from '../../hooks/useClients'
 import { saleSchema } from '../../schemas/salesSchema'
 import { saleType } from '../../utils/types/saleType'
 import * as Yup from 'yup'
+import { useProducts } from '../../hooks/useProducts'
 
 
 const SaleDetail = () => {
 
-    const { products, getAllProducts } = useGeneral()
+    const { products, getAllProducts } = useProducts()
     const {clients,getAllClients} = useClients();
     const { error, saleDetail, getSale,updateSale } = useSales()
     const params = useParams();

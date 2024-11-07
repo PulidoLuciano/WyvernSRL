@@ -19,13 +19,15 @@ import { useGeneral } from '../hooks/useGeneral';
 import { salesTableHeaders, productsTableHeaders } from '../utils/dataArrays';
 import { productType, CreateProductErrors } from '../utils/types/productType';
 import { productSchema } from '../schemas/productSchema';
+import { useProducts } from '../hooks/useProducts';
 
 
 const SalesModule = () => {
 
   const { sales, loading, error, createSale, deleteSale, getAllSales } = useSales()
+  const { getAllProducts, products, deleteProducts, createProduct, loadingProducts} = useProducts()
   const { clients, getAllClients } = useClients()
-  const { products, gamesCategories,loadingGamesCategories, loadingProducts, errorGeneral, deleteProducts,createProduct, getAllGamesCategories, getAllProducts } = useGeneral()
+  const {gamesCategories, errorGeneral, getAllGamesCategories } = useGeneral()
   useEffect(() => {
     getAllSales(true, true)
     getAllProducts(true);

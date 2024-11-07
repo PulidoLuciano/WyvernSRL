@@ -89,7 +89,6 @@ const ClientsModule = () => {
 
   const handleCreateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    e.currentTarget.children
     if (createData.suscription == "" && createData.country == "" && createData.platform == "") {}
     
     try {
@@ -97,6 +96,7 @@ const ClientsModule = () => {
       await clientSchema.validate(createData, { abortEarly: false });
       createClient(createData)
       setCreateErrors({});
+      
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
 

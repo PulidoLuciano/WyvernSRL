@@ -95,7 +95,7 @@ PUESTOS
         - Data labels: Nombre (Back, front)
                     GET /positions/:id?queries
                     PUT /positions/:id
-        - Tabla empleados: Nombre, DNI, Correo, sueldo, Provincia (Back)
+        - Tabla empleados: Nombre, DNI, Correo, sueldo, Provincia (Back, front)
                     GET /positions/:id/employees
 
 USUARIOS
