@@ -49,7 +49,7 @@ VENTAS
 
 PRODUCTO
     Individual: 
-        - Data labels: Nombre, precio, Fecha de lanzamiento, Categoria (Back)
+        - Data labels: Nombre, precio, Fecha de lanzamiento, Categoria (Back, front)
                     GET /products/:id?queries
                     PUT /products/:id
         - Tabla Ventas del Producto: ID venta, Producto, Cliente, Fecha (Back)

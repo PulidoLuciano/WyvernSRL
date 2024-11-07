@@ -210,8 +210,8 @@ const AreaDetail = () => {
           </>
         ) : (
           <>
-            <div className="grid grid-cols-2 my-6">
-              <div className="col-span-2 flex gap-x-3 mb-4">
+            <div className="grid grid-cols-2 my-6 w-1/2">
+              <div className="col-span-2 flex gap-x-2 mb-7">
                 <h2 className="text-xl">Datos del area</h2>
                 <button onClick={handleClickEditable} className="bg-primary flex text-white rounded px-6 py-2" >
                   <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  fill="none"  viewBox="0 0 24 24">

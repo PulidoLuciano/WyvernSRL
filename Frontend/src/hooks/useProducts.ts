@@ -6,6 +6,7 @@ export const useProducts = () => {
 
     const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
     const [products, setProducts] = useState<Array<any>>([]);
+    const [productSales, setProductSales] = useState<Array<any>>([]);
     const [productDetail, setProductDetail] = useState<any>({});
 
     const [error, setError] = useState<string | null>(null);
@@ -43,6 +44,21 @@ export const useProducts = () => {
         }
       }, []);
 
+
+      const getProductSales = useCallback(async (id: number) => {
+        setLoadingProducts(true);
+        setError(null)
+        let url = `http://localhost:3000/sales/?Productos_id=${id}&include=Clientes&include=Productos&include=fecha`
+        try {
+    
+          const data = await productsService.getAllProducts(url);
+          setProductSales(data)
+        } catch (err: any) {
+          setError(err.message);
+        } finally {
+            setLoadingProducts(false);
+        }
+      }, [])
 
 
       const createProduct = async (productData: productType) => {
@@ -89,5 +105,5 @@ export const useProducts = () => {
         }
       }
  
-    return { getAllProducts, getProduct,productDetail, updateProduct, products, createProduct, deleteProducts, loadingProducts, error };
+    return { getAllProducts, getProduct,productDetail, getProductSales, productSales,updateProduct, products, createProduct, deleteProducts, loadingProducts, error };
 }

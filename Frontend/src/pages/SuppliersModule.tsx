@@ -280,7 +280,7 @@ const SuppliersModule = () => {
         <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
           <div className='flex gap-2 items-end tablet:col-span-2'>
             <h2>Proveedores</h2>
-            <p>Página 1 de 20</p>
+            <p>Página {currentPageSupplier} de {nPagesSupplier}</p>
           </div>
 
           <button onClick={() => handleDeleteSelectedSupplier(selectedSupplierData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
@@ -325,7 +325,7 @@ const SuppliersModule = () => {
         <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
           <div className='flex gap-2 items-end tablet:col-span-2'>
             <h2>Rubros</h2>
-            <p>Página 1 de 20</p>
+            <p>Página {currentPageMarket} de {nPagesMarket}</p>
           </div>
 
           <button onClick={() => handleDeleteSelectedMarket(selectedMarketData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>

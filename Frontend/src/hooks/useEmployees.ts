@@ -134,8 +134,6 @@ const getEmployeeCareer= useCallback(async (id: number) => {
   }
 }, []);
 
-
-
   return { getAllEmployees,employees, createEmployee, updateEmployee, 
     deleteEmployee, getEmployee, employeeDetail, getEmployeePosition,employeePosition,getEmployeeCareer, employeeCareer, loading, error };
 };
