@@ -111,7 +111,6 @@ export const useGeneral = () => {
     }
   }
 
-
   const getAllPositions = useCallback(async () => {
     setLoadingCurrencies(true);
     setErrorGeneral(null)

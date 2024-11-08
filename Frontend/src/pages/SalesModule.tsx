@@ -20,7 +20,7 @@ import { salesTableHeaders, productsTableHeaders } from '../utils/dataArrays';
 import { productType, CreateProductErrors } from '../utils/types/productType';
 import { productSchema } from '../schemas/productSchema';
 import { useProducts } from '../hooks/useProducts';
-
+import { Link } from "react-router-dom";
 
 const SalesModule = () => {
 
@@ -286,20 +286,27 @@ const SalesModule = () => {
           </Form>
         </Accordion>
 
-
         <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
           <div className='flex gap-2 items-end tablet:col-span-2'>
             <h2>Ventas</h2>
             <p>Página {currentPage} de {nPages}</p>
           </div>
 
-          <button onClick={() => handleDeleteSelectedData(selectedData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
+          <button onClick={() => handleDeleteSelectedData(selectedData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center tablet:col-start-3 p-1 tablet:gap-0 laptopL:col-start-5 laptopL:col-end-6'>
             <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
             </svg>
             Eliminar Seleccionados ({selectedData.length})
           </button>
-
+          <Link to="/charts" className='bg-primary font-semibold laptopL:col-start-6 laptopL:col-end-7 rounded flex items-center justify-center text-white'>
+            <svg className="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M5 3V19H21V21H3V3H5ZM20.2929 6.29289L21.7071 7.70711L16 13.4142L13 10.415L8.70711 14.7071L7.29289 13.2929L13 7.58579L16 10.585L20.2929 6.29289Z"></path>
+              </svg>
+            <button >
+              Estadisticas de ventas
+          </button>
+          </Link>
+          
         </div>
 
         <div className='overflow-x-auto mt-6'>
