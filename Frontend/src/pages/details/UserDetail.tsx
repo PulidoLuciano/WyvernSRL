@@ -22,9 +22,9 @@ const UserDetail = () => {
   if (loading) return <p>Cargando detalles del usuario...</p>;
 
   return (
-    <div className="w-full flex ">
-      <Nav />
-      <main className="ms-72 p-8">
+  
+      
+      <main className="w-full p-3 laptop:p-2 laptop:w-2/3 laptopL:w-4/5 relative">
         {userDetail ? (
           <h1 className="text-2xl">
             Visualizacion Usuario: {userDetail.nombre}
@@ -57,7 +57,7 @@ const UserDetail = () => {
           </>
 
       </main>
-    </div>
+    
   );
 };
 

@@ -97,9 +97,9 @@ const PositionDetail = () => {
   if (loading) return <p>Cargando detalles del puesto...</p>;
 
   return (
-    <div className="w-full flex ">
-      <Nav />
-      <main className="ms-72 p-8">
+   
+      
+      <main className="w-full p-3 laptop:p-2 laptop:w-2/3 laptopL:w-4/5 relative">
         {positionDetail ? (
           <h1 className="text-2xl">
             Visualizacion Puesto: {positionDetail.nombre}
@@ -177,7 +177,7 @@ const PositionDetail = () => {
         </div>
 
       </main>
-    </div>
+    
   );
 };
 

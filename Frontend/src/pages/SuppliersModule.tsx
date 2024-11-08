@@ -253,9 +253,9 @@ const SuppliersModule = () => {
   }
 
   return (
-    <main className='w-full flex '>
-      <Nav />
-      <div className='ms-72 p-8'>
+    <main className='w-full p-3 laptop:p-2 laptop:w-2/3 laptopL:w-4/5 relative'>
+      
+     
         <div className='flex flex-col items-start gap-y-3 tablet:gap-6'>
           <h1 className='text-4xl'>Modulo Proveedores</h1>
           <p>Ver, crear, editar y eliminar Proveedores</p>
@@ -368,7 +368,7 @@ const SuppliersModule = () => {
         <div className='flex items-center justify-center laptop:justify-end gap-6 my-6' id='paginacionTabla'>
           <Pagination changePage={changePageMarket} nPages={nPagesMarket} currentPage={currentPageMarket} indexStart={indexStartMarket} indexEnd={indexEndMarket} />
         </div>
-      </div>
+      
     </main>
   )
 }

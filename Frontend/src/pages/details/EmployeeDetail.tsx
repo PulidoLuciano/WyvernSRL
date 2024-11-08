@@ -132,9 +132,9 @@ const EmployeeDetail = () => {
   if (loading) return <p>Cargando detalles del cliente...</p>;
 
   return (
-    <div className="w-full flex ">
-      <Nav />
-      <main className="ms-72 p-8">
+   
+     
+      <main className="w-full p-3 laptop:p-2 laptop:w-2/3 laptopL:w-4/5 relative">
         {employeeDetail ? (
           <h1 className="text-2xl">
             Visualización Empleado: {employeeDetail.nombre}
@@ -235,7 +235,7 @@ const EmployeeDetail = () => {
         </div>
 
       </main>
-    </div>
+    
   );
 };
 

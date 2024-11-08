@@ -19,15 +19,15 @@ const Stats = () => {
   }, [])
   
   return (
-    <main className='w-full flex'>
-      <Nav />
-      <div className='ms-72 w-4/6'>
+    <main className='w-full p-3 laptop:p-2 laptop:w-2/3 laptopL:w-4/5 relative'>
+      
+      
         <h1 className='text-4xl m-10'>Estadisticas de venta</h1>       
         <MonthSales data={monthSales}/>  
         <CountrySales data={countrySales}/>  
         <PlatformSales data={platformSales}></PlatformSales>
         <ProductSales data={productSales}></ProductSales>
-      </div>    
+     
 
       
     </main>

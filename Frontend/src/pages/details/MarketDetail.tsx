@@ -80,9 +80,9 @@ const MarketDetail = () => {
   if (loading) return <p>Cargando detalles del rubro...</p>;
 
   return (
-    <div className="w-full flex ">
-      <Nav />
-      <main className="ms-72 p-8">
+ 
+      
+      <main className="w-full p-3 laptop:p-2 laptop:w-2/3 laptopL:w-4/5 relative">
       {marketDetail ? (
           <h1 className="text-2xl">
             Visualizacion Area: {marketDetail.nombre}
@@ -130,7 +130,7 @@ const MarketDetail = () => {
           </>
         )}
       </main>
-    </div>
+    
   );
 };
 

@@ -175,11 +175,11 @@ const ContractDetail = () => {
     if (loadingContract) return <p>Cargando detalles del contrato...</p>;
 
     return (
-        <div className='w-full flex'>
+        
 
-            <Nav />
+          
 
-            <main className=' ms-72 p-8'>
+            <main className='w-full p-3 laptop:p-2 laptop:w-2/3 laptopL:w-4/5 relative'>
                 {contractDetail ? (
                     <h1 className="text-2xl">
                         Visualización contrato: {contractDetail.id}
@@ -305,7 +305,7 @@ const ContractDetail = () => {
 
             </main>
 
-        </div>
+        
     )
 }
 

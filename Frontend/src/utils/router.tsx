@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import PageTemplate from '../components/PageTemplate.tsx';
 const Login = lazy(() => import("../pages/Login.tsx"));
 const Home = lazy(() => import("../pages/Home.tsx"));
 const Clients = lazy(() => import('../pages/ClientsModule.tsx'));
@@ -25,97 +26,97 @@ const routes = [
 
     {
       path: '/clients',
-      element: <Clients/>,
+      element: <PageTemplate element={<Clients/>}/>,
       roles: ["Admin", 'Ventas', 'Auditor' ]
     },
     {
       path: '/clients/:clientId',
-      element: <ClientDetail/>,
+      element: <PageTemplate element={<ClientDetail/>}/> ,
       roles: ["Admin", 'Ventas', 'Auditor' ]
     }, 
     {
       path: '/clients/:clientId/:contactId',
-      element: <ContactDetail/>,
+      element: <PageTemplate element={<ContactDetail/>}/>,
       roles: ["Admin", 'Ventas', 'Auditor' ]
     },
     {
       path: '/suppliers',
-      element: <Suppliers/>,
+      element: <PageTemplate element={<Suppliers/>}/>,
       roles: ["Admin", 'Compras', 'Auditor' ]
     },
     {
       path: '/suppliers/:supplierId',
-      element: <SupplierDetail/>,
+      element: <PageTemplate element={<SupplierDetail/>}/>,
       roles: ["Admin", 'Compras', 'Auditor' ]
     },
     {
       path: '/markets/:marketId',
-      element: <MarketDetail/>,
+      element: <PageTemplate element={<MarketDetail/>}/> ,
       roles: ["Admin", 'Compras', 'Auditor' ]
     },
     {
       path: '/contracts/:contractId',
-      element: <ContractDetail/>,
+      element: <PageTemplate element={<ContractDetail/>}/>,
       roles: ["Admin", 'Compras', 'Auditor' ]
     },
     {
       path: '/purchases/:purchaseId',
-      element: <PurchaseDetail/>,
+      element: <PageTemplate element={ <PurchaseDetail/>}/>,
       roles: ["Admin", 'Compras', 'Auditor' ]
     },
     {
       path: '/sales',
-      element: <Sales/>,
+      element: <PageTemplate element={<Sales/>}/>,
       roles: ["Admin", 'Ventas', 'Auditor' ]
     },
     {
       path:'/sales/:saleId',
-      element: <SaleDetail/>,
+      element: <PageTemplate element={<SaleDetail/>}/> , 
       roles: ["Admin", 'Ventas', 'Auditor']
     },
     {
       path:'/products/:productId',
-      element: <ProductDetail/>,
+      element: <PageTemplate element={<ProductDetail/>}/> ,
       roles: ["Admin", 'Ventas', 'Auditor' ]
     },
     {
       path: '/employees',
-      element: <Employees/>,
+      element: <PageTemplate element={<Employees/>}/> ,
       roles: ["Admin", 'RRHH', 'Auditor' ]
     },
     {
       path: '/employees/:employeeId',
-      element: <EmployeeDetail/>,
+      element: <PageTemplate element={<EmployeeDetail/>}/>,
       roles: ["Admin", 'RRHH', 'Auditor' ]
     },
     {
       path: '/area/:areaId',
-      element: <AreaDetail/>,
+      element: <PageTemplate element={<AreaDetail/>}/>,
       roles: ["Admin", 'RRHH', 'Auditor' ]
     }, 
     {
       path: '/area/:areaId/:positionId',
-      element: <PositionDetail/>,
+      element:  <PageTemplate element={<PositionDetail/>}/> ,
       roles: ["Admin", 'RRHH', 'Auditor' ]
     },
     {
       path: '/admin',
-      element: <Admin/>,
+      element:  <PageTemplate element={<Admin/>}/> ,
       roles: ["Admin", 'Auditor' ]
     },
     {
       path: '/admin/:userId',
-      element: <UserDetail/>,
+      element:  <PageTemplate element={<UserDetail/>}/> ,
       roles: ["Admin", 'Auditor' ]
     },
     {
       path: '/roles/:roleId',
-      element: <RoleDetail/>,
+      element:  <PageTemplate element={<RoleDetail/>}/> ,
       roles: ["Admin", 'Auditor' ]
     },
     {
       path: '/charts',
-      element: <Stats/>,
+      element:  <PageTemplate element={<Stats/>}/> ,
       roles: ["Admin", 'Ventas', 'Auditor' ]
     },
   ];

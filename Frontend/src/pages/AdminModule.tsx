@@ -168,9 +168,8 @@ const AdminModule = () => {
       }
 
   return (
-    <main className='w-full flex '>
-      <Nav />
-      <div className='ms-72 p-8 w-full'>
+    <main className='w-full p-3 laptop:p-2 laptop:w-2/3 laptopL:w-4/5 relative'>
+     
         <div className='flex flex-col items-start gap-y-3 tablet:gap-6'>
           <h1 className='text-4xl'>Modulo Admin</h1>
           <p>Ver, crear, editar y eliminar Usuarios</p>
@@ -256,7 +255,7 @@ const AdminModule = () => {
           <Pagination changePage={changePageRole} nPages={nPagesRole} currentPage={currentPageRole} indexStart={indexStartRole} indexEnd={indexEndRole} />
         </div>
 
-      </div>
+      
     </main>
   )
 }

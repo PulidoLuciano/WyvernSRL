@@ -256,9 +256,9 @@ const SalesModule = () => {
   }
 
   return (
-    <main className='w-full flex '>
-      <Nav />
-      <div className='ms-72 p-8'>
+    <main className='w-full p-3 laptop:p-2 laptop:w-2/3 laptopL:w-4/5 relative'>
+      
+      
         <div className='flex flex-col items-start gap-y-3 tablet:gap-6'>
           <h1 className='text-4xl'>Modulo Ventas</h1>
           <p>Ver, crear, editar y eliminar Ventas</p>
@@ -391,7 +391,7 @@ const SalesModule = () => {
 
         </div>
 
-      </div>
+      
     </main>
   )
 }

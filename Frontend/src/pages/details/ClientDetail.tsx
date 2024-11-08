@@ -209,9 +209,9 @@ const ClientData = () => {
   if (loading) return <p>Cargando detalles del cliente...</p>;
 
   return (
-    <div className="w-full flex ">
-      <Nav />
-      <main className="ms-72 p-8">
+    
+      
+      <main className="w-full p-3 laptop:p-2 laptop:w-2/3 laptopL:w-4/5 relative">
         {clientDetail ? (
           <h1 className="text-2xl">
             Visualización cliente: {clientDetail.nombre}
@@ -353,7 +353,7 @@ const ClientData = () => {
           <Pagination changePage={changePageContacts} nPages={nPagesContacts} currentPage={currentPageContacts} indexStart={indexStartContacts}indexEnd={indexEndContacts}/>
         </div>
       </main>
-    </div>
+    
   );
 };
 
