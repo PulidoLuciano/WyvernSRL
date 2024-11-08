@@ -188,7 +188,7 @@ const PurchaseDetail = () => {
       <main className='ms-72 p-8'>
         {purchaseDetail ? (
           <h1 className="text-2xl">
-            Visualización contrato: {purchaseDetail.id}
+            Visualización Compra: {purchaseDetail.id}
           </h1>
         ) : (
           <h1 className="text-2xl">Visualización proveedor: ?</h1>

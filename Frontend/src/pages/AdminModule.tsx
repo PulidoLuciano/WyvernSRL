@@ -11,7 +11,7 @@ import Table from '../components/table/Table';
 import TData from '../components/table/TData';
 import TRow from '../components/table/TRow';
 import { useUsers } from '../hooks/useUsers';
-import { usersTableHeaders } from '../utils/dataArrays';
+import { rolesTableHeaders, usersTableHeaders } from '../utils/dataArrays';
 import * as Yup from "yup"
 import { CreateUserErrors, FilterUserErrors, userFilterType, userType } from '../utils/types/userTypes';
 import { userSchema } from '../schemas/userSchema';
@@ -32,7 +32,7 @@ const AdminModule = () => {
     const [filterErrors, setFilterErrors] = useState<FilterUserErrors>({})
     const [dataLength, setDataLength] = useState<number>(10);
     const [currentPageUser, setCurrentPageUser] = useState<number>(1)
-
+    const [currentPageRole, setCurrentPageRole] = useState<number>(1)
 
     const [user, setUser] = useState<userType>({
         name: '',
@@ -52,14 +52,22 @@ const AdminModule = () => {
       const nPagesUser = Math.ceil(users.length / dataLength);
       const dataShownUser = users.slice(indexStartUser, indexEndUser);
 
-    const changePageUser = (nextPage: number) => {
+      const indexEndRole = currentPageRole * dataLength;
+      const indexStartRole = indexEndRole - dataLength;
+      const nPagesRole = Math.ceil(roles.length / dataLength);
+      const dataShownRole = roles.slice(indexStartRole, indexEndRole);
+
+      const changePageUser = (nextPage: number) => {
         setCurrentPageUser(nextPage);
+      }
+
+      const changePageRole = (nextPage: number) => {
+        setCurrentPageRole(nextPage);
       }
     
     const handleCreateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
     
-
         try {
 
          const employeeExist = employees.find(e => e.nombre == user.employee);
@@ -246,6 +254,33 @@ const AdminModule = () => {
 
         <div className='flex items-center justify-center laptop:justify-end gap-6 my-6' id='paginacionTabla'>
           <Pagination changePage={changePageUser} nPages={nPagesUser} currentPage={currentPageUser} indexStart={indexStartUser} indexEnd={indexEndUser} />
+        </div>
+
+        <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
+          <div className='flex gap-2 items-end tablet:col-span-2'>
+            <h2>Roles</h2>
+            <p>Página {currentPageRole} de {nPagesRole}</p>
+          </div>
+
+        </div>
+        <div className='overflow-x-auto mt-6'>
+          <Table headers={rolesTableHeaders}>
+            {dataShownRole.length != 0 ?
+              dataShownRole.map((r, index) => {
+                return (
+                  <TRow key={index} id={r.id} detail={true} deleteButton={true} path='roles'>
+                    <TData>{r.id}</TData>
+                    <TData>{r.nombre}</TData>
+                  </TRow>)
+              })
+              : <div className=''>No hay roles con esas caracteristicas</div>
+
+            }
+          </Table>
+        </div>
+
+        <div className='flex items-center justify-center laptop:justify-end gap-6 my-6' id='paginacionTabla'>
+          <Pagination changePage={changePageRole} nPages={nPagesRole} currentPage={currentPageRole} indexStart={indexStartRole} indexEnd={indexEndRole} />
         </div>
 
       </div>

@@ -22,6 +22,22 @@ const getAll= async (url: string) => {
     }
   }
 
+  const getOne = async (url : string) => {
+    
+    const response = await fetch(`${url}`, {
+        mode: 'cors',
+        method: 'GET',
+        credentials: 'include',
+    })
+    
+    const data = await response.json();
+    
+    if (!response.ok) throw new Error(`${data.message}`);
+   
+    return data;
+
+}
+
   const createUser = async (userData: userType) => {
     const response = await fetch("http://localhost:3000/users", {
       mode: "cors",
@@ -48,4 +64,4 @@ const getAll= async (url: string) => {
   
   }
 
-export const userService = { getAll , createUser }
+export const userService = { getAll , createUser, getOne }

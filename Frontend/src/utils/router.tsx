@@ -17,6 +17,9 @@ const AreaDetail = lazy(()=>import("../pages/details/AreaDetail.tsx"));
 const PositionDetail = lazy(()=>import("../pages/details/PositionDetail.tsx"))
 const Admin = lazy(()=>import("../pages/AdminModule.tsx"))
 const PurchaseDetail = lazy(()=> import("../pages/details/PurchaseDetail.tsx"))
+const UserDetail = lazy(()=>import("../pages/details/UserDetail.tsx"))
+const RoleDetail = lazy(()=>import("../pages/details/RoleDetail.tsx"))
+const Stats = lazy(()=>import("../pages/Stats.tsx"))
 
 const router = createBrowserRouter([
     {
@@ -86,6 +89,18 @@ const router = createBrowserRouter([
     {
       path: '/admin',
       element: <Admin/>
+    },
+    {
+      path: '/admin/:userId',
+      element: <UserDetail/>
+    },
+    {
+      path: '/roles/:roleId',
+      element: <RoleDetail/>
+    },
+    {
+      path: '/charts',
+      element: <Stats/>
     },
   ]);
 

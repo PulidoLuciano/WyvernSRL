@@ -201,5 +201,7 @@ export const positionsTableHeaders: Array<string> = ["Id", "Nombre"]
 
 export const marketsTableHeaders: Array<string> = ["Id", "Nombre"]
 
+export const rolesTableHeaders: Array<string> = ["Id", "Nombre"]
+
 export const usersTableHeaders: Array<string> = ["Nombre de Usuario" , "DNI del empleado", "Rol"]
 
