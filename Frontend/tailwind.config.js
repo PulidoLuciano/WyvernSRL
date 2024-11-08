@@ -25,7 +25,6 @@ export default {
       "gray" : "#F9FAFB",
       "gray2": "#e5e7eb",
     },
-    
     extend: {
       backgroundImage:{
         'dragon':"url('./src/images/wyvern_pescando.jpg')",
@@ -33,6 +32,8 @@ export default {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 }
 

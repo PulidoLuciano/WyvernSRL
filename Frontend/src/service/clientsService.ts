@@ -223,4 +223,28 @@ const updateContact = async (id: number,obj: contactType) => {
     return data;
 }
 
-export const clientsService = { getAllClients, create, deleteClient,updateClient, getOne, getAllContacts, deleteContact, createContact, getClientsPurchases, deletePurchase, updateContact }
+const sendEmails = async(emailText:string,subject:string) =>{
+
+    
+    const response = await fetch("http://localhost:3000/clients/broadcast",{
+        mode: 'cors',
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: JSON.stringify({
+            "subject": subject,
+            "text": emailText
+        })
+    })
+
+    const data = await response.json()
+    console.log(data);
+    if(!response.ok) throw new Error(`${data.message}`);
+    return data;
+
+
+}
+
+export const clientsService = { sendEmails,getAllClients, create, deleteClient,updateClient, getOne, getAllContacts, deleteContact, createContact, getClientsPurchases, deletePurchase, updateContact }

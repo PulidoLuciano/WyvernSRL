@@ -11,6 +11,7 @@ export const useClients = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [deletes, setDeletes] = useState<Array<any> | null>(null);
+  const [sendingEmails,setSendingEmail] = useState<boolean>(false)
 
   const getAllClients = useCallback(
     async (platforms?: boolean, countries?: boolean, filterUrl?: string) => {
@@ -228,6 +229,24 @@ export const useClients = () => {
 
  }
 
+
+const sendEmails = async(emailText:string,subject:string) =>{
+
+    setSendingEmail(true)
+    setError(null)
+    try {
+      
+      await clientsService.sendEmails(emailText,subject);
+
+    } catch (err:any) {
+      setError(err.message)
+    }finally{
+      setSendingEmail(false)
+    }
+
+}
+
+
   return {
     clients,
     loading,
@@ -249,6 +268,8 @@ export const useClients = () => {
     updateClient,
     getContact,
     contactDetail,
-    updateContact
+    updateContact,
+    sendEmails,
+    sendingEmails
   };
 };
