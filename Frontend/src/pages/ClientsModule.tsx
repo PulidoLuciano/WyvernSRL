@@ -17,7 +17,7 @@ import { clientType, CreateClientErrors } from '../utils/types/clientType';
 import { clientSchema } from '../schemas/clientsSchema';
 import * as Yup from 'yup'
 import { clientTableHeaders } from '../utils/dataArrays';
-import TextEditor from '../components/TextEditor';
+import TextEditor from '../components/textEditor/TextEditor';
 const ClientsModule = () => {
 
   const { loading, error, clients, getAllClients, createClient, deleteClient,sendEmails } = useClients();
@@ -266,7 +266,7 @@ const ClientsModule = () => {
             Eliminar Seleccionados ({selectedData.length})
           </button>
 
-          <button onClick={handleChangeWriteNoticia} className='bg-primary font-semibold laptopL:col-start-6 laptopL:col-end-7 rounded flex gap-2 items-center justify-center text-white'>
+          <button disabled={writeEmail} onClick={handleChangeWriteNoticia} className='bg-primary font-semibold laptopL:col-start-6 laptopL:col-end-7 rounded flex gap-2 items-center justify-center text-white'>
             <svg className="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
             </svg>

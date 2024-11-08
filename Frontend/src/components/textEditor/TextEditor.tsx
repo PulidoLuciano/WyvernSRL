@@ -5,8 +5,8 @@ import TextStyle from '@tiptap/extension-text-style'
 import Underline from '@tiptap/extension-underline'
 import TextAlign from '@tiptap/extension-text-align'
 import { orderedList } from '@tiptap/pm/schema-list'
-import MenuBar from './MenuBar'
-import FootBar from './FootBar'
+import MenuBar from '../textEditor/MenuBar'
+import FootBar from '../textEditor/FootBar'
 
 const TextEditor = ({ handleSendEmail, handleCancelEmail }: { handleCancelEmail: any, handleSendEmail: any }) => {
     const extensions = [
