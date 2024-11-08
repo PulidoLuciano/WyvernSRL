@@ -13,7 +13,7 @@ export const usePositions = () => {
     const getPositions = async( id: number)=>{
         setLoading(true);
         setError(null)
-        let url = `http://localhost:3000/positions/?Areas_id=${id}`
+        let url = `http://localhost:3000/positions/?Areas_id=${id}&borrado=false`
         try {
         const data = await positionService.getPositions(url);
         setPositions(data)
@@ -69,7 +69,7 @@ export const usePositions = () => {
     const deletePosition = async(areaId:number ,ids:Array<string>) => {
         setLoading(true);
         setError(null);
-        let url = "http://localhost:3000/areas/";
+        let url = "http://localhost:3000/positions/";
         try {
         const response = await positionService.deletePosition(url, ids);
         await getPositions(areaId);

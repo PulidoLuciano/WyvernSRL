@@ -160,7 +160,7 @@ const PositionDetail = () => {
             dataShownPositionEmployees.length != 0 ?
             dataShownPositionEmployees.map((empleado, index) => (
               <TRow key={index} id={empleado.id} deleteButton={false} detail={false} >
-                <TData checkbox={true} id={empleado.id}>{empleado.id}</TData>
+                <TData id={empleado.id}>{empleado.nombre}</TData>
                 <TData>{empleado.correo ? empleado.correo : "-"}</TData>
                 <TData>{empleado.dni ? empleado.dni : "-"}</TData>
                 <TData>{empleado.sueldo ? `$${empleado.sueldo}` : "-"}</TData>

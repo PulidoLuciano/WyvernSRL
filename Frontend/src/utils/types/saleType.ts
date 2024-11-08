@@ -1,8 +1,7 @@
 export interface saleType {
-    date: string,
+    date: string | null,
     client: string,
-    product: string,
-    deleted?:string
+    product: string | null,
 }
 
 export interface CreateSaleErrors{

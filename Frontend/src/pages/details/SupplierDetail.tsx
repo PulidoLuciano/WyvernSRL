@@ -78,7 +78,8 @@ const SupplierDetail = () => {
     country: "",
     name: "",
     phone: "",
-    state: ""
+    state: "",
+    score: ""
   });
   const [createContractData, setCreateContractData] = useState<contractType>({
     supplier: `${supplierId}`,
@@ -328,6 +329,7 @@ const SupplierDetail = () => {
                   <Select selected={supplierDetail.Provincias.Paises_id} error={editErrors.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleEditChange}></Select>
                   <Select selected={supplierDetail.Provincias.id} error={editErrors.state} id={"provincias"} name={"state"} title={"Provincia"} options={editFormStates} onChange={handleEditChange}></Select>
                   <Select selected={supplierDetail.Rubros.id} error={editErrors.category} id={"rubros"} name={"category"} title={"Rubro"} options={markets} onChange={handleEditChange}></Select>
+                  <Input id={"score"} name={"score"} value={editedData.score} title={"Puntuacion"} type={"text"} placeholder={""} onChange={handleEditChange} error={editErrors.score}></Input>
                   <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
                 </>
               </Form>

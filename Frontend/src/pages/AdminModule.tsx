@@ -167,37 +167,10 @@ const AdminModule = () => {
         
       }
 
-    //   const handleSelectedUser = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     let newSelectedData
-    //     const dataExist = selectedUser.find(d => d == e.target.id);
-    
-    //     if (dataExist) {
-    //       newSelectedData = selectedUser.filter(d => d != dataExist);
-    //       setSelectedUser(newSelectedData)
-    //     }
-    //     else {
-    //       setSelectedUser([...selectedUser, e.target.id]);
-    //     }
-    //   }
-    
-    //   const handleDeleteSelectedUsers = async (selectedData: Array<string>) => {
-    
-    //     if (!selectedData || selectedData.length == 0) {
-    //       return
-    //     } else {
-          
-    //       const dataDelete = await deleteUser(selectedData);
-    //       if (dataDelete) console.log("proveedores eliminados exitosamente");
-          
-    //       setSelectedMarketData([])
-    //     }
-    
-    //   }
-
   return (
     <main className='w-full flex '>
       <Nav />
-      <div className='ms-72 p-8'>
+      <div className='ms-72 p-8 w-full'>
         <div className='flex flex-col items-start gap-y-3 tablet:gap-6'>
           <h1 className='text-4xl'>Modulo Admin</h1>
           <p>Ver, crear, editar y eliminar Usuarios</p>
@@ -219,7 +192,7 @@ const AdminModule = () => {
           <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
             <>
               <Input id={"nombreProveedorFiltrar"} name={"name"} value={filterUser.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleFilterChange} ></Input>
-              <Input id={"dni"} name={"dni"} value={filterUser.dni} title={"DNI"} type={"text"} placeholder={"444448787"} onChange={handleFilterChange} error={filterErrors.dni}></Input>       
+              {/* <Input id={"dni"} name={"dni"} value={filterUser.dni} title={"DNI"} type={"text"} placeholder={"444448787"} onChange={handleFilterChange} error={filterErrors.dni}></Input>        */}
               <Select id={"provinciasFiltrar"} name={"role"} title={"Rol"} options={roles} onChange={handleFilterChange}></Select>
 
               <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"} />
@@ -240,7 +213,7 @@ const AdminModule = () => {
             {dataShownUser.length != 0 ?
               dataShownUser.map((u, index) => {
                 return (
-                  <TRow key={index} id={u.id} detail={true} deleteButton={true} path='admin'>
+                  <TRow key={index} id={u.id} detail={true} deleteButton={false} path='admin'>
                     <TData>{u.nombre}</TData>
                     <TData>{u.Empleados?.dni}</TData>
                     <TData>{u.Roles?.nombre}</TData>
@@ -263,12 +236,12 @@ const AdminModule = () => {
           </div>
 
         </div>
-        <div className='overflow-x-auto mt-6'>
+        <div className='overflow-x-auto mt-6 '>
           <Table headers={rolesTableHeaders}>
             {dataShownRole.length != 0 ?
               dataShownRole.map((r, index) => {
                 return (
-                  <TRow key={index} id={r.id} detail={true} deleteButton={true} path='roles'>
+                  <TRow key={index} id={r.id} detail={true} deleteButton={false} path='roles'>
                     <TData>{r.id}</TData>
                     <TData>{r.nombre}</TData>
                   </TRow>)

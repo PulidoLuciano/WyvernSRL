@@ -4,7 +4,7 @@ export const nombreSchema = z.string().trim().min(2, "Un nombre debe tener al me
 
 export const correoSchema = z.string().trim().email().max(45, "Un correo no puede tener mas de 45 caracteres");
 
-export const telefonoSchema = z.string().trim().regex(/"^\+?\d{1,3}?[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$"/, "El número de teléfono no parece serlo");
+export const telefonoSchema = z.string().trim().regex(/^\+?\d{1,3}?[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/, "El número de teléfono no parece serlo");
 
 export const idSchema = z.coerce.number({message:"Se espera numero"});
 

@@ -2,8 +2,6 @@
 import { Credential } from "../utils/types/userTypes";
 
 const login = async (credentials : Credential) => {
-  try {
-    
     const response = await fetch(`http://localhost:3000/users/login`, {
       mode: 'cors',
       method: 'POST',
@@ -14,19 +12,12 @@ const login = async (credentials : Credential) => {
       body: JSON.stringify({"nombre":credentials.nombre, "password":credentials.password}),
     })
 
-    if (!response.ok) {
-      console.log(response);
-      
-      throw new Error();
-    }
-    
     const user = await response.json();
+
+    if (!response.ok) throw new Error(`${user.message}`);
     
     return user
-  } catch (error) {
-    console.log(error);
-  }
-    
+   
 }
 
 

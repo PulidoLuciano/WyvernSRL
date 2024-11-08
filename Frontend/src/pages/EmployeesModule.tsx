@@ -22,7 +22,7 @@ import { areaType } from '../utils/types/areaType';
 
 const EmployeesModule = () => {
 
-  const { getAllEmployees, employees, createEmployee, deleteEmployee } = useEmployees();
+  const { getAllEmployees, employees, createEmployee, deleteEmployee, error } = useEmployees();
   const { states, countries, positions, getAllPositions, getAllStates, getAllCountries } = useGeneral();
   const { getAllAreas, areas, createArea, deleteArea} = useAreas();
 
@@ -46,16 +46,13 @@ const EmployeesModule = () => {
     name: '',
     phone: '',
     email: '',
-    dni: '',
-    hiringDate: '',
-    salary: '',
+    dni: null,
+    hiringDate: null,
+    salary: null,
     country: '',
     state: '',
     position: ''
   });
-
-  console.log(createEmployeeData);
-  
 
   const [filterEmployeeData, setFilterEmployeeData] = useState<employeeFilterType>({
     name: '',
@@ -251,6 +248,12 @@ const EmployeesModule = () => {
           <h1 className='text-4xl'>Modulo Empleados</h1>
           <p>Ver, crear, editar y eliminar Empleados</p>
         </div>
+        {error && <div className='flex gap-3 justify-center mt-0'>
+              <svg className="w-6 h-6 text-red" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+              <p className='text-red text-lg'>{error}</p>
+        </div>}
 
         <Accordion title="Crear Nuevo Empleado">
           <Form handleSubmit={handleCreateEmployeeSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-4 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
@@ -287,8 +290,8 @@ const EmployeesModule = () => {
             <p>Página {currentPageEmployee} de {nPagesEmployee}</p>
           </div>
 
-          <button onClick={() => handleDeleteSelectedEmployees(selectedEmployees)} className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
-            <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <button onClick={() => handleDeleteSelectedEmployees(selectedEmployees)} className='bg-red font-semibold text-sm rounded flex items-center justify-center px-2 tablet:col-start-3 tablet:gap-1 laptopL:col-start-5 laptopL:col-end-6'>
+            <svg className="w-8 h-7 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
             </svg>
             Eliminar Seleccionados ({selectedEmployees.length})
@@ -308,7 +311,7 @@ const EmployeesModule = () => {
               dataEmployeeShown.length != 0?
               dataEmployeeShown.map((empleado, index) => {
                 return (
-                  <TRow key={index} id={empleado.id} detail={true} deleteButton={true} path='employees'>
+                  <TRow key={index} id={empleado.id} detail={true} handleDelete={()=>deleteEmployee([empleado.id.toString()])} deleteButton={true} path='employees'>
                     <TData id={empleado.id} onChange={handleSelectedEmployees} checkbox={true}>{empleado.nombre}</TData>
                     <TData>{empleado.correo ? empleado.correo : "-"}</TData>
                     <TData>{empleado.dni ? empleado.dni : "-"}</TData>
@@ -339,19 +342,13 @@ const EmployeesModule = () => {
             <p>Página {currentPageArea} de {nPagesArea}</p>
           </div>
 
-          <button onClick={() => handleDeleteSelectedAreas(selectedAreas)} className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
-            <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <button onClick={() => handleDeleteSelectedAreas(selectedAreas)} className='bg-red font-semibold text-sm rounded flex items-center justify-center px-2 tablet:col-start-3 tablet:gap-1 laptopL:col-start-5 laptopL:col-end-6'>
+            <svg className="w-8 h-7 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
             </svg>
             Eliminar Seleccionados ({selectedAreas.length})
           </button>
 
-          <button className='bg-primary font-semibold laptopL:col-start-6 laptopL:col-end-7 rounded flex gap-2 items-center justify-center text-white'>
-            <svg className="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
-            </svg>
-            Enviar Noticia
-          </button>
         </div>
 
         <div className='overflow-x-auto mt-6'>
@@ -360,7 +357,7 @@ const EmployeesModule = () => {
               dataAreaShown.length !=0 ?
               dataAreaShown.map((area, index) => {
                 return (
-                  <TRow key={index} id={area.id} detail={true} deleteButton={true} path='area'>
+                  <TRow key={index} id={area.id} detail={true} handleDelete={()=>deleteArea([area.id.toString()])} deleteButton={true} path='area'>
                     <TData id={area.id} onChange={handleSelectedAreas} checkbox={true}>{area.id}</TData>
                     <TData>{area.nombre}</TData>
                   </TRow>)

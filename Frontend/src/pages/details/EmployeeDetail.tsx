@@ -17,10 +17,11 @@ import { useEmployees } from "../../hooks/useEmployees";
 import { employeeSchema } from "../../schemas/employeeSchema";
 import { careerTableHeaders } from "../../utils/dataArrays";
 
+
 const EmployeeDetail = () => {
   const params = useParams();
   const employeeId = parseInt(params.employeeId || "", 10);
-  
+
   const {getEmployee, employeeDetail, employeePosition, employeeCareer, getEmployeeCareer, getEmployeePosition ,loading,error, updateEmployee} = useEmployees();
   const { states, countries, positions, getAllPositions, getAllStates, getAllCountries } = useGeneral();
   

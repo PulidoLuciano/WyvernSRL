@@ -14,7 +14,8 @@ interface AuthContextProps {
     role: string;
     authenticated: boolean;
     logout: () => any;
-    loading: boolean
+    loading: boolean;
+    error: string | null
   }
   
   const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -23,6 +24,7 @@ interface AuthContextProps {
 
     const [user, setUser] = useState<any | null>(null);
     const [role, setRole] = useState<any | null>(null);
+    const [error, setError] = useState<string | null>(null);
     const [authenticated, setAuthenticated] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -30,17 +32,25 @@ interface AuthContextProps {
     
 
     const login = async (credentials : Credential) => {
-      
-      const user = await authService.login(credentials);
-      setUser(user);
-      const cookies = Cookies.get()
-      const decode : {role : string} = jwtDecode(cookies.authenticationToken)
-      const rol = decode.role
-      
-      if (rol) {
-        setRole(rol);
-      }        
-      setAuthenticated(true);
+      setLoading(true);
+      setError(null);
+      try {
+        
+        const user = await authService.login(credentials);
+        setUser(user);
+        const cookies = Cookies.get()
+        const decode : {role : string} = jwtDecode(cookies.authenticationToken)
+        const rol = decode.role
+        
+        if (rol) {
+          setRole(rol);
+        }        
+        setAuthenticated(true);
+      } catch (err: any) {       
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
      
     };
 
@@ -92,7 +102,7 @@ interface AuthContextProps {
 
     
     return (
-      <AuthContext.Provider value={{user, login,createClient, role, authenticated, logout, loading}}>
+      <AuthContext.Provider value={{user, login,createClient, role, authenticated, logout, loading, error}}>
         {children}
       </AuthContext.Provider>
     );

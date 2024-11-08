@@ -5,17 +5,6 @@ import { Link } from 'react-router-dom';
 
 const TRow = ({ children, id, detail,deleteButton,path,handleDelete }: TRowProps) => {
 
-  // const { deleteClient } = useClients();
-
-  // const handleDeleteRow = async(id : string) =>{
-  //   if(handleDelete){
-  //    await handleDelete([id.toString()])
-  //   }else{
-  //     return;
-  //   }
-
-  // }
-
 
   return (
     <tr>

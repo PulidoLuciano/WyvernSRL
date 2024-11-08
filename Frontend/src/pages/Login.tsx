@@ -11,10 +11,8 @@ import * as Yup from 'yup';
 
 const Login = () => {
 
-  const { login } = useAuth();
-
-  const navigate = useNavigate()
-
+  const { login, error } = useAuth();
+  
   const [authData, setAuthData] = useState<Credential>({
     nombre:'',
     password:''
@@ -23,11 +21,11 @@ const Login = () => {
   const [authErrors, setAuthErrors] = useState<credentialErrors>({})
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
+    
     e.preventDefault();
     try {
       await authSchema.validate(authData, { abortEarly: false });
       login(authData)
-      navigate('/home')
       setAuthErrors({});
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
@@ -61,6 +59,12 @@ const Login = () => {
           <>
             <img src={logo} className="h-44" />
             <p className="text-xl text-center my-8">Ingresar al area de trabajo</p>
+            {error && <div className='flex gap-3 justify-center mt-0'>
+              <svg className="w-6 h-6 text-red" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+              <p className='text-red text-lg'>{error}</p>
+            </div>}
             <Input id={"usuario"} name={"nombre"} value={authData.nombre} title={"Usuario"} type={"text"} placeholder={"User125"} onChange={handleChange} error={authErrors.nombre}></Input>
             <Input id={"contrasenia"} name={"password"} value={authData.password} title={"Contraseña"} type={"password"} placeholder={"••••••••"} onChange={handleChange} error={authErrors.password}></Input>
             <button type='submit' className='text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center '>

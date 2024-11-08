@@ -116,6 +116,17 @@ const SuppliersModule = () => {
       const state = states.find(s => s.id == supplier.state);
       await supplierSchema.validate(supplier, { abortEarly: false });
       createSupplier(supplier)
+      setCreateErrors({});
+
+      setSupplier({
+        name: '',
+        state: '',
+        email: '',
+        phone: '',
+        category: '',
+        country: '',
+      })
+
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
 
@@ -219,6 +230,7 @@ const SuppliersModule = () => {
     try {
       await marketSchema.validate(market, { abortEarly: false });
       createMarket(market)
+      setCreateErrors({});
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
 
@@ -254,10 +266,10 @@ const SuppliersModule = () => {
             <>
               <Input id={"nombreProveedor"} name={"name"} value={supplier.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange} error={createErrors.name}></Input>
               <Input id={"correoProveedor"} name={"email"} value={supplier.email} title={"Correo"} type={"email"} placeholder={"username@wyvern.com"} onChange={handleCreateChange} error={createErrors.email}></Input>
-              <Input id={"telefonoProveedor"} name={"phone"} value={supplier.phone} title={"Teléfono"} type={"number"} placeholder={"543816341612"} onChange={handleCreateChange} error={createErrors.phone}></Input>
-              <Select error={createErrors.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange}></Select>
-              <Select error={createErrors.state} id={"provincias"} name={"state"} title={"Provincia"} options={createFormStates} onChange={handleCreateChange}></Select>
-              <Select error={createErrors.category} id={"rubros"} name={"category"} title={"Rubro"} options={markets} onChange={handleCreateChange}></Select>
+              <Input id={"telefonoProveedor"} name={"phone"} value={supplier.phone} title={"Teléfono"} type={"text"} placeholder={"543816341612"} onChange={handleCreateChange} error={createErrors.phone}></Input>
+              <Select selected={supplier.country} error={createErrors.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange}></Select>
+              <Select selected={supplier.state} error={createErrors.state} id={"provincias"} name={"state"} title={"Provincia"} options={createFormStates} onChange={handleCreateChange}></Select>
+              <Select selected={supplier.category} error={createErrors.category} id={"rubros"} name={"category"} title={"Rubro"} options={markets} onChange={handleCreateChange}></Select>
               <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
             </>
           </Form>
@@ -282,8 +294,8 @@ const SuppliersModule = () => {
             <p>Página {currentPageSupplier} de {nPagesSupplier}</p>
           </div>
 
-          <button onClick={() => handleDeleteSelectedSupplier(selectedSupplierData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
-            <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <button onClick={() => handleDeleteSelectedSupplier(selectedSupplierData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center px-2 tablet:col-start-3 tablet:gap-2 laptopL:col-start-6 laptopL:col-end-6'>
+            <svg className="w-8 h-7 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
             </svg>
             Eliminar Seleccionados ({selectedSupplierData.length})
@@ -329,8 +341,8 @@ const SuppliersModule = () => {
             <p>Página {currentPageMarket} de {nPagesMarket}</p>
           </div>
 
-          <button onClick={() => handleDeleteSelectedMarket(selectedMarketData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6'>
-            <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <button onClick={() => handleDeleteSelectedMarket(selectedMarketData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center px-2 tablet:col-start-3 tablet:gap-1 laptopL:col-start-5 laptopL:col-end-6'>
+            <svg className="w-8 h-7 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
             </svg>
             Eliminar Seleccionados ({selectedMarketData.length})

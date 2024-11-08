@@ -69,14 +69,14 @@ const RoleDetail = () => {
             </div>
           </>
 
-          <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
+        <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6 '>
           <div className='flex gap-2 items-end tablet:col-span-2'>
             <h2>Roles</h2>
             <p>Página {currentPageUser} de {nPagesUser}</p>
           </div>
 
         </div>
-        <div className='overflow-x-auto mt-6'>
+        <div className='overflow-x-auto mt-6 '>
           <Table headers={usersTableHeaders}>
             {dataShownUser.length != 0 ?
               dataShownUser.map((u, index) => {

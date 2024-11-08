@@ -173,12 +173,13 @@ const AreaDetail = () => {
     }
   };
 
-  const handleDeleteSelectedPositions = async (selectedDataContact: Array<string>) => {
-    if (!selectedDataContact || selectedDataContact.length == 0) {
+  const handleDeleteSelectedPositions = async (selectedData: Array<string>) => {
+    if (!selectedData || selectedData.length == 0) {
       return;
     } else {
-      const dataDelete = await deletePosition(areaId, selectedDataContact);
-      if (dataDelete) console.log("contactos eliminados exitosamente");
+      
+      const dataDelete = await deletePosition(areaId, selectedData);
+      if (dataDelete) console.log("puestos eliminados exitosamente");
       setSelectedPositions([]);
     }
   };
@@ -247,7 +248,7 @@ const AreaDetail = () => {
             dataShownEmployees.length != 0 ?
             dataShownEmployees.map((empleado, index) => (
               <TRow key={index} id={empleado.id} deleteButton={false} detail={false} >
-                <TData checkbox={true} id={empleado.id}>{empleado.id}</TData>
+                <TData id={empleado.id}>{empleado.nombre}</TData>
                 <TData>{empleado.correo ? empleado.correo : "-"}</TData>
                 <TData>{empleado.dni ? empleado.dni : "-"}</TData>
                 <TData>{empleado.sueldo ? `$${empleado.sueldo}` : "-"}</TData>
@@ -290,7 +291,7 @@ const AreaDetail = () => {
         <div className="overflow-x-auto mt-6">
           <Table headers={positionsTableHeaders}>
             {dataShownPositions.map((puesto, index) => (
-              <TRow key={index} id={puesto.id} deleteButton={true} detail={true} path={path}>
+              <TRow key={index} id={puesto.id} handleDelete={()=>deletePosition(areaId,[puesto.id.toString()])} deleteButton={true} detail={true} path={path}>
                 <TData checkbox={true} id={puesto.id} onChange={handleSelectedPositions}>
                   {puesto.id}
                 </TData>

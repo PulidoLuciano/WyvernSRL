@@ -98,8 +98,6 @@ export const useEmployees = () => {
      try {
      await employeesService.updateEmployee(id,employeeData);
      await getEmployee(id);
-     await getEmployeeCareer(id);
-     await getEmployeePosition(id);
     } catch (err : any) {
      setError(err.message)
     }finally{
