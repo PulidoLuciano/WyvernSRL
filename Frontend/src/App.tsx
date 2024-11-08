@@ -7,6 +7,7 @@ import Login from "./pages/Login"
 import Unauthorized from "./pages/Unauthorized"
 import Home from "./pages/Home"
 import RedirectIfLoggedIn from "./components/routes/RedirectIdLoggedIn"
+import PageTemplate from "./components/PageTemplate"
 
 const createRoutes = () => {
   return routes.map((route) => {
@@ -27,10 +28,10 @@ function App() {
   const router = createBrowserRouter([
     ...createRoutes(),
     {
-      path: '/home',element: <Home/>,roles: ["Admin", 'Ventas', 'RRHH' ,'Compras', 'Auditor' ]
+      path: '/home',element: <PageTemplate element={<Home/>}/>,roles: ["Admin", 'Ventas', 'RRHH' ,'Compras', 'Auditor' ]
     },
     { path: "/", element: <RedirectIfLoggedIn><Login/></RedirectIfLoggedIn> },
-    { path: "/unauthorized", element: <Unauthorized /> },
+    { path: "/unauthorized", element: <PageTemplate element={<Unauthorized />}/> },
   ]);
 
 
