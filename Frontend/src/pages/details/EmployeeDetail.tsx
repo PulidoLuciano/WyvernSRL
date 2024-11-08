@@ -134,7 +134,7 @@ const EmployeeDetail = () => {
   return (
     <div className="w-full flex ">
       <Nav />
-      <main className="ms-72 p-8">
+      <main className="m-0 laptop:ms-72 p-8 w-full">
         {employeeDetail ? (
           <h1 className="text-2xl">
             Visualización Empleado: {employeeDetail.nombre}

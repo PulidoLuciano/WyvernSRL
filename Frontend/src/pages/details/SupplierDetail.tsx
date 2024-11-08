@@ -309,7 +309,7 @@ const SupplierDetail = () => {
 
       <Nav />
 
-      <main className=' ms-72 p-8'>
+      <main className='m-0 laptop:ms-72 p-8 w-full'>
         {supplierDetail ? (
           <h1 className="text-2xl">
             Visualización proveedor: {supplierDetail.nombre}

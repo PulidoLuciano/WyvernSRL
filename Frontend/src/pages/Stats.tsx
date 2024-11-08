@@ -21,7 +21,7 @@ const Stats = () => {
   return (
     <main className='w-full flex'>
       <Nav />
-      <div className='ms-72 w-4/6'>
+      <div className=' m-0 laptop:ms-72 p-8 w-4/6'>
         <h1 className='text-4xl m-10'>Estadisticas de venta</h1>       
         <MonthSales data={monthSales}/>  
         <CountrySales data={countrySales}/>  

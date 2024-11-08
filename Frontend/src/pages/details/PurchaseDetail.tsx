@@ -185,7 +185,7 @@ const PurchaseDetail = () => {
 
       <Nav />
 
-      <main className='ms-72 p-8'>
+      <main className='m-0 laptop:ms-72 p-8 w-full'>
         {purchaseDetail ? (
           <h1 className="text-2xl">
             Visualización Compra: {purchaseDetail.id}

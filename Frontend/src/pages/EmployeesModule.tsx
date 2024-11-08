@@ -243,7 +243,7 @@ const EmployeesModule = () => {
   return (
     <main className='w-full flex '>
       <Nav />
-      <div className='ms-72 p-8'>
+      <div className='m-0 laptop:ms-72 p-8 w-full'>
         <div className='flex flex-col items-start gap-y-3 tablet:gap-6'>
           <h1 className='text-4xl'>Modulo Empleados</h1>
           <p>Ver, crear, editar y eliminar Empleados</p>

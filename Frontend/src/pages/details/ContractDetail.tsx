@@ -179,7 +179,7 @@ const ContractDetail = () => {
 
             <Nav />
 
-            <main className=' ms-72 p-8'>
+            <main className='m-0 laptop:ms-72 p-8 w-full'>
                 {contractDetail ? (
                     <h1 className="text-2xl">
                         Visualización contrato: {contractDetail.id}
