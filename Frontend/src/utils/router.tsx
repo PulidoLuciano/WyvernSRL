@@ -1,6 +1,6 @@
 import { lazy } from 'react';
-import { createBrowserRouter } from 'react-router-dom';
 const Login = lazy(() => import("../pages/Login.tsx"));
+const Home = lazy(() => import("../pages/Home.tsx"));
 const Clients = lazy(() => import('../pages/ClientsModule.tsx'));
 const ClientDetail = lazy(() => import("../pages/details/ClientDetail.tsx"));
 const ContactDetail = lazy(() => import("../pages/details/ContactDetail.tsx"));
@@ -21,87 +21,103 @@ const UserDetail = lazy(()=>import("../pages/details/UserDetail.tsx"))
 const RoleDetail = lazy(()=>import("../pages/details/RoleDetail.tsx"))
 const Stats = lazy(()=>import("../pages/Stats.tsx"))
 
-const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <Login/>,
-    },
+const routes = [
+
     {
       path: '/clients',
       element: <Clients/>,
+      roles: ["Admin", 'Ventas', 'Auditor' ]
     },
     {
       path: '/clients/:clientId',
-      element: <ClientDetail/>
+      element: <ClientDetail/>,
+      roles: ["Admin", 'Ventas', 'Auditor' ]
     }, 
     {
       path: '/clients/:clientId/:contactId',
-      element: <ContactDetail/>
+      element: <ContactDetail/>,
+      roles: ["Admin", 'Ventas', 'Auditor' ]
     },
     {
       path: '/suppliers',
-      element: <Suppliers/>
+      element: <Suppliers/>,
+      roles: ["Admin", 'Compras', 'Auditor' ]
     },
     {
       path: '/suppliers/:supplierId',
-      element: <SupplierDetail/>
+      element: <SupplierDetail/>,
+      roles: ["Admin", 'Compras', 'Auditor' ]
     },
     {
       path: '/markets/:marketId',
-      element: <MarketDetail/>
+      element: <MarketDetail/>,
+      roles: ["Admin", 'Compras', 'Auditor' ]
     },
     {
       path: '/contracts/:contractId',
-      element: <ContractDetail/>
+      element: <ContractDetail/>,
+      roles: ["Admin", 'Compras', 'Auditor' ]
     },
     {
       path: '/purchases/:purchaseId',
-      element: <PurchaseDetail/>
+      element: <PurchaseDetail/>,
+      roles: ["Admin", 'Compras', 'Auditor' ]
     },
     {
       path: '/sales',
-      element: <Sales/>
+      element: <Sales/>,
+      roles: ["Admin", 'Ventas', 'Auditor' ]
     },
     {
       path:'/sales/:saleId',
-      element: <SaleDetail/>
+      element: <SaleDetail/>,
+      roles: ["Admin", 'Ventas', 'Auditor']
     },
     {
       path:'/products/:productId',
-      element: <ProductDetail/>
+      element: <ProductDetail/>,
+      roles: ["Admin", 'Ventas', 'Auditor' ]
     },
     {
       path: '/employees',
-      element: <Employees/>
+      element: <Employees/>,
+      roles: ["Admin", 'RRHH', 'Auditor' ]
     },
     {
       path: '/employees/:employeeId',
-      element: <EmployeeDetail/>
+      element: <EmployeeDetail/>,
+      roles: ["Admin", 'RRHH', 'Auditor' ]
     },
     {
       path: '/area/:areaId',
-      element: <AreaDetail/>
+      element: <AreaDetail/>,
+      roles: ["Admin", 'RRHH', 'Auditor' ]
     }, 
     {
       path: '/area/:areaId/:positionId',
-      element: <PositionDetail/>
+      element: <PositionDetail/>,
+      roles: ["Admin", 'RRHH', 'Auditor' ]
     },
     {
       path: '/admin',
-      element: <Admin/>
+      element: <Admin/>,
+      roles: ["Admin", 'Auditor' ]
     },
     {
       path: '/admin/:userId',
-      element: <UserDetail/>
+      element: <UserDetail/>,
+      roles: ["Admin", 'Auditor' ]
     },
     {
       path: '/roles/:roleId',
-      element: <RoleDetail/>
+      element: <RoleDetail/>,
+      roles: ["Admin", 'Auditor' ]
     },
     {
       path: '/charts',
-      element: <Stats/>
+      element: <Stats/>,
+      roles: ["Admin", 'Ventas', 'Auditor' ]
     },
-  ]);
+  ];
 
-export default router
+export default routes

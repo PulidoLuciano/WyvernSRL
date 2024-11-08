@@ -11,16 +11,9 @@ import * as Yup from 'yup';
 
 const Login = () => {
 
-  const { login, user } = useAuth();
+  const { login } = useAuth();
 
   const navigate = useNavigate()
-
-  useEffect(() => {
-    if (user) {
-      
-      navigate('/clients')
-    }
-  }, [user])
 
   const [authData, setAuthData] = useState<Credential>({
     nombre:'',
@@ -34,6 +27,7 @@ const Login = () => {
     try {
       await authSchema.validate(authData, { abortEarly: false });
       login(authData)
+      navigate('/home')
       setAuthErrors({});
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
@@ -57,7 +51,6 @@ const Login = () => {
       [name]: value
     });
   }
-
 
   return (
     <main className="grid grid-cols-2">
