@@ -124,7 +124,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
                         "Productos",
                         "id",
                         "fecha"
-                    ]
+                    ],
                 };
                 next();
             },

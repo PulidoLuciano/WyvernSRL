@@ -41,14 +41,14 @@ const ContractDetail = () => {
         motive: "",
         amount: "",
         currency: "",
-        expireDate: "",
-        payDate: "",
+        expireDate: null,
+        payDate: null,
         supplier: "",
     })
 
     const [createBreacheData, setCreateBreacheData] = useState<breacheType>({
         contractId: contractId.toString(),
-        date:"",
+        date: null,
         breachLevel:"",
         description:""
     })
@@ -87,9 +87,9 @@ const ContractDetail = () => {
                 supplier: contractDetail.Proveedores?.id,
                 amount: contractDetail.monto,
                 currency: contractDetail.Monedas?.id,
-                expireDate: contractDetail.fechaVencimiento,
+                expireDate: contractDetail.fechaVencimiento.slice(0,10),
                 motive: contractDetail.descripcion,
-                payDate: contractDetail.fechaPago
+                payDate: contractDetail.fechaPago.slice(0,10)
             })
         }
 
@@ -194,8 +194,8 @@ const ContractDetail = () => {
                             <Form handleSubmit={handleEditSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
                                 <>
                                     <Input name='motive' placeholder='Motivo en 1 frase' error={editErrors.motive} value={editedData.motive} onChange={handleEditChange} type='text' id='motivoContrato' title='Motivo' />
-                                    <Input name='expireDate' placeholder={"2023-07-17"} error={editErrors.expireDate} value={editedData.expireDate} onChange={handleEditChange} type='text' id='fechaVencimientoContrato' title='Fecha de vencimiento' />
-                                    <Input name='payDate' placeholder={"2023-07-17"} error={editErrors.payDate} value={editedData.payDate} onChange={handleEditChange} type='text' id='fechaPagoContrato' title='Fecha de pago' />
+                                    <Input name='expireDate' placeholder={"2023-07-17"} error={editErrors.expireDate} value={editedData.expireDate} onChange={handleEditChange} type='date' id='fechaVencimientoContrato' title='Fecha de vencimiento' />
+                                    <Input name='payDate' placeholder={"2023-07-17"} error={editErrors.payDate} value={editedData.payDate} onChange={handleEditChange} type='date' id='fechaPagoContrato' title='Fecha de pago' />
                                     <Input name='amount' placeholder='0.00' error={editErrors.amount} value={editedData.amount} onChange={handleEditChange} type='number' id='amountContrato' title='Monto' />
                                     <Select id='currencyContract' selected={contractDetail.Monedas?.id} error={editErrors.currency} name='currency' onChange={handleEditChange} options={currencies} title='Moneda' />
                                     <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end"} />
@@ -241,9 +241,9 @@ const ContractDetail = () => {
                                         {contractDetail.descripcion}
                                     </p>
                                     <h4 className="font-semibold text-lg">Fecha de vencimiento</h4>
-                                    <p>{contractDetail.fechaVencimiento}</p>
+                                    <p>{contractDetail.fechaVencimiento?.slice(0,10)}</p>
                                     <h4 className="font-semibold text-lg">Fecha de pago</h4>
-                                    <p>{contractDetail.fechaPago}</p>
+                                    <p>{contractDetail.fechaPago?.slice(0,10)}</p>
                                     <h4 className="font-semibold text-lg">Monto</h4>
                                     <p>{contractDetail.monto}</p>
                                     <h4 className="font-semibold text-lg">Moneda</h4>
@@ -263,7 +263,7 @@ const ContractDetail = () => {
                     <Form handleSubmit={handleCreateBreacheSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
                         <>
                             <Input  id='descripcionIncumplimiento' name='description' onChange={handleCreateBreacheChange} placeholder='Descripción breve' title='Descripción' type='text' error={createBreacheErrors.description} value={createBreacheData.description}/>
-                            <Input  id='fechaIncumplimiento' name='date' onChange={handleCreateBreacheChange} placeholder='2023-01-07' title='Fecha' type='text' error={createBreacheErrors.date} value={createBreacheData.date}/>
+                            <Input  id='fechaIncumplimiento' name='date' onChange={handleCreateBreacheChange} placeholder='2023-01-07' title='Fecha' type='date' error={createBreacheErrors.date} value={createBreacheData.date}/>
                             <Select id='nivelIncumplimiento' name='breachLevel' onChange={handleCreateBreacheChange} options={breaches} title='Nivel de incumplimiento' error={createBreacheErrors.breachLevel}/>
                             <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end"} />
                         </>
@@ -289,7 +289,7 @@ const ContractDetail = () => {
                             <TRow key={index} id={breache.id} handleDelete={()=>deleteContractBreaches(contractId,[breache.id.toString()])} deleteButton={true} >
                                 <TData id={breache.id}>{breache.id}</TData>
                                 <TData>{breache.descripcion}</TData>
-                                <TData>{breache.fecha}</TData>
+                                <TData>{breache.fecha?.slice(0,10)}</TData>
                                 <TData>{breache.NivelDeIncumplimiento?.nombre ? breache.NivelDeIncumplimiento?.nombre : ""}</TData>
                             </TRow>
                         ))}

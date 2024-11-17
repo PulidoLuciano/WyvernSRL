@@ -1,7 +1,7 @@
 export interface contractType {
     motive:string,
-    expireDate:string,
-    payDate:string,
+    expireDate:string | null,
+    payDate:string | null,
     currency:string,
     amount:string,
     supplier:string

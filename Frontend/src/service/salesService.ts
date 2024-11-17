@@ -33,7 +33,7 @@ const create = async(url:string,obj : saleType) =>{
             'Content-Type': 'application/json; charset=UTF-8',
         },
         body: JSON.stringify({
-            "fecha": new Date(obj.date),
+            "fecha": obj.date ? new Date(obj.date) : null,
             "Clientes_id": obj.client,
             "Productos_id": obj.product,
         })
@@ -77,7 +77,7 @@ const updateSale = async(id:number,obj : saleType) =>{
                 'Content-Type': 'application/json; charset=UTF-8',
             },
             body: JSON.stringify({
-                "fecha": new Date(obj.date),
+                "fecha": obj.date ? new Date(obj.date) : null,
                 "Clientes_id": obj.client,
                 "Productos_id": obj.product,
             })

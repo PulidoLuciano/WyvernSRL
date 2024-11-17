@@ -1,6 +1,6 @@
 export interface breacheType {
     description:string,
-    date:string,
+    date:string | null,
     breachLevel:string,
     contractId?:string,
     purchaseId?:string

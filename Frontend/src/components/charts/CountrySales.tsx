@@ -27,7 +27,7 @@ const CountrySales = ( {data}: ChartProps) => {
     ],
   };
 
-  return <ReactEcharts className=' my-10' option={opciones} style={{ height: 500, width: '120%' }} />;
+  return <ReactEcharts className=' my-10' option={opciones} style={{ height: 500, width: '100%' }} />;
 };
 
 export default CountrySales;

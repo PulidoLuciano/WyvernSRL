@@ -27,7 +27,7 @@ const SaleDetail = () => {
     const [editedData, setEditedData] = useState({
         client: '',
         product: '',
-        date: '',
+        date: null,
     });
 
     useEffect(() => {
@@ -41,12 +41,12 @@ const SaleDetail = () => {
             setEditedData({
                 client: saleDetail.Clientes?.nombre,
                 product: saleDetail.Productos?.id,
-                date: saleDetail.fecha,
+                date: saleDetail.fecha?.slice(0,10),
             })
         }
-        console.log(saleDetail);
 
     }, [saleDetail])
+    
 
     const handleClickEditable = () => {
         setEditable(!editable);
@@ -105,9 +105,6 @@ const SaleDetail = () => {
 
     return (
        
-
-            
-
             <main className='w-full p-3 laptop:p-2 laptop:w-2/3 laptopL:w-4/5 relative'>
 
                 {saleDetail ? (
@@ -124,7 +121,7 @@ const SaleDetail = () => {
                                 <>
                                     <Input error={createErrors.client} id={"nombreUsuario"} name={"client"} value={editedData.client} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleEditChange} ></Input>
                                     <Select selected={saleDetail.Productos?.id} error={createErrors.product} id={"productos"} title={"Productos"} name={"product"} options={products} onChange={handleEditChange}></Select>
-                                    <Input error={createErrors.date} id={"fecha"} name={"date"} value={editedData.date} title={"Fecha"} type={"text"} placeholder={"2023-07-17"} onChange={handleEditChange} ></Input>
+                                    <Input error={createErrors.date} id={"fecha"} name={"date"} value={editedData.date} title={"Fecha"} type={"date"} placeholder={"2023-07-17"} onChange={handleEditChange} ></Input>
                                     <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
                                 </>
                             </Form>
@@ -151,7 +148,7 @@ const SaleDetail = () => {
                                         {saleDetail.Productos?.nombre}
                                     </p>
                                     <h4 className="font-semibold text-lg">Fecha</h4>
-                                    <p>{saleDetail.fecha}</p>
+                                    <p>{saleDetail.fecha?.slice(0,10)}</p>
                                 </>
                             ) : (
                                 <>

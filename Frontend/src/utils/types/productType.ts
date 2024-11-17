@@ -1,6 +1,6 @@
 export interface productType {
     name:string,
-    date:string,
+    date:string | null,
     category:string,
     price:string,
 }

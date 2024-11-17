@@ -51,7 +51,7 @@ const updatePurchase = async(id:number,purchaseData : purchaseType)=>{
             "precioUnitario": Number(purchaseData.unitPrice),
             "pagado": purchaseData.paid,
             "entregado": purchaseData.delivered,
-            "fechaCompra": new Date(purchaseData.purchaseDate),
+            "fechaCompra": purchaseData.purchaseDate ? new Date(purchaseData.purchaseDate) : null,
             "cantidad": Number(purchaseData.quantity)
         })
     })
@@ -77,7 +77,7 @@ const createBreache = async(url:string,breacheData:breacheType)=>{
         },
         body: JSON.stringify({
             "descripcion": breacheData.description,
-            "fecha": new Date(breacheData.date),
+            "fecha": breacheData.date ? new Date(breacheData.date) : null,
             "Contratos_id": null,
             "NivelDeIncumplimiento_id": Number(breacheData.breachLevel),
             "Compras_id": Number(breacheData.purchaseId)

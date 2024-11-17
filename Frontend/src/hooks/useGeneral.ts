@@ -29,7 +29,7 @@ export const useGeneral = () => {
     setErrorGeneral(null);
     let urlCountries = "http://localhost:3000/countries";
     try {
-      const data = await generalService.getAllCountries(urlCountries);
+      const data = await generalService.getAll(urlCountries);
       setCountries(data);
     } catch (err: any) {
       setErrorGeneral(err.message);
@@ -46,7 +46,7 @@ export const useGeneral = () => {
     try {
       // if(countries) url = url.concat(includeCountries);
 
-      const data = await generalService.getAllStates(url);
+      const data = await generalService.getAll(url);
       setStates(data);
     } catch (err: any) {
       setErrorGeneral(err.message);
@@ -60,7 +60,7 @@ export const useGeneral = () => {
     setErrorGeneral(null);
     let urlPlatforms = "http://localhost:3000/platforms";
     try {
-      const data = await generalService.getAllPlatforms(urlPlatforms);
+      const data = await generalService.getAll(urlPlatforms);
       setPlatforms(data);
     } catch (err: any) {
       setErrorGeneral(err.message);
@@ -74,7 +74,7 @@ export const useGeneral = () => {
     setErrorGeneral(null)
     let urlMedias = "http://localhost:3000/medias"
     try {
-      const data = await generalService.getAllMedias(urlMedias);
+      const data = await generalService.getAll(urlMedias);
       setMedias(data)
     } catch (err: any) {
       setErrorGeneral(err.message);
@@ -88,7 +88,7 @@ export const useGeneral = () => {
     setErrorGeneral(null)
     let url = "http://localhost:3000/currencies"
     try {
-      const data = await generalService.getAllCategories(url);
+      const data = await generalService.getAll(url);
       setCurrencies(data)
     } catch (err: any) {
       setErrorGeneral(err.message);
@@ -102,7 +102,7 @@ export const useGeneral = () => {
     setErrorGeneral(null)
     let url = "http://localhost:3000/breach_levels"
     try {
-      const data = await generalService.getAllCategories(url);
+      const data = await generalService.getAll(url);
       setBreaches(data)
     } catch (err: any) {
       setErrorGeneral(err.message);
@@ -116,7 +116,7 @@ export const useGeneral = () => {
     setErrorGeneral(null)
     let url = "http://localhost:3000/positions"
     try {
-      const data = await generalService.getAllPositions(url);
+      const data = await generalService.getAll(url);
       setPositions(data)
     } catch (err: any) {
       setErrorGeneral(err.message);
@@ -130,7 +130,7 @@ export const useGeneral = () => {
     setErrorGeneral(null)
     let url = "http://localhost:3000/categories/"
     try {
-      const data = await generalService.getAllCategories(url);
+      const data = await generalService.getAll(url);
       setGamesCategories(data)
     } catch (err: any) {
       setErrorGeneral(err.message);

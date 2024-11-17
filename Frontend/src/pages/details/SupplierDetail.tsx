@@ -73,47 +73,47 @@ const SupplierDetail = () => {
   const [selectedDataBreaches,setSelectedDataBreaches] = useState<Array<string>>([]);
   const [editFormStates, setEditFormStates] = useState<Array<any>>([]);
   const [editErrors, setEditErrors] = useState<CreateSupplierErrors>({
-    category: "",
-    email: "",
-    country: "",
-    name: "",
-    phone: "",
-    state: "",
-    score: ""
+    category: '',
+    email: '',
+    country: '',
+    name: '',
+    phone: '',
+    state: '',
+    score: ''
   });
   const [createContractData, setCreateContractData] = useState<contractType>({
     supplier: `${supplierId}`,
-    motive: "",
-    expireDate: "",
-    payDate: "",
-    amount: "",
-    currency: ""
+    motive: '',
+    expireDate: null,
+    payDate: null,
+    amount: '',
+    currency: ''
   });
   const [createContractErrors, setCreateContractErrors] = useState<CreateContractErrors>({
-    motive: "",
-    expireDate: "",
-    payDate: "",
-    amount: "",
-    currency: ""
+    motive: '',
+    expireDate: '',
+    payDate: '',
+    amount: '',
+    currency: ''
   });
 
   const [editedData, setEditedData] = useState<suppliersType>({
     category: '',
     email: '',
-    country: "",
+    country: '',
     name: '',
-    phone: "",
-    state: ""
+    phone: '',
+    state: ''
   });
 
   const [createPurchaseData, setCreatePurchaseData] = useState<purchaseType>({
-    description:"",
-    unitPrice:"",
-    paid:"false",
-    delivered:"false",
-    purchaseDate:"",
-    quantity:"",
-    currency:"",
+    description: '',
+    unitPrice: '',
+    paid: 'false',
+    delivered: 'false',
+    purchaseDate: null,
+    quantity: '',
+    currency: '',
     supplier: supplierId.toString()
   })
 
@@ -379,8 +379,8 @@ const SupplierDetail = () => {
           <Form handleSubmit={handleCreateContractSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
             <>
               <Input name='motive' placeholder='Motivo en 1 frase' error={createContractErrors.motive} value={createContractData.motive} onChange={handleCreateContractChange} type='text' id='motivoContrato' title='Motivo' />
-              <Input name='expireDate' placeholder={"2023-07-17"} error={createContractErrors.expireDate} value={createContractData.expireDate} onChange={handleCreateContractChange} type='text' id='fechaVencimientoContrato' title='Fecha de vencimiento' />
-              <Input name='payDate' placeholder={"2023-07-17"} error={createContractErrors.payDate} value={createContractData.payDate} onChange={handleCreateContractChange} type='text' id='fechaPagoContrato' title='Fecha de pago' />
+              <Input name='expireDate' placeholder={"2023-07-17"} error={createContractErrors.expireDate} value={createContractData.expireDate} onChange={handleCreateContractChange} type='date' id='fechaVencimientoContrato' title='Fecha de vencimiento' />
+              <Input name='payDate' placeholder={"2023-07-17"} error={createContractErrors.payDate} value={createContractData.payDate} onChange={handleCreateContractChange} type='date' id='fechaPagoContrato' title='Fecha de pago' />
               <Input name='amount' placeholder='0.00' error={createContractErrors.amount} value={createContractData.amount} onChange={handleCreateContractChange} type='number' id='amountContrato' title='Monto' />
               <Select id='currencyContract' error={createContractErrors.currency} name='currency' onChange={handleCreateContractChange} options={currencies} title='Moneda' />
               <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end"} />
@@ -411,8 +411,8 @@ const SupplierDetail = () => {
                   <TData checkbox={true} id={contract.id} onChange={handleSelectedItemContract}>
                     {contract.descripcion}
                   </TData>
-                  <TData>{contract.fechaVencimiento}</TData>
-                  <TData>{contract.fechaPago}</TData>
+                  <TData>{contract.fechaVencimiento?.slice(0,10)}</TData>
+                  <TData>{contract.fechaPago?.slice(0,10)}</TData>
                   <TData>{contract.monto}</TData>
                   <TData>{contract.Monedas?.nombre}</TData>
                 </TRow>
@@ -433,7 +433,7 @@ const SupplierDetail = () => {
               <Input name='description' placeholder='Descripcion breve' error={createPurchaseErrors.description} value={createPurchaseData.description} onChange={handleCreatePurchaseChange} type='text' id='descripcionCompra' title='Descripción' />
               <Input name='unitPrice' placeholder={"0.00"} error={createPurchaseErrors.unitPrice} value={createPurchaseData.unitPrice} onChange={handleCreatePurchaseChange} type='number' id='precioUnitarioCompra' title='Precio unitario' />
               <Input name='quantity' placeholder={"0"} error={createPurchaseErrors.quantity} value={createPurchaseData.quantity} onChange={handleCreatePurchaseChange} type='number' id='cantidadCompra' title='Cantidad' />
-              <Input name='purchaseDate' placeholder='2023-01-07' error={createPurchaseErrors.purchaseDate} value={createPurchaseData.purchaseDate} onChange={handleCreatePurchaseChange} type='text' id='fechaCompra' title='Fecha' />
+              <Input name='purchaseDate' placeholder='2023-01-07' error={createPurchaseErrors.purchaseDate} value={createPurchaseData.purchaseDate} onChange={handleCreatePurchaseChange} type='date' id='fechaCompra' title='Fecha' />
               <Select id='entregadoCompra' error={createPurchaseErrors.delivered} name='delivered' onChange={handleCreatePurchaseChange} options={[{ id: "true", nombre: "Sí" }, { id: "false", nombre: "No" }]} title='Entregado' />
               <Select id='pagadoCompra' error={createPurchaseErrors.paid} name='paid' onChange={handleCreatePurchaseChange} options={[{ id: "true", nombre: "Sí" }, { id: "false", nombre: "No" }]} title='Pagado' />
               <Select id='monedaCompra' error={createPurchaseErrors.currency} name='currency' onChange={handleCreatePurchaseChange} options={currencies} title='Moneda' />
@@ -468,7 +468,7 @@ const SupplierDetail = () => {
                 <TData>{purchase.precioUnitario}</TData>
                 <TData>{purchase.Monedas?.nombre}</TData>
                 <TData>{purchase.cantidad}</TData>
-                <TData>{purchase.fechaCompra}</TData>
+                <TData>{purchase.fechaCompra?.slice(0,10)}</TData>
                 <TData>{purchase.entregado? "Sí" : "No"}</TData>
                 <TData>{purchase.pagado? "Sí" : "No"}</TData>
                 
@@ -501,7 +501,7 @@ const SupplierDetail = () => {
                 <TData id={breache.id}>
                   {breache.descripcion}
                 </TData>
-                <TData>{breache.fecha}</TData>
+                <TData>{breache.fecha?.slice(0,10)}</TData>
                 <TData>{breache.Compras_id? breache.Compras_id : ""}{breache.Contratos_id? breache.Contratos_id : ""}</TData> 
                 <TData>{breache.NivelDeIncumplimiento?.nombre ?  breache.NivelDeIncumplimiento?.nombre : ""}</TData>
               </TRow>

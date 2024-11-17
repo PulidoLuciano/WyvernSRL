@@ -27,7 +27,7 @@ const PlatformSales = ( {data}: ChartProps ) => {
     ],
   };
 
-  return <ReactEcharts className='p-6 my-10' option={opciones} style={{ height: 400, width: '120%' }} />;
+  return <ReactEcharts className='p-6 my-10' option={opciones} style={{ height: 500, width: '100%' }} />;
 };
 
 export default PlatformSales;
