@@ -1,43 +1,45 @@
 import * as Yup from "yup"
+import { dateSchema, descriptionSchema, emailSchema, idSchema, nameSchema, phoneSchema } from "./generalSchemas"
+
 export const supplierSchema = Yup.object().shape({
-    name: Yup.string().trim().min(2,"Ingrese un nombre de mínimo 2 letras").max(32,"Ingrese un nombre de máximo 32 letras").required("Este campo es obligatorio"),
-    email: Yup.string().email("Ingrese un email valido").optional(),
-    phone: Yup.string().matches(/^(\+?\d{1,4}?[-.\s]?)?(\(?\d{1,3}?\)?[-.\s]?)?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}|$/,"Ingrese un telefono valido").required("Este campo es obligatorio"),
-    category: Yup.number().required("Este campo es obligatorio").typeError("Este id no es valido"),
-    state: Yup.number().required("Este campo es obligatorio").typeError("Este id no es valido"),
+    name: nameSchema,
+    email: emailSchema,
+    phone: phoneSchema,
+    category: idSchema,
+    state: idSchema,
 }) 
 
 export const supplierEditSchema = Yup.object().shape({
-    name: Yup.string().trim().min(2,"Ingrese un nombre de mínimo 2 letras").max(32,"Ingrese un nombre de máximo 32 letras"),
-    email: Yup.string().email("Ingrese un email valido").optional(),
-    phone: Yup.string().matches(/^(\+?\d{1,4}?[-.\s]?)?(\(?\d{1,3}?\)?[-.\s]?)?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}|$/,"Ingrese un telefono valido").required("Este campo es obligatorio"),
-    category: Yup.number().optional().typeError("Este id no es valido"),
+    name: nameSchema,
+    email: emailSchema,
+    phone: phoneSchema,
+    category: idSchema,
     state: Yup.number().optional().typeError("Este id no es valido"),
     score: Yup.string().min(4,"La calificacion debe tener min. 4 caracteres").max(20,"La calificacion debe tener máx. 20 caracteres").optional()
 }) 
 
 export const contractSchema = Yup.object().shape({
-    motive: Yup.string().min(10,"La descripción debe tener min. 10 caracteres.").max(200,"La descripcion debe tener max. 200 caracteres.").required("Este campo es obligatorio"),
-    expireDate: Yup.string().matches(/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?)?$/,"Ingrese una fecha valida").required("Este campo es obligatorio"),
-    payDate: Yup.string().matches(/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?)?$/,"Ingrese una fecha valida").required("Este campo es obligatorio"),
+    motive: descriptionSchema,
+    expireDate: dateSchema,
+    payDate: dateSchema,
     amount: Yup.number().positive("Ingrese un número positivo").typeError("Este número no es valido").required("Este campo es obligatorio"),
-    currency: Yup.number().typeError("Este id no es valido").required("Este campo es obligatorio")
+    currency: idSchema
 })
 
 
 export const purchaseSchema = Yup.object().shape({
 
-    description: Yup.string().min(10,"La descripcion debe tener min. 10 caracteres").max(250,"La descripcion debe tener máx. 250 caracteres").required("Este campo es obligatorio"),
+    description: descriptionSchema,
     unitPrice: Yup.number().positive("Ingrese un numero positivo").required("Este campo es obligatorio").typeError("Ingrese un numero"),
     paid: Yup.boolean().required("Este campo es obligatorio"),
-    delivered:Yup.boolean().required("Este campo es obligatorio"),
-    purchaseDate:Yup.date().required("Este campo es obligatorio").typeError("Ingrese una fecha valida"),
-    quantity:Yup.number().positive("Ingrese un numero positivo").integer("Ingrese un numero entero").required("Este campo es obligatorio").typeError("Ingrese un numero"),
-    currency:Yup.number().typeError("Este id no es valido").required("Este campo es obligatorio")
+    delivered: Yup.boolean().required("Este campo es obligatorio"),
+    purchaseDate: Yup.date().required("Este campo es obligatorio").typeError("Ingrese una fecha valida"),
+    quantity: Yup.number().positive("Ingrese un numero positivo").integer("Ingrese un numero entero").required("Este campo es obligatorio").typeError("Ingrese un numero"),
+    currency: idSchema
 })
 
 export const marketSchema = Yup.object().shape({
 
-    name: Yup.string().trim().min(2,"Ingrese un nombre de mínimo 2 letras").max(32,"Ingrese un nombre de máximo 32 letras").required("Este campo es obligatorio"),
+    name: nameSchema,
 
 })

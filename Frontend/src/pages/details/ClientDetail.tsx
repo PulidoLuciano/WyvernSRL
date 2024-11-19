@@ -36,13 +36,13 @@ const ClientData = () => {
     getClient(clientId);
     getAllContacts(clientId);
     getClientsPurchases(clientId)
-  }, [getClient, getAllContacts, getClientsPurchases]);
+  }, []);
 
   useEffect(() => {
     getAllCountries();
     getAllPlatforms();
     getAllMedias();
-  }, [getAllCountries, getAllPlatforms, getAllMedias]);
+  }, []);
 
   useEffect(() => {
     if (clientDetail) {
@@ -87,7 +87,7 @@ const ClientData = () => {
   const indexStartPurchases = indexEndPurchases - dataLength;
   const nPagesPurchases = Math.ceil(clientPurchases.length / dataLength);
   const dataShownPurchases = clientPurchases.slice(indexStartPurchases, indexEndPurchases);
-
+  
   const indexEndContacts = currentPageContacts * dataLength;
   const indexStartContacts = indexEndContacts - dataLength;
   const nPagesContacts = Math.ceil(contacts.length / dataLength);
@@ -280,7 +280,7 @@ const ClientData = () => {
               <Select id={"medios"} name={"Medio"} title={"Medios"} options={medias} onChange={handleContactChange} error={createErrors.Medio}></Select>
                {contact.Medio=='1' ? <Input id={"duracion"} name={"duracion"} value={contact.duracion} title={"Duracion"} type={"text"} placeholder={"182.5"} onChange={handleContactChange} error={createErrors.duracion}></Input>: <></>}
               <Input error={createErrors.motivo} id={"motivo"} name={"motivo"} value={contact.motivo} title={"Motivo"} type={"text"} placeholder={""} onChange={handleContactChange}></Input>
-              <Input error={createErrors.fecha} id={"fecha"} name={"fecha"} value={contact.fecha} title={"Fecha"} type={"text"} placeholder={"2023-04-28 00:00:00"} onChange={handleContactChange}></Input>
+              <Input error={createErrors.fecha} id={"fecha"} name={"fecha"} value={contact.fecha} title={"Fecha"} type={"date"} placeholder={"2023-04-28 00:00:00"} onChange={handleContactChange}></Input>
               <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end"}/>
             </>
           </Form>
@@ -303,7 +303,7 @@ const ClientData = () => {
                   {compras.id}
                 </TData>
                 <TData>{compras.Productos.nombre}</TData>
-                <TData>{compras.fecha}</TData>
+                <TData>{compras.fecha?.slice(0,10)}</TData>
               </TRow>
             )):
             <div className=''>No hay compras </div>
@@ -340,7 +340,7 @@ const ClientData = () => {
                   {contactos.id}
                 </TData>
                 <TData>{contactos.motivo}</TData>
-                <TData>{contactos.fecha}</TData>
+                <TData>{contactos.fecha?.slice(0,10)}</TData>
                 <TData>{contactos.Medios.nombre}</TData>
               </TRow>
             )):

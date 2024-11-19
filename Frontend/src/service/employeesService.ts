@@ -30,7 +30,7 @@ const createEmployee= async (url: string,obj: employeeType) => {
             "correo": obj.email,
             "dni": obj.dni,
             "telefono": obj.phone ? obj.phone : null,
-            "fechaContratacion": obj.hiringDate,
+            "fechaContratacion": obj.hiringDate ? new Date (obj.hiringDate) : null,
             "sueldo": obj.salary,
             "Provincias_id": Number(obj.state),
             "Puestos_id": Number(obj.position)
@@ -47,8 +47,7 @@ const createEmployee= async (url: string,obj: employeeType) => {
 }
 
 const updateEmployee = async(id: number,obj:employeeType)=>{
-
-        
+    
         const response = await fetch(`http://localhost:3000/employees/${id}`,{
             mode:"cors",
             method: "PUT",
@@ -61,7 +60,7 @@ const updateEmployee = async(id: number,obj:employeeType)=>{
                 "correo": obj.email,
                 "dni": obj.dni,
                 "telefono": obj.phone ? obj.phone : null,
-                "fechaContratacion": obj.hiringDate,
+                "fechaContratacion": obj.hiringDate ? new Date(obj.hiringDate) : null,
                 "sueldo": obj.salary,
                 "Provincias_id": Number(obj.state),
                 "Puestos_id": Number(obj.position)

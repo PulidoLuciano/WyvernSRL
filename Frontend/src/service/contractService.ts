@@ -45,8 +45,8 @@ const updateContract = async(id:number,contractData : contractType)=>{
         },
         body: JSON.stringify({
             "descripcion": contractData.motive,
-            "fechaVencimiento": new Date(contractData.expireDate),
-            "fechaPago": new Date(contractData.payDate),
+            "fechaVencimiento": contractData.expireDate ? new Date(contractData.expireDate) : null,
+            "fechaPago": contractData.payDate ? new Date(contractData.payDate) : null,
             "monto": Number(contractData.amount),
             "Proveedores_id": Number(contractData.supplier),
             "Monedas_id": Number(contractData.currency),
@@ -74,7 +74,7 @@ const createBreache = async(url:string,breacheData:breacheType)=>{
         },
         body: JSON.stringify({
             "descripcion": breacheData.description,
-            "fecha": new Date(breacheData.date),
+            "fecha": breacheData.date ? new Date(breacheData.date) : null,
             "Contratos_id": Number(breacheData.contractId),
             "NivelDeIncumplimiento_id": Number(breacheData.breachLevel),
             "Compras_id": null

@@ -25,13 +25,12 @@ const ClientsModule = () => {
 
   useEffect(() => {
     getAllClients(true, true);
-  }, [getAllClients])
+  }, [])
 
   useEffect(() => {
     getAllCountries();
     getAllPlatforms();
-  }, [getAllCountries, getAllPlatforms])
-
+  }, [])
  
   const [writeEmail,setWriteEmail] = useState<boolean>(false);
   const [dataLength, setDataLength] = useState<number>(10);
@@ -55,7 +54,7 @@ const ClientsModule = () => {
     suscription: 'false',
     country: ''
   });
-
+  
   const indexEnd = currentPage * dataLength;
   const indexStart = indexEnd - dataLength;
   const nPages = Math.ceil(clients.length / dataLength);
@@ -64,7 +63,6 @@ const ClientsModule = () => {
   const changePage = (nextPage: number) => {
     setCurrentPage(nextPage);
   }
-
 
   const handleSendEmail = (emailText:string,subject:string) => {
 
@@ -151,6 +149,8 @@ const ClientsModule = () => {
     if (datos.length == 2) return;
 
     const filter: Array<string> = []
+    console.log(filter);    
+    
     datos.forEach((d, index) => {
       if (d[1] != "" && index == 0) {
         if (d[0] == "suscripto" || d[0] == "Plataformas_id" || d[0] == "Paises_id") {

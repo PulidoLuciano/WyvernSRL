@@ -21,7 +21,7 @@ export interface contactType{
     Clientes_id: number | null,
     Medio: string,
     duracion?: string,
-    fecha: string,
+    fecha: string | null,
     motivo: string
 }
 

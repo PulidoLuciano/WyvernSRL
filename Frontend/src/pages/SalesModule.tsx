@@ -51,7 +51,7 @@ const SalesModule = () => {
   const [createProductData, setCreateProductData] = useState<productType>({
     name: '',
     price: '',
-    date: '',
+    date: null,
     category: ''
   });
 
@@ -66,8 +66,6 @@ const SalesModule = () => {
     product: '',
     date: ''
   });
-
-  //PAGINATION
 
   const indexEnd = currentPage * dataLength;
   const indexStart = indexEnd - dataLength;
@@ -119,12 +117,14 @@ const SalesModule = () => {
 
       const clientExist = clients.find(c => c.nombre == createData.client);
 
+
+      await saleSchema.validate(createData, { abortEarly: false });
+
       if (clientExist == undefined) {
         setCreateErrors({ ...createErrors, client: "Este cliente no existe" })
         throw new Error("Este cliente no existe")
       }
 
-      await saleSchema.validate(createData, { abortEarly: false });
       const data: saleType = {
         client: clientExist.id,
         date: createData.date,
@@ -269,7 +269,7 @@ const SalesModule = () => {
             <>
               <Input error={createErrors.client} id={"nombreUsuario"} name={"client"} value={createData.client} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleCreateChange} ></Input>
               <Select error={createErrors.product} id={"productos"} title={"Productos"} name={"product"} options={products} onChange={handleCreateChange}></Select>
-              <Input error={createErrors.date} id={"fecha"} name={"date"} value={createData.date} title={"Fecha"} type={"text"} placeholder={"2023-07-17"} onChange={handleCreateChange} ></Input>
+              <Input error={createErrors.date} id={"fecha"} name={"date"} value={createData.date} title={"Fecha"} type={"date"} placeholder={"2023-07-17"} onChange={handleCreateChange} ></Input>
               <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
             </>
           </Form>
@@ -319,7 +319,7 @@ const SalesModule = () => {
                     <TRow key={index} id={sale.id} handleDelete={()=>deleteSale([sale.id.toString()])} deleteButton={true} path='sales' detail={true}>
                       <TData onChange={handleSelectedItem} id={sale.id} checkbox={true}>{sale.Clientes?.nombre}</TData>
                       <TData>{sale.Productos?.nombre}</TData>
-                      <TData>{sale.fecha}</TData>
+                      <TData>{sale.fecha?.slice(0,10)}</TData>
                     </TRow>)
                 }):
                 <div className=''>No hay ventas con esas caracteristicas</div>
@@ -374,7 +374,7 @@ const SalesModule = () => {
                     <TRow key={index} id={product.id} handleDelete={()=>deleteProducts([product.id.toString()])} path='products' deleteButton={true} detail={true}>
                       <TData onChange={handleSelectedItemProducts} id={product.id} checkbox={true}>{product.nombre}</TData>
                       <TData>{product.precio}</TData>
-                      <TData>{product.lanzamiento}</TData>
+                      <TData>{product.lanzamiento?.slice(0,10)}</TData>
                       <TData>{product.Categorias?.nombre}</TData>
 
                     </TRow>)

@@ -73,7 +73,7 @@ const getAllProducts = async (url: string) => {
         },
         body: JSON.stringify({
             "nombre": productData.name,
-            "lanzamiento": new Date(productData.date),
+            "lanzamiento": productData.date ? new Date(productData.date) : null,
             "precio": Number(productData.price),
             "Categorias_id": Number(productData.category)
     

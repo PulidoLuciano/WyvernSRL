@@ -21,11 +21,11 @@ const ContactDetail = () => {
   
   useEffect(() => {
     getContact(contactId)
-  }, [getContact]);
+  }, []);
   
   useEffect(() => {
     getAllMedias()
-  }, [getAllMedias]);
+  }, []);
 
   useEffect(() => {
     if (contactDetail) {
@@ -33,7 +33,7 @@ const ContactDetail = () => {
         Clientes_id: contactDetail.Clientes.id,
         Medio: contactDetail.Medios.id,
         duracion: contactDetail.duracion,
-        fecha: contactDetail.fecha,
+        fecha: contactDetail.fecha.slice(0,10),
         motivo: contactDetail.motivo,
       })
     }
@@ -49,7 +49,7 @@ const ContactDetail = () => {
     Clientes_id: clientId,
     Medio: '',
     duracion: '',
-    fecha: '',
+    fecha: null,
     motivo: '',
   });
 
@@ -111,7 +111,7 @@ const ContactDetail = () => {
               <Form handleSubmit={handleEditSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
                 <>
                   <Input id={"motivo"} name={"motivo"} value={editedData.motivo} title={"Motivo"} type={"text"} placeholder={""} onChange={handleEditChange} error={createErrors.motivo}></Input>
-                  <Input id={"fecha"} name={"fecha"} value={editedData.fecha} title={"Fecha"} type={"text"} placeholder={"2023-04-28 00:00:00"} onChange={handleEditChange} error={createErrors.fecha}></Input>
+                  <Input id={"fecha"} name={"fecha"} value={editedData.fecha} title={"Fecha"} type={"date"} placeholder={"2023-04-28 00:00:00"} onChange={handleEditChange} error={createErrors.fecha}></Input>
                   <Select selected={editedData.Medio} id={"medios"} title={"Medio"} name={"Medio"} options={medias} onChange={handleEditChange} error={createErrors.Medio}></Select>
                   {editedData.Medio=='1' ? <Input id={"duracion"} name={"duracion"} value={editedData.duracion} title={"Duracion"} type={"text"} placeholder={"182.5"} onChange={handleEditChange} error={createErrors.duracion}></Input> : <></> }
                   <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end"}/>
@@ -136,7 +136,7 @@ const ContactDetail = () => {
                   <h4 className="font-semibold text-lg">Motivo</h4>
                   <p>{contactDetail.motivo}</p>
                   <h4 className="font-semibold text-lg">Fecha</h4>
-                  <p>{contactDetail.fecha}</p>
+                  <p>{contactDetail.fecha?.slice(0,10)}</p>
                   <h4 className="font-semibold text-lg">Medio</h4>
                   <p>{contactDetail.Medios.nombre}</p>
                   {contactDetail.Medios.nombre=='Telefono' ? 

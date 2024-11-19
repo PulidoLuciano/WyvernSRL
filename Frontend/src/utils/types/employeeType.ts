@@ -2,7 +2,7 @@ export interface employeeType {
     name: string;
     email: string;
     dni: string | null;
-    hiringDate: string | null ;
+    hiringDate: string | null;
     phone: string;
     country:string | null;
     state: string | null;

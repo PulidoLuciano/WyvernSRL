@@ -17,7 +17,8 @@ const getAllClients = async (url : string) => {
 }
 
 const create = async (url: string,obj: clientType) => {
-
+        console.log(obj.suscription);
+        
         const response = await fetch(`${url}/`, {
             mode: 'cors',
             method: 'POST',
@@ -31,7 +32,7 @@ const create = async (url: string,obj: clientType) => {
                 "telefono": obj.phone ? obj.phone : null,
                 "Plataformas_id": Number(obj.platform),
                 "Paises_id": Number(obj.country) ,
-                "suscripto": obj.suscription
+                "suscripto": obj.suscription=='false' ? 0 : 1
             })
         })
 
@@ -151,7 +152,7 @@ const createContact = async (url: string,obj: contactType) => {
             "Medios_id": Number(obj.Medio),
             "duracion": obj.duracion ? obj.duracion : null,
             "motivo": obj.motivo ,
-            "fecha": obj.fecha
+            "fecha": new Date(obj.fecha)
         })
     })
 
@@ -213,7 +214,7 @@ const updateContact = async (id: number,obj: contactType) => {
             "Medios_id": Number(obj.Medio),
             "duracion": obj.duracion ? obj.duracion : null,
             "motivo": obj.motivo ,
-            "fecha": obj.fecha
+            "fecha": new Date(obj.fecha)
         })
     })
 

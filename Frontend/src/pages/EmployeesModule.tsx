@@ -22,7 +22,7 @@ import { areaType } from '../utils/types/areaType';
 
 const EmployeesModule = () => {
 
-  const { getAllEmployees, employees, createEmployee, deleteEmployee, error } = useEmployees();
+  const { getAllEmployees, employees, createEmployee, deleteEmployee, error, setError } = useEmployees();
   const { states, countries, positions, getAllPositions, getAllStates, getAllCountries } = useGeneral();
   const { getAllAreas, areas, createArea, deleteArea} = useAreas();
 
@@ -88,11 +88,27 @@ const EmployeesModule = () => {
     e.preventDefault();
     try {
       const state = states.find(s => s.id == createEmployeeData.state);
+
+      const employeeExist = employees.find( e => e.dni == createEmployeeData.dni)
+
       await employeeSchema.validate(createEmployeeData, { abortEarly: false });
+      
+      if (employeeExist) {
+        setError("Ya existe un empleado con este dni")
+        throw new Error("Este cliente no existe")
+      }
+
       createEmployee(createEmployeeData)
+      setError('')
       setCreateErrors({})
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
+
+        const employeeExist = employees.find( e => e.dni == createEmployeeData.dni)
+
+        if (employeeExist) {
+          setError("Ya existe un empleado con este dni")
+        } else setError('')
 
         const createErrors: CreateEmployeesErrors = {};
         err.inner.forEach((error) => {
@@ -262,7 +278,7 @@ const EmployeesModule = () => {
               <Input id={"correo"} name={"email"} value={createEmployeeData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleCreateEmployeeChange} error={createErrors.email}></Input>
               <Input id={"dni"} name={"dni"} value={createEmployeeData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleCreateEmployeeChange} error={createErrors.dni}></Input>
               <Input id={"telefono"} name={"phone"} value={createEmployeeData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleCreateEmployeeChange} error={createErrors.phone}></Input>
-              <Input id={"fechaContratacion"} name={"hiringDate"} value={createEmployeeData.hiringDate} title={"Fecha de contratacion"} type={"text"} placeholder={"2024-09-30 14:30:14"} onChange={handleCreateEmployeeChange} error={createErrors.hiringDate}></Input>
+              <Input id={"fechaContratacion"} name={"hiringDate"} value={createEmployeeData.hiringDate} title={"Fecha de contratacion"} type={"date"} placeholder={"2024-09-30 14:30:14"} onChange={handleCreateEmployeeChange} error={createErrors.hiringDate}></Input>
               <Input id={"salario"} name={"salary"} value={createEmployeeData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleCreateEmployeeChange} error={createErrors.salary}></Input>
               <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateEmployeeChange} error={createErrors.country}></Select>
               <Select id={"provincia"} title={"Provincia"} name={"state"} options={createFormStates} onChange={handleCreateEmployeeChange} error={createErrors.state}></Select>

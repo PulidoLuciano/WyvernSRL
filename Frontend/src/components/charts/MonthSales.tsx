@@ -35,7 +35,7 @@ const MonthSales = ( {data}: ChartProps ) => {
 
   return (
     <div>
-      <ReactEcharts className='my-10' option={opciones} style={{ height: 400, width: '120%' }} />
+      <ReactEcharts className='my-10' option={opciones} style={{ height: 500, width: '100%' }} />
     </div>
   );
 };

@@ -46,8 +46,6 @@ export const useClients = () => {
           if (filterUrl) url = url.concat(filterUrl);
         }
 
-        console.log(url);
-
         const data = await clientsService.getAllClients(url);
 
         setClients(data);
@@ -63,6 +61,8 @@ export const useClients = () => {
   const createClient = async (clientData: clientType) => {
     setLoading(true);
     setError(null);
+    console.log(clientData);
+    
     let url = "http://localhost:3000/clients";
     try {
       await clientsService.create(url, clientData);

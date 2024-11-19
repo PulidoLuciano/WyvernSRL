@@ -44,7 +44,7 @@ const EmployeeDetail = () => {
         email: employeeDetail.correo,
         phone: employeeDetail.telefono,
         dni: employeeDetail.dni,
-        hiringDate: employeeDetail.fechaContratacion,
+        hiringDate: employeeDetail.fechaContratacion.slice(0,10),
         salary: employeeDetail.sueldo,
         country: employeeDetail.Provincias.Paises_id,
         state: employeeDetail.Provincias.id,
@@ -71,7 +71,7 @@ const EmployeeDetail = () => {
     phone: '',
     email: '',
     dni:'',
-    hiringDate: '',
+    hiringDate: null,
     country: '',
     state: '',
     salary: '',
@@ -151,7 +151,7 @@ const EmployeeDetail = () => {
                   <Input id={"correo"} name={"email"} value={editedData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleEditChange} error={createErrors.email}></Input>
                   <Input id={"dni"} name={"dni"} value={editedData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleEditChange} error={createErrors.dni}></Input>
                   <Input id={"telefono"} name={"phone"} value={editedData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleEditChange} error={createErrors.phone}></Input>
-                  <Input id={"fechaContratacion"} name={"hiringDate"} value={editedData.hiringDate} title={"Fecha de contratacion"} type={"text"} placeholder={"2024-09-30 14:30:14"} onChange={handleEditChange} error={createErrors.hiringDate}></Input>
+                  <Input id={"fechaContratacion"} name={"hiringDate"} value={editedData.hiringDate} title={"Fecha de contratacion"} type={"date"} placeholder={"2024-09-30 14:30:14"} onChange={handleEditChange} error={createErrors.hiringDate}></Input>
                   <Input id={"salario"} name={"salary"} value={editedData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleEditChange} error={createErrors.salary}></Input>
                   <Select selected={employeeDetail.Provincias.Paises_id} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleEditChange} error={createErrors.country}></Select>
                   <Select selected={employeeDetail.Provincias.id} id={"provincia"} title={"Provincia"} name={"state"} options={editFormStates} onChange={handleEditChange} error={createErrors.state}></Select>
@@ -186,7 +186,7 @@ const EmployeeDetail = () => {
                   <h4 className="font-semibold text-lg">DNI</h4>
                   <p>{employeeDetail.dni}</p>
                   <h4 className="font-semibold text-lg">Fecha de contratacion</h4>
-                  <p>{employeeDetail.fechaContratacion}</p>
+                  <p>{employeeDetail.fechaContratacion?.slice(0,10)}</p>
                   <h4 className="font-semibold text-lg">Sueldo</h4>
                   <p>{employeeDetail.sueldo}</p>
                   <h4 className="font-semibold text-lg">Puesto</h4>
@@ -221,8 +221,8 @@ const EmployeeDetail = () => {
                   {position.Puestos.nombre}
                 </TData>
                 <TData>{position.Puestos.Areas.nombre}</TData>
-                <TData>{position.fechaInicio}</TData>
-                <TData>{position.fechaFinal}</TData>
+                <TData>{position.fechaInicio?.slice(0,10)}</TData>
+                <TData>{position.fechaFinal?.slice(0,10)}</TData>
               </TRow>
             )):
             <div className=''>Este empleado aun no tiene puestos en su carrera</div>

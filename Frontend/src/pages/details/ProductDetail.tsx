@@ -41,9 +41,10 @@ const ProductDetail = () => {
     if (productDetail) {
       setEditedData({
         name: productDetail.nombre,
-        date: productDetail.lanzamiento,
         category: productDetail.Categorias?.id,
         price: productDetail.precio,
+        date: productDetail.lanzamiento?.slice(0,10),
+
       })
     }
   }, [productDetail])
@@ -57,7 +58,7 @@ const ProductDetail = () => {
 
   const [editedData, setEditedData] = useState<productType>({
     name: '',
-    date: '',
+    date: null,
     category: '',
     price: '',
   });
@@ -149,7 +150,7 @@ const ProductDetail = () => {
               <Form handleSubmit={handleEditSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
                 <>
                   <Input id={"name"} name={"name"} value={editedData.name} title={"Nombre"} type={"text"} placeholder={""} onChange={handleEditChange} error={createErrors.name}></Input>
-                  <Input id={"date"} name={"date"} value={editedData.date} title={"Fecha"} type={"text"} placeholder={"2023-04-28 00:00:00"} onChange={handleEditChange} error={createErrors.date}></Input>
+                  <Input id={"date"} name={"date"} value={editedData.date} title={"Fecha"} type={"date"} onChange={handleEditChange} error={createErrors.date}></Input>
                   <Select selected={productDetail.Categorias.id} id={"category"} title={"Categoria"} name={"category"} options={gamesCategories} onChange={handleEditChange} error={createErrors.category}></Select>
                   <Input id={"price"} name={"price"} value={editedData.price} title={"Precio"} type={"text"} placeholder={"69.99"} onChange={handleEditChange} error={createErrors.price}></Input>
                   <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end"}/>
@@ -174,7 +175,7 @@ const ProductDetail = () => {
                   <h4 className="font-semibold text-lg">Nombre</h4>
                   <p>{productDetail.nombre}</p>
                   <h4 className="font-semibold text-lg">Fecha</h4>
-                  <p>{productDetail.lanzamiento}</p>
+                  <p>{productDetail.lanzamiento?.slice(0,10)}</p>
                   <h4 className="font-semibold text-lg">Precio</h4>
                   <p>{productDetail.precio}</p>
                   <h4 className="font-semibold text-lg">Categoria</h4>
@@ -215,7 +216,7 @@ const ProductDetail = () => {
                   {ventas.Clientes.nombre}
                 </TData>
                 <TData>{ventas.Productos.nombre}</TData>
-                <TData>{ventas.fecha}</TData>
+                <TData>{ventas.fecha?.slice(0,10)}</TData>
               </TRow>
             )):
             <div className=''>No hay ventas</div>

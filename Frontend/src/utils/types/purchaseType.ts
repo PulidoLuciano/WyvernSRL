@@ -3,7 +3,7 @@ export interface purchaseType {
     unitPrice:string,
     paid:string,
     delivered:string,
-    purchaseDate:string,
+    purchaseDate:string | null,
     quantity:string,
     currency:string,
     supplier:string,

@@ -23,13 +23,13 @@ const SuppliersModule = () => {
   const { suppliers, loading, error, getAllSuppliers, getSupplier, createSupplier, deleteSuppliers } = useSuppliers();
   const { getMarkets, markets, createMarket, deleteMarkets } = useMarkets();
 
-
   useEffect(() => {
     getAllCountries();
     getAllSuppliers(true, true);
     getAllStates();
     getMarkets();
   }, [])
+  
   const [createFormStates,setCreateFormStates] = useState<Array<any>>([])
   const [filterFormStates,setFilterFormStates] = useState<Array<any>>([])
   const [dataLength, setDataLength] = useState<number>(10);
@@ -265,7 +265,7 @@ const SuppliersModule = () => {
           <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
             <>
               <Input id={"nombreProveedor"} name={"name"} value={supplier.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleCreateChange} error={createErrors.name}></Input>
-              <Input id={"correoProveedor"} name={"email"} value={supplier.email} title={"Correo"} type={"email"} placeholder={"username@wyvern.com"} onChange={handleCreateChange} error={createErrors.email}></Input>
+              <Input id={"correoProveedor"} name={"email"} value={supplier.email} title={"Correo"} type={"text"} placeholder={"username@wyvern.com"} onChange={handleCreateChange} error={createErrors.email}></Input>
               <Input id={"telefonoProveedor"} name={"phone"} value={supplier.phone} title={"Teléfono"} type={"text"} placeholder={"543816341612"} onChange={handleCreateChange} error={createErrors.phone}></Input>
               <Select selected={supplier.country} error={createErrors.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateChange}></Select>
               <Select selected={supplier.state} error={createErrors.state} id={"provincias"} name={"state"} title={"Provincia"} options={createFormStates} onChange={handleCreateChange}></Select>

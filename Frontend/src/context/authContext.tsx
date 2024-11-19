@@ -28,9 +28,6 @@ interface AuthContextProps {
     const [authenticated, setAuthenticated] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
 
-    console.log(loading, authenticated);
-    
-
     const login = async (credentials : Credential) => {
       setLoading(true);
       setError(null);
@@ -66,7 +63,6 @@ interface AuthContextProps {
       async function checkLogin() {
 
           const cookies = Cookies.get()
-          console.log(cookies.authenticationToken);
           
           if (cookies.authenticationToken==undefined || cookies.authenticationToken==null) {
             
