@@ -32,6 +32,7 @@ export class ProvidersController extends RouterController {
         const idNumber = Number(id);
         const breaches = await prisma.incumplimientos.findMany({ 
             where: { 
+                borrado: false,
                 "OR": [ 
                     {
                         Compras: {
