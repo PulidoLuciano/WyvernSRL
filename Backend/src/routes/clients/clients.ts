@@ -96,6 +96,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
             (req : Request, _ : Response, next : NextFunction) => {
                 req.query = { 
                     Clientes_id: req.params.id,
+                    borrado: "false",
                     include: [
                         "id",
                         "motivo",
@@ -120,6 +121,7 @@ const CLIENTS_ROUTES : Array<WyvernRoute> = [
             (req : Request, _ : Response, next : NextFunction) => {
                 req.query = { 
                     Clientes_id: req.params.id,
+                    borrado: "false",
                     include: [
                         "Productos",
                         "id",
