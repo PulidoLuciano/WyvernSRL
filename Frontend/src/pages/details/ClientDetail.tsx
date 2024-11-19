@@ -13,7 +13,7 @@ import TData from "../../components/table/TData";
 import { useGeneral } from "../../hooks/useGeneral";
 import { useLocation, useParams } from "react-router-dom";
 import { useClients } from "../../hooks/useClients";
-import { contactType, createContactErrors } from "../../utils/types/clientType";
+import { contactType, CreateClientErrors, createContactErrors } from "../../utils/types/clientType";
 import * as Yup from "yup";
 import { contactSchema } from "../../schemas/contactSchema";
 import { contactTableHeaders, purchasesTableHeaders} from "../../utils/dataArrays"
@@ -32,40 +32,6 @@ const ClientData = () => {
   
   const { getAllCountries,getAllPlatforms,getAllMedias,medias,platforms,countries,} = useGeneral();
 
-  useEffect(() => {
-    getClient(clientId);
-    getAllContacts(clientId);
-    getClientsPurchases(clientId)
-  }, []);
-
-  useEffect(() => {
-    getAllCountries();
-    getAllPlatforms();
-    getAllMedias();
-  }, []);
-
-  useEffect(() => {
-    if (clientDetail) {
-      setEditedData({
-        name: clientDetail.nombre,
-        phone: clientDetail.telelofono,
-        email: clientDetail.correo,
-        platform: clientDetail.Plataformas.id,
-        suscription: `${clientDetail.suscripto}`,
-        country: clientDetail.Paises.id,
-      })
-    }
-    console.log(clientDetail);
-    
-  }, [clientDetail])
-
-  const [dataLength, setDataLength] = useState<number>(10);
-  const [createErrors, setCreateErrors] = useState<createContactErrors>({});
-  const [currentPageContacts, setCurrentPageContacts] = useState<number>(1);
-  const [currentPagePurchases, setCurrentPagePurchases] = useState<number>(1);
-  const [editable, setEditable] = useState(false);
-  const [selectedDataContact, setSelectedDataContact] = useState<Array<string>>([]);
-
   const [editedData, setEditedData] = useState({
     name: '',
     phone: '',
@@ -82,6 +48,46 @@ const ClientData = () => {
     fecha: '',
     motivo: '',
   });
+
+
+  useEffect(() => {
+    getClient(clientId);
+    getAllContacts(clientId);
+    getClientsPurchases(clientId)
+  }, []);
+
+  useEffect(() => {
+    getAllCountries();
+    getAllPlatforms();
+    getAllMedias();
+  }, []);
+
+  useEffect(() => {
+    if (clientDetail) {
+      setEditedData({
+        name: clientDetail.nombre,
+        phone: clientDetail.telefono,
+        email: clientDetail.correo,
+        platform: clientDetail.Plataformas.id,
+        suscription: `${clientDetail.suscripto}`,
+        country: clientDetail.Paises.id,
+      })
+    }
+    console.log(clientDetail);
+    
+  }, [clientDetail])
+
+  console.log(editedData);
+  
+
+  const [dataLength, setDataLength] = useState<number>(10);
+  const [createErrors, setCreateErrors] = useState<createContactErrors>({});
+  const [editErrors,setEditErrors] = useState<CreateClientErrors>({});
+  const [currentPageContacts, setCurrentPageContacts] = useState<number>(1);
+  const [currentPagePurchases, setCurrentPagePurchases] = useState<number>(1);
+  const [editable, setEditable] = useState(false);
+  const [selectedDataContact, setSelectedDataContact] = useState<Array<string>>([]);
+
 
   const indexEndPurchases= currentPagePurchases * dataLength;
   const indexStartPurchases = indexEndPurchases - dataLength;
@@ -134,18 +140,18 @@ const ClientData = () => {
     try {
       await clientSchema.validate(editedData, { abortEarly: false });
       updateClient(clientId, editedData);
-      setCreateErrors({});
+      setEditErrors({});
       handleClickEditable()
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
-        const createErrors: createContactErrors = {};
+        const editErrors: CreateClientErrors = {};
         err.inner.forEach((error) => {
           if (error.path)
-            createErrors[error.path as keyof createContactErrors] =
+            editErrors[error.path as keyof CreateClientErrors] =
               error.message;
         });
 
-        setCreateErrors(createErrors);
+        setEditErrors(editErrors);
       }
     }
   };
@@ -224,12 +230,12 @@ const ClientData = () => {
             <div className="my-6">
               <Form handleSubmit={handleEditSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
                 <>
-                  <Input id={"nombreCliente"} name={"name"} value={editedData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleEditChange} error=""></Input>
-                  <Input id={"correo"} name={"email"} value={editedData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleEditChange} error=""></Input>
-                  <Input id={"telefono"} name={"phone"} value={editedData.phone} title={"Teléfono"} type={"number"}placeholder={"5493816341612"} onChange={handleEditChange} error=""></Input>
-                  <Select selected={clientDetail.Plataformas.id} id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleEditChange}></Select>
+                  <Input id={"nombreCliente"} name={"name"} value={editedData.name} title={"Nombre"} type={"text"} placeholder={"username"} onChange={handleEditChange} error={editErrors.name}></Input>
+                  <Input id={"correo"} name={"email"} value={editedData.email} title={"Correo"} type={"text"} placeholder={"Username@user.com"} onChange={handleEditChange} error={editErrors.email}></Input>
+                  <Input id={"telefono"} name={"phone"} value={editedData.phone} title={"Teléfono"} type={"text"} placeholder={"5493816341612"} onChange={handleEditChange} error={editErrors.phone}></Input>
+                  <Select error={editErrors.platform} selected={clientDetail.Plataformas.id} id={"plataformas"} name={"platform"} title={"Plataforma"} options={platforms} onChange={handleEditChange}></Select>
                   <Checkbox title={"Suscripto"} name={"suscription"} onChange={handleEditChange}></Checkbox>
-                  <Select selected={clientDetail.Paises.id} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleEditChange}></Select>
+                  <Select error={editErrors.country} selected={clientDetail.Paises.id} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleEditChange}></Select>
                   <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end"}/>
                 </>
               </Form>
