@@ -51,7 +51,7 @@ const ClientsModule = () => {
     phone: '',
     email: '',
     platform: '',
-    suscription: 'false',
+    suscription: 'on',
     country: ''
   });
   
@@ -145,11 +145,11 @@ const ClientsModule = () => {
       Paises_id: filterData.country,
       suscripto: filterData.suscription
     }
-    const datos = Object.entries(data);
+    const datos = Object.entries(data);   
     if (datos.length == 2) return;
 
     const filter: Array<string> = []
-    console.log(filter);    
+       
     
     datos.forEach((d, index) => {
       if (d[1] != "" && index == 0) {
@@ -167,7 +167,7 @@ const ClientsModule = () => {
 
       }
     })
-
+    
     getAllClients(true, true, filter.join(""));
 
   }
@@ -198,7 +198,7 @@ const ClientsModule = () => {
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    if (filterData.suscription == "false" && e.target.type == "checkbox") {
+    if (filterData.suscription == "on" && e.target.type == "checkbox") {
       setFilterData({
         ...filterData,
         suscription: "true"
@@ -207,7 +207,7 @@ const ClientsModule = () => {
     else if (filterData.suscription == "true" && e.target.type == "checkbox") {
       setFilterData({
         ...filterData,
-        suscription: "false"
+        suscription: ""
       })
     } else {
       setFilterData({
