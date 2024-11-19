@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import prisma from "../../prisma"
 import RouterController from "../RouterController"
+import ApiError from "../../utils/ApiError";
+import HttpStatuses from "../../utils/HttpStatus";
 
 export class SalesController extends RouterController{
     constructor(){
@@ -10,6 +12,15 @@ export class SalesController extends RouterController{
         this.monthsStats = this.monthsStats.bind(this);
         this.productsStats = this.productsStats.bind(this);
         this.countiesStats = this.countiesStats.bind(this);
+        this.create = this.create.bind(this);
+    }
+
+    public async create(req: Request, res: Response): Promise<any> {
+        const { Clientes_id, Productos_id } = req.body;
+        const venta = await prisma.ventas.findFirst({ where: { Clientes_id: Clientes_id, Productos_id: Productos_id}});
+        if(!venta)
+            return super.create(req, res)
+        throw new ApiError(HttpStatuses.BAD_REQUEST, "El usuario elegido ya ha comprado ese juego.");
     }
 
     public async platformsStats(req : Request, res : Response){
