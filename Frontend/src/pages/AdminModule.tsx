@@ -73,8 +73,8 @@ const AdminModule = () => {
          const employeeExist = employees.find(e => e.nombre == user.employee);
 
          if (employeeExist == undefined) {
-            setCreateErrors({ ...createErrors, employee: "Este cliente no existe" })
-            throw new Error("Este cliente no existe")
+            setCreateErrors({ ...createErrors, employee: "Este empleado no existe" })
+            throw new Error("Este empleado no existe")
           }
 
           await userSchema.validate(user, { abortEarly: false });
