@@ -288,9 +288,7 @@ const SalesModule = () => {
       <Accordion title="Filtrar por">
         <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
           <>
-            <Input id={"nombreUsuario"} name={"client"} value={filterData.client} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleFilterChange} error=''></Input>
             <Select id={"productos"} title={"Productos"} name={"product"} options={products} onChange={handleFilterChange}></Select>
-            <Input id={"fecha"} name={"date"} value={filterData.date} title={"Fecha"} type={"text"} placeholder={"2023-07-17"} onChange={handleFilterChange} error=''></Input>
             <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"} />
           </>
         </Form>
@@ -352,7 +350,7 @@ const SalesModule = () => {
           <>
             <Input error={createProductErrors.name} id={"nombreProducto"} name={"name"} value={createProductData.name} title={"Nombre del Producto"} type={"text"} placeholder={"Wyvern Game"} onChange={handleCreateProductChange} ></Input>
             <Input error={createProductErrors.price} id={"precioProducto"} name={"price"} value={createProductData.price} title={"Precio"} type={"number"} placeholder={"0.00"} onChange={handleCreateProductChange} ></Input>
-            <Input error={createProductErrors.date} id={"fechaLanzamientoProducto"} name={"date"} value={createProductData.date} title={"Fecha de lanzamiento"} type={"text"} placeholder={"2023-07-17"} onChange={handleCreateProductChange} ></Input>
+            <Input error={createProductErrors.date} id={"fechaLanzamientoProducto"} name={"date"} value={createProductData.date} title={"Fecha de lanzamiento"} type={"date"} placeholder={"2023-07-17"} onChange={handleCreateProductChange} ></Input>
             <Select error={createProductErrors.category} id={"categoriaProducto"} title={"Categoría"} name={"category"} options={gamesCategories} onChange={handleCreateProductChange}></Select>
             <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
           </>

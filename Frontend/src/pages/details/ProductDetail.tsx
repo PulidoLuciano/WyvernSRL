@@ -196,13 +196,6 @@ const ProductDetail = () => {
             <h2 className="text-3xl">Ventas del producto</h2>
             <p>Total de ventas:{productSales.length}</p>
           </div>
-
-          <button onClick={() => handleDeleteSales(selectedSales)} className="bg-red font-semibold text-sm rounded flex items-center justify-center p-3 tablet:col-start-3 tablet:gap-2 laptopL:col-start-5 laptopL:col-end-6">
-            <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor"strokeLinecap="round"strokeLinejoin="round"strokeWidth="2"d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
-            </svg>
-            Eliminar Seleccionados ({selectedSales.length})
-          </button>
         </div>    
 
  
@@ -211,8 +204,8 @@ const ProductDetail = () => {
             {
             dataShownSales.length != 0 ?
             dataShownSales.map((ventas, index) => (
-              <TRow key={index} id={ventas.id} deleteButton={true}>
-                <TData checkbox={true} id={ventas.id} onChange={handleSales}>
+              <TRow key={index} id={ventas.id}>
+                <TData id={ventas.id} onChange={handleSales}>
                   {ventas.Clientes.nombre}
                 </TData>
                 <TData>{ventas.Productos.nombre}</TData>

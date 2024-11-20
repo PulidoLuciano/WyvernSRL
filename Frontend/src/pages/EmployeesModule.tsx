@@ -288,7 +288,7 @@ const EmployeesModule = () => {
       <Accordion title="Crear Nuevo Empleado">
         <Form handleSubmit={handleCreateEmployeeSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-4 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
           <>
-            <Input id={"nombre"} name={"name"} value={createEmployeeData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleCreateEmployeeChange} error={createErrors.name}></Input>
+            <Input id={"nombre"} name={"name"} value={createEmployeeData.name} title={"Nombre y Apellido"} type={"text"} placeholder={"Martin"} onChange={handleCreateEmployeeChange} error={createErrors.name}></Input>
             <Input id={"correo"} name={"email"} value={createEmployeeData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleCreateEmployeeChange} error={createErrors.email}></Input>
             <Input id={"dni"} name={"dni"} value={createEmployeeData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleCreateEmployeeChange} error={createErrors.dni}></Input>
             <Input id={"telefono"} name={"phone"} value={createEmployeeData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleCreateEmployeeChange} error={createErrors.phone}></Input>
@@ -304,7 +304,7 @@ const EmployeesModule = () => {
       <Accordion title="Filtrar por">
         <Form handleSubmit={handleFilterEmployeeSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
           <>
-            <Input id={"nombreFiltrar"} name={"name"} value={filterEmployeeData.name} title={"Nombre de Usuario"} type={"text"} placeholder={"Martin"} onChange={handleFilterEmployeeChange} error=''></Input>
+            <Input id={"nombreFiltrar"} name={"name"} value={filterEmployeeData.name} title={"Nombre y Apellido"} type={"text"} placeholder={"Martin"} onChange={handleFilterEmployeeChange} error=''></Input>
             <Input id={"dniFiltrar"} name={"dni"} value={filterEmployeeData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleFilterEmployeeChange} error=''></Input>
             <Input id={"salarioFiltrar"} name={"salary"} value={filterEmployeeData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleFilterEmployeeChange} error=''></Input>
             <Select id={"paisesFiltrar"} title={"País"} name={"country"} options={countries} onChange={handleFilterEmployeeChange}></Select>
@@ -325,13 +325,6 @@ const EmployeesModule = () => {
             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
           </svg>
           Eliminar Seleccionados ({selectedEmployees.length})
-        </button>
-
-        <button className='bg-primary font-semibold laptopL:col-start-6 laptopL:col-end-7 rounded flex gap-2 items-center justify-center text-white'>
-          <svg className="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
-          </svg>
-          Enviar Noticia
         </button>
       </div>
 
