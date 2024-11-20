@@ -25,9 +25,9 @@ import { Link } from "react-router-dom";
 const SalesModule = () => {
 
   const { sales, loading, error, createSale, deleteSale, getAllSales } = useSales()
-  const { getAllProducts, products, deleteProducts, createProduct, loadingProducts} = useProducts()
+  const { getAllProducts, products, deleteProducts, createProduct, loadingProducts } = useProducts()
   const { clients, getAllClients } = useClients()
-  const {gamesCategories, errorGeneral, getAllGamesCategories } = useGeneral()
+  const { gamesCategories, errorGeneral, getAllGamesCategories } = useGeneral()
   useEffect(() => {
     getAllSales(true, true)
     getAllProducts(true);
@@ -71,7 +71,7 @@ const SalesModule = () => {
   const indexStart = indexEnd - dataLength;
   const nPages = Math.ceil(sales.length / dataLength);
   const dataShown = sales.slice(indexStart, indexEnd);
-  
+
   const changePage = (nextPage: number) => {
     setCurrentPage(nextPage);
   }
@@ -132,6 +132,11 @@ const SalesModule = () => {
       }
       createSale(data)
       setCreateErrors({});
+      setCreateData({
+        client: '',
+        product: '',
+        date: null,
+      })
     } catch (err: any) {
 
       if (err instanceof Yup.ValidationError) {
@@ -230,6 +235,12 @@ const SalesModule = () => {
       await productSchema.validate(createProductData, { abortEarly: false });
       createProduct(createProductData)
       setCreateErrors({});
+      setCreateProductData({
+        name: '',
+        price: '',
+        date: null,
+        category: ''
+      })
     } catch (err: any) {
       console.log(err);
 
@@ -257,141 +268,141 @@ const SalesModule = () => {
 
   return (
     <main className='w-full p-3 laptop:p-2 laptop:w-2/3 laptopL:w-4/5 relative'>
-      
-      
-        <div className='flex flex-col items-start gap-y-3 tablet:gap-6'>
-          <h1 className='text-4xl'>Modulo Ventas</h1>
-          <p>Ver, crear, editar y eliminar Ventas</p>
+
+
+      <div className='flex flex-col items-start gap-y-3 tablet:gap-6'>
+        <h1 className='text-4xl'>Modulo Ventas</h1>
+        <p>Ver, crear, editar y eliminar Ventas</p>
+      </div>
+
+      <Accordion title="Crear Nuevo">
+        <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
+          <>
+            <Input error={createErrors.client} id={"nombreUsuario"} name={"client"} value={createData.client} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleCreateChange} ></Input>
+            <Select error={createErrors.product} id={"productos"} title={"Productos"} name={"product"} options={products} onChange={handleCreateChange}></Select>
+            <Input error={createErrors.date} id={"fecha"} name={"date"} value={createData.date} title={"Fecha"} type={"date"} placeholder={"2023-07-17"} onChange={handleCreateChange} ></Input>
+            <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
+          </>
+        </Form>
+      </Accordion>
+      <Accordion title="Filtrar por">
+        <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
+          <>
+            <Input id={"nombreUsuario"} name={"client"} value={filterData.client} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleFilterChange} error=''></Input>
+            <Select id={"productos"} title={"Productos"} name={"product"} options={products} onChange={handleFilterChange}></Select>
+            <Input id={"fecha"} name={"date"} value={filterData.date} title={"Fecha"} type={"text"} placeholder={"2023-07-17"} onChange={handleFilterChange} error=''></Input>
+            <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"} />
+          </>
+        </Form>
+      </Accordion>
+
+      <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
+        <div className='flex gap-2 items-end tablet:col-span-2'>
+          <h2>Ventas</h2>
+          <p>Página {currentPage} de {nPages}</p>
         </div>
 
-        <Accordion title="Crear Nuevo">
-          <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
-            <>
-              <Input error={createErrors.client} id={"nombreUsuario"} name={"client"} value={createData.client} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleCreateChange} ></Input>
-              <Select error={createErrors.product} id={"productos"} title={"Productos"} name={"product"} options={products} onChange={handleCreateChange}></Select>
-              <Input error={createErrors.date} id={"fecha"} name={"date"} value={createData.date} title={"Fecha"} type={"date"} placeholder={"2023-07-17"} onChange={handleCreateChange} ></Input>
-              <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
-            </>
-          </Form>
-        </Accordion>
-        <Accordion title="Filtrar por">
-          <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
-            <>
-              <Input id={"nombreUsuario"} name={"client"} value={filterData.client} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleFilterChange} error=''></Input>
-              <Select id={"productos"} title={"Productos"} name={"product"} options={products} onChange={handleFilterChange}></Select>
-              <Input id={"fecha"} name={"date"} value={filterData.date} title={"Fecha"} type={"text"} placeholder={"2023-07-17"} onChange={handleFilterChange} error=''></Input>
-              <FilterButton className={"text-white bg-primary my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end"} />
-            </>
-          </Form>
-        </Accordion>
-
-        <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
-          <div className='flex gap-2 items-end tablet:col-span-2'>
-            <h2>Ventas</h2>
-            <p>Página {currentPage} de {nPages}</p>
-          </div>
-
-          <button onClick={() => handleDeleteSelectedData(selectedData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center tablet:col-start-3 px-2 tablet:gap-0 laptopL:col-start-5 laptopL:col-end-6'>
-            <svg className="w-8 h-7 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-            </svg>
-            Eliminar Seleccionados ({selectedData.length})
+        <button onClick={() => handleDeleteSelectedData(selectedData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center tablet:col-start-3 px-2 tablet:gap-0 laptopL:col-start-5 laptopL:col-end-6'>
+          <svg className="w-8 h-7 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+          </svg>
+          Eliminar Seleccionados ({selectedData.length})
+        </button>
+        <Link to="/charts" className='bg-primary font-semibold laptopL:col-start-6 laptopL:col-end-7 rounded flex items-center justify-center text-white'>
+          <svg className="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M5 3V19H21V21H3V3H5ZM20.2929 6.29289L21.7071 7.70711L16 13.4142L13 10.415L8.70711 14.7071L7.29289 13.2929L13 7.58579L16 10.585L20.2929 6.29289Z"></path>
+          </svg>
+          <button >
+            Estadisticas de ventas
           </button>
-          <Link to="/charts" className='bg-primary font-semibold laptopL:col-start-6 laptopL:col-end-7 rounded flex items-center justify-center text-white'>
-            <svg className="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M5 3V19H21V21H3V3H5ZM20.2929 6.29289L21.7071 7.70711L16 13.4142L13 10.415L8.70711 14.7071L7.29289 13.2929L13 7.58579L16 10.585L20.2929 6.29289Z"></path>
-              </svg>
-            <button >
-              Estadisticas de ventas
-          </button>
-          </Link>
-          
-        </div>
+        </Link>
 
-        <div className='overflow-x-auto mt-6'>
-          {loading && <p>Cargando ventas...</p>}
-          {error ? <p>Error: {error}</p> :
-            <Table id="SalesTable" headers={salesTableHeaders}>
-              {
-                dataShown.length != 0 ?
+      </div>
+
+      <div className='overflow-x-auto mt-6'>
+        {loading && <p>Cargando ventas...</p>}
+        {error ? <p>Error: {error}</p> :
+          <Table id="SalesTable" headers={salesTableHeaders}>
+            {
+              dataShown.length != 0 ?
                 dataShown.map((sale, index) => {
                   return (
-                    <TRow key={index} id={sale.id} handleDelete={()=>deleteSale([sale.id.toString()])} deleteButton={true} path='sales' detail={true}>
+                    <TRow key={index} id={sale.id} handleDelete={() => deleteSale([sale.id.toString()])} deleteButton={true} path='sales' detail={true}>
                       <TData onChange={handleSelectedItem} id={sale.id} checkbox={true}>{sale.Clientes?.nombre}</TData>
                       <TData>{sale.Productos?.nombre}</TData>
-                      <TData>{sale.fecha?.slice(0,10)}</TData>
+                      <TData>{sale.fecha?.slice(0, 10)}</TData>
                     </TRow>)
-                }):
+                }) :
                 <div className=''>No hay ventas con esas caracteristicas</div>
-              }
-            </Table>
-          }
+            }
+          </Table>
+        }
+      </div>
+
+
+      <div className='flex items-center justify-center laptop:justify-end gap-6 my-6' id='paginacionTabla'>
+
+        <Pagination changePage={changePage} nPages={nPages} currentPage={currentPage} indexStart={indexStart} indexEnd={indexEnd} />
+
+      </div>
+
+
+      <Accordion title="Crear nuevo producto">
+        <Form handleSubmit={handleCreateProductsSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
+          <>
+            <Input error={createProductErrors.name} id={"nombreProducto"} name={"name"} value={createProductData.name} title={"Nombre del Producto"} type={"text"} placeholder={"Wyvern Game"} onChange={handleCreateProductChange} ></Input>
+            <Input error={createProductErrors.price} id={"precioProducto"} name={"price"} value={createProductData.price} title={"Precio"} type={"number"} placeholder={"0.00"} onChange={handleCreateProductChange} ></Input>
+            <Input error={createProductErrors.date} id={"fechaLanzamientoProducto"} name={"date"} value={createProductData.date} title={"Fecha de lanzamiento"} type={"text"} placeholder={"2023-07-17"} onChange={handleCreateProductChange} ></Input>
+            <Select error={createProductErrors.category} id={"categoriaProducto"} title={"Categoría"} name={"category"} options={gamesCategories} onChange={handleCreateProductChange}></Select>
+            <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
+          </>
+        </Form>
+      </Accordion>
+
+      <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
+        <div className='flex gap-2 items-end tablet:col-span-2'>
+          <h2>Productos</h2>
+          <p>Página {currentPageProducts} de {nPagesProducts}</p>
         </div>
 
+        <button onClick={() => handleDeleteSelectedProducts(selectedProductsData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center px-2 tablet:col-start-3 tablet:gap-1 laptopL:col-start-6  laptopL:col-end-6'>
+          <svg className="w-8 h-7 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+          </svg>
+          Eliminar Seleccionados ({selectedProductsData.length})
+        </button>
 
-        <div className='flex items-center justify-center laptop:justify-end gap-6 my-6' id='paginacionTabla'>
+      </div>
 
-          <Pagination changePage={changePage} nPages={nPages} currentPage={currentPage} indexStart={indexStart} indexEnd={indexEnd} />
-
-        </div>
-
-
-        <Accordion title="Crear nuevo producto">
-          <Form handleSubmit={handleCreateProductsSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
-            <>
-              <Input error={createProductErrors.name} id={"nombreProducto"} name={"name"} value={createProductData.name} title={"Nombre del Producto"} type={"text"} placeholder={"Wyvern Game"} onChange={handleCreateProductChange} ></Input>
-              <Input error={createProductErrors.price} id={"precioProducto"} name={"price"} value={createProductData.price} title={"Precio"} type={"number"} placeholder={"0.00"} onChange={handleCreateProductChange} ></Input>
-              <Input error={createProductErrors.date} id={"fechaLanzamientoProducto"} name={"date"} value={createProductData.date} title={"Fecha de lanzamiento"} type={"text"} placeholder={"2023-07-17"} onChange={handleCreateProductChange} ></Input>
-              <Select error={createProductErrors.category} id={"categoriaProducto"} title={"Categoría"} name={"category"} options={gamesCategories} onChange={handleCreateProductChange}></Select>
-              <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
-            </>
-          </Form>
-        </Accordion>
-
-        <div className='grid grid-rows-3 gap-y-3 tablet:gap-x-2 tablet:grid-rows-1 tablet:grid-cols-4 laptop:gap-x-2 laptopL:grid-cols-6'>
-          <div className='flex gap-2 items-end tablet:col-span-2'>
-            <h2>Productos</h2>
-            <p>Página {currentPageProducts} de {nPagesProducts}</p>
-          </div>
-
-          <button onClick={() => handleDeleteSelectedProducts(selectedProductsData)} className='bg-red font-semibold text-sm rounded flex items-center justify-center px-2 tablet:col-start-3 tablet:gap-1 laptopL:col-start-6  laptopL:col-end-6'>
-            <svg className="w-8 h-7 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-            </svg>
-            Eliminar Seleccionados ({selectedProductsData.length})
-          </button>
-
-        </div>
-
-        <div className='overflow-x-auto mt-6'>
-          {loadingProducts && <p>Cargando productos...</p>}
-          {errorGeneral ? <p>Error: {errorGeneral}</p> :
-            <Table id="SalesTable" headers={productsTableHeaders}>
-              {
-                dataShownProducts.length != 0 ?
+      <div className='overflow-x-auto mt-6'>
+        {loadingProducts && <p>Cargando productos...</p>}
+        {errorGeneral ? <p>Error: {errorGeneral}</p> :
+          <Table id="SalesTable" headers={productsTableHeaders}>
+            {
+              dataShownProducts.length != 0 ?
                 dataShownProducts.map((product, index) => {
                   return (
-                    <TRow key={index} id={product.id} handleDelete={()=>deleteProducts([product.id.toString()])} path='products' deleteButton={true} detail={true}>
+                    <TRow key={index} id={product.id} handleDelete={() => deleteProducts([product.id.toString()])} path='products' deleteButton={true} detail={true}>
                       <TData onChange={handleSelectedItemProducts} id={product.id} checkbox={true}>{product.nombre}</TData>
                       <TData>{product.precio}</TData>
-                      <TData>{product.lanzamiento?.slice(0,10)}</TData>
+                      <TData>{product.lanzamiento?.slice(0, 10)}</TData>
                       <TData>{product.Categorias?.nombre}</TData>
 
                     </TRow>)
-                }):
+                }) :
                 <div className=''>No hay productos</div>
-              }
-            </Table>
-          }
-        </div>
+            }
+          </Table>
+        }
+      </div>
 
-        <div className='flex items-center justify-center laptop:justify-end gap-6 my-6' id='paginacionTabla'>
+      <div className='flex items-center justify-center laptop:justify-end gap-6 my-6' id='paginacionTabla'>
 
-          <Pagination changePage={changePageProducts} nPages={nPagesProducts} currentPage={currentPageProducts} indexStart={indexStartProducts} indexEnd={indexEndProducts} />
+        <Pagination changePage={changePageProducts} nPages={nPagesProducts} currentPage={currentPageProducts} indexStart={indexStartProducts} indexEnd={indexEndProducts} />
 
-        </div>
+      </div>
 
-      
+
     </main>
   )
 }
