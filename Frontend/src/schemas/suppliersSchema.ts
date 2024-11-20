@@ -3,19 +3,19 @@ import { dateSchema, descriptionSchema, emailSchema, idSchema, nameSchema, phone
 
 export const supplierSchema = Yup.object().shape({
     name: nameSchema,
-    email: emailSchema,
-    phone: phoneSchema,
+    email: emailSchema.optional(),
+    phone: phoneSchema.optional(),
     category: idSchema,
     state: idSchema,
 }) 
 
 export const supplierEditSchema = Yup.object().shape({
     name: nameSchema,
-    email: emailSchema,
-    phone: phoneSchema,
+    email: emailSchema.optional(),
+    phone: phoneSchema.optional(),
     category: idSchema,
     state: Yup.number().optional().typeError("Este id no es valido"),
-    score: Yup.string().min(4,"La calificacion debe tener min. 4 caracteres").max(20,"La calificacion debe tener máx. 20 caracteres").optional()
+    // score: Yup.string().min(4,"La calificacion debe tener min. 4 caracteres").max(20,"La calificacion debe tener máx. 20 caracteres").optional()
 }) 
 
 export const contractSchema = Yup.object().shape({

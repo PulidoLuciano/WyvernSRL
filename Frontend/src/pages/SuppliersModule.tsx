@@ -13,7 +13,7 @@ import TRow from '../components/table/TRow';
 import { useGeneral } from '../hooks/useGeneral';
 import useSuppliers from '../hooks/useSuppliers';
 import { marketSchema, supplierSchema } from '../schemas/suppliersSchema';
-import { CreateMarketsErrors, CreateSupplierErrors, suppliersFilter, suppliersType } from '../utils/types/suppliersType';
+import { CreateMarketsErrors, CreateSupplierErrors, marketType, suppliersFilter, suppliersType } from '../utils/types/suppliersType';
 import { suppliersTableHeaders, marketsTableHeaders } from '../utils/dataArrays';
 import * as Yup from "yup"
 import { useMarkets } from '../hooks/useMarkets';
@@ -36,6 +36,7 @@ const SuppliersModule = () => {
   const [currentPageSupplier, setCurrentPageSupplier] = useState<number>(1)
   const [currentPageMarket, setCurrentPageMarket] = useState<number>(1)
   const [createErrors, setCreateErrors] = useState<CreateSupplierErrors>({})
+  const [createMarketErrors, setCreateMarketErrors] = useState<CreateMarketsErrors>({})
   const [selectedSupplierData, setSelectedSupplierData] = useState<Array<string>>([])
   const [selectedMarketData, setSelectedMarketData] = useState<Array<string>>([])
   const [supplier, setSupplier] = useState<suppliersType>({
@@ -54,13 +55,8 @@ const SuppliersModule = () => {
     country:''
 });
 
-  const [market, setMarket] = useState<suppliersType>({
-    name: '',
-    state: '',
-    email: '',
-    phone: '',
-    category: '',
-    country: '',
+  const [market, setMarket] = useState<marketType>({
+    name: ''
   });
   
 
@@ -230,6 +226,9 @@ const SuppliersModule = () => {
     try {
       await marketSchema.validate(market, { abortEarly: false });
       createMarket(market)
+      setMarket({
+        name: ""
+      })
       setCreateErrors({});
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
@@ -239,7 +238,7 @@ const SuppliersModule = () => {
           if (error.path) createErrors[error.path as keyof CreateMarketsErrors] = error.message;
         });
 
-        setCreateErrors(createErrors);
+        setCreateMarketErrors(createErrors);
       }
     }
   }
