@@ -343,7 +343,7 @@ const ClientData = () => {
             {
             dataShownContacts. length !=0 ?
             dataShownContacts.map((contactos, index) => (
-              <TRow key={index} id={contactos.id} path={path} deleteButton={true} detail={true}>
+              <TRow key={index} id={contactos.id} handleDelete={()=>deleteContact(clientId,[contactos.id.toString()])} path={path} deleteButton={true} detail={true}>
                 <TData checkbox={true} selectedData={selectedDataContact} value={contactos.id} id={contactos.id}  onChange={handleSelectedItemContact}>
                   {contactos.id}
                 </TData>
