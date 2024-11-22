@@ -191,15 +191,16 @@ const EmployeesModule = () => {
   }
 
   const handleSelectedEmployees = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newSelectedData
-    const dataExist = selectedEmployees.find(d => d == e.target.id);
-
-    if (dataExist) {
-      newSelectedData = selectedEmployees.filter(d => d != dataExist);
+    let newSelectedData;
+    let isSelected = e.target.checked;
+    let value = e.target.value
+    
+   
+    if(isSelected){
+      setSelectedEmployees([...selectedEmployees,value])
+    }else{
+      newSelectedData = selectedEmployees.filter(d => d != value);
       setSelectedEmployees(newSelectedData)
-    }
-    else {
-      setSelectedEmployees([...selectedEmployees, e.target.id]);
     }
 
   }
@@ -247,15 +248,16 @@ const EmployeesModule = () => {
   }
 
   const handleSelectedAreas = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newSelectedData
-    const dataExist = selectedAreas.find(d => d == e.target.id);
-
-    if (dataExist) {
-      newSelectedData = selectedAreas.filter(d => d != dataExist);
+    let newSelectedData;
+    let isSelected = e.target.checked;
+    let value = e.target.value
+    
+   
+    if(isSelected){
+      setSelectedAreas([...selectedAreas,value])
+    }else{
+      newSelectedData = selectedAreas.filter(d => d != value);
       setSelectedAreas(newSelectedData)
-    }
-    else {
-      setSelectedAreas([...selectedAreas, e.target.id]);
     }
 
   }
@@ -338,7 +340,7 @@ const EmployeesModule = () => {
               dataEmployeeShown.map((empleado, index) => {
                 return (
                   <TRow key={index} id={empleado.id} detail={true} handleDelete={() => deleteEmployee([empleado.id.toString()])} deleteButton={true} path='employees'>
-                    <TData id={empleado.id} onChange={handleSelectedEmployees} checkbox={true}>{empleado.nombre}</TData>
+                    <TData id={empleado.id} selectedData={selectedEmployees} value={empleado.id} onChange={handleSelectedEmployees} checkbox={true}>{empleado.nombre}</TData>
                     <TData>{empleado.correo ? empleado.correo : "-"}</TData>
                     <TData>{empleado.dni ? empleado.dni : "-"}</TData>
                     <TData>{empleado.sueldo ? `$${empleado.sueldo}` : "-"}</TData>
@@ -384,7 +386,7 @@ const EmployeesModule = () => {
               dataAreaShown.map((area, index) => {
                 return (
                   <TRow key={index} id={area.id} detail={true} handleDelete={() => deleteArea([area.id.toString()])} deleteButton={true} path='area'>
-                    <TData id={area.id} onChange={handleSelectedAreas} checkbox={true}>{area.id}</TData>
+                    <TData id={area.id} onChange={handleSelectedAreas} selectedData={selectedAreas} value={area.id} checkbox={true}>{area.id}</TData>
                     <TData>{area.nombre}</TData>
                   </TRow>)
               }) :

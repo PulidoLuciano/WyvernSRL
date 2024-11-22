@@ -245,13 +245,15 @@ const SupplierDetail = () => {
 
   const handleSelectedItemContract = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newSelectedData;
-    const dataExist = selectedDataContract.find((d) => d == e.target.id);
-
-    if (dataExist) {
-      newSelectedData = selectedDataContract.filter((d) => d != dataExist);
-      setSelectedDataContract(newSelectedData);
-    } else {
-      setSelectedDataContract([...selectedDataContract, e.target.id]);
+    let isSelected = e.target.checked;
+    let value = e.target.value
+    
+   
+    if(isSelected){
+      setSelectedDataContract([...selectedDataContract,value])
+    }else{
+      newSelectedData = selectedDataContract.filter(d => d != value);
+      setSelectedDataContract(newSelectedData)
     }
   }
 
@@ -299,14 +301,15 @@ const SupplierDetail = () => {
 
   const handleSelectedItemPurchase = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newSelectedData;
-    const dataExist = selectedDataPurchase.find((d) => d == e.target.id);
-    console.log(e.target.id);
-
-    if (dataExist) {
-      newSelectedData = selectedDataPurchase.filter((d) => d != dataExist);
-      setSelectedDataPurchase(newSelectedData);
-    } else {
-      setSelectedDataPurchase([...selectedDataPurchase, e.target.id]);
+    let isSelected = e.target.checked;
+    let value = e.target.value
+    
+   
+    if(isSelected){
+      setSelectedDataPurchase([...selectedDataPurchase,value])
+    }else{
+      newSelectedData = selectedDataPurchase.filter(d => d != value);
+      setSelectedDataPurchase(newSelectedData)
     }
   }
 
@@ -426,7 +429,7 @@ const SupplierDetail = () => {
             dataShownContracts.length != 0 ?
               dataShownContracts.map((contract, index) => (
                 <TRow key={index} id={contract.id} path='contracts' detail={true} handleDelete={() => deleteContract(supplierId.toString(), [contract.id.toString()])} deleteButton={true}>
-                  <TData checkbox={true} id={contract.id} onChange={handleSelectedItemContract}>
+                  <TData checkbox={true} selectedData={selectedDataContract} value={contract.id} id={contract.id} onChange={handleSelectedItemContract}>
                     {contract.descripcion}
                   </TData>
                   <TData>{contract.fechaVencimiento?.slice(0, 10)}</TData>
@@ -479,8 +482,8 @@ const SupplierDetail = () => {
           {
             dataShownPurchases.length != 0 ?
               dataShownPurchases.map((purchase, index) => (
-                <TRow key={index} path='purchases' handleDelete={() => deletePurchase(supplierId, [purchase.id.toString()])} id={purchase.id} detail={true} deleteButton={true} >
-                  <TData checkbox={true} id={purchase.id} onChange={handleSelectedItemPurchase}>
+                <TRow key={index} path='purchases'  handleDelete={() => deletePurchase(supplierId, [purchase.id.toString()])} id={purchase.id} detail={true} deleteButton={true} >
+                  <TData checkbox={true} selectedData={selectedDataPurchase} value={purchase.id} id={purchase.id} onChange={handleSelectedItemPurchase}>
                     {purchase.descripcion}
                   </TData>
                   <TData>{purchase.precioUnitario}</TData>

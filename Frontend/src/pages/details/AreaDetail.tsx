@@ -163,13 +163,15 @@ const AreaDetail = () => {
 
   const handleSelectedPositions = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newSelectedData;
-    const dataExist = selectedPositions.find((d) => d == e.target.id);
-
-    if (dataExist) {
-      newSelectedData = selectedPositions.filter((d) => d != dataExist);
-      setSelectedPositions(newSelectedData);
-    } else {
-      setSelectedPositions([...selectedPositions, e.target.id]);
+    let isSelected = e.target.checked;
+    let value = e.target.value
+    
+   
+    if(isSelected){
+      setSelectedPositions([...selectedPositions,value])
+    }else{
+      newSelectedData = selectedPositions.filter(d => d != value);
+      setSelectedPositions(newSelectedData)
     }
   };
 
@@ -292,7 +294,7 @@ const AreaDetail = () => {
           <Table headers={positionsTableHeaders}>
             {dataShownPositions.map((puesto, index) => (
               <TRow key={index} id={puesto.id} handleDelete={()=>deletePosition(areaId,[puesto.id.toString()])} deleteButton={true} detail={true} path={path}>
-                <TData checkbox={true} id={puesto.id} onChange={handleSelectedPositions}>
+                <TData checkbox={true} selectedData={selectedPositions} value={puesto.id} id={puesto.id} onChange={handleSelectedPositions}>
                   {puesto.id}
                 </TData>
                 <TData>{puesto.nombre}</TData>

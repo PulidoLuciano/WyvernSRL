@@ -108,29 +108,33 @@ export const useEmployees = () => {
  const getEmployeePosition = useCallback(async (id: number) => {
   setLoading(true);
   setError(null);
-  let url = `http://localhost:3000/employees/${id}/position`;
-  try {
-    const data = await employeesService.getEmployeePosition(url);
-    setEmployeePosition(data);
-  } catch (err: any) {
-    setError(err.message);
-  } finally {
-    setLoading(false);
-  }
+  setTimeout(async () => {
+    let url = `http://localhost:3000/employees/${id}/position`;
+    try {
+      const data = await employeesService.getEmployeePosition(url);
+      setEmployeePosition(data);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, 350)
 }, []);
 
 const getEmployeeCareer= useCallback(async (id: number) => {
   setLoading(true);
   setError(null);
-  let url = `http://localhost:3000/employees/${id}/career`;
-  try {
-    const data = await employeesService.getEmployeeCareer(url);
-    setEmployeeCareer(data);
-  } catch (err: any) {
-    setError(err.message);
-  } finally {
-    setLoading(false);
-  }
+  setTimeout( async () =>{
+    let url = `http://localhost:3000/employees/${id}/career`;
+    try {
+      const data = await employeesService.getEmployeeCareer(url);
+      setEmployeeCareer(data);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, 350)
 }, []);
 
   return { getAllEmployees,employees, createEmployee, updateEmployee, 

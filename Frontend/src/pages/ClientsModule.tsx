@@ -77,21 +77,21 @@ const ClientsModule = () => {
 
   const handleSelectedItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newSelectedData;
-
-    const dataExist = selectedData.find(d => d == e.target.id);
+    let isSelected = e.target.checked;
+    let value = e.target.value
+    
    
-    if (dataExist) {
-      newSelectedData = selectedData.filter(d => d != dataExist);
-     
+    if(isSelected){
+      setSelectedData([...selectedData,value])
+    }else{
+      newSelectedData = selectedData.filter(d => d != value);
       setSelectedData(newSelectedData)
-      
     }
-    else {
-      setSelectedData([...selectedData, e.target.id]);
-    }
-   
 
+  
   }
+
+  
 
   const handleDeleteSelectedData = async (selectedData: Array<string>) => {
     if (!selectedData || selectedData.length == 0) {
@@ -198,7 +198,7 @@ const ClientsModule = () => {
 
   }
 
-  console.log(filterData);
+  
   
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -286,7 +286,7 @@ const ClientsModule = () => {
               {dataShown.length != 0 ?
                 dataShown.map((cliente, index) => (
                   <TRow id={cliente.id} key={index} handleDelete={()=>deleteClient([cliente.id.toString()])} detail={true} deleteButton={true} path='clients'>
-                    <TData id={cliente.id} checkbox={true}  onChange={handleSelectedItem} >{cliente.nombre}</TData>
+                    <TData id={cliente.id} selectedData={selectedData} checkbox={true} value={cliente.id} onChange={handleSelectedItem} >{cliente.nombre}</TData>
                     <TData>{cliente.Plataformas?.nombre}</TData>
                     <TData>{cliente.Paises?.nombre}</TData>
                     <TData>{cliente.suscripto ? "Si" : "No"}</TData>

@@ -79,15 +79,16 @@ const SuppliersModule = () => {
   }
 
   const handleSelectedSupplier = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newSelectedData
-    const dataExist = selectedSupplierData.find(d => d == e.target.id);
-
-    if (dataExist) {
-      newSelectedData = selectedSupplierData.filter(d => d != dataExist);
+    let newSelectedData;
+    let isSelected = e.target.checked;
+    let value = e.target.value
+    
+   
+    if(isSelected){
+      setSelectedSupplierData([...selectedSupplierData,value])
+    }else{
+      newSelectedData = selectedSupplierData.filter(d => d != value);
       setSelectedSupplierData(newSelectedData)
-    }
-    else {
-      setSelectedSupplierData([...selectedSupplierData, e.target.id]);
     }
 
   }
@@ -194,15 +195,16 @@ const SuppliersModule = () => {
   }
 
   const handleSelectedMarket = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newSelectedData
-    const dataExist = selectedMarketData.find(d => d == e.target.id);
-
-    if (dataExist) {
-      newSelectedData = selectedMarketData.filter(d => d != dataExist);
+    let newSelectedData;
+    let isSelected = e.target.checked;
+    let value = e.target.value
+    
+   
+    if(isSelected){
+      setSelectedMarketData([...selectedMarketData,value])
+    }else{
+      newSelectedData = selectedMarketData.filter(d => d != value);
       setSelectedMarketData(newSelectedData)
-    }
-    else {
-      setSelectedMarketData([...selectedMarketData, e.target.id]);
     }
   }
 
@@ -308,7 +310,7 @@ const SuppliersModule = () => {
               dataShownSupplier.map((s, index) => {
                 return (
                   <TRow key={index} id={s.id} detail={true} deleteButton={true} handleDelete={()=>deleteSuppliers([s.id.toString()])} path='suppliers'>
-                    <TData id={s.id} onChange={handleSelectedSupplier} checkbox={true}>{s.nombre}</TData>
+                    <TData id={s.id} onChange={handleSelectedSupplier} selectedData={selectedSupplierData} value={s.id} checkbox={true}>{s.nombre}</TData>
                     <TData>{s.correo ? s.correo : "-"}</TData>
                     <TData>{s.telefono ? s.telefono : "-"}</TData>
                     <TData>{s.Provincias?.nombre}</TData>
@@ -351,14 +353,14 @@ const SuppliersModule = () => {
 
         <div className='overflow-x-auto mt-6'>
           <Table headers={marketsTableHeaders}>
-            {
+            {suppliers?
               dataShownMarket.map((r, index) => {
                 return (
                   <TRow key={index} id={r.id} detail={true} deleteButton={true} handleDelete={()=>deleteMarkets([r.id.toString()])} path='markets'>
-                    <TData id={r.id} onChange={handleSelectedMarket} checkbox={true}>{r.id}</TData>
+                    <TData id={r.id} onChange={handleSelectedMarket} selectedData={selectedMarketData} value={r.id} checkbox={true}>{r.id}</TData>
                     <TData>{r.nombre}</TData>
                   </TRow>)
-              })
+              }) : <div>No hay proveedores con esas caracteristicas</div>
             }
 
           </Table>

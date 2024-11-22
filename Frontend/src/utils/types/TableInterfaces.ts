@@ -1,3 +1,4 @@
+
 import { ChangeEventHandler } from "react";
 
 
@@ -22,6 +23,8 @@ export interface TDataProps {
     checkbox?: boolean;
     onChange?: ChangeEventHandler;
     selectedAll?: boolean;
-    id?: string,
-    isSelectAll?:boolean
+    id?: string;
+    isSelectAll?:boolean;
+    value?: string;
+    selectedData?: Array<string>
 }
