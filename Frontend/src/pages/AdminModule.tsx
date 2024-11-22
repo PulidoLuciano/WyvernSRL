@@ -37,7 +37,7 @@ const AdminModule = () => {
     const [user, setUser] = useState<userType>({
         name: '',
         password: '',
-        employee: '',
+        employeeDNI: '',
         role: ''
       });
 
@@ -47,6 +47,8 @@ const AdminModule = () => {
         role: ''
       });
 
+      console.log(user);
+      
       const indexEndUser = currentPageUser * dataLength;
       const indexStartUser = indexEndUser - dataLength;
       const nPagesUser = Math.ceil(users.length / dataLength);
@@ -70,7 +72,7 @@ const AdminModule = () => {
     
         try {
 
-         const employeeExist = employees.find(e => e.nombre == user.employee);
+         const employeeExist = employees.find(e => e.dni == user.employeeDNI);
 
          if (employeeExist == undefined) {
             setCreateErrors({ ...createErrors, employee: "Este empleado no existe" })
@@ -83,7 +85,7 @@ const AdminModule = () => {
           const data: userType = {
             name: user.name,
             password: user.password,
-            employee: employeeExist.id,
+            employeeDNI: employeeExist.id,
             role: user.role
           }
           
@@ -144,7 +146,7 @@ const AdminModule = () => {
               filter.push(`?${d[0]}[contains]=${d[1]}`)
             }
           } else if (d[1] != "") {
-            if (d[0] == "Roles_id" || d[0] == "Empleados_id:") {
+            if (d[0] == "Roles_id" || d[0] == "Empleados_id") {
               filter.push(`&${d[0]}=${d[1]}`);
             } else {
               filter.push(`&${d[0]}[contains]=${d[1]}`);
@@ -180,7 +182,7 @@ const AdminModule = () => {
             <>
               <Input id={"name"} name={"name"} value={user.name} title={"Nombre de usuario"} type={"text"} placeholder={"username"} onChange={handleCreateChange} error={createErrors.name}></Input>
               <Input id={"password"} name={"password"} value={user.password} title={"Contraseña"} type={"password"} placeholder={""} onChange={handleCreateChange} error={createErrors.password}></Input>
-              <Input id={"employee"} name={"employee"} value={user.employee} title={"Empleado"} type={"text"} placeholder={"Juan Cruz"} onChange={handleCreateChange} error={createErrors.employee}></Input>
+              <Input id={"employeeDNI"} name={"employeeDNI"} value={user.employeeDNI} title={"DNI del empleado"} type={"number"} placeholder={"44478902"} onChange={handleCreateChange} error={createErrors.employee}></Input>
               <Select error={createErrors.role} id={"role"} title={"Rol"} name={"role"} options={roles} onChange={handleCreateChange}></Select>
               
               <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end'} />

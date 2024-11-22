@@ -49,7 +49,7 @@ const getAll= async (url: string) => {
       body: JSON.stringify({
         "nombre": userData.name,
         "contrasenia": userData.password,
-        "Empleados_id": Number(userData.employee),
+        "Empleados_id": Number(userData.employeeDNI),
         "Roles_id": Number(userData.role)
 
       })

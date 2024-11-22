@@ -1,7 +1,7 @@
 export interface userType{
     name: string;
     password: string;
-    employee: string,
+    employeeDNI: string,
     role: string;
 }
 
