@@ -91,7 +91,6 @@ export const useEmployees = () => {
 
   
   const updateEmployee = async(id:number,employeeData:employeeType)=>{
-    console.log(employeeData);
     
     setLoading(true)
     setError(null)

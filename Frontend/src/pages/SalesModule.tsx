@@ -388,7 +388,7 @@ const SalesModule = () => {
                   return (
                     <TRow key={index} id={product.id} handleDelete={() => deleteProducts([product.id.toString()])} path='products' deleteButton={true} detail={true}>
                       <TData onChange={handleSelectedItemProducts} id={product.id} checkbox={true}>{product.nombre}</TData>
-                      <TData>{product.precio}</TData>
+                      <TData>{`$${product.precio}`}</TData>
                       <TData>{product.lanzamiento?.slice(0, 10)}</TData>
                       <TData>{product.Categorias?.nombre}</TData>
 

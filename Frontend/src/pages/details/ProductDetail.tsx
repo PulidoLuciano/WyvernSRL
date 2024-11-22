@@ -177,7 +177,7 @@ const ProductDetail = () => {
                   <h4 className="font-semibold text-lg">Fecha</h4>
                   <p>{productDetail.lanzamiento?.slice(0,10)}</p>
                   <h4 className="font-semibold text-lg">Precio</h4>
-                  <p>{productDetail.precio}</p>
+                  <p>{`$${productDetail.precio}`}</p>
                   <h4 className="font-semibold text-lg">Categoria</h4>
                   <p>{productDetail.Categorias?.nombre}</p>
                 </>
