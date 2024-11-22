@@ -13,7 +13,7 @@ export const usePositions = () => {
     const getPositions = async( id: number)=>{
         setLoading(true);
         setError(null)
-        let url = `http://localhost:3000/positions/?Areas_id=${id}&borrado=false`
+        let url = `http://localhost:3000/positions/?Areas_id=${id}&include=nombre&include=id&borrado=false`
         try {
         const data = await positionService.getPositions(url);
         setPositions(data)

@@ -114,7 +114,7 @@ export const useGeneral = () => {
   const getAllPositions = useCallback(async () => {
     setLoadingCurrencies(true);
     setErrorGeneral(null)
-    let url = "http://localhost:3000/positions"
+    let url = "http://localhost:3000/positions/?borrado=false"
     try {
       const data = await generalService.getAll(url);
       setPositions(data)

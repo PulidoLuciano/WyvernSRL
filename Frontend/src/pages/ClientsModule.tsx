@@ -143,13 +143,15 @@ const ClientsModule = () => {
       correo: filterData.email,
       Plataformas_id: filterData.platform,
       Paises_id: filterData.country,
-      suscripto: filterData.suscription
+      suscripto: filterData.suscription == 'on' ? '' : filterData.suscription
     }
     const datos = Object.entries(data);   
     if (datos.length == 2) return;
 
     const filter: Array<string> = []
        
+    console.log(datos);
+    
     
     datos.forEach((d, index) => {
       if (d[1] != "" && index == 0) {
@@ -196,6 +198,9 @@ const ClientsModule = () => {
 
   }
 
+  console.log(filterData);
+  
+
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     if (filterData.suscription == "on" && e.target.type == "checkbox") {
@@ -207,7 +212,7 @@ const ClientsModule = () => {
     else if (filterData.suscription == "true" && e.target.type == "checkbox") {
       setFilterData({
         ...filterData,
-        suscription: ""
+        suscription: "on"
       })
     } else {
       setFilterData({
