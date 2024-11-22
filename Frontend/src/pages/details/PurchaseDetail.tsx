@@ -162,9 +162,9 @@ const PurchaseDetail = () => {
       setCreateBreacheErrors({});
       setCreateBreacheData({
         purchaseId: purchaseId.toString(),
-        date: null,
-        breachLevel: "",
-        description: ""
+        date: '',
+        breachLevel: '',
+        description: ''
       })
 
     } catch (err) {
@@ -284,7 +284,7 @@ const PurchaseDetail = () => {
           <>
             <Input id='descripcionIncumplimiento' name='description' onChange={handleCreateBreacheChange} placeholder='Descripción breve' title='Descripción' type='text' error={createBreacheErrors.description} value={createBreacheData.description} />
             <Input id='fechaIncumplimiento' name='date' onChange={handleCreateBreacheChange} placeholder='2023-01-07' title='Fecha' type='date' error={createBreacheErrors.date} value={createBreacheData.date} />
-            <Select id='nivelIncumplimiento' name='breachLevel' onChange={handleCreateBreacheChange} options={breaches} title='Nivel de incumplimiento' error={createBreacheErrors.breachLevel} />
+            <Select selected={createBreacheData.breachLevel} id='nivelIncumplimiento' name='breachLevel' onChange={handleCreateBreacheChange} options={breaches} title='Nivel de incumplimiento' error={createBreacheErrors.breachLevel} />
             <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end"} />
           </>
 

@@ -11,6 +11,6 @@ export const nameSchema = Yup.string().trim().min(2,"Ingrese un nombre de mínim
 
 export const descriptionSchema = Yup.string().min(5,"La descripcion debe tener mín. 5 caracteres").max(250,"La descripcion debe tener máx. 250 caracteres").required("Este campo es oblitagorio");
 
-export const dateSchema = Yup.date().required("Este campo es obligatorio");
+export const dateSchema = Yup.string().required("Este campo es obligatorio");
 
 export const dniSchema = Yup.number().integer().required("Este campo es obligatorio");

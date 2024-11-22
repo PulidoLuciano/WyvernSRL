@@ -205,8 +205,8 @@ const SupplierDetail = () => {
       setCreateContractData({
         supplier: `${supplierId}`,
         motive: '',
-        expireDate: null,
-        payDate: null,
+        expireDate: '',
+        payDate: '',
         amount: '',
         currency: ''
       })
@@ -269,7 +269,7 @@ const SupplierDetail = () => {
         unitPrice: '',
         paid: 'false',
         delivered: 'false',
-        purchaseDate: null,
+        purchaseDate: '',
         quantity: '',
         currency: '',
         supplier: supplierId.toString()

@@ -105,9 +105,9 @@ const EmployeesModule = () => {
         name: '',
         phone: '',
         email: '',
-        dni: null,
-        hiringDate: null,
-        salary: null,
+        dni: '',
+        hiringDate: '',
+        salary: '',
         country: '',
         state: '',
         position: ''
@@ -294,9 +294,9 @@ const EmployeesModule = () => {
             <Input id={"telefono"} name={"phone"} value={createEmployeeData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleCreateEmployeeChange} error={createErrors.phone}></Input>
             <Input id={"fechaContratacion"} name={"hiringDate"} value={createEmployeeData.hiringDate} title={"Fecha de contratacion"} type={"date"} placeholder={"2024-09-30 14:30:14"} onChange={handleCreateEmployeeChange} error={createErrors.hiringDate}></Input>
             <Input id={"salario"} name={"salary"} value={createEmployeeData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleCreateEmployeeChange} error={createErrors.salary}></Input>
-            <Select id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateEmployeeChange} error={createErrors.country}></Select>
-            <Select id={"provincia"} title={"Provincia"} name={"state"} options={createFormStates} onChange={handleCreateEmployeeChange} error={createErrors.state}></Select>
-            <Select id={"puesto"} title={"Puesto"} name={"position"} options={positions} onChange={handleCreateEmployeeChange} error={createErrors.position}></Select>
+            <Select selected={createEmployeeData.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateEmployeeChange} error={createErrors.country}></Select>
+            <Select selected={createEmployeeData.state} id={"provincia"} title={"Provincia"} name={"state"} options={createFormStates} onChange={handleCreateEmployeeChange} error={createErrors.state}></Select>
+            <Select selected={createEmployeeData.position} id={"puesto"} title={"Puesto"} name={"position"} options={positions} onChange={handleCreateEmployeeChange} error={createErrors.position}></Select>
             <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end'} />
           </>
         </Form>

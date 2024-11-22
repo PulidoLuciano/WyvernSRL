@@ -135,7 +135,7 @@ const SalesModule = () => {
       setCreateData({
         client: '',
         product: '',
-        date: null,
+        date: '',
       })
     } catch (err: any) {
 
@@ -238,7 +238,7 @@ const SalesModule = () => {
       setCreateProductData({
         name: '',
         price: '',
-        date: null,
+        date: '',
         category: ''
       })
     } catch (err: any) {
@@ -279,7 +279,7 @@ const SalesModule = () => {
         <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
           <>
             <Input error={createErrors.client} id={"nombreUsuario"} name={"client"} value={createData.client} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleCreateChange} ></Input>
-            <Select error={createErrors.product} id={"productos"} title={"Productos"} name={"product"} options={products} onChange={handleCreateChange}></Select>
+            <Select selected={createData.product} error={createErrors.product} id={"productos"} title={"Productos"} name={"product"} options={products} onChange={handleCreateChange}></Select>
             <Input error={createErrors.date} id={"fecha"} name={"date"} value={createData.date} title={"Fecha"} type={"date"} placeholder={"2023-07-17"} onChange={handleCreateChange} ></Input>
             <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
           </>
@@ -351,7 +351,7 @@ const SalesModule = () => {
             <Input error={createProductErrors.name} id={"nombreProducto"} name={"name"} value={createProductData.name} title={"Nombre del Producto"} type={"text"} placeholder={"Wyvern Game"} onChange={handleCreateProductChange} ></Input>
             <Input error={createProductErrors.price} id={"precioProducto"} name={"price"} value={createProductData.price} title={"Precio"} type={"number"} placeholder={"0.00"} onChange={handleCreateProductChange} ></Input>
             <Input error={createProductErrors.date} id={"fechaLanzamientoProducto"} name={"date"} value={createProductData.date} title={"Fecha de lanzamiento"} type={"date"} placeholder={"2023-07-17"} onChange={handleCreateProductChange} ></Input>
-            <Select error={createProductErrors.category} id={"categoriaProducto"} title={"Categoría"} name={"category"} options={gamesCategories} onChange={handleCreateProductChange}></Select>
+            <Select selected={createProductData.category} error={createProductErrors.category} id={"categoriaProducto"} title={"Categoría"} name={"category"} options={gamesCategories} onChange={handleCreateProductChange}></Select>
             <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
           </>
         </Form>

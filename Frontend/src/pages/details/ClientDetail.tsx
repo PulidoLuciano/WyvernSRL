@@ -305,7 +305,7 @@ const ClientData = () => {
             dataShownPurchases.length != 0 ?
             dataShownPurchases.map((compras, index) => (
               <TRow key={index} id={compras.id} deleteButton={false} detail={false}>
-                <TData checkbox={true} id={compras.id} >
+                <TData id={compras.id} >
                   {compras.id}
                 </TData>
                 <TData>{compras.Productos.nombre}</TData>
