@@ -16,7 +16,7 @@ export const ContactsSchemaFilter = z.object({
 export const ContactsSchemaCreate = z.object({
     duracion: z.coerce.number().optional().nullable(),
     motivo: z.string().trim().min(1, "El motivo no puede estar vacío").max(250, "Escriba un motivo con menos de 250 caracteres"),
-    fecha: dateTimeSchema,
+    fecha: dateTimeSchema.max(new Date(Date.now()), "Esto no pudo suceder en el futuro!"),
     Clientes_id: idSchema,
     Medios_id: idSchema,
 })
