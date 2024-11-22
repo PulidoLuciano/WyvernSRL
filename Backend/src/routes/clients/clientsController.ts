@@ -2,6 +2,8 @@ import nodemailer from "nodemailer";
 import prisma from "../../prisma"
 import RouterController from "../RouterController"
 import { Request, Response } from "express";
+import ApiError from "../../utils/ApiError";
+import HttpStatuses from "../../utils/HttpStatus";
 
 const transporter = nodemailer.createTransport({
     host: process.env.SMTP,
@@ -20,8 +22,9 @@ export default class ClientsController extends RouterController{
     }
 
     public async broadcastToSubscribers(req : Request, res : Response){
-        const subscribedUsers : [{correo : string}] = await this.prismaModel.findMany({ where: { suscripto: true }, select: { correo: true }})
+        const subscribedUsers : [{correo : string}] = await this.prismaModel.findMany({ where: { suscripto: true, borrado: false }, select: { correo: true }})
         const correos = subscribedUsers.map((user : {correo : string}) => user.correo);
+        if(!correos.length) throw new ApiError(HttpStatuses.IM_A_TEAPOT, "No existen usuarios suscriptos") 
         const stringTo = correos.join(", ");
         const info = await transporter.sendMail({
             from: 'Wyvern SRL" <announcements@wyvern.games>',
