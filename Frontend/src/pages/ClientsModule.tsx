@@ -18,10 +18,14 @@ import { clientSchema } from '../schemas/clientsSchema';
 import * as Yup from 'yup'
 import { clientTableHeaders } from '../utils/dataArrays';
 import TextEditor from '../components/textEditor/TextEditor';
+import { useAuth } from '../context/authContext';
+import Swal from 'sweetalert2';
+
 const ClientsModule = () => {
 
   const { loading, error, clients, getAllClients, createClient, deleteClient,sendEmails } = useClients();
   const { countries, platforms, getAllCountries, getAllPlatforms } = useGeneral();
+  const { role } = useAuth()
 
   useEffect(() => {
     getAllClients(true, true);
@@ -94,6 +98,18 @@ const ClientsModule = () => {
   
 
   const handleDeleteSelectedData = async (selectedData: Array<string>) => {
+
+    
+      
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+
     if (!selectedData || selectedData.length == 0) {
       return
     } else {
@@ -105,6 +121,16 @@ const ClientsModule = () => {
 
   const handleCreateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+
     if (createData.suscription == "" && createData.country == "" && createData.platform == "") {}
     
     try {
@@ -121,6 +147,14 @@ const ClientsModule = () => {
           platform: '',
           country: ''
         })
+
+        Swal.fire({
+          icon: "success",
+          title: "Cliente creado con exito",
+          showConfirmButton: true,
+          timer: 2000
+        });
+
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
 
@@ -285,7 +319,10 @@ const ClientsModule = () => {
             <Table id='ClientsTable' headers={clientTableHeaders}>
               {dataShown.length != 0 ?
                 dataShown.map((cliente, index) => (
-                  <TRow id={cliente.id} key={index} handleDelete={()=>deleteClient([cliente.id.toString()])} detail={true} deleteButton={true} path='clients'>
+                  <TRow id={cliente.id} key={index} handleDelete={ role=='Auditor' ? 
+                    () =>Swal.fire({ icon: "error", title: "Oops...", text: "No tiene autorizacion para esta accion",
+                    })
+                    :()=>deleteClient([cliente.id.toString()])} detail={true} deleteButton={true} path='clients'>
                     <TData id={cliente.id} selectedData={selectedData} checkbox={true} value={cliente.id} onChange={handleSelectedItem} >{cliente.nombre}</TData>
                     <TData>{cliente.Plataformas?.nombre}</TData>
                     <TData>{cliente.Paises?.nombre}</TData>

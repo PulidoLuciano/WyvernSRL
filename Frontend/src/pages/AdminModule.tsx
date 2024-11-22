@@ -16,11 +16,14 @@ import * as Yup from "yup"
 import { CreateUserErrors, FilterUserErrors, userFilterType, userType } from '../utils/types/userTypes';
 import { userSchema } from '../schemas/userSchema';
 import { useEmployees } from '../hooks/useEmployees';
+import Swal from 'sweetalert2';
+import { useAuth } from '../context/authContext';
 
 const AdminModule = () => {
 
     const { getAllUsers , users, getAllRoles, roles, createUser} = useUsers()
     const { getAllEmployees, employees }= useEmployees();
+    const { role } = useAuth()
 
     useEffect(() => {
         getAllUsers(true,true);
@@ -46,8 +49,6 @@ const AdminModule = () => {
         dni: '',
         role: ''
       });
-
-      console.log(user);
       
       const indexEndUser = currentPageUser * dataLength;
       const indexStartUser = indexEndUser - dataLength;
@@ -70,6 +71,15 @@ const AdminModule = () => {
     const handleCreateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
     
+        if (role == 'Auditor') {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "No tiene autorizacion para esta accion",
+          });
+          return
+        }
+
         try {
 
          const employeeExist = employees.find(e => e.dni == user.employeeDNI);
@@ -220,7 +230,7 @@ const AdminModule = () => {
                     <TData>{u.Roles?.nombre}</TData>
                   </TRow>)
               })
-              : <div className=''>No hay clientes con esas caracteristicas</div>
+              : <div className=''>No hay usuarios con esas caracteristicas</div>
 
             }
           </Table>

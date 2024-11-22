@@ -19,6 +19,8 @@ import * as Yup from 'yup'
 import { contractTableHeaders, purchasesSupplierTableHeaders, suppliersScores, breachesSupplierTableHeaders } from '../../utils/dataArrays';
 import { purchaseType, CreatePurchaseErrors } from '../../utils/types/purchaseType';
 import { useMarkets } from '../../hooks/useMarkets';
+import Swal from 'sweetalert2';
+import { useAuth } from '../../context/authContext';
 
 const SupplierDetail = () => {
 
@@ -29,6 +31,7 @@ const SupplierDetail = () => {
   const { getMarkets, markets } = useMarkets()
   const { loading, error, supplierDetail, getSupplierPurchases, purchases, getSupplierBreaches, breaches, createPurchase, deletePurchase, contracts, getSupplierContracts, createContract, deleteContract, getSupplier, updateSupplier } = useSuppliers()
   const { states, currencies, countries, getAllCurrencies, getAllStates, getAllCountries, } = useGeneral()
+  const { role } = useAuth() 
 
   useEffect(() => {
     getMarkets()
@@ -157,7 +160,14 @@ const SupplierDetail = () => {
   //Supplier
   const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     try {
       await supplierEditSchema.validate(editedData, { abortEarly: false });
       updateSupplier(supplierId, editedData);
@@ -198,6 +208,15 @@ const SupplierDetail = () => {
   const handleCreateContractSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.currentTarget.children;
+
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     try {
       await contractSchema.validate(createContractData, { abortEarly: false });
       createContract(supplierId.toString(), createContractData);
@@ -210,6 +229,13 @@ const SupplierDetail = () => {
         amount: '',
         currency: ''
       })
+      Swal.fire({
+        icon: "success",
+        title: "Contacto creado con exito",
+        showConfirmButton: true,
+        timer: 20000
+      });
+  
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const createContractErrors: CreateContractErrors = {};
@@ -234,6 +260,15 @@ const SupplierDetail = () => {
   }
 
   const handleDeleteSelectedDataContract = async (selectedData: Array<string>) => {
+
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     if (!selectedData || selectedData.length == 0) {
       return;
     } else {
@@ -260,6 +295,22 @@ const SupplierDetail = () => {
   const handleCreatePurchaseSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.currentTarget.children;
+
+    Swal.fire({
+      icon: "success",
+      title: "Contacto creado con exito",
+      showConfirmButton: true,
+      timer: 20000
+    });
+
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     try {
       console.log(createPurchaseData);
 
@@ -314,6 +365,15 @@ const SupplierDetail = () => {
   }
 
   const handleDeleteSelectedDataPurchase = async (selectedData: Array<string>) => {
+
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     if (!selectedData || selectedData.length == 0) {
       return;
     } else {
@@ -428,7 +488,13 @@ const SupplierDetail = () => {
           {
             dataShownContracts.length != 0 ?
               dataShownContracts.map((contract, index) => (
-                <TRow key={index} id={contract.id} path='contracts' detail={true} handleDelete={() => deleteContract(supplierId.toString(), [contract.id.toString()])} deleteButton={true}>
+                <TRow key={index} id={contract.id} path='contracts' detail={true} handleDelete={ role == 'Auditor' ?   
+                  () => Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "No tiene autorizacion para esta accion",
+                  })
+                  :() => deleteContract(supplierId.toString(), [contract.id.toString()])} deleteButton={true}>
                   <TData checkbox={true} selectedData={selectedDataContract} value={contract.id} id={contract.id} onChange={handleSelectedItemContract}>
                     {contract.descripcion}
                   </TData>
@@ -454,7 +520,7 @@ const SupplierDetail = () => {
             <Input name='description' placeholder='Descripcion breve' error={createPurchaseErrors.description} value={createPurchaseData.description} onChange={handleCreatePurchaseChange} type='text' id='descripcionCompra' title='Descripción' />
             <Input name='unitPrice' placeholder={"0.00"} error={createPurchaseErrors.unitPrice} value={createPurchaseData.unitPrice} onChange={handleCreatePurchaseChange} type='number' id='precioUnitarioCompra' title='Precio unitario' />
             <Input name='quantity' placeholder={"0"} error={createPurchaseErrors.quantity} value={createPurchaseData.quantity} onChange={handleCreatePurchaseChange} type='number' id='cantidadCompra' title='Cantidad' />
-            <Input name='purchaseDate' placeholder='2023-01-07' error={createPurchaseErrors.purchaseDate} value={createPurchaseData.purchaseDate} onChange={handleCreatePurchaseChange} type='date' id='fechaCompra' title='Fecha' />
+            <Input name='purchaseDate' placeholder='2023-01-07' error={createPurchaseErrors.purchaseDate} value={createPurchaseData.purchaseDate} onChange={handleCreatePurchaseChange} type='date' id='fechaCompra' title='Fecha' maxDate={true}/>
             <Select id='entregadoCompra' error={createPurchaseErrors.delivered} name='delivered' onChange={handleCreatePurchaseChange} options={[{ id: "true", nombre: "Sí" }, { id: "false", nombre: "No" }]} title='Entregado' />
             <Select id='pagadoCompra' error={createPurchaseErrors.paid} name='paid' onChange={handleCreatePurchaseChange} options={[{ id: "true", nombre: "Sí" }, { id: "false", nombre: "No" }]} title='Pagado' />
             <Select id='monedaCompra' error={createPurchaseErrors.currency} name='currency' onChange={handleCreatePurchaseChange} options={currencies} title='Moneda' />
@@ -482,7 +548,13 @@ const SupplierDetail = () => {
           {
             dataShownPurchases.length != 0 ?
               dataShownPurchases.map((purchase, index) => (
-                <TRow key={index} path='purchases'  handleDelete={() => deletePurchase(supplierId, [purchase.id.toString()])} id={purchase.id} detail={true} deleteButton={true} >
+                <TRow key={index} path='purchases'  handleDelete={ role=='Auditor' ?   
+                  () => Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "No tiene autorizacion para esta accion",
+                  }) 
+                  :() => deletePurchase(supplierId, [purchase.id.toString()])} id={purchase.id} detail={true} deleteButton={true} >
                   <TData checkbox={true} selectedData={selectedDataPurchase} value={purchase.id} id={purchase.id} onChange={handleSelectedItemPurchase}>
                     {purchase.descripcion}
                   </TData>

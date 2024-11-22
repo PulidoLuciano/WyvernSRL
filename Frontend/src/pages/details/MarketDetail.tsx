@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import Nav from "../../components/Nav";
 import Form from "../../components/form/Form";
@@ -10,6 +9,8 @@ import { marketSchema } from "../../schemas/suppliersSchema";
 import * as Yup from "yup";
 import { useMarkets } from "../../hooks/useMarkets";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
+import Swal from "sweetalert2";
 
 const MarketDetail = () => {
 
@@ -17,6 +18,7 @@ const MarketDetail = () => {
     const marketId = parseInt(params.marketId || "", 10);
 
     const { getMarket, updateMarket, marketDetail, loading, error } = useMarkets()
+    const { role } = useAuth()
 
     useEffect(() =>{
         getMarket(marketId)
@@ -45,7 +47,16 @@ const MarketDetail = () => {
       const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         e.currentTarget.children;
-        
+
+        if (role == 'Auditor') {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "No tiene autorizacion para esta accion",
+          });
+          return
+        }
+
         try {
           await marketSchema.validate(editedData, { abortEarly: false });
           

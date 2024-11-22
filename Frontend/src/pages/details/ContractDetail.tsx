@@ -18,10 +18,13 @@ import { breachesContractTableHeaders } from '../../utils/dataArrays'
 import Pagination from '../../components/Pagination'
 import { breacheType, CreateBreacheErrors } from '../../utils/types/breacheType'
 import { breacheSchema } from '../../schemas/breacheSchema'
+import Swal from 'sweetalert2'
+import { useAuth } from '../../context/authContext'
 
 const ContractDetail = () => {
 
     const { breaches, currencies, getAllCurrencies, getAllBreaches } = useGeneral()
+    const { role } = useAuth();
 
     const { contractDetail, contractBreaches, loadingContract, error, deleteContractBreaches, getContract, updateContract, getContractBreaches, createBreache } = useContracts()
     const params = useParams();
@@ -104,6 +107,14 @@ const ContractDetail = () => {
         e.preventDefault();
         e.currentTarget.children;
 
+        if (role == 'Auditor') {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "No tiene autorizacion para esta accion",
+            });
+            return
+          }
 
         try {
             await contractSchema.validate(editedData, { abortEarly: false });
@@ -150,7 +161,15 @@ const ContractDetail = () => {
 
         e.preventDefault();
         e.currentTarget.children;
-        console.log(createBreacheData);
+        
+        if (role == 'Auditor') {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "No tiene autorizacion para esta accion",
+            });
+            return
+          }
 
         try {
             await breacheSchema.validate(createBreacheData, { abortEarly: false });
@@ -162,6 +181,13 @@ const ContractDetail = () => {
                 breachLevel: '',
                 description: ''
             })
+            Swal.fire({
+                icon: "success",
+                title: "Incumplimiento creado con exito",
+                showConfirmButton: true,
+                timer: 20000
+              });
+          
         } catch (err) {
             if (err instanceof Yup.ValidationError) {
                 const createBreacheErrors: CreateBreacheErrors = {};
@@ -291,7 +317,13 @@ const ContractDetail = () => {
             <div className="overflow-x-auto mt-6">
                 <Table id='ContractsTable' headers={breachesContractTableHeaders}>
                     {dataShownBreaches.map((breache, index) => (
-                        <TRow key={index} id={breache.id} handleDelete={() => deleteContractBreaches(contractId, [breache.id.toString()])} deleteButton={true} >
+                        <TRow key={index} id={breache.id} handleDelete={ role=='Auditor' ? () => 
+                            Swal.fire({
+                              icon: "error",
+                              title: "Oops...",
+                              text: "No tiene autorizacion para esta accion",
+                            })
+                            : () => deleteContractBreaches(contractId, [breache.id.toString()])} deleteButton={true} >
                             <TData id={breache.id}>{breache.id}</TData>
                             <TData>{breache.descripcion}</TData>
                             <TData>{breache.fecha?.slice(0, 10)}</TData>

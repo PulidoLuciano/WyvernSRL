@@ -10,6 +10,8 @@ import * as Yup from "yup";
 import { useClients } from "../../hooks/useClients";
 import { contactType, createContactErrors } from "../../utils/types/clientType";
 import { contactSchema } from "../../schemas/contactSchema";
+import Swal from "sweetalert2";
+import { useAuth } from "../../context/authContext";
 
 const ContactDetail = () => {
   const params = useParams();
@@ -18,7 +20,8 @@ const ContactDetail = () => {
   
   const { contactDetail , getContact, updateContact, loading, error} = useClients();
   const { getAllMedias,medias } = useGeneral();
-  
+  const { role } = useAuth();
+
   useEffect(() => {
     getContact(contactId)
   }, []);
@@ -59,13 +62,21 @@ const ContactDetail = () => {
 
   const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     try {
       await contactSchema.validate(editedData, { abortEarly: false });
       
       updateContact(contactId, editedData);
       setCreateErrors({});
       handleClickEditable()
+    
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const createErrors: createContactErrors = {};
@@ -111,7 +122,7 @@ const ContactDetail = () => {
               <Form handleSubmit={handleEditSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
                 <>
                   <Input id={"motivo"} name={"motivo"} value={editedData.motivo} title={"Motivo"} type={"text"} placeholder={""} onChange={handleEditChange} error={createErrors.motivo}></Input>
-                  <Input id={"fecha"} name={"fecha"} value={editedData.fecha} title={"Fecha"} type={"date"} placeholder={"2023-04-28 00:00:00"} onChange={handleEditChange} error={createErrors.fecha}></Input>
+                  <Input id={"fecha"} name={"fecha"} value={editedData.fecha} title={"Fecha"} type={"date"} placeholder={"2023-04-28 00:00:00"} onChange={handleEditChange} error={createErrors.fecha} maxDate={true}></Input>
                   <Select selected={editedData.Medio} id={"medios"} title={"Medio"} name={"Medio"} options={medias} onChange={handleEditChange} error={createErrors.Medio}></Select>
                   {editedData.Medio=='1' ? <Input id={"duracion"} name={"duracion"} value={editedData.duracion} title={"Duracion"} type={"text"} placeholder={"182.5"} onChange={handleEditChange} error={createErrors.duracion}></Input> : <></> }
                   <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end"}/>

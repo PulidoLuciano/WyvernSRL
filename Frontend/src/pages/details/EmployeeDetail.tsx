@@ -16,20 +16,28 @@ import * as Yup from "yup";
 import { useEmployees } from "../../hooks/useEmployees";
 import { employeeSchema } from "../../schemas/employeeSchema";
 import { careerTableHeaders } from "../../utils/dataArrays";
-
+import Swal from "sweetalert2";
+import { useAuth } from "../../context/authContext";
 
 const EmployeeDetail = () => {
   const params = useParams();
   const employeeId = parseInt(params.employeeId || "", 10);
 
-  const {getEmployee, employeeDetail, employeePosition, employeeCareer, getEmployeeCareer, getEmployeePosition ,loading,error, updateEmployee} = useEmployees();
+  const {getEmployee, employeeDetail, employeePosition, employeeCareer, getEmployeeCareer, getEmployeePosition ,loading,error,setError, updateEmployee, employees, getAllEmployees} = useEmployees();
   const { states, countries, positions, getAllPositions, getAllStates, getAllCountries } = useGeneral();
+  const { role } = useAuth()
   
   useEffect(() => {
     getEmployee(employeeId);
     getEmployeePosition(employeeId)
     getEmployeeCareer(employeeId)
+    getAllEmployees(true)
   }, []);
+
+  useEffect(() => {
+    getEmployeePosition(employeeId)
+    getEmployeeCareer(employeeId)
+  }, [employeeDetail])
 
   useEffect(() => {
     getAllStates();
@@ -71,7 +79,7 @@ const EmployeeDetail = () => {
     phone: '',
     email: '',
     dni:'',
-    hiringDate: null,
+    hiringDate: '',
     country: '',
     state: '',
     salary: '',
@@ -90,14 +98,26 @@ const EmployeeDetail = () => {
     setEditable(!editable);
   };
 
+  
   const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.currentTarget.children;
     
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+
     try {
+
       await employeeSchema.validate(editedData, { abortEarly: false });
-      
+
       updateEmployee(employeeId, editedData);
+
       setCreateErrors({});
       handleClickEditable()
     } catch (err) {
@@ -151,7 +171,7 @@ const EmployeeDetail = () => {
                   <Input id={"correo"} name={"email"} value={editedData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleEditChange} error={createErrors.email}></Input>
                   <Input id={"dni"} name={"dni"} value={editedData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleEditChange} error={createErrors.dni}></Input>
                   <Input id={"telefono"} name={"phone"} value={editedData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleEditChange} error={createErrors.phone}></Input>
-                  <Input id={"fechaContratacion"} name={"hiringDate"} value={editedData.hiringDate} title={"Fecha de contratacion"} type={"date"} placeholder={"2024-09-30 14:30:14"} onChange={handleEditChange} error={createErrors.hiringDate}></Input>
+                  <Input id={"fechaContratacion"} name={"hiringDate"} value={editedData.hiringDate} title={"Fecha de contratacion"} type={"date"} placeholder={"2024-09-30 14:30:14"} onChange={handleEditChange} error={createErrors.hiringDate} maxDate={true}></Input>
                   <Input id={"salario"} name={"salary"} value={editedData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleEditChange} error={createErrors.salary}></Input>
                   <Select selected={employeeDetail.Provincias.Paises_id} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleEditChange} error={createErrors.country}></Select>
                   <Select selected={employeeDetail.Provincias.id} id={"provincia"} title={"Provincia"} name={"state"} options={editFormStates} onChange={handleEditChange} error={createErrors.state}></Select>

@@ -19,12 +19,15 @@ import { employeeType, CreateEmployeesErrors, employeeFilterType } from '../util
 import { employeeSchema } from '../schemas/employeeSchema';
 import { areaSchema } from '../schemas/areaSchema';
 import { areaType } from '../utils/types/areaType';
+import Swal from 'sweetalert2';
+import { useAuth } from '../context/authContext';
 
 const EmployeesModule = () => {
 
   const { getAllEmployees, employees, createEmployee, deleteEmployee, error, setError } = useEmployees();
   const { states, countries, positions, getAllPositions, getAllStates, getAllCountries } = useGeneral();
   const { getAllAreas, areas, createArea, deleteArea } = useAreas();
+  const { role } = useAuth()
 
   useEffect(() => {
     getAllEmployees(true);
@@ -46,9 +49,9 @@ const EmployeesModule = () => {
     name: '',
     phone: '',
     email: '',
-    dni: null,
-    hiringDate: null,
-    salary: null,
+    dni: '',
+    hiringDate: '',
+    salary: '',
     country: '',
     state: '',
     position: ''
@@ -86,6 +89,16 @@ const EmployeesModule = () => {
 
   const handleCreateEmployeeSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+      
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+
     try {
       const state = states.find(s => s.id == createEmployeeData.state);
 
@@ -206,6 +219,14 @@ const EmployeesModule = () => {
   }
 
   const handleDeleteSelectedEmployees = async (selectedData: Array<string>) => {
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     if (!selectedData || selectedData.length == 0) {
       return
     } else {
@@ -217,6 +238,16 @@ const EmployeesModule = () => {
 
   const handleCreateAreaSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+
     try {
       await areaSchema.validate(createAreaData, { abortEarly: false });
       createArea(createAreaData)
@@ -263,6 +294,16 @@ const EmployeesModule = () => {
   }
 
   const handleDeleteSelectedAreas = async (selectedData: Array<string>) => {
+
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+
     if (!selectedData || selectedData.length == 0) {
       return
     } else {
@@ -296,7 +337,7 @@ const EmployeesModule = () => {
             <Input id={"correo"} name={"email"} value={createEmployeeData.email} title={"Email"} type={"text"} placeholder={"username@gmail.com"} onChange={handleCreateEmployeeChange} error={createErrors.email}></Input>
             <Input id={"dni"} name={"dni"} value={createEmployeeData.dni} title={"DNI"} type={"number"} placeholder={"48498498498"} onChange={handleCreateEmployeeChange} error={createErrors.dni}></Input>
             <Input id={"telefono"} name={"phone"} value={createEmployeeData.phone} title={"Telefono"} type={"text"} placeholder={"+3814848949"} onChange={handleCreateEmployeeChange} error={createErrors.phone}></Input>
-            <Input id={"fechaContratacion"} name={"hiringDate"} value={createEmployeeData.hiringDate} title={"Fecha de contratacion"} type={"date"} placeholder={"2024-09-30 14:30:14"} onChange={handleCreateEmployeeChange} error={createErrors.hiringDate}></Input>
+            <Input id={"fechaContratacion"} name={"hiringDate"} value={createEmployeeData.hiringDate} title={"Fecha de contratacion"} type={"date"} placeholder={"2024-09-30 14:30:14"} onChange={handleCreateEmployeeChange} error={createErrors.hiringDate} maxDate={true}></Input>
             <Input id={"salario"} name={"salary"} value={createEmployeeData.salary} title={"Salario"} type={"number"} placeholder={"853000.45"} onChange={handleCreateEmployeeChange} error={createErrors.salary}></Input>
             <Select selected={createEmployeeData.country} id={"paises"} title={"País"} name={"country"} options={countries} onChange={handleCreateEmployeeChange} error={createErrors.country}></Select>
             <Select selected={createEmployeeData.state} id={"provincia"} title={"Provincia"} name={"state"} options={createFormStates} onChange={handleCreateEmployeeChange} error={createErrors.state}></Select>
@@ -339,7 +380,9 @@ const EmployeesModule = () => {
             dataEmployeeShown.length != 0 ?
               dataEmployeeShown.map((empleado, index) => {
                 return (
-                  <TRow key={index} id={empleado.id} detail={true} handleDelete={() => deleteEmployee([empleado.id.toString()])} deleteButton={true} path='employees'>
+                  <TRow key={index} id={empleado.id} detail={true} handleDelete={role=='Auditor' ? 
+                    () => Swal.fire({ icon: "error", title: "Oops...", text: "No tiene autorizacion para esta accion"})
+                    :() => deleteEmployee([empleado.id.toString()])} deleteButton={true} path='employees'>
                     <TData id={empleado.id} selectedData={selectedEmployees} value={empleado.id} onChange={handleSelectedEmployees} checkbox={true}>{empleado.nombre}</TData>
                     <TData>{empleado.correo ? empleado.correo : "-"}</TData>
                     <TData>{empleado.dni ? empleado.dni : "-"}</TData>
@@ -385,7 +428,9 @@ const EmployeesModule = () => {
             dataAreaShown.length != 0 ?
               dataAreaShown.map((area, index) => {
                 return (
-                  <TRow key={index} id={area.id} detail={true} handleDelete={() => deleteArea([area.id.toString()])} deleteButton={true} path='area'>
+                  <TRow key={index} id={area.id} detail={true} handleDelete={role=='Auditor' ? 
+                    () => Swal.fire({ icon: "error", title: "Oops...", text: "No tiene autorizacion para esta accion",})
+                  :() => deleteArea([area.id.toString()])} deleteButton={true} path='area'>
                     <TData id={area.id} onChange={handleSelectedAreas} selectedData={selectedAreas} value={area.id} checkbox={true}>{area.id}</TData>
                     <TData>{area.nombre}</TData>
                   </TRow>)

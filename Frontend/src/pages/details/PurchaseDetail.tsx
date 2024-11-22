@@ -18,12 +18,15 @@ import { breacheSchema } from '../../schemas/breacheSchema'
 import { CreatePurchaseErrors, purchaseType } from '../../utils/types/purchaseType'
 import usePurchases from '../../hooks/usePurchases'
 import { purchaseSchema } from '../../schemas/suppliersSchema'
+import Swal from 'sweetalert2'
+import { useAuth } from '../../context/authContext'
 
 const PurchaseDetail = () => {
 
   const params = useParams()
 
   const purchaseId = parseInt(params.purchaseId || "", 10);
+  const { role } = useAuth()
 
   const [editable, setEditable] = useState<boolean>(false)
   const [dataLength, setDataLength] = useState<number>(10);
@@ -109,6 +112,14 @@ const PurchaseDetail = () => {
     e.preventDefault();
     e.currentTarget.children;
 
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
 
     try {
       await purchaseSchema.validate(editedData, { abortEarly: false });
@@ -156,6 +167,14 @@ const PurchaseDetail = () => {
     e.currentTarget.children;
     console.log(createBreacheData);
 
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     try {
       await breacheSchema.validate(createBreacheData, { abortEarly: false });
       createBreache(createBreacheData);
@@ -166,7 +185,13 @@ const PurchaseDetail = () => {
         breachLevel: '',
         description: ''
       })
-
+      Swal.fire({
+        icon: "success",
+        title: "Incumplimiento creado con exito",
+        showConfirmButton: true,
+        timer: 20000
+      });
+  
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const createBreacheErrors: CreateBreacheErrors = {};
@@ -208,7 +233,7 @@ const PurchaseDetail = () => {
                 <Input name='description' placeholder='Descripcion breve' error={editErrors.description} value={editedData.description} onChange={handleEditChange} type='text' id='descripcionCompra' title='Descripción' />
                 <Input name='unitPrice' placeholder={"0.00"} error={editErrors.unitPrice} value={editedData.unitPrice} onChange={handleEditChange} type='number' id='precioUnitarioCompra' title='Precio unitario' />
                 <Input name='quantity' placeholder={"0"} error={editErrors.quantity} value={editedData.quantity} onChange={handleEditChange} type='number' id='cantidadCompra' title='Cantidad' />
-                <Input name='purchaseDate' error={editErrors.purchaseDate} value={editedData.purchaseDate} onChange={handleEditChange} type='date' id='fechaCompra' title='Fecha' />
+                <Input name='purchaseDate' error={editErrors.purchaseDate} value={editedData.purchaseDate} onChange={handleEditChange} type='date' id='fechaCompra' title='Fecha' maxDate={true}/>
                 <Select id='entregadoCompra' selected={purchaseDetail.entregado.toString()} error={editErrors.delivered} name='delivered' onChange={handleEditChange} options={[{ id: "true", nombre: "Sí" }, { id: "false", nombre: "No" }]} title='Entregado' />
                 <Select id='pagadoCompra' selected={purchaseDetail.pagado.toString()} error={editErrors.paid} name='paid' onChange={handleEditChange} options={[{ id: "true", nombre: "Sí" }, { id: "false", nombre: "No" }]} title='Pagado' />
                 <Select id='monedaCompra' selected={purchaseDetail.Monedas?.id} error={editErrors.currency} name='currency' onChange={handleEditChange} options={currencies} title='Moneda' />
@@ -306,7 +331,13 @@ const PurchaseDetail = () => {
       <div className="overflow-x-auto mt-6">
         <Table id='ContractsTable' headers={breachesContractTableHeaders}>
           {dataShownBreaches.map((breache, index) => (
-            <TRow key={index} id={breache.id} handleDelete={() => deletePurchaseBreaches(purchaseId, [breache.id.toString()])} deleteButton={true} >
+            <TRow key={index} id={breache.id} handleDelete={ role=='Auditor' ? () => 
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "No tiene autorizacion para esta accion",
+              }) 
+              :() => deletePurchaseBreaches(purchaseId, [breache.id.toString()])} deleteButton={true} >
               <TData id={breache.id}>{breache.id}</TData>
               <TData>{breache.descripcion}</TData>
               <TData>{breache.fecha?.slice(0, 10)}</TData>

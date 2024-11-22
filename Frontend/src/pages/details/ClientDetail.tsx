@@ -18,7 +18,8 @@ import * as Yup from "yup";
 import { contactSchema } from "../../schemas/contactSchema";
 import { contactTableHeaders, purchasesTableHeaders} from "../../utils/dataArrays"
 import { clientSchema } from "../../schemas/clientsSchema";
-
+import Swal from "sweetalert2";
+import { useAuth } from "../../context/authContext";
 
 const ClientData = () => {
   const params = useParams();
@@ -31,6 +32,8 @@ const ClientData = () => {
   getClientsPurchases,clientPurchases,updateClient} = useClients();
   
   const { getAllCountries,getAllPlatforms,getAllMedias,medias,platforms,countries,} = useGeneral();
+
+  const { role } = useAuth()
 
   const [editedData, setEditedData] = useState({
     name: '',
@@ -76,8 +79,6 @@ const ClientData = () => {
     console.log(clientDetail);
     
   }, [clientDetail])
-
-  console.log(editedData);
   
 
   const [dataLength, setDataLength] = useState<number>(10);
@@ -114,11 +115,29 @@ const ClientData = () => {
   const handleContactSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.currentTarget.children;
+
+   
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     
     try {
       await contactSchema.validate(contact, { abortEarly: false });
       createContact(clientId, contact);
       setCreateErrors({});
+
+      Swal.fire({
+        icon: "success",
+        title: "Contacto creado con exito",
+        showConfirmButton: true,
+        timer: 20000
+      });
+  
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const createErrors: createContactErrors = {};
@@ -137,11 +156,28 @@ const ClientData = () => {
     e.preventDefault();
     e.currentTarget.children;
     
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+
     try {
       await clientSchema.validate(editedData, { abortEarly: false });
       updateClient(clientId, editedData);
       setEditErrors({});
       handleClickEditable()
+
+      Swal.fire({
+        icon: "success",
+        title: "Cliente editado con exito",
+        showConfirmButton: true,
+        timer: 20000
+      });
+  
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const editErrors: CreateClientErrors = {};
@@ -204,6 +240,15 @@ const ClientData = () => {
   };
 
   const handleDeleteSelectedDataContact = async (selectedDataContact: Array<string>) => {
+
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     if (!selectedDataContact || selectedDataContact.length == 0) {
       return;
     } else {
@@ -288,7 +333,7 @@ const ClientData = () => {
               <Select id={"medios"} name={"Medio"} title={"Medios"} options={medias} onChange={handleContactChange} error={createErrors.Medio}></Select>
                {contact.Medio=='1' ? <Input id={"duracion"} name={"duracion"} value={contact.duracion} title={"Duracion"} type={"text"} placeholder={"182.5"} onChange={handleContactChange} error={createErrors.duracion}></Input>: <></>}
               <Input error={createErrors.motivo} id={"motivo"} name={"motivo"} value={contact.motivo} title={"Motivo"} type={"text"} placeholder={""} onChange={handleContactChange}></Input>
-              <Input error={createErrors.fecha} id={"fecha"} name={"fecha"} value={contact.fecha} title={"Fecha"} type={"date"} placeholder={"2023-04-28 00:00:00"} onChange={handleContactChange}></Input>
+              <Input error={createErrors.fecha} id={"fecha"} name={"fecha"} value={contact.fecha} title={"Fecha"} type={"date"} placeholder={"2023-04-28 00:00:00"} onChange={handleContactChange} maxDate={true}></Input>
               <SaveButton className={"text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end"}/>
             </>
           </Form>
@@ -343,7 +388,9 @@ const ClientData = () => {
             {
             dataShownContacts. length !=0 ?
             dataShownContacts.map((contactos, index) => (
-              <TRow key={index} id={contactos.id} handleDelete={()=>deleteContact(clientId,[contactos.id.toString()])} path={path} deleteButton={true} detail={true}>
+              <TRow key={index} id={contactos.id} path={path} deleteButton={true} detail={true} handleDelete={role=='Auditor' ? 
+                () => Swal.fire({ icon: "error", title: "Oops...", text: "No tiene autorizacion para esta accion",})
+              :() => deleteContact(clientId,[contact.Clientes_id])}>
                 <TData checkbox={true} selectedData={selectedDataContact} value={contactos.id} id={contactos.id}  onChange={handleSelectedItemContact}>
                   {contactos.id}
                 </TData>
