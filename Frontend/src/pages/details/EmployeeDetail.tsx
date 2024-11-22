@@ -32,6 +32,11 @@ const EmployeeDetail = () => {
   }, []);
 
   useEffect(() => {
+    getEmployeePosition(employeeId)
+    getEmployeeCareer(employeeId)
+  }, [employeeDetail])
+
+  useEffect(() => {
     getAllStates();
     getAllCountries();
     getAllPositions()
