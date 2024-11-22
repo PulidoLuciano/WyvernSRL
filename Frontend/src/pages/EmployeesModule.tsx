@@ -107,8 +107,8 @@ const EmployeesModule = () => {
       await employeeSchema.validate(createEmployeeData, { abortEarly: false });
 
       if (employeeExist) {
-        setError("Ya existe un empleado con este dni")
-        throw new Error("Este cliente no existe")
+        setCreateErrors({ ...createErrors, dni: "Ya existe un cliente con este dni" })
+        throw new Error("Este cliente ya existe")
       }
 
       createEmployee(createEmployeeData)
@@ -127,12 +127,6 @@ const EmployeesModule = () => {
       })
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
-
-        const employeeExist = employees.find(e => e.dni == createEmployeeData.dni)
-
-        if (employeeExist) {
-          setError("Ya existe un empleado con este dni")
-        } else setError('')
 
         const createErrors: CreateEmployeesErrors = {};
         err.inner.forEach((error) => {
