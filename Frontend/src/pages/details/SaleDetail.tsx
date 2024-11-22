@@ -13,13 +13,16 @@ import { saleSchema } from '../../schemas/salesSchema'
 import { saleType } from '../../utils/types/saleType'
 import * as Yup from 'yup'
 import { useProducts } from '../../hooks/useProducts'
-
+import Swal from 'sweetalert2'
+import { useAuth } from '../../context/authContext'
 
 const SaleDetail = () => {
 
     const { products, getAllProducts } = useProducts()
     const {clients,getAllClients} = useClients();
     const {loading, error, saleDetail, getSale,updateSale } = useSales()
+    const { role } = useAuth()
+
     const params = useParams();
     const saleId = parseInt(params.saleId || "", 10);
     const [editable, setEditable] = useState(false);
@@ -54,7 +57,16 @@ const SaleDetail = () => {
 
     const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-    
+
+        if (role == 'Auditor') {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "No tiene autorizacion para esta accion",
+            });
+            return
+          }
+
         try {
     
     

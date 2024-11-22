@@ -16,7 +16,8 @@ import { useGeneral } from "../../hooks/useGeneral";
 import { productSchema } from "../../schemas/productSchema";
 import { salesTableHeaders } from "../../utils/dataArrays";
 import useSales from "../../hooks/useSales";
-
+import Swal from "sweetalert2";
+import { useAuth } from "../../context/authContext";
 
 const ProductDetail = () => {
 
@@ -26,6 +27,7 @@ const ProductDetail = () => {
   const { getProduct, productDetail, updateProduct, error, loadingProducts, getProductSales, productSales } = useProducts()
   const { getAllGamesCategories, gamesCategories} = useGeneral()
   const { deleteSale } = useSales()
+  const { role } = useAuth();
 
   useEffect(() => {
     getProduct(productId )
@@ -78,7 +80,16 @@ const ProductDetail = () => {
 
   const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+
     try {
       await productSchema.validate(editedData, { abortEarly: false });
       

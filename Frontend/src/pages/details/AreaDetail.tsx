@@ -18,6 +18,8 @@ import { usePositions } from "../../hooks/usePositions";
 import { CreatePositionErrors, positionType } from "../../utils/types/positionType";
 import { positionSchema } from "../../schemas/positionSchema";
 import { employeeType } from "../../utils/types/employeeType";
+import Swal from "sweetalert2";
+import { useAuth } from "../../context/authContext";
 
 const AreaDetail = () => {
   const params = useParams();
@@ -28,6 +30,7 @@ const AreaDetail = () => {
   
   const { areaDetail , getArea, getAreaEmployees, areaEmployees, updateArea, loading, error } = useAreas();
   const {getPositions, positions, deletePosition, createPosition} = usePositions()
+  const { role } = useAuth()
   
   useEffect(() => {
     getArea(areaId)
@@ -97,7 +100,15 @@ const AreaDetail = () => {
 
   const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     try {
       await areaSchema.validate(editedData, { abortEarly: false });
       
@@ -132,7 +143,16 @@ const AreaDetail = () => {
   const handlePositionSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.currentTarget.children;
-    
+
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+
     try {
       await positionSchema.validate(position, { abortEarly: false });
       createPosition(areaId, position);
@@ -176,6 +196,16 @@ const AreaDetail = () => {
   };
 
   const handleDeleteSelectedPositions = async (selectedData: Array<string>) => {
+
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+
     if (!selectedData || selectedData.length == 0) {
       return;
     } else {
@@ -293,7 +323,13 @@ const AreaDetail = () => {
         <div className="overflow-x-auto mt-6">
           <Table headers={positionsTableHeaders}>
             {dataShownPositions.map((puesto, index) => (
-              <TRow key={index} id={puesto.id} handleDelete={()=>deletePosition(areaId,[puesto.id.toString()])} deleteButton={true} detail={true} path={path}>
+              <TRow key={index} id={puesto.id} handleDelete={ role=='Auditor' ? () =>
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "No tiene autorizacion para esta accion",
+                })
+              :()=>deletePosition(areaId,[puesto.id.toString()])} deleteButton={true} detail={true} path={path}>
                 <TData checkbox={true} selectedData={selectedPositions} value={puesto.id} id={puesto.id} onChange={handleSelectedPositions}>
                   {puesto.id}
                 </TData>

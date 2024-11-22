@@ -21,6 +21,8 @@ import { productType, CreateProductErrors } from '../utils/types/productType';
 import { productSchema } from '../schemas/productSchema';
 import { useProducts } from '../hooks/useProducts';
 import { Link } from "react-router-dom";
+import Swal from 'sweetalert2';
+import { useAuth } from '../context/authContext';
 
 const SalesModule = () => {
 
@@ -28,6 +30,8 @@ const SalesModule = () => {
   const { getAllProducts, products, deleteProducts, createProduct, loadingProducts } = useProducts()
   const { clients, getAllClients } = useClients()
   const { gamesCategories, errorGeneral, getAllGamesCategories } = useGeneral()
+  const { role } = useAuth()
+
   useEffect(() => {
     getAllSales(true, true)
     getAllProducts(true);
@@ -51,14 +55,14 @@ const SalesModule = () => {
   const [createProductData, setCreateProductData] = useState<productType>({
     name: '',
     price: '',
-    date: null,
+    date: '',
     category: ''
   });
 
   const [createData, setCreateData] = useState<saleType>({
     client: '',
     product: '',
-    date: null,
+    date: '',
   });
 
   const [filterData, setFilterData] = useState<saleType>({
@@ -100,6 +104,14 @@ const SalesModule = () => {
   }
 
   const handleDeleteSelectedData = async (selectedData: Array<string>) => {
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     if (!selectedData || selectedData.length == 0) {
       return
     } else {
@@ -113,6 +125,15 @@ const SalesModule = () => {
 
   const handleCreateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
 
     try {
 
@@ -218,6 +239,14 @@ const SalesModule = () => {
   }
 
   const handleDeleteSelectedProducts = async (selectedData: Array<string>) => {
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     if (!selectedData || selectedData.length == 0) {
       return
     } else {
@@ -231,6 +260,15 @@ const SalesModule = () => {
 
   const handleCreateProductsSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+ 
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
 
     try {
 
@@ -334,7 +372,9 @@ const SalesModule = () => {
               dataShown.length != 0 ?
                 dataShown.map((sale, index) => {
                   return (
-                    <TRow key={index} id={sale.id} handleDelete={() => deleteSale([sale.id.toString()])} deleteButton={true} path='sales' detail={true}>
+                    <TRow key={index} id={sale.id} handleDelete={role=='Auditor' ? 
+                      ()=>Swal.fire({ icon: "error", title: "Oops...", text: "No tiene autorizacion para esta accion" }) 
+                      :() => deleteSale([sale.id.toString()])} deleteButton={true} path='sales' detail={true}>
                       <TData onChange={handleSelectedItem} selectedData={selectedData} value={sale.id} id={sale.id} checkbox={true}>{sale.Clientes?.nombre}</TData>
                       <TData>{sale.Productos?.nombre}</TData>
                       <TData>{sale.fecha?.slice(0, 10)}</TData>
@@ -388,7 +428,9 @@ const SalesModule = () => {
               dataShownProducts.length != 0 ?
                 dataShownProducts.map((product, index) => {
                   return (
-                    <TRow key={index} id={product.id} handleDelete={() => deleteProducts([product.id.toString()])} path='products' deleteButton={true} detail={true}>
+                    <TRow key={index} id={product.id} handleDelete={role=='Auditor' ? 
+                    ()=>Swal.fire({ icon: "error", title: "Oops...", text: "No tiene autorizacion para esta accion",}) 
+                    :() => deleteProducts([product.id.toString()])} path='products' deleteButton={true} detail={true}>
                       <TData onChange={handleSelectedItemProducts} id={product.id} checkbox={true}>{product.nombre}</TData>
                       <TData>{`$${product.precio}`}</TData>
                       <TData>{product.lanzamiento?.slice(0, 10)}</TData>

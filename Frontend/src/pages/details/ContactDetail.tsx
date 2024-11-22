@@ -10,6 +10,8 @@ import * as Yup from "yup";
 import { useClients } from "../../hooks/useClients";
 import { contactType, createContactErrors } from "../../utils/types/clientType";
 import { contactSchema } from "../../schemas/contactSchema";
+import Swal from "sweetalert2";
+import { useAuth } from "../../context/authContext";
 
 const ContactDetail = () => {
   const params = useParams();
@@ -18,7 +20,8 @@ const ContactDetail = () => {
   
   const { contactDetail , getContact, updateContact, loading, error} = useClients();
   const { getAllMedias,medias } = useGeneral();
-  
+  const { role } = useAuth();
+
   useEffect(() => {
     getContact(contactId)
   }, []);
@@ -59,7 +62,14 @@ const ContactDetail = () => {
 
   const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     try {
       await contactSchema.validate(editedData, { abortEarly: false });
       

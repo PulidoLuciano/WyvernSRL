@@ -19,12 +19,15 @@ import { employeeType, CreateEmployeesErrors, employeeFilterType } from '../util
 import { employeeSchema } from '../schemas/employeeSchema';
 import { areaSchema } from '../schemas/areaSchema';
 import { areaType } from '../utils/types/areaType';
+import Swal from 'sweetalert2';
+import { useAuth } from '../context/authContext';
 
 const EmployeesModule = () => {
 
   const { getAllEmployees, employees, createEmployee, deleteEmployee, error, setError } = useEmployees();
   const { states, countries, positions, getAllPositions, getAllStates, getAllCountries } = useGeneral();
   const { getAllAreas, areas, createArea, deleteArea } = useAreas();
+  const { role } = useAuth()
 
   useEffect(() => {
     getAllEmployees(true);
@@ -46,9 +49,9 @@ const EmployeesModule = () => {
     name: '',
     phone: '',
     email: '',
-    dni: null,
-    hiringDate: null,
-    salary: null,
+    dni: '',
+    hiringDate: '',
+    salary: '',
     country: '',
     state: '',
     position: ''
@@ -86,6 +89,16 @@ const EmployeesModule = () => {
 
   const handleCreateEmployeeSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+      
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+
     try {
       const state = states.find(s => s.id == createEmployeeData.state);
 
@@ -206,6 +219,14 @@ const EmployeesModule = () => {
   }
 
   const handleDeleteSelectedEmployees = async (selectedData: Array<string>) => {
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     if (!selectedData || selectedData.length == 0) {
       return
     } else {
@@ -217,6 +238,16 @@ const EmployeesModule = () => {
 
   const handleCreateAreaSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+
     try {
       await areaSchema.validate(createAreaData, { abortEarly: false });
       createArea(createAreaData)
@@ -263,6 +294,16 @@ const EmployeesModule = () => {
   }
 
   const handleDeleteSelectedAreas = async (selectedData: Array<string>) => {
+
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+
     if (!selectedData || selectedData.length == 0) {
       return
     } else {
@@ -339,7 +380,9 @@ const EmployeesModule = () => {
             dataEmployeeShown.length != 0 ?
               dataEmployeeShown.map((empleado, index) => {
                 return (
-                  <TRow key={index} id={empleado.id} detail={true} handleDelete={() => deleteEmployee([empleado.id.toString()])} deleteButton={true} path='employees'>
+                  <TRow key={index} id={empleado.id} detail={true} handleDelete={role=='Auditor' ? 
+                    () => Swal.fire({ icon: "error", title: "Oops...", text: "No tiene autorizacion para esta accion"})
+                    :() => deleteEmployee([empleado.id.toString()])} deleteButton={true} path='employees'>
                     <TData id={empleado.id} selectedData={selectedEmployees} value={empleado.id} onChange={handleSelectedEmployees} checkbox={true}>{empleado.nombre}</TData>
                     <TData>{empleado.correo ? empleado.correo : "-"}</TData>
                     <TData>{empleado.dni ? empleado.dni : "-"}</TData>
@@ -385,7 +428,9 @@ const EmployeesModule = () => {
             dataAreaShown.length != 0 ?
               dataAreaShown.map((area, index) => {
                 return (
-                  <TRow key={index} id={area.id} detail={true} handleDelete={() => deleteArea([area.id.toString()])} deleteButton={true} path='area'>
+                  <TRow key={index} id={area.id} detail={true} handleDelete={role=='Auditor' ? 
+                    () => Swal.fire({ icon: "error", title: "Oops...", text: "No tiene autorizacion para esta accion",})
+                  :() => deleteArea([area.id.toString()])} deleteButton={true} path='area'>
                     <TData id={area.id} onChange={handleSelectedAreas} selectedData={selectedAreas} value={area.id} checkbox={true}>{area.id}</TData>
                     <TData>{area.nombre}</TData>
                   </TRow>)

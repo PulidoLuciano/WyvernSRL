@@ -16,19 +16,22 @@ import * as Yup from "yup";
 import { useEmployees } from "../../hooks/useEmployees";
 import { employeeSchema } from "../../schemas/employeeSchema";
 import { careerTableHeaders } from "../../utils/dataArrays";
-
+import Swal from "sweetalert2";
+import { useAuth } from "../../context/authContext";
 
 const EmployeeDetail = () => {
   const params = useParams();
   const employeeId = parseInt(params.employeeId || "", 10);
 
-  const {getEmployee, employeeDetail, employeePosition, employeeCareer, getEmployeeCareer, getEmployeePosition ,loading,error, updateEmployee} = useEmployees();
+  const {getEmployee, employeeDetail, employeePosition, employeeCareer, getEmployeeCareer, getEmployeePosition ,loading,error,setError, updateEmployee, employees, getAllEmployees} = useEmployees();
   const { states, countries, positions, getAllPositions, getAllStates, getAllCountries } = useGeneral();
+  const { role } = useAuth()
   
   useEffect(() => {
     getEmployee(employeeId);
     getEmployeePosition(employeeId)
     getEmployeeCareer(employeeId)
+    getAllEmployees(true)
   }, []);
 
   useEffect(() => {
@@ -76,7 +79,7 @@ const EmployeeDetail = () => {
     phone: '',
     email: '',
     dni:'',
-    hiringDate: null,
+    hiringDate: '',
     country: '',
     state: '',
     salary: '',
@@ -95,14 +98,26 @@ const EmployeeDetail = () => {
     setEditable(!editable);
   };
 
+  
   const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.currentTarget.children;
     
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+
     try {
+
       await employeeSchema.validate(editedData, { abortEarly: false });
 
       updateEmployee(employeeId, editedData);
+
       setCreateErrors({});
       handleClickEditable()
     } catch (err) {
@@ -150,12 +165,6 @@ const EmployeeDetail = () => {
         {editable ? (
           <>
             <div className="my-6">
-            {error && <div className='flex gap-3 justify-center mt-0'>
-            <svg className="w-6 h-6 text-red" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
-            <p className='text-red text-lg'>{error}</p>
-            </div>}
               <Form handleSubmit={handleEditSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
                 <>
                   <Input id={"nombre"} name={"name"} value={editedData.name} title={"Nombre y Apellido"} type={"text"} placeholder={"Martin"} onChange={handleEditChange} error={createErrors.name}></Input>

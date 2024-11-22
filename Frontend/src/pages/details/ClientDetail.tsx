@@ -18,7 +18,8 @@ import * as Yup from "yup";
 import { contactSchema } from "../../schemas/contactSchema";
 import { contactTableHeaders, purchasesTableHeaders} from "../../utils/dataArrays"
 import { clientSchema } from "../../schemas/clientsSchema";
-
+import Swal from "sweetalert2";
+import { useAuth } from "../../context/authContext";
 
 const ClientData = () => {
   const params = useParams();
@@ -31,6 +32,8 @@ const ClientData = () => {
   getClientsPurchases,clientPurchases,updateClient} = useClients();
   
   const { getAllCountries,getAllPlatforms,getAllMedias,medias,platforms,countries,} = useGeneral();
+
+  const { role } = useAuth()
 
   const [editedData, setEditedData] = useState({
     name: '',
@@ -76,8 +79,6 @@ const ClientData = () => {
     console.log(clientDetail);
     
   }, [clientDetail])
-
-  console.log(editedData);
   
 
   const [dataLength, setDataLength] = useState<number>(10);
@@ -114,6 +115,14 @@ const ClientData = () => {
   const handleContactSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.currentTarget.children;
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     
     try {
       await contactSchema.validate(contact, { abortEarly: false });
@@ -137,6 +146,15 @@ const ClientData = () => {
     e.preventDefault();
     e.currentTarget.children;
     
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+
     try {
       await clientSchema.validate(editedData, { abortEarly: false });
       updateClient(clientId, editedData);
@@ -204,6 +222,15 @@ const ClientData = () => {
   };
 
   const handleDeleteSelectedDataContact = async (selectedDataContact: Array<string>) => {
+
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     if (!selectedDataContact || selectedDataContact.length == 0) {
       return;
     } else {
@@ -343,7 +370,9 @@ const ClientData = () => {
             {
             dataShownContacts. length !=0 ?
             dataShownContacts.map((contactos, index) => (
-              <TRow key={index} id={contactos.id} path={path} deleteButton={true} detail={true}>
+              <TRow key={index} id={contactos.id} path={path} deleteButton={true} detail={true} handleDelete={role=='Auditor' ? 
+                () => Swal.fire({ icon: "error", title: "Oops...", text: "No tiene autorizacion para esta accion",})
+              :() => deleteContact(clientId,[contact.Clientes_id])}>
                 <TData checkbox={true} selectedData={selectedDataContact} value={contactos.id} id={contactos.id}  onChange={handleSelectedItemContact}>
                   {contactos.id}
                 </TData>

@@ -17,11 +17,14 @@ import { CreateMarketsErrors, CreateSupplierErrors, marketType, suppliersFilter,
 import { suppliersTableHeaders, marketsTableHeaders } from '../utils/dataArrays';
 import * as Yup from "yup"
 import { useMarkets } from '../hooks/useMarkets';
+import { useAuth } from '../context/authContext';
+import Swal from 'sweetalert2';
 
 const SuppliersModule = () => {
   const { states, categories, countries, getAllStates, getAllCountries } = useGeneral();
   const { suppliers, loading, error, getAllSuppliers, getSupplier, createSupplier, deleteSuppliers } = useSuppliers();
   const { getMarkets, markets, createMarket, deleteMarkets } = useMarkets();
+  const { role } = useAuth()
 
   useEffect(() => {
     getAllCountries();
@@ -95,6 +98,14 @@ const SuppliersModule = () => {
 
   const handleDeleteSelectedSupplier = async (selectedData: Array<string>) => {
 
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     if (!selectedData || selectedData.length == 0) {
       return
     } else {
@@ -108,6 +119,15 @@ const SuppliersModule = () => {
   const handleCreateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+    
     try {
 
       const state = states.find(s => s.id == supplier.state);
@@ -209,7 +229,14 @@ const SuppliersModule = () => {
   }
 
   const handleDeleteSelectedMarket = async (selectedData: Array<string>) => {
-
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     if (!selectedData || selectedData.length == 0) {
       return
     } else {
@@ -224,6 +251,15 @@ const SuppliersModule = () => {
   
   const handleMarketSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
 
     try {
       await marketSchema.validate(market, { abortEarly: false });
@@ -309,7 +345,9 @@ const SuppliersModule = () => {
             dataShownSupplier.length != 0 ?
               dataShownSupplier.map((s, index) => {
                 return (
-                  <TRow key={index} id={s.id} detail={true} deleteButton={true} handleDelete={()=>deleteSuppliers([s.id.toString()])} path='suppliers'>
+                  <TRow key={index} id={s.id} detail={true} deleteButton={true} handleDelete={role=='Auditor' ? 
+                    ()=>Swal.fire({ icon: "error",  title: "Oops...", text: "No tiene autorizacion para esta accion", })
+                    :()=>deleteSuppliers([s.id.toString()])} path='suppliers'>
                     <TData id={s.id} onChange={handleSelectedSupplier} selectedData={selectedSupplierData} value={s.id} checkbox={true}>{s.nombre}</TData>
                     <TData>{s.correo ? s.correo : "-"}</TData>
                     <TData>{s.telefono ? s.telefono : "-"}</TData>
@@ -356,7 +394,8 @@ const SuppliersModule = () => {
             {suppliers?
               dataShownMarket.map((r, index) => {
                 return (
-                  <TRow key={index} id={r.id} detail={true} deleteButton={true} handleDelete={()=>deleteMarkets([r.id.toString()])} path='markets'>
+                  <TRow key={index} id={r.id} detail={true} deleteButton={true} handleDelete={role=="Auditor" ? ()=>Swal.fire({icon: "error", title: "Oops...", text: "No tiene autorizacion para esta accion",})
+                  :()=>deleteMarkets([r.id.toString()])} path='markets'>
                     <TData id={r.id} onChange={handleSelectedMarket} selectedData={selectedMarketData} value={r.id} checkbox={true}>{r.id}</TData>
                     <TData>{r.nombre}</TData>
                   </TRow>)

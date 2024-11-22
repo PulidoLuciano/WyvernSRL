@@ -14,6 +14,8 @@ import { CreatePositionErrors, positionType } from "../../utils/types/positionTy
 import { usePositions } from "../../hooks/usePositions";
 import { positionSchema } from "../../schemas/positionSchema";
 import { useEmployees } from "../../hooks/useEmployees";
+import Swal from "sweetalert2";
+import { useAuth } from "../../context/authContext";
 
 const PositionDetail = () => {
   const params = useParams();
@@ -22,7 +24,8 @@ const PositionDetail = () => {
   
   const { positionDetail , getPosition, updatePosition, loading, error, getPositionEmployees, positionEmployees} = usePositions();
   const { deleteEmployee } = useEmployees();
-  
+  const { role } = useAuth()
+
   useEffect(() => {
     getPosition(positionId)
     getPositionEmployees(positionId)
@@ -62,7 +65,16 @@ const PositionDetail = () => {
   const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.currentTarget.children;
-    
+
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
+
     try {
       await positionSchema.validate(editedData, { abortEarly: false });
       

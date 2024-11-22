@@ -18,12 +18,15 @@ import { breacheSchema } from '../../schemas/breacheSchema'
 import { CreatePurchaseErrors, purchaseType } from '../../utils/types/purchaseType'
 import usePurchases from '../../hooks/usePurchases'
 import { purchaseSchema } from '../../schemas/suppliersSchema'
+import Swal from 'sweetalert2'
+import { useAuth } from '../../context/authContext'
 
 const PurchaseDetail = () => {
 
   const params = useParams()
 
   const purchaseId = parseInt(params.purchaseId || "", 10);
+  const { role } = useAuth()
 
   const [editable, setEditable] = useState<boolean>(false)
   const [dataLength, setDataLength] = useState<number>(10);
@@ -109,6 +112,14 @@ const PurchaseDetail = () => {
     e.preventDefault();
     e.currentTarget.children;
 
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
 
     try {
       await purchaseSchema.validate(editedData, { abortEarly: false });
@@ -156,6 +167,14 @@ const PurchaseDetail = () => {
     e.currentTarget.children;
     console.log(createBreacheData);
 
+    if (role == 'Auditor') {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No tiene autorizacion para esta accion",
+      });
+      return
+    }
     try {
       await breacheSchema.validate(createBreacheData, { abortEarly: false });
       createBreache(createBreacheData);
@@ -306,7 +325,13 @@ const PurchaseDetail = () => {
       <div className="overflow-x-auto mt-6">
         <Table id='ContractsTable' headers={breachesContractTableHeaders}>
           {dataShownBreaches.map((breache, index) => (
-            <TRow key={index} id={breache.id} handleDelete={() => deletePurchaseBreaches(purchaseId, [breache.id.toString()])} deleteButton={true} >
+            <TRow key={index} id={breache.id} handleDelete={ role=='Auditor' ? () => 
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "No tiene autorizacion para esta accion",
+              }) 
+              :() => deletePurchaseBreaches(purchaseId, [breache.id.toString()])} deleteButton={true} >
               <TData id={breache.id}>{breache.id}</TData>
               <TData>{breache.descripcion}</TData>
               <TData>{breache.fecha?.slice(0, 10)}</TData>
