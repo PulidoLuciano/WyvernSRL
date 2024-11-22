@@ -32,6 +32,9 @@ const SalesModule = () => {
   const { gamesCategories, errorGeneral, getAllGamesCategories } = useGeneral()
   const { role } = useAuth()
 
+
+  console.log(error);
+  
   useEffect(() => {
     getAllSales(true, true)
     getAllProducts(true);
@@ -240,6 +243,9 @@ const SalesModule = () => {
 
   }
 
+  console.log(selectedProductsData);
+  
+
   const handleDeleteSelectedProducts = async (selectedData: Array<string>) => {
     if (role == 'Auditor') {
       Swal.fire({
@@ -441,7 +447,7 @@ const SalesModule = () => {
                     <TRow key={index} id={product.id} handleDelete={role=='Auditor' ? 
                     ()=>Swal.fire({ icon: "error", title: "Oops...", text: "No tiene autorizacion para esta accion",}) 
                     :() => deleteProducts([product.id.toString()])} path='products' deleteButton={true} detail={true}>
-                      <TData onChange={handleSelectedItemProducts} id={product.id} checkbox={true}>{product.nombre}</TData>
+                      <TData onChange={handleSelectedItemProducts} value={product.id} id={product.id} checkbox={true}>{product.nombre}</TData>
                       <TData>{`$${product.precio}`}</TData>
                       <TData>{product.lanzamiento?.slice(0, 10)}</TData>
                       <TData>{product.Categorias?.nombre}</TData>
