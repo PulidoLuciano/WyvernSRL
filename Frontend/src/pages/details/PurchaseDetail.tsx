@@ -185,7 +185,13 @@ const PurchaseDetail = () => {
         breachLevel: '',
         description: ''
       })
-
+      Swal.fire({
+        icon: "success",
+        title: "Incumplimiento creado con exito",
+        showConfirmButton: true,
+        timer: 20000
+      });
+  
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const createBreacheErrors: CreateBreacheErrors = {};

@@ -144,6 +144,13 @@ const SuppliersModule = () => {
         country: '',
       })
 
+      Swal.fire({
+        icon: "success",
+        title: "Proveedor creado con exito",
+        showConfirmButton: true,
+        timer: 20000
+      });
+  
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
 
@@ -268,6 +275,14 @@ const SuppliersModule = () => {
         name: ""
       })
       setCreateErrors({});
+
+      Swal.fire({
+        icon: "success",
+        title: "Rubro creado con exito",
+        showConfirmButton: true,
+        timer: 20000
+      });
+  
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
 

@@ -147,6 +147,14 @@ const ClientsModule = () => {
           platform: '',
           country: ''
         })
+
+        Swal.fire({
+          icon: "success",
+          title: "Cliente creado con exito",
+          showConfirmButton: true,
+          timer: 2000
+        });
+
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
 

@@ -229,6 +229,13 @@ const SupplierDetail = () => {
         amount: '',
         currency: ''
       })
+      Swal.fire({
+        icon: "success",
+        title: "Contacto creado con exito",
+        showConfirmButton: true,
+        timer: 20000
+      });
+  
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const createContractErrors: CreateContractErrors = {};
@@ -288,6 +295,13 @@ const SupplierDetail = () => {
   const handleCreatePurchaseSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.currentTarget.children;
+
+    Swal.fire({
+      icon: "success",
+      title: "Contacto creado con exito",
+      showConfirmButton: true,
+      timer: 20000
+    });
 
     if (role == 'Auditor') {
       Swal.fire({

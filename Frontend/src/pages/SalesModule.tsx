@@ -152,6 +152,7 @@ const SalesModule = () => {
         date: createData.date,
         product: createData.product
       }
+      
       createSale(data)
       setCreateErrors({});
       setCreateData({
@@ -159,6 +160,7 @@ const SalesModule = () => {
         product: '',
         date: '',
       })
+
     } catch (err: any) {
 
       if (err instanceof Yup.ValidationError) {
@@ -281,6 +283,14 @@ const SalesModule = () => {
         date: '',
         category: ''
       })
+
+      Swal.fire({
+        icon: "success",
+        title: "Producto creado con exito",
+        showConfirmButton: true,
+        timer: 20000
+      });
+  
     } catch (err: any) {
       console.log(err);
 

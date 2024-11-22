@@ -115,6 +115,8 @@ const ClientData = () => {
   const handleContactSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.currentTarget.children;
+
+   
     if (role == 'Auditor') {
       Swal.fire({
         icon: "error",
@@ -128,6 +130,14 @@ const ClientData = () => {
       await contactSchema.validate(contact, { abortEarly: false });
       createContact(clientId, contact);
       setCreateErrors({});
+
+      Swal.fire({
+        icon: "success",
+        title: "Contacto creado con exito",
+        showConfirmButton: true,
+        timer: 20000
+      });
+  
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const createErrors: createContactErrors = {};
@@ -160,6 +170,14 @@ const ClientData = () => {
       updateClient(clientId, editedData);
       setEditErrors({});
       handleClickEditable()
+
+      Swal.fire({
+        icon: "success",
+        title: "Cliente editado con exito",
+        showConfirmButton: true,
+        timer: 20000
+      });
+  
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const editErrors: CreateClientErrors = {};
