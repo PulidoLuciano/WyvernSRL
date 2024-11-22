@@ -390,7 +390,7 @@ const ClientData = () => {
             dataShownContacts.map((contactos, index) => (
               <TRow key={index} id={contactos.id} path={path} deleteButton={true} detail={true} handleDelete={role=='Auditor' ? 
                 () => Swal.fire({ icon: "error", title: "Oops...", text: "No tiene autorizacion para esta accion",})
-              :() => deleteContact(clientId,[contact.Clientes_id])}>
+              :() => deleteContact(clientId,[contactos.id.toString()])}>
                 <TData checkbox={true} selectedData={selectedDataContact} value={contactos.id} id={contactos.id}  onChange={handleSelectedItemContact}>
                   {contactos.id}
                 </TData>
