@@ -19,7 +19,7 @@ export const PurchasesSchemaFilter = z.object({
 
 export const PurchasesSchemaCreate = z.object({
     descripcion: descripcionSchema,
-    fechaCompra: dateTimeSchema,
+    fechaCompra: dateTimeSchema.max(new Date(Date.now()), "Esto no pudo suceder en el futuro!"),
     precioUnitario: z.coerce.number({ message: "Se require el campo monto"}).min(0, "El monto no puede ser menor que cero"),
     cantidad: z.coerce.number({ message: "Se require el campo monto"}).min(0, "La cantidad no puede ser menor que cero").int("La cantidad debe ser un entero"),
     entregado: trueBooleanSchema,
