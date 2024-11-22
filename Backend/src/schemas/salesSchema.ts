@@ -12,7 +12,7 @@ export const SalesSchemaFilter = z.object({
 })
 
 export const SalesSchemaCreate = z.object({
-    fecha: dateTimeSchema,
+    fecha: dateTimeSchema.max(new Date(Date.now()), "Esto no pudo suceder en el futuro!"),
     Clientes_id: idSchema,
     Productos_id: idSchema,
 })
