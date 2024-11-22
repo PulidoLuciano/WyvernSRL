@@ -191,13 +191,15 @@ const ClientData = () => {
   
   const handleSelectedItemContact = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newSelectedData;
-    const dataExist = selectedDataContact.find((d) => d == e.target.id);
-
-    if (dataExist) {
-      newSelectedData = selectedDataContact.filter((d) => d != dataExist);
-      setSelectedDataContact(newSelectedData);
-    } else {
-      setSelectedDataContact([...selectedDataContact, e.target.id]);
+    let isSelected = e.target.checked;
+    let value = e.target.value
+    
+   
+    if(isSelected){
+      setSelectedDataContact([...selectedDataContact,value])
+    }else{
+      newSelectedData = selectedDataContact.filter(d => d != value);
+      setSelectedDataContact(newSelectedData)
     }
   };
 
@@ -342,7 +344,7 @@ const ClientData = () => {
             dataShownContacts. length !=0 ?
             dataShownContacts.map((contactos, index) => (
               <TRow key={index} id={contactos.id} path={path} deleteButton={true} detail={true}>
-                <TData checkbox={true} id={contactos.id}  onChange={handleSelectedItemContact}>
+                <TData checkbox={true} selectedData={selectedDataContact} value={contactos.id} id={contactos.id}  onChange={handleSelectedItemContact}>
                   {contactos.id}
                 </TData>
                 <TData>{contactos.motivo}</TData>

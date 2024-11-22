@@ -85,15 +85,16 @@ const SalesModule = () => {
   }
 
   const handleSelectedItem = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newSelectedData
-    const dataExist = selectedData.find(d => d == e.target.id);
-
-    if (dataExist) {
-      newSelectedData = selectedData.filter(d => d != dataExist);
+    let newSelectedData;
+    let isSelected = e.target.checked;
+    let value = e.target.value
+    
+   
+    if(isSelected){
+      setSelectedData([...selectedData,value])
+    }else{
+      newSelectedData = selectedData.filter(d => d != value);
       setSelectedData(newSelectedData)
-    }
-    else {
-      setSelectedData([...selectedData, e.target.id]);
     }
 
   }
@@ -202,15 +203,16 @@ const SalesModule = () => {
 
 
   const handleSelectedItemProducts = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newSelectedData
-    const dataExist = selectedProductsData.find(d => d == e.target.id);
-
-    if (dataExist) {
-      newSelectedData = selectedProductsData.filter(d => d != dataExist);
+    let newSelectedData;
+    let isSelected = e.target.checked;
+    let value = e.target.value
+    
+   
+    if(isSelected){
+      setSelectedProductsData([...selectedProductsData,value])
+    }else{
+      newSelectedData = selectedProductsData.filter(d => d != value);
       setSelectedProductsData(newSelectedData)
-    }
-    else {
-      setSelectedProductsData([...selectedProductsData, e.target.id]);
     }
 
   }
@@ -333,7 +335,7 @@ const SalesModule = () => {
                 dataShown.map((sale, index) => {
                   return (
                     <TRow key={index} id={sale.id} handleDelete={() => deleteSale([sale.id.toString()])} deleteButton={true} path='sales' detail={true}>
-                      <TData onChange={handleSelectedItem} id={sale.id} checkbox={true}>{sale.Clientes?.nombre}</TData>
+                      <TData onChange={handleSelectedItem} selectedData={selectedData} value={sale.id} id={sale.id} checkbox={true}>{sale.Clientes?.nombre}</TData>
                       <TData>{sale.Productos?.nombre}</TData>
                       <TData>{sale.fecha?.slice(0, 10)}</TData>
                     </TRow>)
@@ -387,7 +389,7 @@ const SalesModule = () => {
                 dataShownProducts.map((product, index) => {
                   return (
                     <TRow key={index} id={product.id} handleDelete={() => deleteProducts([product.id.toString()])} path='products' deleteButton={true} detail={true}>
-                      <TData onChange={handleSelectedItemProducts} id={product.id} checkbox={true}>{product.nombre}</TData>
+                      <TData onChange={handleSelectedItemProducts} selectedData={selectedProductsData} value={product.id} id={product.id} checkbox={true}>{product.nombre}</TData>
                       <TData>{product.precio}</TData>
                       <TData>{product.lanzamiento?.slice(0, 10)}</TData>
                       <TData>{product.Categorias?.nombre}</TData>
