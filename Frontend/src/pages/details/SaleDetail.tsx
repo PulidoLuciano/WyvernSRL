@@ -133,7 +133,7 @@ const SaleDetail = () => {
                                 <>
                                     <Input error={createErrors.client} id={"nombreUsuario"} name={"client"} value={editedData.client} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleEditChange} ></Input>
                                     <Select selected={saleDetail.Productos?.id} error={createErrors.product} id={"productos"} title={"Productos"} name={"product"} options={products} onChange={handleEditChange}></Select>
-                                    <Input error={createErrors.date} id={"fecha"} name={"date"} value={editedData.date} title={"Fecha"} type={"date"} placeholder={"2023-07-17"} onChange={handleEditChange} ></Input>
+                                    <Input error={createErrors.date} id={"fecha"} name={"date"} value={editedData.date} title={"Fecha"} type={"date"} placeholder={"2023-07-17"} onChange={handleEditChange} maxDate={true}></Input>
                                     <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
                                 </>
                             </Form>

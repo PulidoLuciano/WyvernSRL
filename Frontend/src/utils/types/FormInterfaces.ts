@@ -17,6 +17,7 @@ export interface InputProps {
     placeholder?: string;
     onChange: FormEventHandler;
     error?: string | undefined
+    maxDate? : boolean
 }
 
 export interface SelectProps {

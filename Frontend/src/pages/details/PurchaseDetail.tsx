@@ -233,7 +233,7 @@ const PurchaseDetail = () => {
                 <Input name='description' placeholder='Descripcion breve' error={editErrors.description} value={editedData.description} onChange={handleEditChange} type='text' id='descripcionCompra' title='Descripción' />
                 <Input name='unitPrice' placeholder={"0.00"} error={editErrors.unitPrice} value={editedData.unitPrice} onChange={handleEditChange} type='number' id='precioUnitarioCompra' title='Precio unitario' />
                 <Input name='quantity' placeholder={"0"} error={editErrors.quantity} value={editedData.quantity} onChange={handleEditChange} type='number' id='cantidadCompra' title='Cantidad' />
-                <Input name='purchaseDate' error={editErrors.purchaseDate} value={editedData.purchaseDate} onChange={handleEditChange} type='date' id='fechaCompra' title='Fecha' />
+                <Input name='purchaseDate' error={editErrors.purchaseDate} value={editedData.purchaseDate} onChange={handleEditChange} type='date' id='fechaCompra' title='Fecha' maxDate={true}/>
                 <Select id='entregadoCompra' selected={purchaseDetail.entregado.toString()} error={editErrors.delivered} name='delivered' onChange={handleEditChange} options={[{ id: "true", nombre: "Sí" }, { id: "false", nombre: "No" }]} title='Entregado' />
                 <Select id='pagadoCompra' selected={purchaseDetail.pagado.toString()} error={editErrors.paid} name='paid' onChange={handleEditChange} options={[{ id: "true", nombre: "Sí" }, { id: "false", nombre: "No" }]} title='Pagado' />
                 <Select id='monedaCompra' selected={purchaseDetail.Monedas?.id} error={editErrors.currency} name='currency' onChange={handleEditChange} options={currencies} title='Moneda' />
