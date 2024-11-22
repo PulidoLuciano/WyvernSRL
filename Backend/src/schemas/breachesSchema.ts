@@ -16,7 +16,7 @@ export const BreachSchemaFilter = z.object({
 
 export const BreachSchemaCreate = z.object({
     descripcion: descripcionSchema,
-    fecha: dateTimeSchema,
+    fecha: dateTimeSchema.max(new Date(Date.now()), "Esto no pudo suceder en el futuro!"),
     Contratos_id: idSchema.nullable().optional(),
     Compras_id: idSchema.nullable().optional(),
     NivelDeIncumplimiento_id: idSchema
