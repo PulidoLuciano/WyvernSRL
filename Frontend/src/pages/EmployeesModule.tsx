@@ -278,14 +278,16 @@ const EmployeesModule = () => {
         <h1 className='text-4xl'>Modulo Empleados</h1>
         <p>Ver, crear, editar y eliminar Empleados</p>
       </div>
-      {error && <div className='flex gap-3 justify-center mt-0'>
+      
+
+      <Accordion title="Crear Nuevo Empleado">
+        <>
+        {error && <div className='flex gap-3 justify-center mt-0'>
         <svg className="w-6 h-6 text-red" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
         </svg>
         <p className='text-red text-lg'>{error}</p>
-      </div>}
-
-      <Accordion title="Crear Nuevo Empleado">
+        </div>}
         <Form handleSubmit={handleCreateEmployeeSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-4 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
           <>
             <Input id={"nombre"} name={"name"} value={createEmployeeData.name} title={"Nombre y Apellido"} type={"text"} placeholder={"Martin"} onChange={handleCreateEmployeeChange} error={createErrors.name}></Input>
@@ -300,6 +302,7 @@ const EmployeesModule = () => {
             <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-span-3 tablet:place-self-end'} />
           </>
         </Form>
+        </>
       </Accordion>
       <Accordion title="Filtrar por">
         <Form handleSubmit={handleFilterEmployeeSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-3 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>

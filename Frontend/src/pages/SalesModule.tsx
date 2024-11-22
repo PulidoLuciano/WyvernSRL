@@ -274,8 +274,15 @@ const SalesModule = () => {
         <h1 className='text-4xl'>Modulo Ventas</h1>
         <p>Ver, crear, editar y eliminar Ventas</p>
       </div>
-
+     
       <Accordion title="Crear Nuevo">
+        <>
+        {error && <div className='flex gap-3 justify-center my-8'>
+        <svg className="w-6 h-6 text-red" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+        <p className='text-red text-lg'>{error}</p>
+        </div>}   
         <Form handleSubmit={handleCreateSubmit} className="grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32">
           <>
             <Input error={createErrors.client} id={"nombreUsuario"} name={"client"} value={createData.client} title={"Nombre de Usuario"} type={"text"} placeholder={"Marcos_1490"} onChange={handleCreateChange} ></Input>
@@ -284,6 +291,7 @@ const SalesModule = () => {
             <SaveButton className={'text-black bg-green my-3 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-center tablet:me-2 tablet:col-start-3 tablet:place-self-end'} />
           </>
         </Form>
+        </>
       </Accordion>
       <Accordion title="Filtrar por">
         <Form handleSubmit={handleFilterSubmit} className='grid grid-rows-7 grid-cols-1 gap-y-3 tablet:grid-cols-3 tablet:grid-rows-2 tablet:gap-x-12 tablet:gap-y-12 laptopL:gap-x-32'>
@@ -319,7 +327,6 @@ const SalesModule = () => {
 
       <div className='overflow-x-auto mt-6'>
         {loading && <p>Cargando ventas...</p>}
-        {error ? <p>Error: {error}</p> :
           <Table id="SalesTable" headers={salesTableHeaders}>
             {
               dataShown.length != 0 ?
@@ -334,7 +341,6 @@ const SalesModule = () => {
                 <div className=''>No hay ventas con esas caracteristicas</div>
             }
           </Table>
-        }
       </div>
 
 
